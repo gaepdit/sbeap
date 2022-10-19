@@ -22,6 +22,10 @@ on:
 
 jobs:
   analyze:
+    # ↓ Change this to "false" to disable the workflow without any alert messages.
+    if: ${{ false }}
+    # ↑ Change to "true" (or delete) to enable the workflow.
+
     name: Analyze
     runs-on: ubuntu-latest
     permissions:

@@ -9,6 +9,10 @@ on:
 
 jobs:
   raygun-deployment:
+    # ↓ Change this to "false" to disable the workflow without any alert messages.
+    if: ${{ false }}
+    # ↑ Change to "true" (or delete) to enable the workflow.
+
     runs-on: ubuntu-latest
     steps:
       - name: Get the version number

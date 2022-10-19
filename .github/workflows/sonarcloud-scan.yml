@@ -8,8 +8,9 @@ on:
 jobs:
   build:
     # ↓ Change this to "false" to disable the workflow without any alert messages.
-    if: ${{ true }}
-    # ↑ Change to "true" to enable the workflow.
+    if: ${{ false }}
+    # ↑ Change to "true" (or delete) to enable the workflow.
+
     name: Build
     runs-on: windows-latest
     steps:
