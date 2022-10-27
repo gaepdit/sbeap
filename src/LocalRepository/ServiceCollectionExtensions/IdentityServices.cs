@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
-using MyAppRoot.AppServices.Staff;
-using MyAppRoot.Domain.Identity;
-using MyAppRoot.LocalRepository.Identity;
+using Sbeap.AppServices.Staff;
+using Sbeap.Domain.Identity;
+using Sbeap.LocalRepository.Identity;
 
-namespace MyAppRoot.LocalRepository.ServiceCollectionExtensions;
+namespace Sbeap.LocalRepository.ServiceCollectionExtensions;
 
 public static class IdentityServices
 {

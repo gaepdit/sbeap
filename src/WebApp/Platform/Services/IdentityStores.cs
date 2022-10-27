@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using MyAppRoot.AppServices.Staff;
-using MyAppRoot.AppServices.UserServices;
-using MyAppRoot.Domain.Identity;
-using MyAppRoot.Infrastructure.Contexts;
-using MyAppRoot.Infrastructure.Identity;
-using MyAppRoot.LocalRepository.ServiceCollectionExtensions;
-using MyAppRoot.WebApp.Platform.Settings;
+using Sbeap.LocalRepository.ServiceCollectionExtensions;
+using Sbeap.AppServices.Staff;
+using Sbeap.AppServices.UserServices;
+using Sbeap.Domain.Identity;
+using Sbeap.Infrastructure.Contexts;
+using Sbeap.Infrastructure.Identity;
+using Sbeap.WebApp.Platform.Settings;
 
-namespace MyAppRoot.WebApp.Platform.Services;
+namespace Sbeap.WebApp.Platform.Services;
 
 public static class IdentityStores
 {

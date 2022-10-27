@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using MyAppRoot.AppServices.Offices;
-using MyAppRoot.AppServices.Staff;
-using MyAppRoot.Domain.Identity;
-using MyAppRoot.Domain.Offices;
+using Sbeap.AppServices.Offices;
+using Sbeap.AppServices.Staff;
+using Sbeap.Domain.Identity;
+using Sbeap.Domain.Offices;
 
-namespace MyAppRoot.AppServices.AutoMapper;
+namespace Sbeap.AppServices.AutoMapper;
 
 public class AutoMapperProfile : Profile
 {

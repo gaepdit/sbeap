@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using MyAppRoot.TestData.Identity;
+using Sbeap.TestData.Identity;
 
-namespace MyAppRoot.LocalRepository.Identity;
+namespace Sbeap.LocalRepository.Identity;
 
 /// <summary>
 /// This store is intentionally only partially implemented. RoleStore is read-only.

@@ -4,15 +4,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MyAppRoot.AppServices.Staff;
-using MyAppRoot.Domain.Identity;
-using MyAppRoot.WebApp.Models;
-using MyAppRoot.WebApp.Platform.Local;
-using MyAppRoot.WebApp.Platform.RazorHelpers;
-using MyAppRoot.WebApp.Platform.Settings;
+using Sbeap.WebApp.Platform.Local;
+using Sbeap.WebApp.Platform.RazorHelpers;
+using Sbeap.AppServices.Staff;
+using Sbeap.Domain.Identity;
+using Sbeap.WebApp.Models;
+using Sbeap.WebApp.Platform.Settings;
 using System.Security.Claims;
 
-namespace MyAppRoot.WebApp.Pages.Account;
+namespace Sbeap.WebApp.Pages.Account;
 
 [AllowAnonymous]
 public class ExternalLoginModel : PageModel

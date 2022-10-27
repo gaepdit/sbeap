@@ -1,4 +1,4 @@
-﻿namespace MyAppRoot.WebApp.Platform.Local;
+﻿namespace Sbeap.WebApp.Platform.Local;
 
 internal static class WebHostEnvironmentExtensions
 {

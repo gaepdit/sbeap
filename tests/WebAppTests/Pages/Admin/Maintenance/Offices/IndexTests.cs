@@ -1,8 +1,8 @@
-﻿using MyAppRoot.AppServices.Offices;
-using MyAppRoot.TestData.Constants;
-using MyAppRoot.WebApp.Models;
-using MyAppRoot.WebApp.Pages.Admin.Maintenance.Offices;
-using MyAppRoot.WebApp.Platform.RazorHelpers;
+﻿using Sbeap.AppServices.Offices;
+using Sbeap.TestData.Constants;
+using Sbeap.WebApp.Models;
+using Sbeap.WebApp.Pages.Admin.Maintenance.Offices;
+using Sbeap.WebApp.Platform.RazorHelpers;
 
 namespace WebAppTests.Pages.Admin.Maintenance.Offices;
 

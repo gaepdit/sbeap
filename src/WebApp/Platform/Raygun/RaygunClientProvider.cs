@@ -2,7 +2,7 @@
 using Mindscape.Raygun4Net.AspNetCore;
 using System.Security.Claims;
 
-namespace MyAppRoot.WebApp.Platform.Raygun;
+namespace Sbeap.WebApp.Platform.Raygun;
 
 public class RaygunClientProvider : DefaultRaygunAspNetCoreClientProvider
 {

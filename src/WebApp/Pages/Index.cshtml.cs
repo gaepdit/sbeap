@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace MyAppRoot.WebApp.Pages;
+namespace Sbeap.WebApp.Pages;
 
 [AllowAnonymous]
 public class IndexModel : PageModel

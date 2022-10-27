@@ -2,10 +2,10 @@
 using GaEpd.AppLibrary.Domain.Repositories;
 using GaEpd.AppLibrary.Pagination;
 using Microsoft.EntityFrameworkCore;
-using MyAppRoot.Infrastructure.Contexts;
+using Sbeap.Infrastructure.Contexts;
 using System.Linq.Expressions;
 
-namespace MyAppRoot.Infrastructure.Repositories;
+namespace Sbeap.Infrastructure.Repositories;
 
 public abstract class BaseReadOnlyRepository<TEntity, TKey> : IReadOnlyRepository<TEntity, TKey>
     where TEntity : class, IEntity<TKey>

@@ -1,9 +1,9 @@
 ﻿using GaEpd.AppLibrary.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using MyAppRoot.Domain.Offices;
-using MyAppRoot.Infrastructure.Contexts;
-using MyAppRoot.Infrastructure.Contexts.SeedDevData;
-using MyAppRoot.Infrastructure.Repositories;
+using Sbeap.Domain.Offices;
+using Sbeap.Infrastructure.Contexts;
+using Sbeap.Infrastructure.Contexts.SeedDevData;
+using Sbeap.Infrastructure.Repositories;
 using TestSupport.EfHelpers;
 
 namespace IntegrationTests;

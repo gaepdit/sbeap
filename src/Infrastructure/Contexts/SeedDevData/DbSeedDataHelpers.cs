@@ -1,7 +1,7 @@
-﻿using MyAppRoot.TestData.Identity;
-using MyAppRoot.TestData.Offices;
+﻿using Sbeap.TestData.Identity;
+using Sbeap.TestData.Offices;
 
-namespace MyAppRoot.Infrastructure.Contexts.SeedDevData;
+namespace Sbeap.Infrastructure.Contexts.SeedDevData;
 
 public static class DbSeedDataHelpers
 {

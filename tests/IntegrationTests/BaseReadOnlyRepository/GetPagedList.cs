@@ -1,6 +1,6 @@
 using GaEpd.AppLibrary.Pagination;
-using MyAppRoot.Domain.Offices;
-using MyAppRoot.TestData.Offices;
+using Sbeap.Domain.Offices;
+using Sbeap.TestData.Offices;
 
 namespace IntegrationTests.BaseReadOnlyRepository;
 

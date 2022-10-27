@@ -1,5 +1,5 @@
-using MyAppRoot.Domain.Offices;
-using MyAppRoot.TestData.Constants;
+using Sbeap.Domain.Offices;
+using Sbeap.TestData.Constants;
 
 namespace DomainTests.Offices.Manager;
 

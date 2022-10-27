@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using MyAppRoot.AppServices.AutoMapper;
-using MyAppRoot.AppServices.Offices;
-using MyAppRoot.AppServices.Staff;
-using MyAppRoot.Domain.Offices;
+using Sbeap.AppServices.AutoMapper;
+using Sbeap.AppServices.Offices;
+using Sbeap.AppServices.Staff;
+using Sbeap.Domain.Offices;
 
-namespace MyAppRoot.AppServices.ServiceCollectionExtensions;
+namespace Sbeap.AppServices.ServiceCollectionExtensions;
 
 public static class AppServices
 {

@@ -2,13 +2,13 @@
 using GaEpd.AppLibrary.Domain.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using MyAppRoot.AppServices.Staff;
-using MyAppRoot.AppServices.UserServices;
-using MyAppRoot.Domain.Identity;
-using MyAppRoot.Domain.Offices;
-using MyAppRoot.Infrastructure.Contexts;
+using Sbeap.AppServices.Staff;
+using Sbeap.AppServices.UserServices;
+using Sbeap.Domain.Identity;
+using Sbeap.Domain.Offices;
+using Sbeap.Infrastructure.Contexts;
 
-namespace MyAppRoot.Infrastructure.Identity;
+namespace Sbeap.Infrastructure.Identity;
 
 public sealed class StaffAppService : IStaffAppService
 {

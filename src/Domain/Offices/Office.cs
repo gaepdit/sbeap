@@ -1,7 +1,7 @@
 ﻿using JetBrains.Annotations;
-using MyAppRoot.Domain.Identity;
+using Sbeap.Domain.Identity;
 
-namespace MyAppRoot.Domain.Offices;
+namespace Sbeap.Domain.Offices;
 
 public class Office : AuditableEntity
 {

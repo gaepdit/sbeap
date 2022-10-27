@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using GaEpd.AppLibrary.Domain.Repositories;
 using Microsoft.AspNetCore.Identity;
-using MyAppRoot.AppServices.Staff;
-using MyAppRoot.AppServices.UserServices;
-using MyAppRoot.Domain.Identity;
-using MyAppRoot.Domain.Offices;
-using MyAppRoot.TestData.Identity;
+using Sbeap.AppServices.Staff;
+using Sbeap.AppServices.UserServices;
+using Sbeap.Domain.Identity;
+using Sbeap.Domain.Offices;
+using Sbeap.TestData.Identity;
 
-namespace MyAppRoot.LocalRepository.Identity;
+namespace Sbeap.LocalRepository.Identity;
 
 public sealed class LocalStaffAppService : IStaffAppService
 {

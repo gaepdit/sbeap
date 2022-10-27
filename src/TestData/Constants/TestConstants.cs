@@ -1,4 +1,4 @@
-﻿namespace MyAppRoot.TestData.Constants;
+﻿namespace Sbeap.TestData.Constants;
 
 public static class TestConstants
 {

@@ -1,4 +1,4 @@
-﻿namespace MyAppRoot.Domain.Identity;
+﻿namespace Sbeap.Domain.Identity;
 
 /// <summary>
 /// Authorization Roles for the application.

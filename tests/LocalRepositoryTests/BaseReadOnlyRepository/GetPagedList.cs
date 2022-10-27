@@ -1,5 +1,5 @@
 using GaEpd.AppLibrary.Pagination;
-using MyAppRoot.LocalRepository.Repositories;
+using Sbeap.LocalRepository.Repositories;
 
 namespace LocalRepositoryTests.BaseReadOnlyRepository;
 

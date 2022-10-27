@@ -1,6 +1,6 @@
 using GaEpd.AppLibrary.Domain.Repositories;
-using MyAppRoot.Domain.Offices;
-using MyAppRoot.LocalRepository.Repositories;
+using Sbeap.Domain.Offices;
+using Sbeap.LocalRepository.Repositories;
 
 namespace LocalRepositoryTests.BaseReadOnlyRepository;
 

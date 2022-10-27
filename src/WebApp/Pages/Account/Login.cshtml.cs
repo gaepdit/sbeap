@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MyAppRoot.WebApp.Models;
-using MyAppRoot.WebApp.Platform.RazorHelpers;
+using Sbeap.WebApp.Platform.RazorHelpers;
+using Sbeap.WebApp.Models;
 
-namespace MyAppRoot.WebApp.Pages.Account;
+namespace Sbeap.WebApp.Pages.Account;
 
 [AllowAnonymous]
 public class LoginModel : PageModel

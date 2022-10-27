@@ -1,7 +1,7 @@
 using GaEpd.AppLibrary.Domain.Repositories;
-using MyAppRoot.Domain.Offices;
-using MyAppRoot.TestData.Constants;
-using MyAppRoot.TestData.Offices;
+using Sbeap.Domain.Offices;
+using Sbeap.TestData.Constants;
+using Sbeap.TestData.Offices;
 
 namespace IntegrationTests.BaseRepository;
 

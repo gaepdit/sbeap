@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using MyAppRoot.AppServices.Offices;
-using MyAppRoot.AppServices.Staff;
-using MyAppRoot.WebApp.Models;
-using MyAppRoot.WebApp.Platform.RazorHelpers;
+using Sbeap.WebApp.Platform.RazorHelpers;
+using Sbeap.AppServices.Offices;
+using Sbeap.AppServices.Staff;
+using Sbeap.WebApp.Models;
 
-namespace MyAppRoot.WebApp.Pages.Account;
+namespace Sbeap.WebApp.Pages.Account;
 
 [Authorize]
 public class EditModel : PageModel

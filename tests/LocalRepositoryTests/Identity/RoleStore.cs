@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
-using MyAppRoot.LocalRepository.Identity;
-using MyAppRoot.TestData.Identity;
+using Sbeap.LocalRepository.Identity;
+using Sbeap.TestData.Identity;
 
 namespace LocalRepositoryTests.Identity;
 

@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.OpenApi.Models;
 using Mindscape.Raygun4Net.AspNetCore;
-using MyAppRoot.AppServices.ServiceCollectionExtensions;
-using MyAppRoot.WebApp.Platform.Local;
-using MyAppRoot.WebApp.Platform.Raygun;
-using MyAppRoot.WebApp.Platform.Services;
-using MyAppRoot.WebApp.Platform.Settings;
+using Sbeap.AppServices.ServiceCollectionExtensions;
+using Sbeap.WebApp.Platform.Local;
+using Sbeap.WebApp.Platform.Raygun;
+using Sbeap.WebApp.Platform.Services;
+using Sbeap.WebApp.Platform.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 var isLocal = builder.Environment.IsLocalEnv();
@@ -62,10 +62,10 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
-        Title = "MY_APP_NAME API",
+        Title = "SBEAP API",
         Contact = new OpenApiContact
         {
-            Name = "MY_APP_NAME Support",
+            Name = "SBEAP Support",
             Email = builder.Configuration["SupportEmail"],
         },
     });
@@ -105,9 +105,9 @@ app.UseAuthorization();
 app.UseSwagger(c => { c.RouteTemplate = "api-docs/{documentName}/openapi.json"; });
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("v1/openapi.json", "MY_APP_NAME API v1");
+    c.SwaggerEndpoint("v1/openapi.json", "SBEAP API v1");
     c.RoutePrefix = "api-docs";
-    c.DocumentTitle = "MY_APP_NAME API";
+    c.DocumentTitle = "SBEAP API";
 });
 
 // Map endpoints.

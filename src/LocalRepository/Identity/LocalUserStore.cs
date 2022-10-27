@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Identity;
-using MyAppRoot.Domain.Identity;
-using MyAppRoot.TestData.Identity;
+using Sbeap.Domain.Identity;
+using Sbeap.TestData.Identity;
 
-namespace MyAppRoot.LocalRepository.Identity;
+namespace Sbeap.LocalRepository.Identity;
 
 /// <summary>
 /// This store is only partially implemented. UserStore is read-only, except Update. UserRoleStore is read/write.

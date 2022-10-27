@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using MyAppRoot.AppServices.Offices;
-using MyAppRoot.AppServices.Staff;
-using MyAppRoot.Domain.Identity;
+using Sbeap.AppServices.Offices;
+using Sbeap.AppServices.Staff;
+using Sbeap.Domain.Identity;
 
-namespace MyAppRoot.WebApp.Pages.Admin.Users;
+namespace Sbeap.WebApp.Pages.Admin.Users;
 
 [Authorize]
 public class IndexModel : PageModel

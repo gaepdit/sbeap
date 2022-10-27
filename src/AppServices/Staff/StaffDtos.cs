@@ -1,8 +1,8 @@
-﻿using MyAppRoot.AppServices.Offices;
-using MyAppRoot.Domain.Identity;
+﻿using Sbeap.AppServices.Offices;
+using Sbeap.Domain.Identity;
 using System.ComponentModel.DataAnnotations;
 
-namespace MyAppRoot.AppServices.Staff;
+namespace Sbeap.AppServices.Staff;
 
 public record StaffSearchDto
 {

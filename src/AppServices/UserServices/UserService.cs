@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using MyAppRoot.Domain.Identity;
+using Sbeap.Domain.Identity;
 
-namespace MyAppRoot.AppServices.UserServices;
+namespace Sbeap.AppServices.UserServices;
 
 public class UserService : IUserService
 {
