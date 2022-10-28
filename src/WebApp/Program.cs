@@ -79,7 +79,7 @@ var app = builder.Build();
 var env = app.Environment;
 
 // Configure the HTTP request pipeline.
-if (env.IsProduction() && env.IsStaging())
+if (env.IsProduction() || env.IsStaging())
 {
     // Production or Staging
     app.UseExceptionHandler("/Error");
