@@ -9,10 +9,7 @@ on:
 
 jobs:
   raygun-deployment:
-    # ↓ Change this to "false" to disable the workflow without any alert messages.
-    if: ${{ false }}
-    # ↑ Change to "true" (or delete) to enable the workflow.
-
+    name: Send deployment info to Raygun
     runs-on: ubuntu-latest
     steps:
       - name: Get the version number
@@ -21,7 +18,7 @@ jobs:
 
       - name: Send to the Raygun Deployments API
         id: send_deployment
-        uses: fjogeleit/http-request-action@master
+        uses: fjogeleit/http-request-action@v1.11.1
         with:
           url: https://app.raygun.com/deployments?authToken=${{ secrets.RAYGUN_AUTHTOKEN }}
           method: POST
