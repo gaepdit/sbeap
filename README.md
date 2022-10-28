@@ -7,30 +7,17 @@ This app is used by the SBEAP for tracking their workload, including customers a
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gaepdit_sbeap&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gaepdit_sbeap)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=gaepdit_sbeap&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=gaepdit_sbeap)
 
-*[The SonarCloud badges require a SonarCloud project to be configured.]*
+*(Built from template version [v2022.10.14](https://github.com/gaepdit/template-app/tree/v2022.10.14).)*
 
----
+### Prepare for deployment
 
-## Template use and setup
-
-(Built from template version [v2022.10.14](https://github.com/gaepdit/template-app/tree/v2022.10.14).)
-
-Do the following steps to customize the app:
-
-* Update this README file with details on the new application.
-* Update the "docs/Site map.md" file.
-* Change branding colors in "src\WebApp\wwwroot\css\site.css".
-* Make copies of the settings and config files in the "app-config" repository and update with correct values.
-* Create new Web Deploy Publish Profiles for each web server using the "Example-Server.pubxml" file as an example.
-
-## External services
-
-The following external services can be configured for new applications:
-
-* [Azure App registration](https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade) to manage employee authentication. *(Add configuration settings in the "AzureAd" section in a server settings file.)*
-* [Raygun](https://app.raygun.com/) for crash reporting and performance monitoring. *(Add the API key to the "RaygunSettings" section in a server settings file.)*
-* [SonarCloud](https://sonarcloud.io/projects) for code quality and security scanning. *(Update the project key in the "sonarcloud-scan.yml" workflow file and in the badges above.)*
-* [Better Uptime](https://betterstack.com/better-uptime) for site uptime monitoring. *(No app configuration needed.)*
+* Create server-specific settings and config files and add copies to the "app-config" repository.
+* Create Web Deploy Publish Profiles for each web server using the "Example-Server.pubxml" file as an example.
+* Configure the following external services as needed:
+  - [Azure App registration](https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade) to manage employee authentication. *(Add configuration settings in the "AzureAd" section in a server settings file.)*
+  - [Raygun](https://app.raygun.com/) for crash reporting and performance monitoring. *(Add the API key to the "RaygunSettings" section in a server settings file.)*
+  - [SonarCloud](https://sonarcloud.io/projects) for code quality and security scanning. *(Update the project key in the "sonarcloud-scan.yml" workflow file and in the badges above.)*
+  - [Better Uptime](https://betterstack.com/better-uptime) for site uptime monitoring. *(No app configuration needed.)*
 
 ---
 
