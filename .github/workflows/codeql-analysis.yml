@@ -1,6 +1,9 @@
 name: CodeQL Scan
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
   schedule:
     - cron: "21 19 * * 6"

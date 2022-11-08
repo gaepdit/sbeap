@@ -4,6 +4,7 @@ This app is used by the SBEAP for tracking their workload, including customers a
 
 [![.NET Test](https://github.com/gaepdit/sbeap/actions/workflows/dotnet-test.yml/badge.svg)](https://github.com/gaepdit/sbeap/actions/workflows/dotnet-test.yml)
 [![CodeQL](https://github.com/gaepdit/sbeap/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/gaepdit/sbeap/actions/workflows/codeql-analysis.yml)
+[![SonarCloud Scan](https://github.com/gaepdit/sbeap/actions/workflows/sonarcloud-scan.yml/badge.svg)](https://github.com/gaepdit/sbeap/actions/workflows/sonarcloud-scan.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gaepdit_sbeap&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gaepdit_sbeap)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=gaepdit_sbeap&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=gaepdit_sbeap)
 
