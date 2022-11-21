@@ -1,3 +1,4 @@
+using FluentAssertions.Execution;
 using Sbeap.Domain.Offices;
 using Sbeap.LocalRepository.Repositories;
 using Sbeap.TestData.Constants;
@@ -23,10 +24,10 @@ public class Insert
         await _repository.InsertAsync(newItem);
 
         var getResult = await _repository.GetAsync(newItem.Id);
-        Assert.Multiple(() =>
+        using (new AssertionScope())
         {
             getResult.Should().BeEquivalentTo(newItem);
             _repository.Items.Count.Should().Be(initialCount + 1);
-        });
+        }
     }
 }

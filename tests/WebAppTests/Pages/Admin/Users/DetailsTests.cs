@@ -1,3 +1,4 @@
+using FluentAssertions.Execution;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Sbeap.AppServices.Staff;
@@ -28,13 +29,13 @@ public class DetailsTests
 
         var result = await pageModel.OnGetAsync(service.Object, staffView.Id);
 
-        Assert.Multiple(() =>
+        using (new AssertionScope())
         {
             result.Should().BeOfType<PageResult>();
             pageModel.DisplayStaff.Should().Be(staffView);
             pageModel.Roles.Should().BeEmpty();
             pageModel.Message.Should().BeNull();
-        });
+        }
     }
 
     [Test]
@@ -58,10 +59,10 @@ public class DetailsTests
 
         var result = await pageModel.OnGetAsync(service.Object, Guid.Empty);
 
-        Assert.Multiple(() =>
+        using (new AssertionScope())
         {
             result.Should().BeOfType<NotFoundObjectResult>();
             ((NotFoundObjectResult)result).Value.Should().Be("ID not found.");
-        });
+        }
     }
 }

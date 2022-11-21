@@ -1,3 +1,4 @@
+using FluentAssertions.Execution;
 using Sbeap.Domain.Offices;
 using Sbeap.TestData.Constants;
 using Sbeap.TestData.Offices;
@@ -19,11 +20,11 @@ public class GetListByPredicate
     {
         var item = OfficeData.GetOffices.First(e => e.Active);
         var result = await _repository.GetListAsync(e => e.Name == item.Name);
-        Assert.Multiple(() =>
+        using (new AssertionScope())
         {
             result.Count.Should().Be(1);
             result.First().Should().BeEquivalentTo(item);
-        });
+        }
     }
 
     [Test]

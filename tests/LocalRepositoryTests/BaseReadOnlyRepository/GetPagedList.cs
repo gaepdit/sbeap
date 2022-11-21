@@ -1,3 +1,4 @@
+using FluentAssertions.Execution;
 using GaEpd.AppLibrary.Pagination;
 using Sbeap.LocalRepository.Repositories;
 
@@ -21,11 +22,11 @@ public class GetPagedList
 
         var result = await _repository.GetPagedListAsync(paging);
 
-        Assert.Multiple(() =>
+        using (new AssertionScope())
         {
             result.Count.Should().Be(itemsCount);
             result.Should().BeEquivalentTo(_repository.Items);
-        });
+        }
     }
 
     [Test]

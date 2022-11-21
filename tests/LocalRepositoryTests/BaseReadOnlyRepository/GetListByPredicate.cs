@@ -1,3 +1,4 @@
+using FluentAssertions.Execution;
 using Sbeap.LocalRepository.Repositories;
 using Sbeap.TestData.Constants;
 
@@ -18,11 +19,11 @@ public class GetListByPredicate
     {
         var item = _repository.Items.First();
         var result = await _repository.GetListAsync(e => e.Name == item.Name);
-        Assert.Multiple(() =>
+        using (new AssertionScope())
         {
             result.Count.Should().Be(1);
             result.First().Should().BeEquivalentTo(item);
-        });
+        }
     }
 
     [Test]
