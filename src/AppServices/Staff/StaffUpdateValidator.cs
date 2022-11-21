@@ -7,6 +7,7 @@ public class StaffUpdateValidator : AbstractValidator<StaffUpdateDto>
 {
     public StaffUpdateValidator()
     {
-        RuleFor(e => e.Phone).MaximumLength(ApplicationUser.MaxPhoneLength);
+        RuleFor(e => e.Phone)
+            .MaximumLength(ApplicationUser.MaxPhoneLength);
     }
 }
