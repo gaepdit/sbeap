@@ -1,3 +1,4 @@
+using FluentAssertions.Execution;
 using Sbeap.Domain.Offices;
 using Sbeap.TestData.Constants;
 using Sbeap.TestData.Offices;
@@ -27,5 +28,25 @@ public class FindByPredicate
     {
         var result = await _repository.FindAsync(e => e.Name == TestConstants.NonExistentName);
         result.Should().BeNull();
+    }
+
+    [Test]
+    public async Task SqliteDatabaseIsCaseSensitive()
+    {
+        var item = OfficeData.GetOffices.First(e => e.Active);
+
+        // Test using a predicate that compares uppercase names.
+        var resultSameCase = await _repository.FindAsync(e =>
+            e.Name.ToUpper().Equals(item.Name.ToUpper()));
+
+        // Test using a predicate that compares an uppercase name to a lowercase name.
+        var resultDifferentCase = await _repository.FindAsync(e =>
+            e.Name.ToUpper().Equals(item.Name.ToLower()));
+
+        using (new AssertionScope())
+        {
+            resultSameCase.Should().BeEquivalentTo(item);
+            resultDifferentCase.Should().BeNull();
+        }
     }
 }
