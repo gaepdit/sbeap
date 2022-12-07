@@ -28,9 +28,13 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Update="testsettings.json">
+        <None Update="appsettings.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
     </ItemGroup>
+
+    <Target Name="CopyTestSettings" AfterTargets="AfterBuild">
+        <Copy SourceFiles="appsettings.json" DestinationFolder="$(BaseProjectArtifactPath)" />
+    </Target>
 
 </Project>
