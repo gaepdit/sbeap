@@ -5,30 +5,26 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>MyAppRoot.WebApp</RootNamespace>
-        <AssemblyVersion>2022.10.13</AssemblyVersion>
+        <AssemblyVersion>2023.1.20</AssemblyVersion>
     </PropertyGroup>
 
     <ItemGroup>
-      <Content Include="wwwroot\.well-known\security.txt" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="LigerShark.WebOptimizer.Core" Version="3.0.372" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.AzureAD.UI" Version="6.0.9" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.9" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.9" />
-        <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.175" />
-        <PackageReference Include="Mindscape.Raygun4Net.AspNetCore" Version="6.6.6" />
-        <PackageReference Include="SonarAnalyzer.CSharp" Version="8.46.0.54807">
+        <PackageReference Include="LigerShark.WebOptimizer.Core" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.AzureAD.UI" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+        <PackageReference Include="Microsoft.Web.LibraryManager.Build" />
+        <PackageReference Include="Mindscape.Raygun4Net.AspNetCore" />
+        <PackageReference Include="SonarAnalyzer.CSharp">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" />
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\LocalRepository\LocalRepository.csproj" />
-        <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+        <ProjectReference Include="..\EfRepository\EfRepository.csproj" />
     </ItemGroup>
 
     <ItemGroup>

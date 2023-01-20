@@ -1,4 +1,6 @@
-﻿namespace MyAppRoot.Domain.Offices;
+﻿using MyAppRoot.Domain.Exceptions;
+
+namespace MyAppRoot.Domain.Offices;
 
 /// <inheritdoc />
 public class OfficeManager : IOfficeManager
@@ -8,7 +10,7 @@ public class OfficeManager : IOfficeManager
 
     public async Task<Office> CreateAsync(string name, CancellationToken token = default)
     {
-        await ThrowIfDuplicateName(name, null, token);
+        await ThrowIfDuplicateName(name, ignoreId: null, token);
         return new Office(Guid.NewGuid(), name);
     }
 
@@ -23,6 +25,6 @@ public class OfficeManager : IOfficeManager
         // Validate the name is not a duplicate
         var existing = await _repository.FindByNameAsync(name.Trim(), token);
         if (existing is not null && (ignoreId is null || existing.Id != ignoreId))
-            throw new OfficeNameAlreadyExistsException(name);
+            throw new NameAlreadyExistsException(name);
     }
 }

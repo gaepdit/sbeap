@@ -1,3 +1,4 @@
+using FluentAssertions.Execution;
 using GaEpd.AppLibrary.ListItems;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyAppRoot.AppServices.Offices;
@@ -22,14 +23,14 @@ public class IndexTests
 
         var result = await page.OnGetSearchAsync(new StaffSearchDto());
 
-        Assert.Multiple(() =>
+        using (new AssertionScope())
         {
             result.Should().BeOfType<PageResult>();
             page.ModelState.IsValid.Should().BeTrue();
             page.SearchResults.Should().BeEmpty();
             page.ShowResults.Should().BeTrue();
             page.HighlightId.Should().BeNull();
-        });
+        }
     }
 
     [Test]
@@ -45,10 +46,10 @@ public class IndexTests
 
         var result = await page.OnGetSearchAsync(new StaffSearchDto());
 
-        Assert.Multiple(() =>
+        using (new AssertionScope())
         {
             result.Should().BeOfType<PageResult>();
             page.ModelState.IsValid.Should().BeFalse();
-        });
+        }
     }
 }

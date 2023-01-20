@@ -1,4 +1,5 @@
-﻿using MyAppRoot.AppServices.Offices;
+﻿using FluentAssertions.Execution;
+using MyAppRoot.AppServices.Offices;
 using MyAppRoot.TestData.Constants;
 using MyAppRoot.WebApp.Models;
 using MyAppRoot.WebApp.Pages.Admin.Maintenance.Offices;
@@ -20,12 +21,12 @@ public class IndexTests
 
         await page.OnGetAsync(service.Object);
 
-        Assert.Multiple(() =>
+        using (new AssertionScope())
         {
             page.Items.Should().BeEquivalentTo(ListTest);
             page.Message.Should().BeNull();
             page.HighlightId.Should().BeNull();
-        });
+        }
     }
 
     [Test]

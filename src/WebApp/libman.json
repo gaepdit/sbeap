@@ -3,7 +3,6 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
-      "provider": "cdnjs",
       "library": "jquery@3.6.1",
       "destination": "wwwroot/lib/jquery/",
       "files": [
@@ -13,8 +12,6 @@
       ]
     },
     {
-
-      "provider": "cdnjs",
       "library": "bootstrap@5.2.2",
       "destination": "wwwroot/lib/bootstrap/",
       "files": [
@@ -27,7 +24,6 @@
       ]
     },
     {
-      "provider": "cdnjs",
       "library": "jquery-validate@1.19.5",
       "destination": "wwwroot/lib/jquery-validate/",
       "files": [
@@ -36,13 +32,17 @@
       ]
     },
     {
-      "provider": "cdnjs",
       "library": "jquery-validation-unobtrusive@4.0.0",
       "destination": "wwwroot/lib/jquery-validation-unobtrusive/",
       "files": [
         "jquery.validate.unobtrusive.min.js",
         "jquery.validate.unobtrusive.js"
       ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "anchor-js@4.3.1",
+      "destination": "wwwroot/lib/anchor-js/"
     }
   ]
 }

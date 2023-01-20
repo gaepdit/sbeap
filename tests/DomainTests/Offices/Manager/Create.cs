@@ -1,3 +1,4 @@
+using MyAppRoot.Domain.Exceptions;
 using MyAppRoot.Domain.Offices;
 using MyAppRoot.TestData.Constants;
 
@@ -28,7 +29,7 @@ public class Create
 
         var office = async () => await manager.CreateAsync(TestConstants.ValidName);
 
-        (await office.Should().ThrowAsync<OfficeNameAlreadyExistsException>())
-            .WithMessage($"An Office with that name already exists. Name: {TestConstants.ValidName}");
+        (await office.Should().ThrowAsync<NameAlreadyExistsException>())
+            .WithMessage($"An entity with that name already exists. Name: {TestConstants.ValidName}");
     }
 }

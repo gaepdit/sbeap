@@ -1,115 +1,115 @@
-using Microsoft.AspNetCore.Identity;
-using MyAppRoot.Domain.Identity;
+using FluentAssertions.Execution;
 using MyAppRoot.LocalRepository.Identity;
-using MyAppRoot.TestData.Identity;
 
 namespace LocalRepositoryTests.Identity;
 
 public class UserRoleStore
 {
-    private IUserRoleStore<ApplicationUser> _store = default!;
-
-    [SetUp]
-    public void SetUp() => _store = new LocalUserStore();
-
-    [TearDown]
-    public void TearDown() => _store.Dispose();
-
     [Test]
     public async Task AddToRole_AddsRole()
     {
-        var user = IdentityData.GetUsers.Last();
-        var roleName = IdentityData.GetIdentityRoles.First().Name;
-        var resultBefore = await _store.IsInRoleAsync(user, roleName, CancellationToken.None);
+        using var store = new LocalUserStore();
+        var user = store.Users.Last();
+        var roleName = store.Roles.First().Name;
+        var resultBefore = await store.IsInRoleAsync(user, roleName, CancellationToken.None);
 
-        await _store.AddToRoleAsync(user, roleName, CancellationToken.None);
-        var resultAfter = await _store.IsInRoleAsync(user, roleName, CancellationToken.None);
+        await store.AddToRoleAsync(user, roleName, CancellationToken.None);
+        var resultAfter = await store.IsInRoleAsync(user, roleName, CancellationToken.None);
 
-        Assert.Multiple(() =>
+        using (new AssertionScope())
         {
             resultBefore.Should().BeFalse();
             resultAfter.Should().BeTrue();
-        });
+        }
     }
 
     [Test]
     public async Task RemoveFromRole_RemovesRole()
     {
-        var user = IdentityData.GetUsers.First();
-        var roleName = IdentityData.GetIdentityRoles.First().Name;
-        var resultBefore = await _store.IsInRoleAsync(user, roleName, CancellationToken.None);
+        using var store = new LocalUserStore();
+        var user = store.Users.First();
+        var roleName = store.Roles.First().Name;
+        var resultBefore = await store.IsInRoleAsync(user, roleName, CancellationToken.None);
 
-        await _store.RemoveFromRoleAsync(user, roleName, CancellationToken.None);
-        var resultAfter = await _store.IsInRoleAsync(user, roleName, CancellationToken.None);
+        await store.RemoveFromRoleAsync(user, roleName, CancellationToken.None);
+        var resultAfter = await store.IsInRoleAsync(user, roleName, CancellationToken.None);
 
-        Assert.Multiple(() =>
+        using (new AssertionScope())
         {
             resultBefore.Should().BeTrue();
             resultAfter.Should().BeFalse();
-        });
+        }
     }
 
     [Test]
     public async Task GetRoles_ReturnsListOfRoles()
     {
-        var user = IdentityData.GetUsers.First();
-        var result = await _store.GetRolesAsync(user, CancellationToken.None);
+        using var store = new LocalUserStore();
+        var user = store.Users.First();
 
-        Assert.Multiple(() =>
+        var result = await store.GetRolesAsync(user, CancellationToken.None);
+
+        using (new AssertionScope())
         {
             result.Should().NotBeNull();
-            result.Should().HaveCount(IdentityData.GetIdentityRoles.Count());
-        });
+            result.Should().HaveCount(store.Roles.Count);
+        }
     }
 
     [Test]
     public async Task GetRoles_IfNone_ReturnsEmptyList()
     {
-        var user = IdentityData.GetUsers.Last();
-        var result = await _store.GetRolesAsync(user, CancellationToken.None);
+        using var store = new LocalUserStore();
+        var user = store.Users.Last();
 
-        Assert.Multiple(() =>
+        var result = await store.GetRolesAsync(user, CancellationToken.None);
+
+        using (new AssertionScope())
         {
             result.Should().NotBeNull();
             result.Should().HaveCount(0);
-        });
+        }
     }
 
     [Test]
     public async Task IsInRole_IfSo_ReturnsTrue()
     {
-        var user = IdentityData.GetUsers.First();
-        var roleName = IdentityData.GetIdentityRoles.First().Name;
-        var result = await _store.IsInRoleAsync(user, roleName, CancellationToken.None);
+        using var store = new LocalUserStore();
+        var user = store.Users.First();
+        var roleName = store.Roles.First().Name;
+        var result = await store.IsInRoleAsync(user, roleName, CancellationToken.None);
         result.Should().BeTrue();
     }
 
     [Test]
     public async Task IsInRole_IfNot_ReturnsFalse()
     {
-        var user = IdentityData.GetUsers.Last();
-        var roleName = IdentityData.GetIdentityRoles.First().Name;
-        var result = await _store.IsInRoleAsync(user, roleName, CancellationToken.None);
+        using var store = new LocalUserStore();
+        var user = store.Users.Last();
+        var roleName = store.Roles.First().Name;
+        var result = await store.IsInRoleAsync(user, roleName, CancellationToken.None);
         result.Should().BeFalse();
     }
 
     [Test]
     public async Task GetUsersInRole_IfSome_ReturnsListOfUsers()
     {
-        var roleName = IdentityData.GetIdentityRoles.First().Name;
-        var result = await _store.GetUsersInRoleAsync(roleName, CancellationToken.None);
+        using var store = new LocalUserStore();
+        var roleName = store.Roles.First().Name;
+        var result = await store.GetUsersInRoleAsync(roleName, CancellationToken.None);
 
-        Assert.Multiple(() =>
+        using (new AssertionScope())
         {
             result.Should().HaveCount(1);
-            result[0].Should().Be(IdentityData.GetUsers.First());
-        });
+            result[0].Should().Be(store.Users.First());
+        }
     }
 
     [Test]
     public async Task GetUsersInRole_IfNone_ReturnsEmptyList()
     {
-        var result = await _store.GetUsersInRoleAsync("None", CancellationToken.None);
+        using var store = new LocalUserStore();
+        var result = await store.GetUsersInRoleAsync("None", CancellationToken.None);
         result.Should().HaveCount(0);
     }
 }

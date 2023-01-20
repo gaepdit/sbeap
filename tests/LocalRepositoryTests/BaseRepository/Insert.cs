@@ -1,3 +1,4 @@
+using FluentAssertions.Execution;
 using MyAppRoot.Domain.Offices;
 using MyAppRoot.LocalRepository.Repositories;
 using MyAppRoot.TestData.Constants;
@@ -23,10 +24,10 @@ public class Insert
         await _repository.InsertAsync(newItem);
 
         var getResult = await _repository.GetAsync(newItem.Id);
-        Assert.Multiple(() =>
+        using (new AssertionScope())
         {
             getResult.Should().BeEquivalentTo(newItem);
             _repository.Items.Count.Should().Be(initialCount + 1);
-        });
+        }
     }
 }

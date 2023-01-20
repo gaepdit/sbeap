@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyAppRoot.Domain.Offices;
-using MyAppRoot.Infrastructure.Contexts;
-using MyAppRoot.Infrastructure.Repositories;
+using MyAppRoot.EfRepository.Contexts;
+using MyAppRoot.EfRepository.Repositories;
 using MyAppRoot.LocalRepository.Repositories;
 using MyAppRoot.WebApp.Platform.Settings;
 
@@ -25,7 +25,7 @@ public static class DataServices
         {
             services.AddDbContext<AppDbContext>(opts =>
                 opts.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
-                    x => x.MigrationsAssembly("Infrastructure")));
+                    x => x.MigrationsAssembly("EfRepository")));
 
             services.AddScoped<IOfficeRepository, OfficeRepository>();
         }

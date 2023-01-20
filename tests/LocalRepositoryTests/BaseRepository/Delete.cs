@@ -1,3 +1,4 @@
+using FluentAssertions.Execution;
 using GaEpd.AppLibrary.Domain.Repositories;
 using MyAppRoot.Domain.Offices;
 using MyAppRoot.LocalRepository.Repositories;
@@ -24,11 +25,11 @@ public class Delete
         await _repository.DeleteAsync(item);
         var result = await _repository.FindAsync(item.Id);
 
-        Assert.Multiple(() =>
+        using (new AssertionScope())
         {
             _repository.Items.Count.Should().Be(initialCount - 1);
             result.Should().BeNull();
-        });
+        }
     }
 
     [Test]

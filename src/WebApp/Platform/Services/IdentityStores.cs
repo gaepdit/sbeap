@@ -2,8 +2,8 @@
 using MyAppRoot.AppServices.Staff;
 using MyAppRoot.AppServices.UserServices;
 using MyAppRoot.Domain.Identity;
-using MyAppRoot.Infrastructure.Contexts;
-using MyAppRoot.Infrastructure.Identity;
+using MyAppRoot.EfRepository.Contexts;
+using MyAppRoot.EfRepository.Identity;
 using MyAppRoot.LocalRepository.ServiceCollectionExtensions;
 using MyAppRoot.WebApp.Platform.Settings;
 

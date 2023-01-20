@@ -10,6 +10,10 @@ using MyAppRoot.WebApp.Platform.Settings;
 var builder = WebApplication.CreateBuilder(args);
 var isLocal = builder.Environment.IsLocalEnv();
 
+// Set default timeout for regular expressions.
+// https://learn.microsoft.com/en-us/dotnet/standard/base-types/best-practices#use-time-out-values
+AppDomain.CurrentDomain.SetData("REGEX_DEFAULT_MATCH_TIMEOUT", TimeSpan.FromMilliseconds(100));
+
 // Bind application settings.
 builder.Configuration.GetSection(nameof(ApplicationSettings.LocalDevSettings))
     .Bind(ApplicationSettings.LocalDevSettings);
@@ -79,7 +83,7 @@ var app = builder.Build();
 var env = app.Environment;
 
 // Configure the HTTP request pipeline.
-if (env.IsProduction() && env.IsStaging())
+if (env.IsProduction() || env.IsStaging())
 {
     // Production or Staging
     app.UseExceptionHandler("/Error");
@@ -93,7 +97,7 @@ else
 }
 
 // Configure the application pipeline.
-app.UseStatusCodePages();
+app.UseStatusCodePagesWithReExecute("/Error/{0}");
 app.UseHttpsRedirection();
 app.UseWebOptimizer();
 app.UseStaticFiles();

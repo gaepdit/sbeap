@@ -1,3 +1,4 @@
+using FluentAssertions.Execution;
 using MyAppRoot.AppServices.Offices;
 using MyAppRoot.Domain.Offices;
 using MyAppRoot.TestData.Constants;
@@ -13,12 +14,12 @@ public class OfficeMapping
 
         var result = AppServicesTestsGlobal.Mapper!.Map<OfficeViewDto>(item);
 
-        Assert.Multiple(() =>
+        using (new AssertionScope())
         {
             result.Id.Should().Be(item.Id);
             result.Name.Should().Be(item.Name);
             result.Active.Should().BeTrue();
-        });
+        }
     }
 
     [Test]
@@ -28,11 +29,11 @@ public class OfficeMapping
 
         var result = AppServicesTestsGlobal.Mapper!.Map<OfficeUpdateDto>(item);
 
-        Assert.Multiple(() =>
+        using (new AssertionScope())
         {
             result.Id.Should().Be(item.Id);
             result.Name.Should().Be(item.Name);
             result.Active.Should().BeTrue();
-        });
+        }
     }
 }

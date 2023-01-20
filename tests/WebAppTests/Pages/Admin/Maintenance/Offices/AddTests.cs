@@ -1,3 +1,4 @@
+using FluentAssertions.Execution;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
@@ -29,13 +30,13 @@ public class AddTests
 
         var result = await page.OnPostAsync(service.Object, validator.Object);
 
-        Assert.Multiple(() =>
+        using (new AssertionScope())
         {
             page.HighlightId.Should().Be(Guid.Empty);
             page.TempData.GetDisplayMessage().Should().BeEquivalentTo(expectedMessage);
             result.Should().BeOfType<RedirectToPageResult>();
             ((RedirectToPageResult)result).PageName.Should().Be("Index");
-        });
+        }
     }
 
     [Test]
@@ -50,10 +51,10 @@ public class AddTests
 
         var result = await page.OnPostAsync(service.Object, validator.Object);
 
-        Assert.Multiple(() =>
+        using (new AssertionScope())
         {
             result.Should().BeOfType<PageResult>();
             page.ModelState.IsValid.Should().BeFalse();
-        });
+        }
     }
 }

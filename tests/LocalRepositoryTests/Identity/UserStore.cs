@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Identity;
 using MyAppRoot.Domain.Identity;
 using MyAppRoot.Domain.Offices;
 using MyAppRoot.LocalRepository.Identity;
@@ -8,7 +7,7 @@ namespace LocalRepositoryTests.Identity;
 
 public class UserStore
 {
-    private IUserRoleStore<ApplicationUser> _store = default!;
+    private LocalUserStore _store = default!;
 
     [SetUp]
     public void SetUp() => _store = new LocalUserStore();
@@ -27,7 +26,7 @@ public class UserStore
     [Test]
     public async Task GetUserName_ReturnsUserName()
     {
-        var user = IdentityData.GetUsers.First();
+        var user = _store.Users.First();
         var result = await _store.GetUserNameAsync(user, CancellationToken.None);
         result.Should().BeEquivalentTo(user.UserName);
     }
@@ -35,7 +34,7 @@ public class UserStore
     [Test]
     public async Task GetNormalizedUserName_ReturnsNormalizedUserName()
     {
-        var user = IdentityData.GetUsers.First();
+        var user = _store.Users.First();
         var result = await _store.GetNormalizedUserNameAsync(user, CancellationToken.None);
         result.Should().BeEquivalentTo(user.NormalizedUserName);
     }
@@ -43,7 +42,7 @@ public class UserStore
     [Test]
     public async Task Update_WhenItemIsValid_UpdatesItem()
     {
-        var user = IdentityData.GetUsers.First();
+        var user = _store.Users.First();
         user.Phone = "1";
         user.Office = new Office(Guid.NewGuid(), "abc");
 
@@ -65,7 +64,7 @@ public class UserStore
     [Test]
     public async Task FindById_ReturnsUser()
     {
-        var user = IdentityData.GetUsers.First();
+        var user = _store.Users.First();
         var result = await _store.FindByIdAsync(user.Id, CancellationToken.None);
         result.Should().BeEquivalentTo(user);
     }
@@ -73,7 +72,7 @@ public class UserStore
     [Test]
     public async Task FindByName_ReturnsUser()
     {
-        var user = IdentityData.GetUsers.First();
+        var user = _store.Users.First();
         var result = await _store.FindByNameAsync(user.NormalizedUserName, CancellationToken.None);
         result.Should().BeEquivalentTo(user);
     }

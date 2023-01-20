@@ -10,7 +10,11 @@ public class BaseReadOnlyRepository<TEntity, TKey> : IReadOnlyRepository<TEntity
     where TKey : IEquatable<TKey>
 {
     internal ICollection<TEntity> Items { get; }
-    protected BaseReadOnlyRepository(IEnumerable<TEntity> items) => Items = items.ToList();
+
+    protected BaseReadOnlyRepository(IEnumerable<TEntity> items)
+    {
+        Items = items.ToList();
+    }
 
     public Task<TEntity> GetAsync(TKey id, CancellationToken token = default) =>
         Items.Any(e => e.Id.Equals(id))
@@ -36,14 +40,26 @@ public class BaseReadOnlyRepository<TEntity, TKey> : IReadOnlyRepository<TEntity
     public Task<IReadOnlyCollection<TEntity>> GetPagedListAsync(
         Expression<Func<TEntity, bool>> predicate,
         PaginatedRequest paging,
-        CancellationToken token = default) =>
-        Task.FromResult(Items.Where(predicate.Compile())
-            .Skip(paging.Skip).Take(paging.Take).ToList() as IReadOnlyCollection<TEntity>);
+        CancellationToken token = default)
+    {
+        var result = Items.Where(predicate.Compile()).AsQueryable()
+            .OrderByIf(paging.Sorting)
+            .Skip(paging.Skip).Take(paging.Take);
+        return Task.FromResult(result.ToList() as IReadOnlyCollection<TEntity>);
+    }
 
     public Task<IReadOnlyCollection<TEntity>> GetPagedListAsync(
         PaginatedRequest paging,
-        CancellationToken token = default) =>
-        Task.FromResult(Items.Skip(paging.Skip).Take(paging.Take).ToList() as IReadOnlyCollection<TEntity>);
+        CancellationToken token = default)
+    {
+        var result = Items.AsQueryable()
+            .OrderByIf(paging.Sorting)
+            .Skip(paging.Skip).Take(paging.Take);
+        return Task.FromResult(result.ToList() as IReadOnlyCollection<TEntity>);
+    }
+
+    public Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken token = default) =>
+        Task.FromResult(Items.Count(predicate.Compile()));
 
     // ReSharper disable once VirtualMemberNeverOverridden.Global
     protected virtual void Dispose(bool disposing)
