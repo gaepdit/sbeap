@@ -6,7 +6,7 @@ on:
 jobs:
   lighthouse-analysis:
     # ↓ Change this to "false" to disable the workflow without any alert messages.
-    if: ${{ true }}
+    if: ${{ false }}
     # ↑ Change to "true" (or delete) to enable the workflow.
 
     name: Analyze with Lighthouse
