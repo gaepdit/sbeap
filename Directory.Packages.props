@@ -19,7 +19,6 @@
         <PackageVersion Include="Microsoft.Web.LibraryManager.Build" Version="2.1.175" />
         <PackageVersion Include="Mindscape.Raygun4Net.AspNetCore" Version="6.6.6" />
         <PackageVersion Include="SonarAnalyzer.CSharp" Version="8.51.0.59060" />
-        <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     </ItemGroup>
     <ItemGroup>
         <PackageVersion Include="coverlet.collector" Version="3.2.0" />
