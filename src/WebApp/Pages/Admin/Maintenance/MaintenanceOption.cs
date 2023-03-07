@@ -1,4 +1,4 @@
-namespace MyAppRoot.WebApp.Pages.Admin.Maintenance;
+namespace Sbeap.WebApp.Pages.Admin.Maintenance;
 
 public class MaintenanceOption
 {

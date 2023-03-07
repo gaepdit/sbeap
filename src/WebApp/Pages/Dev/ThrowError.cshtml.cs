@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Diagnostics.CodeAnalysis;
 
-namespace MyAppRoot.WebApp.Pages.Dev;
+namespace Sbeap.WebApp.Pages.Dev;
 
 // TODO: Remove this page once testing of error handling is complete.
 public class ThrowError : PageModel

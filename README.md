@@ -1,47 +1,15 @@
-# Template Application
+# Small Business Environmental Assistance Program
 
-This repository contains a template for use in creating new web applications.
+This app is used by the SBEAP for tracking their workload, including customers and cases.
 
-[![.NET Test](https://github.com/gaepdit/template-app/actions/workflows/dotnet-test.yml/badge.svg)](https://github.com/gaepdit/template-app/actions/workflows/dotnet-test.yml)
-[![CodeQL](https://github.com/gaepdit/template-app/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/gaepdit/template-app/actions/workflows/codeql-analysis.yml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gaepdit_template-app&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gaepdit_template-app)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=gaepdit_template-app&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=gaepdit_template-app)
-
-*[The SonarCloud badges require a SonarCloud project to be configured.]*
-
----
-
-## Template setup and use
-
-The following steps describe how to use the template for a new application.
-
-### Initialize the template files
-
-* Run the "create-sln.ps1" file to create a new solution file.
-* Rename or search and replace the following terms. *(Caution: not all of these will be visible in the Visual Studio solution view.)*
-    - "MY_APP_NAME" - Replace with the readable display name of the app.
-    - `MyAppRoot`:
-        - Rename the root namespace for the app.
-        - Update the `<RootNamespace>` element in each "csproj" file.
-        - Update the namespace in the "_ViewImports.cshtml" file.
-        - Update the exclusions in the coverlet commands in the "sonarcloud-scan.yml" file.
-        - Update the exclusions in the "finecodecoverage-settings.xml" file.
-    - "template-app" - Search and replace with the repository name. This will affect the following:
-        - The LocalDB database name in various connection strings.
-        - The project key in the "sonarcloud-scan.yml" workflow file.
-        - The comment URL path in the "lighthouse-analysis.yml" workflow file.
-        - The URLs in the GitHub and SonarCloud badges above.
-
-### Customize the application
-
-* Update this README file with information about the new application.
-* Change the branding colors in "src\WebApp\wwwroot\css\site.css".
-
----
+[![.NET Test](https://github.com/gaepdit/sbeap/actions/workflows/dotnet-test.yml/badge.svg)](https://github.com/gaepdit/sbeap/actions/workflows/dotnet-test.yml)
+[![CodeQL](https://github.com/gaepdit/sbeap/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/gaepdit/sbeap/actions/workflows/codeql-analysis.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gaepdit_sbeap&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gaepdit_sbeap)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=gaepdit_sbeap&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=gaepdit_sbeap)
 
 ## Background and project requirements
 
-TODO: Complete this section for each new application.
+This new application will replace similar functionality previously housed in the IAIP.
 
 ---
 

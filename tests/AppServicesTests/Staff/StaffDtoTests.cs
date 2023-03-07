@@ -1,7 +1,7 @@
 ﻿using FluentAssertions.Execution;
-using MyAppRoot.AppServices.Offices;
-using MyAppRoot.AppServices.Staff;
-using MyAppRoot.TestData.Constants;
+using Sbeap.AppServices.Offices;
+using Sbeap.AppServices.Staff;
+using Sbeap.TestData.Constants;
 
 namespace AppServicesTests.Staff;
 

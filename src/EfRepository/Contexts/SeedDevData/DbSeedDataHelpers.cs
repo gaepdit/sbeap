@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using MyAppRoot.TestData;
-using MyAppRoot.TestData.Identity;
+using Sbeap.TestData;
+using Sbeap.TestData.Identity;
 
-namespace MyAppRoot.EfRepository.Contexts.SeedDevData;
+namespace Sbeap.EfRepository.Contexts.SeedDevData;
 
 public static class DbSeedDataHelpers
 {

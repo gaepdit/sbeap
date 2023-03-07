@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using MyAppRoot.Domain.Identity;
-using MyAppRoot.Domain.Offices;
+using Sbeap.Domain.Identity;
+using Sbeap.Domain.Offices;
 
-namespace MyAppRoot.EfRepository.Contexts;
+namespace Sbeap.EfRepository.Contexts;
 
 public class AppDbContext : IdentityDbContext<ApplicationUser>
 {

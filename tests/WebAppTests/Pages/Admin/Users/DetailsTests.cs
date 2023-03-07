@@ -1,10 +1,10 @@
 using FluentAssertions.Execution;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MyAppRoot.AppServices.Staff;
-using MyAppRoot.Domain.Identity;
-using MyAppRoot.TestData.Constants;
-using MyAppRoot.WebApp.Pages.Admin.Users;
+using Sbeap.AppServices.Staff;
+using Sbeap.Domain.Identity;
+using Sbeap.TestData.Constants;
+using Sbeap.WebApp.Pages.Admin.Users;
 
 namespace WebAppTests.Pages.Admin.Users;
 

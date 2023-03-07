@@ -1,6 +1,6 @@
-﻿using MyAppRoot.WebApp.Platform.Settings;
+﻿using Sbeap.WebApp.Platform.Settings;
 
-namespace MyAppRoot.WebApp.Platform.Services;
+namespace Sbeap.WebApp.Platform.Services;
 
 public static class AppConfiguration
 {

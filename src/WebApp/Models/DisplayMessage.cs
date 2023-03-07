@@ -1,4 +1,4 @@
-﻿namespace MyAppRoot.WebApp.Models;
+﻿namespace Sbeap.WebApp.Models;
 
 public class DisplayMessage
 {

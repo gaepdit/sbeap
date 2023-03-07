@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Identity;
-using MyAppRoot.Domain.Identity;
-using MyAppRoot.TestData.Identity;
+using Sbeap.Domain.Identity;
+using Sbeap.TestData.Identity;
 
-namespace MyAppRoot.LocalRepository.Identity;
+namespace Sbeap.LocalRepository.Identity;
 
 public sealed class LocalUserStore :
         IUserRoleStore<ApplicationUser>, // inherits IUserStore<ApplicationUser>

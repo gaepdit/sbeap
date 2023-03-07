@@ -3,12 +3,12 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MyAppRoot.AppServices.Offices;
-using MyAppRoot.Domain.Identity;
-using MyAppRoot.WebApp.Models;
-using MyAppRoot.WebApp.Platform.RazorHelpers;
+using Sbeap.AppServices.Offices;
+using Sbeap.Domain.Identity;
+using Sbeap.WebApp.Models;
+using Sbeap.WebApp.Platform.RazorHelpers;
 
-namespace MyAppRoot.WebApp.Pages.Admin.Maintenance.Offices;
+namespace Sbeap.WebApp.Pages.Admin.Maintenance.Offices;
 
 [Authorize(Roles = AppRole.SiteMaintenance)]
 public class EditModel : PageModel

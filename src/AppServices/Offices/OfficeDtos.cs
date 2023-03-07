@@ -1,7 +1,7 @@
-﻿using MyAppRoot.Domain.Offices;
+﻿using Sbeap.Domain.Offices;
 using System.ComponentModel.DataAnnotations;
 
-namespace MyAppRoot.AppServices.Offices;
+namespace Sbeap.AppServices.Offices;
 
 public class OfficeViewDto
 {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using MyAppRoot.Domain.Identity;
+using Sbeap.Domain.Identity;
 
-namespace MyAppRoot.AppServices.Staff;
+namespace Sbeap.AppServices.Staff;
 
 public interface IStaffAppService : IDisposable
 {

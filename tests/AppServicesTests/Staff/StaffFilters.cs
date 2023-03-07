@@ -1,5 +1,5 @@
-﻿using MyAppRoot.AppServices.Staff;
-using MyAppRoot.TestData.Identity;
+﻿using Sbeap.AppServices.Staff;
+using Sbeap.TestData.Identity;
 
 namespace AppServicesTests.Staff;
 

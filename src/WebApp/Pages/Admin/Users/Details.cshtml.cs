@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MyAppRoot.AppServices.Staff;
-using MyAppRoot.Domain.Identity;
-using MyAppRoot.WebApp.Models;
-using MyAppRoot.WebApp.Platform.RazorHelpers;
+using Sbeap.AppServices.Staff;
+using Sbeap.Domain.Identity;
+using Sbeap.WebApp.Models;
+using Sbeap.WebApp.Platform.RazorHelpers;
 
-namespace MyAppRoot.WebApp.Pages.Admin.Users;
+namespace Sbeap.WebApp.Pages.Admin.Users;
 
 [Authorize]
 public class DetailsModel : PageModel

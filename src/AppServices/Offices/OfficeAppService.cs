@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using GaEpd.AppLibrary.ListItems;
-using MyAppRoot.AppServices.Staff;
-using MyAppRoot.AppServices.UserServices;
-using MyAppRoot.Domain.Offices;
+using Sbeap.AppServices.Staff;
+using Sbeap.AppServices.UserServices;
+using Sbeap.Domain.Offices;
 
-namespace MyAppRoot.AppServices.Offices;
+namespace Sbeap.AppServices.Offices;
 
 public sealed class OfficeAppService : IOfficeAppService
 {

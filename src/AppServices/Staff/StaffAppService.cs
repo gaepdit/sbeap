@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using GaEpd.AppLibrary.Domain.Repositories;
 using Microsoft.AspNetCore.Identity;
-using MyAppRoot.AppServices.UserServices;
-using MyAppRoot.Domain.Identity;
-using MyAppRoot.Domain.Offices;
+using Sbeap.AppServices.UserServices;
+using Sbeap.Domain.Identity;
+using Sbeap.Domain.Offices;
 
-namespace MyAppRoot.AppServices.Staff;
+namespace Sbeap.AppServices.Staff;
 
 public sealed class StaffAppService : IStaffAppService
 {

@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyAppRoot.Domain.Offices;
-using MyAppRoot.EfRepository.Contexts;
-using MyAppRoot.EfRepository.Repositories;
-using MyAppRoot.LocalRepository.Repositories;
-using MyAppRoot.WebApp.Platform.Settings;
+using Sbeap.Domain.Offices;
+using Sbeap.EfRepository.Contexts;
+using Sbeap.EfRepository.Repositories;
+using Sbeap.LocalRepository.Repositories;
+using Sbeap.WebApp.Platform.Settings;
 
-namespace MyAppRoot.WebApp.Platform.Services;
+namespace Sbeap.WebApp.Platform.Services;
 
 public static class DataStores
 {

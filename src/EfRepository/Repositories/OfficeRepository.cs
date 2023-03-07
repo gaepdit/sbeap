@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyAppRoot.Domain.Identity;
-using MyAppRoot.Domain.Offices;
-using MyAppRoot.EfRepository.Contexts;
+using Sbeap.Domain.Identity;
+using Sbeap.Domain.Offices;
+using Sbeap.EfRepository.Contexts;
 
-namespace MyAppRoot.EfRepository.Repositories;
+namespace Sbeap.EfRepository.Repositories;
 
 public sealed class OfficeRepository : BaseRepository<Office, Guid>, IOfficeRepository
 {

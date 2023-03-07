@@ -1,4 +1,4 @@
-using MyAppRoot.LocalRepository.Repositories;
+using Sbeap.LocalRepository.Repositories;
 
 namespace LocalRepositoryTests.BaseReadRepository;
 

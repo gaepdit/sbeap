@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using MyAppRoot.AppServices.AutoMapper;
+using Sbeap.AppServices.AutoMapper;
 
 namespace AppServicesTests;
 

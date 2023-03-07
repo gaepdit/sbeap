@@ -1,11 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
+        <AssemblyVersion>2023.3.7</AssemblyVersion>
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <RootNamespace>MyAppRoot.WebApp</RootNamespace>
-        <AssemblyVersion>2023.3.7</AssemblyVersion>
+        <RootNamespace>Sbeap.WebApp</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

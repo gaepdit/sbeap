@@ -1,8 +1,8 @@
-﻿using MyAppRoot.Domain.Identity;
-using MyAppRoot.Domain.Offices;
-using MyAppRoot.TestData;
+﻿using Sbeap.Domain.Identity;
+using Sbeap.Domain.Offices;
+using Sbeap.TestData;
 
-namespace MyAppRoot.LocalRepository.Repositories;
+namespace Sbeap.LocalRepository.Repositories;
 
 public sealed class LocalOfficeRepository : BaseRepository<Office, Guid>, IOfficeRepository
 {

@@ -1,6 +1,6 @@
-﻿using MyAppRoot.Domain.Offices;
+﻿using Sbeap.Domain.Offices;
 
-namespace MyAppRoot.TestData;
+namespace Sbeap.TestData;
 
 internal static class OfficeData
 {

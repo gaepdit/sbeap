@@ -2,10 +2,10 @@
 using GaEpd.AppLibrary.Domain.Repositories;
 using GaEpd.AppLibrary.Pagination;
 using Microsoft.EntityFrameworkCore;
-using MyAppRoot.EfRepository.Contexts;
+using Sbeap.EfRepository.Contexts;
 using System.Linq.Expressions;
 
-namespace MyAppRoot.EfRepository.Repositories;
+namespace Sbeap.EfRepository.Repositories;
 
 public abstract class BaseRepository<TEntity, TKey> : IRepository<TEntity, TKey>
     where TEntity : class, IEntity<TKey>

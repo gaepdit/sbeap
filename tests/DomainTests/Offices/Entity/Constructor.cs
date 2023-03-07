@@ -1,5 +1,5 @@
 using FluentAssertions.Execution;
-using MyAppRoot.Domain.Offices;
+using Sbeap.Domain.Offices;
 
 namespace DomainTests.Offices.Entity;
 

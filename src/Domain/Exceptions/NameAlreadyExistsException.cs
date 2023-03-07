@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace MyAppRoot.Domain.Exceptions;
+namespace Sbeap.Domain.Exceptions;
 
 /// <summary>
 /// The exception that is thrown if a named entity is added/updated with a name that already exists.

@@ -45,7 +45,7 @@ jobs:
           --prCommentEnabled \
           --emulatedFormFactor "all" \
           --prCommentAccessToken "${{ secrets.LIGHTHOUSE_CHECK_GITHUB_ACCESS_TOKEN }}" \
-          --prCommentUrl "https://api.github.com/repos/gaepdit/template-app/pulls/$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')/reviews" \
+          --prCommentUrl "https://api.github.com/repos/gaepdit/sbeap/pulls/$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')/reviews" \
           --timeout "5" \
           --overridesJsonFile ".github/workflows/lighthouse-config.json" \
           --urls "https://localhost:7229" \

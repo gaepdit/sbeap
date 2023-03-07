@@ -1,5 +1,5 @@
-using MyAppRoot.LocalRepository.Repositories;
-using MyAppRoot.TestData.Constants;
+using Sbeap.LocalRepository.Repositories;
+using Sbeap.TestData.Constants;
 
 namespace LocalRepositoryTests.Offices;
 

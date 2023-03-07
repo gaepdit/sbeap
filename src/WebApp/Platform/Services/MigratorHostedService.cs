@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using MyAppRoot.Domain.Identity;
-using MyAppRoot.EfRepository.Contexts;
-using MyAppRoot.EfRepository.Contexts.SeedDevData;
-using MyAppRoot.WebApp.Platform.Settings;
+using Sbeap.Domain.Identity;
+using Sbeap.EfRepository.Contexts;
+using Sbeap.EfRepository.Contexts.SeedDevData;
+using Sbeap.WebApp.Platform.Settings;
 
-namespace MyAppRoot.WebApp.Platform.Services;
+namespace Sbeap.WebApp.Platform.Services;
 
 public class MigratorHostedService : IHostedService
 {

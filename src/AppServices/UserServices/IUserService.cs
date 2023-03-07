@@ -1,6 +1,6 @@
-﻿using MyAppRoot.Domain.Identity;
+﻿using Sbeap.Domain.Identity;
 
-namespace MyAppRoot.AppServices.UserServices;
+namespace Sbeap.AppServices.UserServices;
 
 public interface IUserService
 {

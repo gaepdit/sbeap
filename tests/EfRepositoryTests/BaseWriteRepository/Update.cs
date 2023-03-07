@@ -1,7 +1,7 @@
 using GaEpd.AppLibrary.Domain.Repositories;
-using MyAppRoot.Domain.Offices;
-using MyAppRoot.TestData;
-using MyAppRoot.TestData.Constants;
+using Sbeap.Domain.Offices;
+using Sbeap.TestData;
+using Sbeap.TestData.Constants;
 
 namespace EfRepositoryTests.BaseWriteRepository;
 

@@ -1,5 +1,5 @@
 using FluentAssertions.Execution;
-using MyAppRoot.LocalRepository.Identity;
+using Sbeap.LocalRepository.Identity;
 
 namespace LocalRepositoryTests.Identity;
 

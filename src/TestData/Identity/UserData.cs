@@ -1,6 +1,6 @@
-﻿using MyAppRoot.Domain.Identity;
+﻿using Sbeap.Domain.Identity;
 
-namespace MyAppRoot.TestData.Identity;
+namespace Sbeap.TestData.Identity;
 
 internal static partial class UserData
 {

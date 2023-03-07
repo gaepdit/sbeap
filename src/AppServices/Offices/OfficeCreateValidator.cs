@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using MyAppRoot.Domain.Offices;
+using Sbeap.Domain.Offices;
 
-namespace MyAppRoot.AppServices.Offices;
+namespace Sbeap.AppServices.Offices;
 
 public class OfficeCreateValidator : AbstractValidator<OfficeCreateDto>
 {

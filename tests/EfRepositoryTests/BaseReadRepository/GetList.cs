@@ -1,5 +1,5 @@
-using MyAppRoot.Domain.Offices;
-using MyAppRoot.TestData;
+using Sbeap.Domain.Offices;
+using Sbeap.TestData;
 
 namespace EfRepositoryTests.BaseReadRepository;
 

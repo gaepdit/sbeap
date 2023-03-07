@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
-using MyAppRoot.Domain.Offices;
+using Sbeap.Domain.Offices;
 
-namespace MyAppRoot.Domain.Identity;
+namespace Sbeap.Domain.Identity;
 
 // Add profile data for application users by adding properties to the ApplicationUser class.
 // (IdentityUser already includes Id, Email, and UserName properties.)

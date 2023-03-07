@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.DataProtection;
 using Mindscape.Raygun4Net.AspNetCore;
-using MyAppRoot.AppServices.ServiceCollectionExtensions;
-using MyAppRoot.WebApp.Platform.Raygun;
-using MyAppRoot.WebApp.Platform.Services;
-using MyAppRoot.WebApp.Platform.Settings;
+using Sbeap.AppServices.ServiceCollectionExtensions;
+using Sbeap.WebApp.Platform.Raygun;
+using Sbeap.WebApp.Platform.Services;
+using Sbeap.WebApp.Platform.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 

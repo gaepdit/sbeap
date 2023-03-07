@@ -1,19 +1,19 @@
 /* Branding colors
 -------------------------------------------------- */
 .bg-brand {
-    background-color: #671010;
+    background-color: hsl(275, 73%, 23%);
 }
 
-.bg-brand a {
-    color: #ffd5d5;
-}
+    .bg-brand a {
+        color: hsl(275, 100%, 92%);
+    }
 
-.bg-brand a:hover, .bg-brand a:focus {
-    color: #ffb6b6;
-}
+        .bg-brand a:hover, .bg-brand a:focus {
+            color: hsl(275, 100%, 85%);
+        }
 
 .text-brand {
-    color: #671010;
+    color: hsl(275, 73%, 23%);
 }
 
 /* Adjust font sizing
@@ -95,14 +95,14 @@ body {
     z-index: 100;
 }
 
-.skip-nav:focus {
-    background: #fff;
-    left: 0;
-    outline: 0;
-    position: absolute;
-    top: 0;
-    transition: all 0.2s ease-in-out;
-}
+    .skip-nav:focus {
+        background: #fff;
+        left: 0;
+        outline: 0;
+        position: absolute;
+        top: 0;
+        transition: all 0.2s ease-in-out;
+    }
 
 /* Button with image 
 -------------------------------------------------- */
@@ -110,9 +110,9 @@ body {
     line-height: 1;
 }
 
-.btn-img img {
-    height: 25px;
-}
+    .btn-img img {
+        height: 25px;
+    }
 
 /* Additional font style utilities
 -------------------------------------------------- */
@@ -176,9 +176,9 @@ a.text-decoration-none:hover {
         margin-top: 1rem;
     }
 
-    .banner-test-site::after {
-        content: "— Not for public distribution";
-    }
+        .banner-test-site::after {
+            content: "— Not for public distribution";
+        }
 }
 
 /* Anchor-JS
@@ -191,9 +191,9 @@ a.text-decoration-none:hover {
     padding-right: .25em !important;
 }
 
-*:hover > .anchorjs-link, .anchorjs-link:focus-visible {
-    margin-left: -1.375em !important;
-}
+    *:hover > .anchorjs-link, .anchorjs-link:focus-visible {
+        margin-left: -1.375em !important;
+    }
 
 /* Fix for Bootstrap textarea with "floating" label
 -------------------------------------------------- */

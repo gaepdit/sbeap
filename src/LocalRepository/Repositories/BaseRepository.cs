@@ -3,7 +3,7 @@ using GaEpd.AppLibrary.Domain.Repositories;
 using GaEpd.AppLibrary.Pagination;
 using System.Linq.Expressions;
 
-namespace MyAppRoot.LocalRepository.Repositories;
+namespace Sbeap.LocalRepository.Repositories;
 
 public abstract class BaseRepository<TEntity, TKey> : IRepository<TEntity, TKey>
     where TEntity : IEntity<TKey>

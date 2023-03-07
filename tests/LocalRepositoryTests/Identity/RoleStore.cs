@@ -1,4 +1,4 @@
-using MyAppRoot.LocalRepository.Identity;
+using Sbeap.LocalRepository.Identity;
 
 namespace LocalRepositoryTests.Identity;
 

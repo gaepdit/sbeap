@@ -1,11 +1,11 @@
 ﻿using GaEpd.AppLibrary.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using MyAppRoot.Domain.Offices;
-using MyAppRoot.EfRepository.Contexts;
-using MyAppRoot.EfRepository.Contexts.SeedDevData;
-using MyAppRoot.EfRepository.Repositories;
-using MyAppRoot.TestData;
-using MyAppRoot.TestData.Identity;
+using Sbeap.Domain.Offices;
+using Sbeap.EfRepository.Contexts;
+using Sbeap.EfRepository.Contexts.SeedDevData;
+using Sbeap.EfRepository.Repositories;
+using Sbeap.TestData;
+using Sbeap.TestData.Identity;
 using System.Runtime.CompilerServices;
 using TestSupport.EfHelpers;
 

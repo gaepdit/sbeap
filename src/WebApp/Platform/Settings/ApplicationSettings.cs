@@ -1,6 +1,6 @@
 using JetBrains.Annotations;
 
-namespace MyAppRoot.WebApp.Platform.Settings;
+namespace Sbeap.WebApp.Platform.Settings;
 
 internal static class ApplicationSettings
 {

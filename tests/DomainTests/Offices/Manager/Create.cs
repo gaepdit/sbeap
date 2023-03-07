@@ -1,6 +1,6 @@
-using MyAppRoot.Domain.Exceptions;
-using MyAppRoot.Domain.Offices;
-using MyAppRoot.TestData.Constants;
+using Sbeap.Domain.Exceptions;
+using Sbeap.Domain.Offices;
+using Sbeap.TestData.Constants;
 
 namespace DomainTests.Offices.Manager;
 
