@@ -4,7 +4,7 @@ using MyAppRoot.AppServices.Offices;
 namespace MyAppRoot.WebApp.Api;
 
 [ApiController]
-[Route("api/office")]
+[Route("api/offices")]
 [Produces("application/json")]
 public class OfficeApiController : Controller
 {

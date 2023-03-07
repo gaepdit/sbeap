@@ -12,6 +12,7 @@ public record Address : ValueObject
     public string City { get; [UsedImplicitly] init; } = string.Empty;
     public string State { get; [UsedImplicitly] init; } = string.Empty;
 
+    [Display(Name = "Postal Code")]
     [DataType(DataType.PostalCode)]
     public string PostalCode { get; [UsedImplicitly] init; } = string.Empty;
 

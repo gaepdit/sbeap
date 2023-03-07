@@ -1,6 +1,7 @@
 ﻿using MyAppRoot.AppServices.Offices;
 using MyAppRoot.Domain.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace MyAppRoot.AppServices.Staff;
 
@@ -32,8 +33,8 @@ public record StaffSearchDto
 public class StaffViewDto
 {
     public string Id { get; init; } = string.Empty;
-    public string FirstName { get; init; } = string.Empty;
-    public string LastName { get; init; } = string.Empty;
+    public string GivenName { get; init; } = string.Empty;
+    public string FamilyName { get; init; } = string.Empty;
     public string Email { get; init; } = string.Empty;
     public string? Phone { get; init; }
     public OfficeViewDto? Office { get; init; }
@@ -41,11 +42,13 @@ public class StaffViewDto
     [UIHint("BoolActive")]
     public bool Active { get; init; } = true;
 
+    [JsonIgnore]
     public string DisplayName =>
-        string.Join(" ", new[] { FirstName, LastName }.Where(s => !string.IsNullOrEmpty(s)));
+        string.Join(" ", new[] { GivenName, FamilyName }.Where(s => !string.IsNullOrEmpty(s)));
 
+    [JsonIgnore]
     public string SortableFullName =>
-        string.Join(", ", new[] { LastName, FirstName }.Where(s => !string.IsNullOrEmpty(s)));
+        string.Join(", ", new[] { FamilyName, GivenName }.Where(s => !string.IsNullOrEmpty(s)));
 
     public StaffUpdateDto AsUpdateDto() =>
         new() { Id = Id, Phone = Phone, OfficeId = Office?.Id, Active = Active };

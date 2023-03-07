@@ -24,7 +24,7 @@ namespace EfRepositoryTests;
 /// </summary>
 public sealed class RepositoryHelper : IDisposable
 {
-    private AppDbContext Context { get; set; } = null!;
+    private AppDbContext Context { get; set; } = default!;
 
     private readonly DbContextOptions<AppDbContext> _options;
     private readonly AppDbContext _context;
@@ -117,7 +117,7 @@ public sealed class RepositoryHelper : IDisposable
     private static void ClearAllStaticData()
     {
         OfficeData.ClearData();
-        IdentityData.ClearData();
+        UserData.ClearData();
     }
 
     /// <summary>

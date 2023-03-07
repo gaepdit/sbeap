@@ -12,7 +12,7 @@ public sealed class LocalRoleStore : IRoleStore<IdentityRole>
 
     public LocalRoleStore()
     {
-        Roles = IdentityData.GetRoles;
+        Roles = UserData.GetRoles;
     }
 
     public Task<IdentityResult> CreateAsync(IdentityRole role, CancellationToken cancellationToken) =>
@@ -37,8 +37,11 @@ public sealed class LocalRoleStore : IRoleStore<IdentityRole>
         Task.FromResult(role.NormalizedName);
 
     public Task SetNormalizedRoleNameAsync(IdentityRole role, string normalizedName,
-        CancellationToken cancellationToken) =>
-        Task.CompletedTask; // Intentionally left unimplemented.
+        CancellationToken cancellationToken)
+    {
+        role.NormalizedName = normalizedName;
+        return Task.CompletedTask;
+    }
 
     public Task<IdentityRole> FindByIdAsync(string roleId, CancellationToken cancellationToken) =>
         Task.FromResult(Roles.Single(r => r.Id == roleId));

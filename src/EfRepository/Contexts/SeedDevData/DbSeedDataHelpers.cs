@@ -21,8 +21,8 @@ public static class DbSeedDataHelpers
 
     private static void SeedIdentityData(AppDbContext context)
     {
-        var roles = IdentityData.GetRoles.ToList();
-        var users = IdentityData.GetUsers;
+        var roles = UserData.GetRoles.ToList();
+        var users = UserData.GetUsers;
         var userRoles = roles
             .Select(role => new IdentityUserRole<string> { RoleId = role.Id, UserId = users.First().Id })
             .ToList();

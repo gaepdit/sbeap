@@ -4,22 +4,26 @@ using MyAppRoot.TestData.Identity;
 
 namespace MyAppRoot.LocalRepository.Identity;
 
-/// <summary>
-/// This store is only partially implemented. UserStore is read-only, except Update. UserRoleStore is read/write.
-/// </summary>
-public sealed class LocalUserStore : IUserRoleStore<ApplicationUser> // inherits IUserStore<ApplicationUser>
+public sealed class LocalUserStore :
+        IUserRoleStore<ApplicationUser>, // inherits IUserStore<ApplicationUser>
+        IUserLoginStore<ApplicationUser>,
+        IQueryableUserStore<ApplicationUser>
 {
-    internal ICollection<ApplicationUser> Users { get; }
+    public IQueryable<ApplicationUser> Users => UserStore.AsQueryable();
+
+    internal ICollection<ApplicationUser> UserStore { get; }
     internal ICollection<IdentityRole> Roles { get; }
     private ICollection<IdentityUserRole<string>> UserRoles { get; }
+    private ICollection<UserLogin> UserLogins { get; }
 
     public LocalUserStore()
     {
-        Users = IdentityData.GetUsers.ToList();
-        Roles = IdentityData.GetRoles.ToList();
+        UserStore = UserData.GetUsers.ToList();
+        Roles = UserData.GetRoles.ToList();
         UserRoles = Roles
-            .Select(role => new IdentityUserRole<string> { RoleId = role.Id, UserId = Users.First().Id })
+            .Select(role => new IdentityUserRole<string> { RoleId = role.Id, UserId = UserStore.First().Id })
             .ToList();
+        UserLogins = new List<UserLogin>();
     }
 
     // IUserStore
@@ -29,36 +33,52 @@ public sealed class LocalUserStore : IUserRoleStore<ApplicationUser> // inherits
     public Task<string> GetUserNameAsync(ApplicationUser user, CancellationToken cancellationToken) =>
         Task.FromResult(user.UserName);
 
-    public Task SetUserNameAsync(ApplicationUser user, string userName, CancellationToken cancellationToken) =>
-        Task.CompletedTask; // Intentionally left unimplemented.
+    public Task SetUserNameAsync(ApplicationUser user, string userName, CancellationToken cancellationToken)
+    {
+        user.UserName = userName;
+        return Task.CompletedTask;
+    }
 
     public Task<string> GetNormalizedUserNameAsync(ApplicationUser user, CancellationToken cancellationToken) =>
         Task.FromResult(user.NormalizedUserName);
 
     public Task SetNormalizedUserNameAsync(ApplicationUser user, string normalizedName,
-        CancellationToken cancellationToken) =>
-        Task.CompletedTask;
+        CancellationToken cancellationToken)
+    {
+        user.NormalizedUserName = normalizedName;
+        return Task.CompletedTask;
+    }
 
-    public Task<IdentityResult> CreateAsync(ApplicationUser user, CancellationToken cancellationToken) =>
-        Task.FromResult(new IdentityResult()); // Intentionally left unimplemented.
+    public Task<IdentityResult> CreateAsync(ApplicationUser user, CancellationToken cancellationToken)
+    {
+        UserStore.Add(user);
+        return Task.FromResult(IdentityResult.Success);
+    }
 
     public async Task<IdentityResult> UpdateAsync(ApplicationUser user, CancellationToken cancellationToken)
     {
         var existingUser = await FindByIdAsync(user.Id, cancellationToken);
-        Users.Remove(existingUser);
-        Users.Add(user);
+        UserStore.Remove(existingUser);
+        UserStore.Add(user);
         return IdentityResult.Success;
     }
 
-    public Task<IdentityResult> DeleteAsync(ApplicationUser user, CancellationToken cancellationToken) =>
-        Task.FromResult(new IdentityResult()); // Intentionally left unimplemented.
+    public async Task<IdentityResult> DeleteAsync(ApplicationUser user, CancellationToken cancellationToken)
+    {
+        var existingUser = await FindByIdAsync(user.Id, cancellationToken);
+        UserStore.Remove(existingUser);
+        return IdentityResult.Success;
+    }
 
     public Task<ApplicationUser> FindByIdAsync(string userId, CancellationToken cancellationToken) =>
-        Task.FromResult(Users.Single(u => u.Id == userId));
+        Task.FromResult(UserStore.Single(u => u.Id == userId));
 
+#nullable disable // Reevaluate this after updating to .NET 7.
     public Task<ApplicationUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken) =>
-        Task.FromResult(Users.Single(u =>
+        // Nullability warning is incorrect because IUserStore.FindByNameAsync can return null.
+        Task.FromResult(UserStore.SingleOrDefault(u =>
             string.Equals(u.NormalizedUserName, normalizedUserName, StringComparison.InvariantCultureIgnoreCase)));
+#nullable restore
 
     // IUserRoleStore
     public Task AddToRoleAsync(ApplicationUser user, string roleName, CancellationToken cancellationToken)
@@ -92,7 +112,7 @@ public sealed class LocalUserStore : IUserRoleStore<ApplicationUser> // inherits
             .Select(e => e.RoleId);
         var rolesForUser = Roles
             .Where(r => roleIdsForUser.Contains(r.Id))
-            .Select(r => r.NormalizedName).ToList();
+            .Select(r => r.Name).ToList();
         return Task.FromResult<IList<string>>(rolesForUser);
     }
 
@@ -110,7 +130,7 @@ public sealed class LocalUserStore : IUserRoleStore<ApplicationUser> // inherits
         var userIdsInRole = UserRoles
             .Where(e => e.RoleId == roleId)
             .Select(e => e.UserId);
-        var usersInRole = Users
+        var usersInRole = UserStore
             .Where(u => userIdsInRole.Contains(u.Id)).ToList();
         return Task.FromResult<IList<ApplicationUser>>(usersInRole);
     }
@@ -119,4 +139,49 @@ public sealed class LocalUserStore : IUserRoleStore<ApplicationUser> // inherits
     {
         // Method intentionally left empty.
     }
+
+#nullable disable // Reevaluate this after updating to .NET 7.
+    public Task AddLoginAsync(ApplicationUser user, UserLoginInfo login, CancellationToken cancellationToken)
+    {
+        UserLogins.Add(new UserLogin
+        {
+            LoginProvider = login.LoginProvider,
+            ProviderDisplayName = login.ProviderDisplayName,
+            ProviderKey = login.ProviderKey,
+            UserId = user.Id,
+        });
+        return Task.CompletedTask;
+    }
+
+    public Task RemoveLoginAsync(ApplicationUser user, string loginProvider, string providerKey,
+        CancellationToken cancellationToken)
+    {
+        var ul = UserLogins.SingleOrDefault(ul =>
+            ul.UserId == user.Id && ul.LoginProvider == loginProvider && ul.ProviderKey == providerKey);
+        if (ul is not null) UserLogins.Remove(ul);
+        return Task.CompletedTask;
+    }
+
+    public Task<IList<UserLoginInfo>> GetLoginsAsync(ApplicationUser user, CancellationToken cancellationToken) =>
+        Task.FromResult<IList<UserLoginInfo>>(
+            UserLogins.Where(ul => ul.UserId == user.Id)
+                .Select(ul => new UserLoginInfo(ul.LoginProvider, ul.ProviderKey, ul.ProviderDisplayName))
+                .ToList());
+
+    public Task<ApplicationUser> FindByLoginAsync(string loginProvider, string providerKey,
+        CancellationToken cancellationToken)
+    {
+        var userId = UserLogins
+            .SingleOrDefault(ul => ul.LoginProvider == loginProvider && ul.ProviderKey == providerKey)?.UserId;
+        return Task.FromResult(UserStore.SingleOrDefault(user => user.Id == userId));
+    }
+
+    private sealed class UserLogin
+    {
+        public string LoginProvider { get; init; }
+        public string ProviderKey { get; init; }
+        public string ProviderDisplayName { get; init; }
+        public string UserId { get; init; }
+    }
+#nullable restore
 }

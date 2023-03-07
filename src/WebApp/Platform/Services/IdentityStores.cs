@@ -3,33 +3,32 @@ using MyAppRoot.AppServices.Staff;
 using MyAppRoot.AppServices.UserServices;
 using MyAppRoot.Domain.Identity;
 using MyAppRoot.EfRepository.Contexts;
-using MyAppRoot.EfRepository.Identity;
-using MyAppRoot.LocalRepository.ServiceCollectionExtensions;
+using MyAppRoot.LocalRepository.Identity;
 using MyAppRoot.WebApp.Platform.Settings;
 
 namespace MyAppRoot.WebApp.Platform.Services;
 
 public static class IdentityStores
 {
-    public static void AddIdentityStores(this IServiceCollection services, bool isLocal)
+    public static void AddIdentityStores(this IServiceCollection services)
     {
         var identityBuilder = services.AddIdentity<ApplicationUser, IdentityRole>();
 
-        // When running locally, you have the option to use in-memory data or build the database using LocalDB.
-        if (isLocal && !ApplicationSettings.LocalDevSettings.BuildLocalDb)
+        // When running locally, you have the option to use in-memory data or a database.
+        if (ApplicationSettings.DevSettings.UseInMemoryData)
         {
-            // Adds local UserStore, RoleSore, and StaffAppService
-            services.AddLocalIdentity();
+            // Add local UserStore and RoleStore.
+            services.AddSingleton<IUserStore<ApplicationUser>, LocalUserStore>();
+            services.AddSingleton<IRoleStore<IdentityRole>, LocalRoleStore>();
         }
         else
         {
-            // Add EF identity stores
+            // Add EF identity stores.
             identityBuilder.AddRoles<IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
-
-            // Add Staff App Services
-            services.AddTransient<IStaffAppService, StaffAppService>();
         }
 
+        // Add staff and user services.
+        services.AddTransient<IStaffAppService, StaffAppService>();
         services.AddScoped<IUserService, UserService>();
     }
 }

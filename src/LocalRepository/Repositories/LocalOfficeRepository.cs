@@ -15,5 +15,5 @@ public sealed class LocalOfficeRepository : BaseRepository<Office, Guid>, IOffic
         Guid id, CancellationToken token = default) =>
         (await GetAsync(id, token)).StaffMembers
         .Where(e => e.Active)
-        .OrderBy(e => e.LastName).ThenBy(e => e.FirstName).ToList();
+        .OrderBy(e => e.FamilyName).ThenBy(e => e.GivenName).ToList();
 }

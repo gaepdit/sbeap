@@ -12,6 +12,10 @@
     color: #ffb6b6;
 }
 
+.text-brand {
+    color: #671010;
+}
+
 /* Adjust font sizing
 -------------------------------------------------- */
 html {
@@ -126,6 +130,16 @@ a[target]::after {
     content: ' \1f5d7';
 }
 
+a[target].no-external-link::after {
+    content: none;
+}
+
+/* Hover style for links with underline removed
+-------------------------------------------------- */
+a.text-decoration-none:hover {
+    outline: 2px solid;
+}
+
 /* Banner for test site
 -------------------------------------------------- */
 .banner-test-site {
@@ -180,3 +194,23 @@ a[target]::after {
 *:hover > .anchorjs-link, .anchorjs-link:focus-visible {
     margin-left: -1.375em !important;
 }
+
+/* Fix for Bootstrap textarea with "floating" label
+-------------------------------------------------- */
+.form-floating > textarea.form-control {
+    height: auto;
+}
+
+/* Validation summary
+-------------------------------------------------- */
+.validation-summary-valid {
+    display: none;
+}
+
+.validation-summary-errors ul {
+    margin-bottom: 0;
+}
+
+/* ==================================================
+Application-specific styles
+================================================== */
