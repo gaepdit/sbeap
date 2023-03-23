@@ -19,7 +19,7 @@ public static class DataStores
         }
         else
         {
-            string connectionString = configuration.GetConnectionString("DefaultConnection");
+            string? connectionString = configuration.GetConnectionString("DefaultConnection");
 
             if (string.IsNullOrEmpty(connectionString))
             {

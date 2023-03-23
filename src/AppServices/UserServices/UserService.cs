@@ -20,6 +20,6 @@ public class UserService : IUserService
     public async Task<ApplicationUser?> GetCurrentUserAsync()
     {
         var principal = _httpContextAccessor.HttpContext?.User;
-        return principal == null ? null : await _userManager.GetUserAsync(principal);
+        return principal is null ? null : await _userManager.GetUserAsync(principal);
     }
 }

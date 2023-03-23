@@ -1,3 +1,5 @@
+using FluentAssertions.Execution;
+using GaEpd.AppLibrary.Domain.Repositories;
 using Sbeap.Domain.Identity;
 using Sbeap.Domain.Offices;
 using Sbeap.LocalRepository.Identity;
@@ -46,10 +48,14 @@ public class UserStore
         user.Phone = "1";
         user.Office = new Office(Guid.NewGuid(), "abc");
 
-        await _store.UpdateAsync(user, CancellationToken.None);
+        var result = await _store.UpdateAsync(user, CancellationToken.None);
+        var updatedUser = await _store.FindByIdAsync(user.Id, CancellationToken.None);
 
-        var result = await _store.FindByIdAsync(user.Id, CancellationToken.None);
-        result.Should().BeEquivalentTo(user);
+        using (new AssertionScope())
+        {
+            result.Succeeded.Should().BeTrue();
+            updatedUser.Should().BeEquivalentTo(user);
+        }
     }
 
     [Test]
@@ -57,8 +63,7 @@ public class UserStore
     {
         var user = new ApplicationUser { Id = Guid.Empty.ToString() };
         var action = async () => await _store.UpdateAsync(user, CancellationToken.None);
-        (await action.Should().ThrowAsync<InvalidOperationException>())
-            .WithMessage("Sequence contains no matching element");
+        await action.Should().ThrowAsync<EntityNotFoundException>();
     }
 
     [Test]
@@ -73,6 +78,7 @@ public class UserStore
     public async Task FindByName_ReturnsUser()
     {
         var user = _store.UserStore.First();
+        Assert.That(user.NormalizedUserName, Is.Not.Null);
         var result = await _store.FindByNameAsync(user.NormalizedUserName, CancellationToken.None);
         result.Should().BeEquivalentTo(user);
     }
