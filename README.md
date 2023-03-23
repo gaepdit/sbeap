@@ -15,7 +15,7 @@ This new application will replace similar functionality previously housed in the
 
 ## Info for developers
 
-This is an ASP.NET 6 web application.
+This is an ASP.NET web application.
 
 ### Prerequisites for development
 
