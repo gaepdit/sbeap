@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Identity;
-using Sbeap.Domain.Offices;
+using Sbeap.Domain.Entities.Offices;
 
 namespace Sbeap.Domain.Identity;
 

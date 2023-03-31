@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Sbeap.Domain.Offices;
+using Sbeap.Domain.Entities.Offices;
 using Sbeap.EfRepository.Contexts;
 using Sbeap.EfRepository.Repositories;
 using Sbeap.LocalRepository.Repositories;

@@ -1,5 +1,5 @@
+using Sbeap.Domain.Entities.Offices;
 using Sbeap.Domain.Exceptions;
-using Sbeap.Domain.Offices;
 using Sbeap.TestData.Constants;
 
 namespace DomainTests.Offices.Manager;

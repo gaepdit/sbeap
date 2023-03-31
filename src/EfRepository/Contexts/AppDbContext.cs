@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Sbeap.Domain.Entities.Offices;
 using Sbeap.Domain.Identity;
-using Sbeap.Domain.Offices;
 
 namespace Sbeap.EfRepository.Contexts;
 

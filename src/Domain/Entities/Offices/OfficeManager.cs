@@ -1,6 +1,6 @@
 ﻿using Sbeap.Domain.Exceptions;
 
-namespace Sbeap.Domain.Offices;
+namespace Sbeap.Domain.Entities.Offices;
 
 /// <inheritdoc />
 public class OfficeManager : IOfficeManager

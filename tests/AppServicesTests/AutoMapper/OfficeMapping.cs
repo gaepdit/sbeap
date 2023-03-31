@@ -1,6 +1,6 @@
 using FluentAssertions.Execution;
 using Sbeap.AppServices.Offices;
-using Sbeap.Domain.Offices;
+using Sbeap.Domain.Entities.Offices;
 using Sbeap.TestData.Constants;
 
 namespace AppServicesTests.AutoMapper;

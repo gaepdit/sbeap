@@ -1,4 +1,4 @@
-﻿using Sbeap.Domain.Offices;
+﻿using Sbeap.Domain.Entities.Offices;
 
 namespace Sbeap.TestData;
 

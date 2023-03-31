@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Sbeap.AppServices.AutoMapper;
 using Sbeap.AppServices.Offices;
-using Sbeap.Domain.Offices;
+using Sbeap.Domain.Entities.Offices;
 
 namespace Sbeap.AppServices.ServiceCollectionExtensions;
 

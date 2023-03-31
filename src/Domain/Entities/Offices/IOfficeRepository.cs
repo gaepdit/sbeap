@@ -1,6 +1,6 @@
 ﻿using Sbeap.Domain.Identity;
 
-namespace Sbeap.Domain.Offices;
+namespace Sbeap.Domain.Entities.Offices;
 
 public interface IOfficeRepository : IRepository<Office, Guid>
 {

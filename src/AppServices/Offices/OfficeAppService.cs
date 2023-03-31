@@ -2,7 +2,7 @@
 using GaEpd.AppLibrary.ListItems;
 using Sbeap.AppServices.Staff;
 using Sbeap.AppServices.UserServices;
-using Sbeap.Domain.Offices;
+using Sbeap.Domain.Entities.Offices;
 
 namespace Sbeap.AppServices.Offices;
 

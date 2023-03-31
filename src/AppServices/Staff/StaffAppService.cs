@@ -2,8 +2,8 @@
 using GaEpd.AppLibrary.Domain.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Sbeap.AppServices.UserServices;
+using Sbeap.Domain.Entities.Offices;
 using Sbeap.Domain.Identity;
-using Sbeap.Domain.Offices;
 
 namespace Sbeap.AppServices.Staff;
 

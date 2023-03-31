@@ -1,5 +1,5 @@
 using FluentAssertions.Execution;
-using Sbeap.Domain.Offices;
+using Sbeap.Domain.Entities.Offices;
 using Sbeap.TestData;
 using Sbeap.TestData.Constants;
 

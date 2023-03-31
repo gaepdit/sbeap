@@ -1,6 +1,6 @@
 ﻿using GaEpd.AppLibrary.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Sbeap.Domain.Offices;
+using Sbeap.Domain.Entities.Offices;
 using Sbeap.EfRepository.Contexts;
 using Sbeap.EfRepository.Contexts.SeedDevData;
 using Sbeap.EfRepository.Repositories;

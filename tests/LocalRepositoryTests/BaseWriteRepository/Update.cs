@@ -1,5 +1,5 @@
 using GaEpd.AppLibrary.Domain.Repositories;
-using Sbeap.Domain.Offices;
+using Sbeap.Domain.Entities.Offices;
 using Sbeap.LocalRepository.Repositories;
 using Sbeap.TestData.Constants;
 

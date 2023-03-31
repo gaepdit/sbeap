@@ -1,6 +1,6 @@
 using FluentAssertions.Execution;
 using GaEpd.AppLibrary.Pagination;
-using Sbeap.Domain.Offices;
+using Sbeap.Domain.Entities.Offices;
 using Sbeap.TestData;
 using System.Globalization;
 
