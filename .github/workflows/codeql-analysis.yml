@@ -11,7 +11,7 @@ on:
 jobs:
   codeql-analysis:
     # ↓ Change this to "false" to disable the workflow without any alert messages.
-    if: ${{ false }}
+    if: ${{ true }}
     # ↑ Change to "true" (or delete) to enable the workflow.
 
     name: Analyze with CodeQL
