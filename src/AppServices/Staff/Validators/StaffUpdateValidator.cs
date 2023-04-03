@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Sbeap.Domain.Identity;
 
-namespace Sbeap.AppServices.Staff;
+namespace Sbeap.AppServices.Staff.Validators;
 
 public class StaffUpdateValidator : AbstractValidator<StaffUpdateDto>
 {

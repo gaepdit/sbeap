@@ -61,7 +61,7 @@ public class ExternalLoginModel : PageModel
     private async Task<IActionResult> SignInAsLocalUser()
     {
         _logger.LogInformation(
-            "Local user signin attempted with settings {LocalUserIsAuthenticated} and {LocalUserIsAdmin}",
+            "Local user signin attempted with settings LocalUserIsAuthenticated: {LocalUserIsAuthenticated} and LocalUserIsAdmin: {LocalUserIsAdmin}",
             ApplicationSettings.DevSettings.LocalUserIsAuthenticated,
             ApplicationSettings.DevSettings.LocalUserIsAdmin);
         if (!ApplicationSettings.DevSettings.LocalUserIsAuthenticated) return Forbid();

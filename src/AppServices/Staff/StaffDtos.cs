@@ -40,7 +40,7 @@ public class StaffViewDto
     public OfficeViewDto? Office { get; init; }
 
     [UIHint("BoolActive")]
-    public bool Active { get; init; } = true;
+    public bool Active { get; init; }
 
     [JsonIgnore]
     public string DisplayName =>

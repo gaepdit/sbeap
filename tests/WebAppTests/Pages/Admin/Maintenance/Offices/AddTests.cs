@@ -18,17 +18,17 @@ public class AddTests
     [Test]
     public async Task OnPost_GivenSuccess_ReturnsRedirectWithDisplayMessage()
     {
-        var service = new Mock<IOfficeAppService>();
-        service.Setup(l => l.CreateAsync(It.IsAny<OfficeCreateDto>(), CancellationToken.None))
+        var serviceMock = new Mock<IOfficeAppService>();
+        serviceMock.Setup(l => l.CreateAsync(It.IsAny<OfficeCreateDto>(), CancellationToken.None))
             .ReturnsAsync(Guid.Empty);
-        var validator = new Mock<IValidator<OfficeCreateDto>>();
-        validator.Setup(l => l.ValidateAsync(It.IsAny<OfficeCreateDto>(), CancellationToken.None))
+        var validatorMock = new Mock<IValidator<OfficeCreateDto>>();
+        validatorMock.Setup(l => l.ValidateAsync(It.IsAny<OfficeCreateDto>(), CancellationToken.None))
             .ReturnsAsync(new ValidationResult());
-        var page = new AddModel { Item = ItemTest, TempData = WebAppTestsGlobal.GetPageTempData() };
+        var page = new AddModel { Item = ItemTest, TempData = WebAppTestsGlobal.PageTempData() };
         var expectedMessage =
             new DisplayMessage(DisplayMessage.AlertContext.Success, $"“{ItemTest.Name}” successfully added.");
 
-        var result = await page.OnPostAsync(service.Object, validator.Object);
+        var result = await page.OnPostAsync(serviceMock.Object, validatorMock.Object);
 
         using (new AssertionScope())
         {
@@ -42,14 +42,14 @@ public class AddTests
     [Test]
     public async Task OnPost_GivenInvalidItem_ReturnsPageWithModelErrors()
     {
-        var service = new Mock<IOfficeAppService>();
-        var validator = new Mock<IValidator<OfficeCreateDto>>();
+        var serviceMock = new Mock<IOfficeAppService>();
+        var validatorMock = new Mock<IValidator<OfficeCreateDto>>();
         var validationFailures = new List<ValidationFailure> { new("property", "message") };
-        validator.Setup(l => l.ValidateAsync(It.IsAny<OfficeCreateDto>(), CancellationToken.None))
+        validatorMock.Setup(l => l.ValidateAsync(It.IsAny<OfficeCreateDto>(), CancellationToken.None))
             .ReturnsAsync(new ValidationResult(validationFailures));
-        var page = new AddModel { Item = ItemTest, TempData = WebAppTestsGlobal.GetPageTempData() };
+        var page = new AddModel { Item = ItemTest, TempData = WebAppTestsGlobal.PageTempData() };
 
-        var result = await page.OnPostAsync(service.Object, validator.Object);
+        var result = await page.OnPostAsync(serviceMock.Object, validatorMock.Object);
 
         using (new AssertionScope())
         {

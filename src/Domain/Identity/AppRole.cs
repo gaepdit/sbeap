@@ -1,7 +1,18 @@
 ﻿namespace Sbeap.Domain.Identity;
 
 /// <summary>
-/// Authorization Roles for the application.
+/// User Roles available to the application for authorization.
+/// </summary>
+public static class RoleName
+{
+    // These are the strings that are stored in the database. Avoid modifying these once set!
+
+    public const string SiteMaintenance = nameof(SiteMaintenance);
+    public const string UserAdmin = nameof(UserAdmin);
+}
+
+/// <summary>
+/// Class for listing and describing the application roles for use in the UI, etc.
 /// </summary>
 public class AppRole
 {
@@ -40,21 +51,15 @@ public class AppRole
         return appRoles;
     }
 
-    // Roles
-    // These are the strings that are stored in the database. Avoid modifying these once set!
-
-    public const string SiteMaintenance = nameof(SiteMaintenance);
-    public const string UserAdmin = nameof(UserAdmin);
-
     // These static Role objects are used for displaying role information in the UI.
 
     public static AppRole SiteMaintenanceRole { get; } = new(
-        SiteMaintenance, "Site Maintenance",
+        RoleName.SiteMaintenance, "Site Maintenance",
         "Can update values in lookup tables (drop-down lists)."
     );
-    
+
     public static AppRole UserAdminRole { get; } = new(
-        UserAdmin, "User Account Admin",
+        RoleName.UserAdmin, "User Account Admin",
         "Can register and edit all users and roles."
     );
 }

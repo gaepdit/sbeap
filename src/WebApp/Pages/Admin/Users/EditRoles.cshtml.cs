@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Sbeap.AppServices.Permissions;
 using Sbeap.AppServices.Staff;
 using Sbeap.Domain.Identity;
 using Sbeap.WebApp.Models;
@@ -8,7 +9,7 @@ using Sbeap.WebApp.Platform.RazorHelpers;
 
 namespace Sbeap.WebApp.Pages.Admin.Users;
 
-[Authorize(Roles = AppRole.UserAdmin)]
+[Authorize(Policy = PolicyName.UserAdministrator)]
 public class EditRolesModel : PageModel
 {
     private readonly IStaffAppService _staffService;

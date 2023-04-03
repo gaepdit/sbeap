@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Sbeap.AppServices.Offices;
-using Sbeap.Domain.Identity;
+using Sbeap.AppServices.Permissions;
 using Sbeap.WebApp.Models;
 using Sbeap.WebApp.Platform.RazorHelpers;
 
 namespace Sbeap.WebApp.Pages.Admin.Maintenance.Offices;
 
-[Authorize(Roles = AppRole.SiteMaintenance)]
+[Authorize(Policy = PolicyName.SiteMaintainer)]
 public class EditModel : PageModel
 {
     private readonly IOfficeAppService _service;

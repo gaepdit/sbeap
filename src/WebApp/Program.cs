@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.DataProtection;
 using Mindscape.Raygun4Net.AspNetCore;
-using Sbeap.AppServices.ServiceCollectionExtensions;
+using Sbeap.AppServices.RegisterServices;
 using Sbeap.WebApp.Platform.Raygun;
 using Sbeap.WebApp.Platform.Services;
 using Sbeap.WebApp.Platform.Settings;
@@ -23,7 +23,9 @@ builder.Services.AddAuthenticationServices(builder.Configuration);
 // Persist data protection keys.
 var keysFolder = Path.Combine(builder.Configuration["PersistedFilesBasePath"] ?? "", "DataProtectionKeys");
 builder.Services.AddDataProtection().PersistKeysToFileSystem(Directory.CreateDirectory(keysFolder));
-builder.Services.AddAuthorization();
+
+// Configure authorization policies.
+builder.Services.AddAuthorizationPolicies();
 
 // Configure UI services.
 builder.Services.AddRazorPages();
@@ -43,8 +45,12 @@ if (!string.IsNullOrEmpty(ApplicationSettings.RaygunSettings.ApiKey))
     builder.Services.AddHttpContextAccessor(); // needed by RaygunScriptPartial
 }
 
-// Add app services and data stores.
+// Add app services.
+builder.Services.AddAutoMapperProfiles();
 builder.Services.AddAppServices();
+builder.Services.AddValidators();
+
+// Add data stores.
 builder.Services.AddDataStores(builder.Configuration);
 
 // Initialize database.
