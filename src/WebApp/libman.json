@@ -40,8 +40,7 @@
       ]
     },
     {
-      "provider": "cdnjs",
-      "library": "anchor-js@4.3.1",
+      "library": "anchor-js@5.0.0",
       "destination": "wwwroot/lib/anchor-js/"
     }
   ]
