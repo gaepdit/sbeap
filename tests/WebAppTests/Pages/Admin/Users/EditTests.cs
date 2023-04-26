@@ -10,7 +10,7 @@ using Sbeap.AppServices.Staff;
 using Sbeap.TestData.Constants;
 using Sbeap.WebApp.Models;
 using Sbeap.WebApp.Pages.Admin.Users;
-using Sbeap.WebApp.Platform.RazorHelpers;
+using Sbeap.WebApp.Platform.PageModelHelpers;
 
 namespace WebAppTests.Pages.Admin.Users;
 

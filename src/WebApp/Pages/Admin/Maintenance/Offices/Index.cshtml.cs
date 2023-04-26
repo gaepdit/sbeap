@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Sbeap.AppServices.Offices;
 using Sbeap.AppServices.Permissions;
 using Sbeap.WebApp.Models;
-using Sbeap.WebApp.Platform.RazorHelpers;
+using Sbeap.WebApp.Platform.PageModelHelpers;
 
 namespace Sbeap.WebApp.Pages.Admin.Maintenance.Offices;
 

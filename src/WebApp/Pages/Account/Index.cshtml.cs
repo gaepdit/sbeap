@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Sbeap.AppServices.Staff;
 using Sbeap.Domain.Identity;
 using Sbeap.WebApp.Models;
-using Sbeap.WebApp.Platform.RazorHelpers;
+using Sbeap.WebApp.Platform.PageModelHelpers;
 
 namespace Sbeap.WebApp.Pages.Account;
 

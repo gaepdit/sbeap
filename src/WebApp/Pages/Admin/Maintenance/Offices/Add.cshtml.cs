@@ -1,12 +1,11 @@
 ﻿using FluentValidation;
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Sbeap.AppServices.Offices;
 using Sbeap.AppServices.Permissions;
 using Sbeap.WebApp.Models;
-using Sbeap.WebApp.Platform.RazorHelpers;
+using Sbeap.WebApp.Platform.PageModelHelpers;
 
 namespace Sbeap.WebApp.Pages.Admin.Maintenance.Offices;
 
@@ -42,8 +41,7 @@ public class AddModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        var validationResult = await _validator.ValidateAsync(Item);
-        if (!validationResult.IsValid) validationResult.AddToModelState(ModelState, nameof(Item));
+        await _validator.ApplyValidationAsync(Item, ModelState);
         if (!ModelState.IsValid) return Page();
 
         var id = await _service.CreateAsync(Item);

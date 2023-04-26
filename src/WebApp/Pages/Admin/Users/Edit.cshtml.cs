@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using FluentValidation.AspNetCore;
 using GaEpd.AppLibrary.ListItems;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +8,7 @@ using Sbeap.AppServices.Offices;
 using Sbeap.AppServices.Permissions;
 using Sbeap.AppServices.Staff;
 using Sbeap.WebApp.Models;
-using Sbeap.WebApp.Platform.RazorHelpers;
+using Sbeap.WebApp.Platform.PageModelHelpers;
 
 namespace Sbeap.WebApp.Pages.Admin.Users;
 
@@ -56,8 +55,7 @@ public class EditModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        var validationResult = await _validator.ValidateAsync(UpdateStaff);
-        if (!validationResult.IsValid) validationResult.AddToModelState(ModelState, nameof(UpdateStaff));
+        await _validator.ApplyValidationAsync(UpdateStaff, ModelState);
 
         if (!ModelState.IsValid)
         {

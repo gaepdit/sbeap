@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Sbeap.WebApp.Models;
 using System.Text.Json;
 
-namespace Sbeap.WebApp.Platform.RazorHelpers;
+namespace Sbeap.WebApp.Platform.PageModelHelpers;
 
 public static class TempDataExtensions
 {

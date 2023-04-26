@@ -8,7 +8,7 @@ using Microsoft.Identity.Web;
 using Sbeap.AppServices.Staff;
 using Sbeap.Domain.Identity;
 using Sbeap.WebApp.Models;
-using Sbeap.WebApp.Platform.RazorHelpers;
+using Sbeap.WebApp.Platform.PageModelHelpers;
 using Sbeap.WebApp.Platform.Settings;
 using System.Security.Claims;
 
