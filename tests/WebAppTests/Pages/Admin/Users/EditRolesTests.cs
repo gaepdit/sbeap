@@ -53,7 +53,7 @@ public class EditRolesTests
             .ReturnsAsync(StaffViewTest);
         staffServiceMock.Setup(l => l.GetRolesAsync(It.IsAny<string>()))
             .ReturnsAsync(new List<string> { RoleName.SiteMaintenance });
-        var pageModel = new EditRolesModel(staffServiceMock.Object) { TempData = WebAppTestsGlobal.PageTempData() };
+        var pageModel = new EditRolesModel(staffServiceMock.Object) { TempData = WebAppTestsSetup.PageTempData() };
 
         var result = await pageModel.OnGetAsync(StaffViewTest.Id);
 
@@ -71,7 +71,7 @@ public class EditRolesTests
     public async Task OnGet_MissingIdReturnsNotFound()
     {
         var staffServiceMock = new Mock<IStaffAppService>();
-        var pageModel = new EditRolesModel(staffServiceMock.Object) { TempData = WebAppTestsGlobal.PageTempData() };
+        var pageModel = new EditRolesModel(staffServiceMock.Object) { TempData = WebAppTestsSetup.PageTempData() };
 
         var result = await pageModel.OnGetAsync(null);
 
@@ -88,7 +88,7 @@ public class EditRolesTests
         var staffServiceMock = new Mock<IStaffAppService>();
         staffServiceMock.Setup(l => l.FindAsync(It.IsAny<string>()))
             .ReturnsAsync((StaffViewDto?)null);
-        var pageModel = new EditRolesModel(staffServiceMock.Object) { TempData = WebAppTestsGlobal.PageTempData() };
+        var pageModel = new EditRolesModel(staffServiceMock.Object) { TempData = WebAppTestsSetup.PageTempData() };
 
         var result = await pageModel.OnGetAsync(Guid.Empty.ToString());
 
@@ -110,7 +110,7 @@ public class EditRolesTests
         {
             RoleSettings = RoleSettingsTest,
             UserId = Guid.Empty.ToString(),
-            TempData = WebAppTestsGlobal.PageTempData(),
+            TempData = WebAppTestsSetup.PageTempData(),
         };
 
         var result = await page.OnPostAsync();
@@ -137,7 +137,7 @@ public class EditRolesTests
         {
             RoleSettings = RoleSettingsTest,
             UserId = Guid.Empty.ToString(),
-            TempData = WebAppTestsGlobal.PageTempData(),
+            TempData = WebAppTestsSetup.PageTempData(),
         };
 
         var result = await page.OnPostAsync();
@@ -159,7 +159,7 @@ public class EditRolesTests
         {
             RoleSettings = RoleSettingsTest,
             UserId = Guid.Empty.ToString(),
-            TempData = WebAppTestsGlobal.PageTempData(),
+            TempData = WebAppTestsSetup.PageTempData(),
         };
 
         var result = await page.OnPostAsync();

@@ -22,7 +22,7 @@ public class UserMapping
     [Test]
     public void StaffViewMappingWorks()
     {
-        var result = AppServicesTestsGlobal.Mapper!.Map<StaffViewDto>(_item);
+        var result = AppServicesTestsSetup.Mapper!.Map<StaffViewDto>(_item);
 
         using (new AssertionScope())
         {
@@ -50,7 +50,7 @@ public class UserMapping
             Office = new OfficeViewDto { Id = Guid.NewGuid(), Name = TestConstants.ValidName },
         };
 
-        var result = AppServicesTestsGlobal.Mapper!.Map<ApplicationUser>(item);
+        var result = AppServicesTestsSetup.Mapper!.Map<ApplicationUser>(item);
 
         using (new AssertionScope())
         {
@@ -67,7 +67,7 @@ public class UserMapping
     [Test]
     public void StaffUpdateMappingWorks()
     {
-        var result = AppServicesTestsGlobal.Mapper!.Map<StaffUpdateDto>(_item);
+        var result = AppServicesTestsSetup.Mapper!.Map<StaffUpdateDto>(_item);
 
         using (new AssertionScope())
         {
@@ -82,7 +82,7 @@ public class UserMapping
     public void NullStaffViewMappingWorks()
     {
         ApplicationUser? item = null;
-        var result = AppServicesTestsGlobal.Mapper!.Map<StaffViewDto?>(item);
+        var result = AppServicesTestsSetup.Mapper!.Map<StaffViewDto?>(item);
         result.Should().BeNull();
     }
 }

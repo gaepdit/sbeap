@@ -26,7 +26,7 @@ public class GetActiveStaff
         var userServiceMock = new Mock<IUserService>();
 
         var appService = new OfficeAppService(repoMock.Object, managerMock.Object,
-            AppServicesTestsGlobal.Mapper!, userServiceMock.Object);
+            AppServicesTestsSetup.Mapper!, userServiceMock.Object);
 
         var result = await appService.GetActiveStaffAsync(Guid.Empty);
 
