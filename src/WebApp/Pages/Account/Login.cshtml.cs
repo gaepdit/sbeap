@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Sbeap.WebApp.Models;
-using Sbeap.WebApp.Platform.PageModelHelpers;
 
 namespace Sbeap.WebApp.Pages.Account;
 
@@ -10,7 +8,6 @@ namespace Sbeap.WebApp.Pages.Account;
 public class LoginModel : PageModel
 {
     public string? ReturnUrl { get; private set; }
-    public DisplayMessage? Message { get; private set; }
 
     public IActionResult OnGet(string? returnUrl = null)
     {
@@ -18,7 +15,6 @@ public class LoginModel : PageModel
             return string.IsNullOrEmpty(returnUrl) ? RedirectToPage("/Index") : LocalRedirect(returnUrl);
 
         ReturnUrl = returnUrl;
-        Message = TempData.GetDisplayMessage();
         return Page();
     }
 }
