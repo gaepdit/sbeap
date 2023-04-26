@@ -12,18 +12,21 @@ namespace Sbeap.WebApp.Pages.Admin.Users;
 [Authorize(Policy = PolicyName.UserAdministrator)]
 public class EditRolesModel : PageModel
 {
+    // Constructor
     private readonly IStaffAppService _staffService;
     public EditRolesModel(IStaffAppService staffService) => _staffService = staffService;
 
-    public StaffViewDto DisplayStaff { get; private set; } = default!;
-    public string? OfficeName => DisplayStaff.Office?.Name;
-
+    // Properties
     [BindProperty]
     public string UserId { get; set; } = string.Empty;
 
     [BindProperty]
     public List<RoleSetting> RoleSettings { get; set; } = new();
 
+    public StaffViewDto DisplayStaff { get; private set; } = default!;
+    public string? OfficeName => DisplayStaff.Office?.Name;
+
+    // Methods
     public async Task<IActionResult> OnGetAsync(string? id)
     {
         if (id is null) return RedirectToPage("Index");

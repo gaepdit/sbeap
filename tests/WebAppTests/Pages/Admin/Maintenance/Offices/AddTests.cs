@@ -24,11 +24,12 @@ public class AddTests
         var validatorMock = new Mock<IValidator<OfficeCreateDto>>();
         validatorMock.Setup(l => l.ValidateAsync(It.IsAny<OfficeCreateDto>(), CancellationToken.None))
             .ReturnsAsync(new ValidationResult());
-        var page = new AddModel { Item = ItemTest, TempData = WebAppTestsGlobal.PageTempData() };
+        var page = new AddModel(serviceMock.Object, validatorMock.Object)
+            { Item = ItemTest, TempData = WebAppTestsGlobal.PageTempData() };
         var expectedMessage =
             new DisplayMessage(DisplayMessage.AlertContext.Success, $"“{ItemTest.Name}” successfully added.");
 
-        var result = await page.OnPostAsync(serviceMock.Object, validatorMock.Object);
+        var result = await page.OnPostAsync();
 
         using (new AssertionScope())
         {
@@ -47,9 +48,10 @@ public class AddTests
         var validationFailures = new List<ValidationFailure> { new("property", "message") };
         validatorMock.Setup(l => l.ValidateAsync(It.IsAny<OfficeCreateDto>(), CancellationToken.None))
             .ReturnsAsync(new ValidationResult(validationFailures));
-        var page = new AddModel { Item = ItemTest, TempData = WebAppTestsGlobal.PageTempData() };
+        var page = new AddModel(serviceMock.Object, validatorMock.Object)
+            { Item = ItemTest, TempData = WebAppTestsGlobal.PageTempData() };
 
-        var result = await page.OnPostAsync(serviceMock.Object, validatorMock.Object);
+        var result = await page.OnPostAsync();
 
         using (new AssertionScope())
         {

@@ -13,15 +13,19 @@ namespace Sbeap.WebApp.Pages.Admin.Maintenance.Offices;
 [Authorize(Policy = PolicyName.SiteMaintainer)]
 public class EditModel : PageModel
 {
+    // Constructor
     private readonly IOfficeAppService _service;
     private readonly IValidator<OfficeUpdateDto> _validator;
 
-    public EditModel(IOfficeAppService service, IValidator<OfficeUpdateDto> validator)
+    public EditModel(
+        IOfficeAppService service,
+        IValidator<OfficeUpdateDto> validator)
     {
         _service = service;
         _validator = validator;
     }
 
+    // Properties
     [BindProperty]
     public OfficeUpdateDto Item { get; set; } = default!;
 
@@ -33,6 +37,7 @@ public class EditModel : PageModel
 
     public static MaintenanceOption ThisOption => MaintenanceOption.Office;
 
+    // Methods
     public async Task<IActionResult> OnGetAsync(Guid? id)
     {
         if (id is null) return RedirectToPage("Index");

@@ -16,6 +16,7 @@ namespace Sbeap.WebApp.Pages.Admin.Users;
 [Authorize(Policy = PolicyName.UserAdministrator)]
 public class EditModel : PageModel
 {
+    // Constructor
     private readonly IStaffAppService _staffService;
     private readonly IOfficeAppService _officeService;
     private readonly IValidator<StaffUpdateDto> _validator;
@@ -30,12 +31,16 @@ public class EditModel : PageModel
         _validator = validator;
     }
 
+    // Properties
     [BindProperty]
     public StaffUpdateDto UpdateStaff { get; set; } = default!;
 
     public StaffViewDto DisplayStaff { get; private set; } = default!;
+
+    // Select lists
     public SelectList OfficeItems { get; private set; } = default!;
 
+    // Methods
     public async Task<IActionResult> OnGetAsync(string? id)
     {
         if (id is null) return RedirectToPage("Index");

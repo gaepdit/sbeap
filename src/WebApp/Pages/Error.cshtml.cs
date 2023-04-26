@@ -11,10 +11,10 @@ namespace Sbeap.WebApp.Pages;
 [AllowAnonymous]
 public class ErrorModel : PageModel
 {
-    public int? Status { get; private set; }
-
     private readonly ILogger<ErrorModel> _logger;
     public ErrorModel(ILogger<ErrorModel> logger) => _logger = logger;
+
+    public int? Status { get; private set; }
 
     public void OnGet(int? statusCode)
     {
