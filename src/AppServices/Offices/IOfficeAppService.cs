@@ -1,5 +1,6 @@
 ﻿using GaEpd.AppLibrary.ListItems;
 using Sbeap.AppServices.Staff;
+using Sbeap.AppServices.Staff.Dto;
 
 namespace Sbeap.AppServices.Offices;
 

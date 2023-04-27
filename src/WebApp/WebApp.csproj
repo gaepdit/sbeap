@@ -35,4 +35,10 @@
         </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Pages\Shared\DisplayTemplates\Address.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Shared\DisplayTemplates\BoolActive.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Shared\DisplayTemplates\StringOrNone.cshtml" />
+    </ItemGroup>
+
 </Project>

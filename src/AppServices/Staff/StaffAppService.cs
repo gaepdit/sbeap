@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using GaEpd.AppLibrary.Domain.Repositories;
+using GaEpd.AppLibrary.Pagination;
 using Microsoft.AspNetCore.Identity;
+using Sbeap.AppServices.Staff.Dto;
 using Sbeap.AppServices.UserServices;
 using Sbeap.Domain.Entities.Offices;
 using Sbeap.Domain.Identity;
@@ -26,10 +28,11 @@ public sealed class StaffAppService : IStaffAppService
         _officeRepository = officeRepository;
     }
 
-    public async Task<StaffViewDto?> GetCurrentUserAsync()
+    public async Task<StaffViewDto> GetCurrentUserAsync()
     {
-        var user = await _userService.GetCurrentUserAsync();
-        return _mapper.Map<StaffViewDto?>(user);
+        var user = await _userService.GetCurrentUserAsync()
+            ?? throw new CurrentUserNotFoundException();
+        return _mapper.Map<StaffViewDto>(user);
     }
 
     public async Task<StaffViewDto?> FindAsync(string id)
@@ -38,13 +41,25 @@ public sealed class StaffAppService : IStaffAppService
         return _mapper.Map<StaffViewDto?>(user);
     }
 
-    public async Task<List<StaffViewDto>> GetListAsync(StaffSearchDto filter)
+    public async Task<List<StaffViewDto>> GetListAsync(StaffSearchDto spec)
     {
-        var users = string.IsNullOrEmpty(filter.Role)
-            ? _userManager.Users.ApplyFilter(filter)
-            : (await _userManager.GetUsersInRoleAsync(filter.Role)).AsQueryable().ApplyFilter(filter);
+        var users = string.IsNullOrEmpty(spec.Role)
+            ? _userManager.Users.ApplyFilter(spec)
+            : (await _userManager.GetUsersInRoleAsync(spec.Role)).AsQueryable().ApplyFilter(spec);
 
         return _mapper.Map<List<StaffViewDto>>(users);
+    }
+
+    public async Task<IPaginatedResult<StaffSearchResultDto>> SearchAsync(
+        StaffSearchDto spec, PaginatedRequest paging, CancellationToken token = default)
+    {
+        var users = string.IsNullOrEmpty(spec.Role)
+            ? _userManager.Users.ApplyFilter(spec)
+            : (await _userManager.GetUsersInRoleAsync(spec.Role)).AsQueryable().ApplyFilter(spec);
+        var list = users.Skip(paging.Skip).Take(paging.Take);
+        var listMapped = _mapper.Map<List<StaffSearchResultDto>>(list);
+
+        return new PaginatedResult<StaffSearchResultDto>(listMapped, users.Count(), paging);
     }
 
     public async Task<IList<string>> GetRolesAsync(string id)

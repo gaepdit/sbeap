@@ -1,6 +1,5 @@
 using FluentAssertions.Execution;
-using Sbeap.AppServices.Offices;
-using Sbeap.AppServices.Staff;
+using Sbeap.AppServices.Staff.Dto;
 using Sbeap.Domain.Entities.Offices;
 using Sbeap.Domain.Identity;
 using Sbeap.TestData.Constants;
@@ -13,7 +12,7 @@ public class UserMapping
     {
         Id = Guid.NewGuid().ToString(),
         GivenName = TestConstants.ValidName,
-        FamilyName = TestConstants.ValidName,
+        FamilyName = TestConstants.NewValidName,
         Email = TestConstants.ValidEmail,
         Phone = "123-456-7890",
         Office = new Office(Guid.NewGuid(), TestConstants.ValidName),
@@ -37,29 +36,16 @@ public class UserMapping
     }
 
     [Test]
-    public void StaffViewReverseMappingWorks()
+    public void StaffSearchResultMappingWorks()
     {
-        var item = new StaffViewDto
-        {
-            Id = Guid.NewGuid().ToString(),
-            Active = true,
-            GivenName = TestConstants.ValidName,
-            FamilyName = TestConstants.ValidName,
-            Email = TestConstants.ValidEmail,
-            Phone = "123-456-7890",
-            Office = new OfficeViewDto { Id = Guid.NewGuid(), Name = TestConstants.ValidName },
-        };
-
-        var result = AppServicesTestsSetup.Mapper!.Map<ApplicationUser>(item);
+        var result = AppServicesTestsSetup.Mapper!.Map<StaffSearchResultDto>(_item);
 
         using (new AssertionScope())
         {
-            result.Id.Should().Be(item.Id);
-            result.GivenName.Should().Be(item.GivenName);
-            result.FamilyName.Should().Be(item.FamilyName);
-            result.Email.Should().Be(item.Email);
-            result.Phone.Should().Be(item.Phone);
-            result.Office.Should().BeEquivalentTo(item.Office);
+            result.Id.Should().Be(_item.Id);
+            result.SortableFullName.Should().Be($"{_item.FamilyName}, {_item.GivenName}");
+            result.Email.Should().Be(_item.Email);
+            result.OfficeName.Should().Be(_item.Office!.Name);
             result.Active.Should().BeTrue();
         }
     }

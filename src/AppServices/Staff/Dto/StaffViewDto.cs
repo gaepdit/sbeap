@@ -1,34 +1,8 @@
 ﻿using Sbeap.AppServices.Offices;
-using Sbeap.Domain.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace Sbeap.AppServices.Staff;
-
-public record StaffSearchDto
-{
-    public string? Name { get; set; }
-
-    [EmailAddress]
-    public string? Email { get; set; }
-
-    public string? Role { get; init; }
-    public Guid? Office { get; init; }
-    public ActiveStatus Status { get; init; } = ActiveStatus.Active;
-
-    public enum ActiveStatus
-    {
-        Active,
-        Inactive,
-        All,
-    }
-
-    public void TrimAll()
-    {
-        Name = Name?.Trim();
-        Email = Email?.Trim();
-    }
-}
+namespace Sbeap.AppServices.Staff.Dto;
 
 public class StaffViewDto
 {
@@ -52,20 +26,4 @@ public class StaffViewDto
 
     public StaffUpdateDto AsUpdateDto() =>
         new() { Id = Id, Phone = Phone, OfficeId = Office?.Id, Active = Active };
-}
-
-public class StaffUpdateDto
-{
-    public string Id { get; init; } = string.Empty;
-
-    [StringLength(ApplicationUser.MaxPhoneLength,
-        ErrorMessage = "The Phone Number must not be longer than {1} characters.")]
-    public string? Phone { get; init; }
-
-    [Required]
-    [Display(Name = "Office")]
-    public Guid? OfficeId { get; init; }
-
-    [Required]
-    public bool Active { get; init; }
 }

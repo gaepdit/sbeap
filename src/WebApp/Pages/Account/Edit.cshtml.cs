@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Sbeap.AppServices.Offices;
 using Sbeap.AppServices.Staff;
+using Sbeap.AppServices.Staff.Dto;
 using Sbeap.WebApp.Models;
 using Sbeap.WebApp.Platform.PageModelHelpers;
 
@@ -54,7 +55,7 @@ public class EditModel : PageModel
     public async Task<IActionResult> OnPostAsync()
     {
         var staff = await _staffService.GetCurrentUserAsync();
-        if (staff is null || staff.Id != UpdateStaff.Id || !UpdateStaff.Active)
+        if (staff.Id != UpdateStaff.Id || !UpdateStaff.Active)
             return BadRequest();
         if (!staff.Active) return Forbid();
 

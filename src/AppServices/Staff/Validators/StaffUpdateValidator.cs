@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Sbeap.AppServices.Staff.Dto;
 using Sbeap.Domain.Identity;
 
 namespace Sbeap.AppServices.Staff.Validators;

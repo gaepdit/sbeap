@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Identity.Web;
 using Sbeap.AppServices.Staff;
+using Sbeap.AppServices.Staff.Dto;
 using Sbeap.Domain.Identity;
 using Sbeap.WebApp.Models;
 using Sbeap.WebApp.Platform.PageModelHelpers;

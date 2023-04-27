@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Sbeap.AppServices.Staff;
+using Sbeap.AppServices.Staff.Dto;
 using Sbeap.Domain.Identity;
 
 namespace Sbeap.WebApp.Pages.Account;
@@ -16,7 +17,7 @@ public class IndexModel : PageModel
     public async Task<IActionResult> OnGetAsync([FromServices] IStaffAppService staffService)
     {
         var staff = await staffService.GetCurrentUserAsync();
-        if (staff is null) return Forbid();
+        if (staff is not { Active: true }) return Forbid();
 
         DisplayStaff = staff;
         Roles = await staffService.GetAppRolesAsync(DisplayStaff.Id);

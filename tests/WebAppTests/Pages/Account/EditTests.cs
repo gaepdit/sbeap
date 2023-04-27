@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Sbeap.AppServices.Offices;
 using Sbeap.AppServices.Staff;
+using Sbeap.AppServices.Staff.Dto;
 using Sbeap.TestData.Constants;
 using Sbeap.WebApp.Models;
 using Sbeap.WebApp.Pages.Account;
@@ -40,8 +41,9 @@ public class EditTests
         var officeServiceMock = new Mock<IOfficeAppService>();
         officeServiceMock.Setup(l => l.GetActiveListItemsAsync(CancellationToken.None))
             .ReturnsAsync(new List<ListItem>());
-        var pageModel = new EditModel(staffServiceMock.Object, officeServiceMock.Object, Mock.Of<IValidator<StaffUpdateDto>>())
-        { TempData = WebAppTestsSetup.PageTempData() };
+        var pageModel = new EditModel(staffServiceMock.Object, officeServiceMock.Object,
+                Mock.Of<IValidator<StaffUpdateDto>>())
+            { TempData = WebAppTestsSetup.PageTempData() };
 
         var result = await pageModel.OnGetAsync();
 
@@ -69,7 +71,7 @@ public class EditTests
         validatorMock.Setup(l => l.ValidateAsync(It.IsAny<StaffUpdateDto>(), CancellationToken.None))
             .ReturnsAsync(new ValidationResult());
         var page = new EditModel(staffServiceMock.Object, Mock.Of<IOfficeAppService>(), validatorMock.Object)
-        { UpdateStaff = StaffUpdateTest, TempData = WebAppTestsSetup.PageTempData() };
+            { UpdateStaff = StaffUpdateTest, TempData = WebAppTestsSetup.PageTempData() };
 
         var result = await page.OnPostAsync();
 
@@ -94,7 +96,7 @@ public class EditTests
         validatorMock.Setup(l => l.ValidateAsync(It.IsAny<StaffUpdateDto>(), CancellationToken.None))
             .ReturnsAsync(new ValidationResult());
         var page = new EditModel(staffServiceMock.Object, Mock.Of<IOfficeAppService>(), validatorMock.Object)
-        { UpdateStaff = StaffUpdateTest, TempData = WebAppTestsSetup.PageTempData() };
+            { UpdateStaff = StaffUpdateTest, TempData = WebAppTestsSetup.PageTempData() };
 
         var result = await page.OnPostAsync();
 
@@ -116,7 +118,7 @@ public class EditTests
             .ReturnsAsync(new ValidationResult(validationFailures));
 
         var page = new EditModel(staffServiceMock.Object, officeServiceMock.Object, validatorMock.Object)
-        { UpdateStaff = StaffUpdateTest, TempData = WebAppTestsSetup.PageTempData() };
+            { UpdateStaff = StaffUpdateTest, TempData = WebAppTestsSetup.PageTempData() };
 
         var result = await page.OnPostAsync();
 
@@ -127,23 +129,5 @@ public class EditTests
             page.DisplayStaff.Should().Be(StaffViewTest);
             page.UpdateStaff.Should().Be(StaffUpdateTest);
         }
-    }
-
-    [Test]
-    public async Task OnPost_GivenMissingUser_ReturnsBadRequest()
-    {
-        var staffServiceMock = new Mock<IStaffAppService>();
-        staffServiceMock.Setup(l => l.GetCurrentUserAsync())
-            .ReturnsAsync((StaffViewDto?)null);
-        var validatorMock = new Mock<IValidator<StaffUpdateDto>>();
-        var validationFailures = new List<ValidationFailure> { new("property", "message") };
-        validatorMock.Setup(l => l.ValidateAsync(It.IsAny<StaffUpdateDto>(), CancellationToken.None))
-            .ReturnsAsync(new ValidationResult(validationFailures));
-        var page = new EditModel(staffServiceMock.Object, Mock.Of<IOfficeAppService>(), validatorMock.Object)
-        { UpdateStaff = StaffUpdateTest, TempData = WebAppTestsSetup.PageTempData() };
-
-        var result = await page.OnPostAsync();
-
-        result.Should().BeOfType<BadRequestResult>();
     }
 }
