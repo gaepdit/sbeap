@@ -17,7 +17,7 @@ public class Office : AuditableEntity
     internal Office(Guid id, string name) : base(id) => SetName(name);
 
     // Properties
-    
+
     [StringLength(MaxNameLength, MinimumLength = MinNameLength)]
     public string Name { get; private set; } = string.Empty;
 
@@ -26,7 +26,7 @@ public class Office : AuditableEntity
     public List<ApplicationUser> StaffMembers { get; set; } = new();
 
     // Methods
-    
+
     internal void ChangeName(string name) => SetName(name);
 
     private void SetName(string name) =>
