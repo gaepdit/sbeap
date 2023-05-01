@@ -1,5 +1,9 @@
-﻿@model Sbeap.Domain.ValueObjects.Address?
-@if (Model is not null)
+﻿@model Sbeap.Domain.ValueObjects.IncompleteAddress?
+@if (Model is null)
+{
+    <span class="text-muted">[Not entered]</span>
+}
+else
 {
     @if (!string.IsNullOrWhiteSpace(Model.Street))
     {
