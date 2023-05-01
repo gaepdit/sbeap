@@ -1,4 +1,5 @@
 ﻿using Sbeap.Domain.Entities.Cases;
+using Sbeap.Domain.Entities.Contacts;
 using Sbeap.Domain.ValueObjects;
 
 namespace Sbeap.Domain.Entities.Customers;
@@ -23,6 +24,8 @@ public class Customer : AuditableSoftDeleteEntity
     [MaxLength(2000)] // https://stackoverflow.com/q/417142/212978
     public string? WebSite { get; set; } = string.Empty;
 
-    // Properties: Action Items
-    public List<Casework> Cases { get; set; } = new();
+    // Collections
+
+    public ICollection<Contact> Contacts { get; set; } = new List<Contact>();
+    public ICollection<Casework> Cases { get; set; } = new List<Casework>();
 }

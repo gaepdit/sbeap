@@ -31,6 +31,7 @@ public class Casework : AuditableSoftDeleteEntity
     public DateOnly? ReferralDate { get; set; }
     public ApplicationUser EnteredBy { get; set; } = default!;
 
-    // Properties: Action Items
-    public List<ActionItem> ActionItems { get; set; } = new();
+    // Collections
+
+    public ICollection<ActionItem> ActionItems { get; set; } = new List<ActionItem>();
 }
