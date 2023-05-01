@@ -4,9 +4,9 @@ namespace Sbeap.TestData.Identity;
 
 internal static partial class UserData
 {
-    private static List<ApplicationUser> UserSeedItems => new()
+    private static IEnumerable<ApplicationUser> UserSeedItems => new List<ApplicationUser>()
     {
-        new ApplicationUser
+        new()
         {
             Id = "00000000-0000-0000-0000-000000000001",
             GivenName = "Admin",
@@ -15,26 +15,26 @@ internal static partial class UserData
             Phone = "123-456-7890",
             Office = OfficeData.GetOffices.ElementAt(0),
         },
-        new ApplicationUser
+        new()
         {
             Id = "00000000-0000-0000-0000-000000000002",
             GivenName = "General",
             FamilyName = "User",
             Email = "general.user@example.net",
-            Office = OfficeData.GetOffices.ElementAt(1),
+            Office = OfficeData.GetOffices.ElementAt(0),
         },
-        new ApplicationUser
+        new()
         {
             Id = "00000000-0000-0000-0000-000000000003",
             GivenName = "Inactive",
             FamilyName = "User",
             Email = "inactive.user@example.net",
             Active = false,
-            Office = OfficeData.GetOffices.ElementAt(1),
+            Office = OfficeData.GetOffices.ElementAt(0),
         },
     };
 
-    private static IEnumerable<ApplicationUser>? _users;
+    private static List<ApplicationUser>? _users;
 
     public static IEnumerable<ApplicationUser> GetUsers
     {
@@ -42,7 +42,7 @@ internal static partial class UserData
         {
             if (_users is not null) return _users;
 
-            _users = UserSeedItems;
+            _users = UserSeedItems.ToList();
             foreach (var user in _users)
             {
                 user.UserName = user.Email?.ToLowerInvariant();

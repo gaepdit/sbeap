@@ -1,8 +1,6 @@
-﻿using Sbeap.Domain.Identity;
+﻿namespace Sbeap.Domain.Entities.Agencies;
 
-namespace Sbeap.Domain.Entities.Offices;
-
-public class Office : AuditableEntity
+public class Agency : AuditableEntity
 {
     // Constants
 
@@ -12,21 +10,19 @@ public class Office : AuditableEntity
     // Constructors
 
     [UsedImplicitly] // Used by ORM.
-    private Office() { }
+    private Agency() { }
 
-    internal Office(Guid id, string name) : base(id) => SetName(name);
+    internal Agency(Guid id, string name) : base(id) => SetName(name);
 
     // Properties
-
+    
     [StringLength(MaxNameLength, MinimumLength = MinNameLength)]
     public string Name { get; private set; } = string.Empty;
 
     public bool Active { get; set; } = true;
 
-    public IEnumerable<ApplicationUser> StaffMembers { get; } = new List<ApplicationUser>();
-
     // Methods
-
+    
     internal void ChangeName(string name) => SetName(name);
 
     private void SetName(string name) =>
