@@ -1,5 +1,4 @@
 ﻿using GaEpd.AppLibrary.Domain.ValueObjects;
-using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 
 namespace Sbeap.Domain.ValueObjects;
