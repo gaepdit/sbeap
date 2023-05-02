@@ -9,7 +9,7 @@ namespace AppServicesTests.Staff;
 public class StaffDtoTests
 {
     [Test]
-    public void DisplayName_ExpectedBehavior()
+    public void DisplayName_TrimAll_TrimsItems()
     {
         var staffSearchDto = new StaffSearchDto { Name = " abc ", Email = " def " };
 

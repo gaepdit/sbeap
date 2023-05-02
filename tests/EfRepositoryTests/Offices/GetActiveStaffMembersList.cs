@@ -17,7 +17,6 @@ public class GetActiveStaffMembersList
     [Test]
     public async Task WhenStaffExist_ReturnsList()
     {
-        // First active office was seeded with active staff.
         var item = OfficeData.GetOffices.First(e => e.Active);
         var result = await _repository.GetActiveStaffMembersListAsync(item.Id);
         result.Should().BeEquivalentTo(item.StaffMembers);

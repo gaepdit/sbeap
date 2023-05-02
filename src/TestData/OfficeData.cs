@@ -6,7 +6,7 @@ internal static class OfficeData
 {
     private static IEnumerable<Office> OfficeSeedItems => new List<Office>
     {
-        new(new Guid("10000000-0000-0000-0000-000000000001"), "SBEAP"),
+        new(new Guid("10000000-0000-0000-0000-000000000001"), "SBEAP") { Active = true },
     };
 
     private static IEnumerable<Office>? _offices;

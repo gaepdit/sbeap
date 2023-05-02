@@ -23,7 +23,7 @@ public class Office : AuditableEntity
 
     public bool Active { get; set; } = true;
 
-    public IEnumerable<ApplicationUser> StaffMembers { get; } = new List<ApplicationUser>();
+    public ICollection<ApplicationUser> StaffMembers { get; set; } = new List<ApplicationUser>();
 
     // Methods
 
