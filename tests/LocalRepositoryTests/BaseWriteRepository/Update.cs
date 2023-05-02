@@ -10,7 +10,7 @@ public class Update
     private LocalOfficeRepository _repository = default!;
 
     [SetUp]
-    public void SetUp() => _repository = new LocalOfficeRepository();
+    public void SetUp() => _repository = RepositoryHelper.GetOfficeRepository();
 
     [TearDown]
     public void TearDown() => _repository.Dispose();
