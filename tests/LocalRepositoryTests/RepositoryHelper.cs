@@ -1,4 +1,5 @@
-﻿using Sbeap.LocalRepository.Repositories;
+﻿using Sbeap.LocalRepository.Identity;
+using Sbeap.LocalRepository.Repositories;
 using Sbeap.TestData;
 using Sbeap.TestData.Identity;
 
@@ -10,6 +11,12 @@ public static class RepositoryHelper
     {
         ClearAllStaticData();
         return new LocalOfficeRepository();
+    }
+
+    public static LocalUserStore GetLocalUserStore()
+    {
+        ClearAllStaticData();
+        return new LocalUserStore();
     }
 
     private static void ClearAllStaticData()

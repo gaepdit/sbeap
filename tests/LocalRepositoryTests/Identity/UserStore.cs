@@ -13,7 +13,7 @@ public class UserStore
     private LocalUserStore _store = default!;
 
     [SetUp]
-    public void SetUp() => _store = new LocalUserStore();
+    public void SetUp() => _store = RepositoryHelper.GetLocalUserStore();
 
     [TearDown]
     public void TearDown() => _store.Dispose();
