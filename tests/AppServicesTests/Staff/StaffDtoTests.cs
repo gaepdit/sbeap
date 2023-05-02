@@ -47,7 +47,7 @@ public class StaffDtoTests
         {
             Id = Guid.NewGuid().ToString(),
             Active = true,
-            Phone = TestConstants.ValidPhoneNumber,
+            Phone = TextData.ValidPhoneNumber,
             Office = new OfficeViewDto { Id = Guid.NewGuid() },
         };
 

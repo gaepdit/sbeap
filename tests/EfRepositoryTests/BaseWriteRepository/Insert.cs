@@ -26,7 +26,7 @@ public class Insert
     [Test]
     public async Task WhenItemIsValid_InsertsItem()
     {
-        var item = new Office(Guid.NewGuid(), TestConstants.ValidName);
+        var item = new Office(Guid.NewGuid(), TextData.ValidName);
 
         await _repository.InsertAsync(item);
         _repositoryHelper.ClearChangeTracker();
@@ -38,7 +38,7 @@ public class Insert
     [Test]
     public async Task WhenAutoSaveIsFalse_NothingIsInserted()
     {
-        var item = new Office(Guid.NewGuid(), TestConstants.ValidName);
+        var item = new Office(Guid.NewGuid(), TextData.ValidName);
 
         await _repository.InsertAsync(item, false);
         _repositoryHelper.ClearChangeTracker();

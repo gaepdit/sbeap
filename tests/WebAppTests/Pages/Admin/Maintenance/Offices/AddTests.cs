@@ -13,7 +13,7 @@ namespace WebAppTests.Pages.Admin.Maintenance.Offices;
 
 public class AddTests
 {
-    private static readonly OfficeCreateDto ItemTest = new() { Name = TestConstants.ValidName };
+    private static readonly OfficeCreateDto ItemTest = new() { Name = TextData.ValidName };
 
     [Test]
     public async Task OnPost_GivenSuccess_ReturnsRedirectWithDisplayMessage()

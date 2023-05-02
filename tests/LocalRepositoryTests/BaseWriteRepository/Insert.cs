@@ -19,7 +19,7 @@ public class Insert
     public async Task WhenItemIsValid_InsertsItem()
     {
         var initialCount = _repository.Items.Count;
-        var newItem = new Office(Guid.NewGuid(), TestConstants.ValidName);
+        var newItem = new Office(Guid.NewGuid(), TextData.ValidName);
 
         await _repository.InsertAsync(newItem);
 

@@ -27,7 +27,7 @@ public class Delete
     public async Task WhenItemExists_DeletesItem()
     {
         // Arrange
-        var item = new Office(Guid.NewGuid(), TestConstants.ValidName);
+        var item = new Office(Guid.NewGuid(), TextData.ValidName);
         await _repository.InsertAsync(item);
         _repositoryHelper.ClearChangeTracker();
 
@@ -48,7 +48,7 @@ public class Delete
     public async Task WhenAutoSaveIsFalse_NothingIsDeleted()
     {
         // Arrange
-        var item = new Office(Guid.NewGuid(), TestConstants.ValidName);
+        var item = new Office(Guid.NewGuid(), TextData.ValidName);
         await _repository.InsertAsync(item);
         _repositoryHelper.ClearChangeTracker();
 
@@ -64,7 +64,7 @@ public class Delete
     [Test]
     public async Task WhenItemDoesNotExist_Throws()
     {
-        var item = new Office(Guid.Empty, TestConstants.ValidName);
+        var item = new Office(Guid.Empty, TextData.ValidName);
         var action = async () => await _repository.DeleteAsync(item);
         (await action.Should().ThrowAsync<EntityNotFoundException>())
             .WithMessage($"Entity not found. Entity type: {typeof(Office).FullName}, id: {item.Id}");

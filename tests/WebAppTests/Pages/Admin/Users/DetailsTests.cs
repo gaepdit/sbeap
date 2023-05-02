@@ -19,9 +19,9 @@ public class DetailsTests
         var staffView = new StaffViewDto
         {
             Id = Guid.Empty.ToString(),
-            Email = TestConstants.ValidEmail,
-            GivenName = TestConstants.ValidName,
-            FamilyName = TestConstants.ValidName,
+            Email = TextData.ValidEmail,
+            GivenName = TextData.ValidName,
+            FamilyName = TextData.ValidName,
         };
         var serviceMock = new Mock<IStaffAppService>();
         serviceMock.Setup(l => l.FindAsync(It.IsAny<string>()))

@@ -11,11 +11,11 @@ public class UserMapping
     private readonly ApplicationUser _item = new()
     {
         Id = Guid.NewGuid().ToString(),
-        GivenName = TestConstants.ValidName,
-        FamilyName = TestConstants.NewValidName,
-        Email = TestConstants.ValidEmail,
+        GivenName = TextData.ValidName,
+        FamilyName = TextData.NewValidName,
+        Email = TextData.ValidEmail,
         Phone = "123-456-7890",
-        Office = new Office(Guid.NewGuid(), TestConstants.ValidName),
+        Office = new Office(Guid.NewGuid(), TextData.ValidName),
     };
 
     [Test]

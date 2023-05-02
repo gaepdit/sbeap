@@ -11,7 +11,7 @@ public class FindForUpdate
     [Test]
     public async Task WhenItemExists_ReturnsViewDto()
     {
-        var office = new Office(Guid.Empty, TestConstants.ValidName);
+        var office = new Office(Guid.Empty, TextData.ValidName);
         var repoMock = new Mock<IOfficeRepository>();
         repoMock.Setup(l => l.FindAsync(office.Id, It.IsAny<CancellationToken>()))
             .ReturnsAsync(office);

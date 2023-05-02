@@ -10,7 +10,7 @@ public class GetList
     [Test]
     public async Task WhenItemsExist_ReturnsViewDtoList()
     {
-        var office = new Office(Guid.Empty, TestConstants.ValidName);
+        var office = new Office(Guid.Empty, TextData.ValidName);
         var itemList = new List<Office> { office };
 
         var repoMock = new Mock<IOfficeRepository>();

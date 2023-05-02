@@ -19,11 +19,10 @@ public class ActionItem : AuditableSoftDeleteEntity
 
     // Properties
 
-    public Casework Casework { get; init; } = default!;
-    public ActionItemType ActionItemType { get; init; } = default!;
-    public DateTimeOffset EnteredDate { get; init; } = DateTimeOffset.Now;
+    public Casework Casework { get; private init; } = default!;
+    public ActionItemType ActionItemType { get; private init; } = default!;
 
     public DateOnly ActionDate { get; set; }
+    public ApplicationUser CommittedBy { get; set; } = default!;
     public string Notes { get; set; } = string.Empty;
-    public ApplicationUser EnteredBy { get; set; } = default!;
 }

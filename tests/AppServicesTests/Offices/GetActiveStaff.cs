@@ -13,9 +13,9 @@ public class GetActiveStaff
     {
         var user = new ApplicationUser
         {
-            GivenName = TestConstants.ValidName,
-            FamilyName = TestConstants.NewValidName,
-            Email = TestConstants.ValidEmail,
+            GivenName = TextData.ValidName,
+            FamilyName = TextData.NewValidName,
+            Email = TextData.ValidEmail,
         };
 
         var itemList = new List<ApplicationUser> { user };

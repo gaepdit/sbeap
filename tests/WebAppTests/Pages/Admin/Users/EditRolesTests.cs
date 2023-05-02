@@ -15,14 +15,14 @@ namespace WebAppTests.Pages.Admin.Users;
 
 public class EditRolesTests
 {
-    private static readonly OfficeViewDto OfficeViewTest = new() { Id = Guid.Empty, Name = TestConstants.ValidName };
+    private static readonly OfficeViewDto OfficeViewTest = new() { Id = Guid.Empty, Name = TextData.ValidName };
 
     private static readonly StaffViewDto StaffViewTest = new()
     {
         Id = Guid.Empty.ToString(),
-        Email = TestConstants.ValidEmail,
-        GivenName = TestConstants.ValidName,
-        FamilyName = TestConstants.ValidName,
+        Email = TextData.ValidEmail,
+        GivenName = TextData.ValidName,
+        FamilyName = TextData.ValidName,
         Office = OfficeViewTest,
     };
 
@@ -30,9 +30,9 @@ public class EditRolesTests
     {
         new EditRolesModel.RoleSetting
         {
-            Name = TestConstants.ValidName,
-            DisplayName = TestConstants.ValidName,
-            Description = TestConstants.ValidName,
+            Name = TextData.ValidName,
+            DisplayName = TextData.ValidName,
+            Description = TextData.ValidName,
             IsSelected = true,
         },
     };
@@ -62,7 +62,7 @@ public class EditRolesTests
         {
             result.Should().BeOfType<PageResult>();
             pageModel.DisplayStaff.Should().Be(StaffViewTest);
-            pageModel.OfficeName.Should().Be(TestConstants.ValidName);
+            pageModel.OfficeName.Should().Be(TextData.ValidName);
             pageModel.UserId.Should().Be(Guid.Empty.ToString());
             pageModel.RoleSettings.Should().BeEquivalentTo(expectedRoleSettings);
         }

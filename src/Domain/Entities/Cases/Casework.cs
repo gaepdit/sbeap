@@ -1,7 +1,6 @@
 ﻿using Sbeap.Domain.Entities.ActionItems;
+using Sbeap.Domain.Entities.Agencies;
 using Sbeap.Domain.Entities.Customers;
-using Sbeap.Domain.Entities.Offices;
-using Sbeap.Domain.Identity;
 
 namespace Sbeap.Domain.Entities.Cases;
 
@@ -20,16 +19,15 @@ public class Casework : AuditableSoftDeleteEntity
 
     // Properties
 
-    public Customer Customer { get; init; } = default!;
-    public DateTimeOffset EnteredDate { get; init; } = DateTimeOffset.Now;
+    public Customer Customer { get; private init; } = default!;
 
     public DateOnly CaseOpenedDate { get; set; }
     public DateOnly? CaseClosedDate { get; set; }
+    public bool IsClosed => CaseClosedDate is not null;
     public string Description { get; set; } = string.Empty;
-    public Office? InteragencyReferral { get; set; } = default!;
+    public Agency? InteragencyReferral { get; set; }
     public string ReferralInformation { get; set; } = string.Empty;
     public DateOnly? ReferralDate { get; set; }
-    public ApplicationUser EnteredBy { get; set; } = default!;
 
     // Collections
 

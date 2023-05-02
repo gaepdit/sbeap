@@ -1,0 +1,47 @@
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Sbeap.TestData.Constants;
+
+[SuppressMessage("Minor Code Smell", "S1075:URIs should not be hardcoded")]
+public static class TextData
+{
+    // Text constants
+    public const string ValidName = "abc";
+    public const string ShortName = "z";
+    public const string NewValidName = "def";
+    public const string NonExistentName = "zzz";
+    public const string ValidEmail = "test@example.net";
+    public const string ValidUrl = "https://example.net";
+    public const string ValidPhoneNumber = "404-555-1212";
+    public const string AlternatePhoneNumber = "678-555-1212";
+    public const string? NullString = null;
+    public const string EmptyString = "";
+
+    // Words and phrases generated from [Cupcake Ipsum](https://cupcakeipsum.com/).
+    public const string Word = "Cupcake";
+    public const string AnotherWord = "Cookie";
+    public const string ThirdWord = "Apple";
+    public const string EmojiWord = "🙁+🕶=😎";
+
+    public const string ShortPhrase = "I love apple pie";
+    public const string Phrase = "Pudding bear claw I love liquorice pie fruitcake.";
+
+    public static readonly string ShortMultiline = "Cake pastry pie I love chocolate cake." +
+        Environment.NewLine +
+        "Pudding ice cream chocolate sweet roll jelly.";
+
+    public const string Paragraph = "Oat cake gummi bears danish I love tart muffin bonbon I love. Danish tiramisu " +
+        "tootsie roll tart marshmallow icing tootsie roll. Shortbread tiramisu tiramisu chocolate bar biscuit. " +
+        "Liquorice I love biscuit bonbon jujubes croissant.";
+
+    public static readonly string MultipleParagraphs = "Dessert cheesecake ice cream fruitcake chocolate bar cookie." +
+        Environment.NewLine +
+        Environment.NewLine +
+        "Lemon drops brownie croissant sesame snaps marshmallow caramels. Gummy bears lollipop icing jelly-o toffee " +
+        "candy. Biscuit tootsie roll ice cream muffin macaroon. Brownie donut toffee danish sugar plum " +
+        "candy. Oat cake muffin tart bear claw bonbon lollipop. Marshmallow donut icing chocolate bar dessert." +
+        Environment.NewLine +
+        Environment.NewLine +
+        "Dessert cheesecake ice cream fruitcake chocolate bar pie cookie. Croissant marzipan jelly cupcake cupcake " +
+        "lemon drops jelly-o. Shortbread donut pie.";
+}

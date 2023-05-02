@@ -11,7 +11,7 @@ public class Create
     [Test]
     public async Task WhenResourceIsValid_ReturnsId()
     {
-        var item = new Office(Guid.NewGuid(), TestConstants.ValidName);
+        var item = new Office(Guid.NewGuid(), TextData.ValidName);
         var repoMock = new Mock<IOfficeRepository>();
         var managerMock = new Mock<IOfficeManager>();
         managerMock.Setup(l =>
@@ -22,7 +22,7 @@ public class Create
             .ReturnsAsync((ApplicationUser?)null);
         var appService = new OfficeAppService(repoMock.Object, managerMock.Object,
             AppServicesTestsSetup.Mapper!, userServiceMock.Object);
-        var resource = new OfficeCreateDto { Name = TestConstants.ValidName };
+        var resource = new OfficeCreateDto { Name = TextData.ValidName };
 
         var result = await appService.CreateAsync(resource);
 

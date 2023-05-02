@@ -17,7 +17,7 @@ public class Contact : AuditableSoftDeleteEntity
 
     // Properties
 
-    public Customer Customer { get; init; } = default!;
+    public Customer Customer { get; private init; } = default!;
 
     public string Honorific { get; set; } = string.Empty;
     public string GivenName { get; set; } = string.Empty;
@@ -34,5 +34,5 @@ public class Contact : AuditableSoftDeleteEntity
 
     // Collections
 
-    public ICollection<PhoneNumber> PhoneNumbers { get; set; } = new List<PhoneNumber>();
+    public ICollection<PhoneNumber> PhoneNumbers { get; } = new List<PhoneNumber>();
 }
