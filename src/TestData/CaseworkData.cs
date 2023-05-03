@@ -1,5 +1,4 @@
-﻿using Cts.TestData.Constants;
-using Sbeap.Domain.Entities.Cases;
+﻿using Sbeap.Domain.Entities.Cases;
 using Sbeap.TestData.Constants;
 
 namespace Sbeap.TestData;
