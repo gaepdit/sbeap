@@ -14,8 +14,8 @@ namespace Sbeap.WebApp.Pages.Admin.Users;
 public class EditRolesModel : PageModel
 {
     // Constructor
-    private readonly IStaffAppService _staffService;
-    public EditRolesModel(IStaffAppService staffService) => _staffService = staffService;
+    private readonly IStaffService _staffService;
+    public EditRolesModel(IStaffService staffService) => _staffService = staffService;
 
     // Properties
     [BindProperty]

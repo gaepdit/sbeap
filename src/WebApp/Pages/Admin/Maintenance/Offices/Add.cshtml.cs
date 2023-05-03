@@ -13,11 +13,11 @@ namespace Sbeap.WebApp.Pages.Admin.Maintenance.Offices;
 public class AddModel : PageModel
 {
     // Constructor
-    private readonly IOfficeAppService _service;
+    private readonly IOfficeService _service;
     private readonly IValidator<OfficeCreateDto> _validator;
 
     public AddModel(
-        IOfficeAppService service,
+        IOfficeService service,
         IValidator<OfficeCreateDto> validator)
     {
         _service = service;

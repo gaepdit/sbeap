@@ -3,7 +3,7 @@ using Sbeap.AppServices.Staff.Dto;
 
 namespace Sbeap.AppServices.Offices;
 
-public interface IOfficeAppService : IDisposable
+public interface IOfficeService : IDisposable
 {
     Task<OfficeViewDto?> FindAsync(Guid id, CancellationToken token = default);
     Task<OfficeUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default);

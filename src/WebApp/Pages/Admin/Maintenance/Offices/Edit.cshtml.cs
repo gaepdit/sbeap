@@ -13,11 +13,11 @@ namespace Sbeap.WebApp.Pages.Admin.Maintenance.Offices;
 public class EditModel : PageModel
 {
     // Constructor
-    private readonly IOfficeAppService _service;
+    private readonly IOfficeService _service;
     private readonly IValidator<OfficeUpdateDto> _validator;
 
     public EditModel(
-        IOfficeAppService service,
+        IOfficeService service,
         IValidator<OfficeUpdateDto> validator)
     {
         _service = service;
