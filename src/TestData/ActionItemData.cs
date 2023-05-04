@@ -13,7 +13,7 @@ internal static class ActionItemData
             ActionItemTypeData.GetActionItemTypes.ElementAt(6))
         {
             ActionDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-4)),
-            CommittedBy = UserData.GetUsers.ElementAt(0),
+            EnteredBy = UserData.GetUsers.ElementAt(0),
             Notes = TextData.MultipleParagraphs,
         },
         new(new Guid("60000000-0000-0000-0000-000000000002"),
@@ -21,7 +21,7 @@ internal static class ActionItemData
             ActionItemTypeData.GetActionItemTypes.ElementAt(3))
         {
             ActionDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-2)),
-            CommittedBy = UserData.GetUsers.ElementAt(1),
+            EnteredBy = UserData.GetUsers.ElementAt(1),
             Notes = string.Empty,
         },
     };

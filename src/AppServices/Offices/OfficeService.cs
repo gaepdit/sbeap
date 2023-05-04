@@ -31,12 +31,6 @@ public sealed class OfficeService : IOfficeService
         return _mapper.Map<OfficeViewDto>(item);
     }
 
-    public async Task<OfficeUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default)
-    {
-        var item = await _repository.FindAsync(id, token);
-        return _mapper.Map<OfficeUpdateDto>(item);
-    }
-
     public async Task<IReadOnlyList<OfficeViewDto>> GetListAsync(CancellationToken token = default)
     {
         var list = (await _repository.GetListAsync(token)).OrderBy(e => e.Name).ToList();
@@ -53,6 +47,12 @@ public sealed class OfficeService : IOfficeService
         item.SetCreator((await _users.GetCurrentUserAsync())?.Id);
         await _repository.InsertAsync(item, token: token);
         return item.Id;
+    }
+
+    public async Task<OfficeUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default)
+    {
+        var item = await _repository.FindAsync(id, token);
+        return _mapper.Map<OfficeUpdateDto>(item);
     }
 
     public async Task UpdateAsync(OfficeUpdateDto resource, CancellationToken token = default)

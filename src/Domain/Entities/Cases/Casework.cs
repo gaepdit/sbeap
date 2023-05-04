@@ -21,13 +21,14 @@ public class Casework : AuditableSoftDeleteEntity
 
     public Customer Customer { get; private init; } = default!;
 
+    public string Description { get; set; } = string.Empty;
     public DateOnly CaseOpenedDate { get; set; }
     public DateOnly? CaseClosedDate { get; set; }
     public bool IsClosed => CaseClosedDate is not null;
-    public string Description { get; set; } = string.Empty;
+    public string? CaseClosureNotes { get; set; }
     public Agency? InteragencyReferral { get; set; }
-    public string ReferralInformation { get; set; } = string.Empty;
     public DateOnly? ReferralDate { get; set; }
+    public string? ReferralNotes { get; set; }
 
     // Collections
 
