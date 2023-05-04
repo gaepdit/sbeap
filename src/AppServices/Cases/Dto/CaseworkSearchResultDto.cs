@@ -12,4 +12,6 @@ public class CaseworkSearchResultDto
 
     [UIHint("BoolClosed")]
     public bool IsClosed { get; init; }
+
+    public bool IsDeleted { get; init; }
 }

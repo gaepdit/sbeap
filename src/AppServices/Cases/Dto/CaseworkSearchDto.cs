@@ -40,12 +40,12 @@ public record CaseworkSearchDto
 
     // Fields
 
-    public string? CustomerName { get; init; } = default!;
+    public string? CustomerName { get; init; } 
 
-    public string? Description { get; set; } = string.Empty;
+    public string? Description { get; set; }
 
     [Display(Name = "Referred to")]
-    public Guid? Agency { get; set; }
+    public Guid? Agency { get; init; }
 
     // Referral
 
@@ -92,9 +92,9 @@ public enum CaseStatus
 }
 
 // "Not Deleted" is included as an additional Delete Status option in the UI representing the default state.
-// "Deleted" = only deleted complaints
-// "All" = all complaints
-// "Not Deleted" (null) = only non-deleted complaints
+// "Deleted" = only deleted cases
+// "All" = all cases
+// "Not Deleted" (null) = only non-deleted cases
 public enum SearchDeleteStatus
 {
     Deleted = 0,

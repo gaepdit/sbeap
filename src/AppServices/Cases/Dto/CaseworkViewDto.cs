@@ -16,4 +16,5 @@ public class CaseworkViewDto
     public DateOnly? ReferralDate { get; init; }
     public string? ReferralNotes { get; init; }
     public ICollection<ActionItemViewDto> ActionItems { get; init; } = new List<ActionItemViewDto>();
+    public bool IsDeleted { get; init; }
 }
