@@ -3,6 +3,25 @@ using Sbeap.AppServices.Permissions.Requirements;
 
 namespace Sbeap.AppServices.Permissions;
 
+#pragma warning disable S125
+//
+// Two ways to use these policies:
+//
+// A. As an attribute on a PageModel class:
+//
+//    [Authorize(Policy = PolicyName.SiteMaintainer)]
+//    public class AddModel : PageModel
+//
+// B. From a DI authorization service: 
+//
+//    public async Task<IActionResult> OnGetAsync([FromServices] IAuthorizationService authorizationService)
+//    {
+//        var isStaff = (await authorizationService.AuthorizeAsync(User, Policies.StaffUserPolicy())).Succeeded;
+//    }
+//
+#pragma warning restore S125
+
+
 public static class PolicyName
 {
     public const string StaffUser = nameof(StaffUser);
