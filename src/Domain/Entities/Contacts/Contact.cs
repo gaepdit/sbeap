@@ -30,7 +30,7 @@ public class Contact : AuditableSoftDeleteEntity
     public string Email { get; set; } = string.Empty;
 
     public string Notes { get; set; } = string.Empty;
-    public IncompleteAddress? Address { get; set; }
+    public IncompleteAddress Address { get; set; } = default!;
 
     // Collections
 

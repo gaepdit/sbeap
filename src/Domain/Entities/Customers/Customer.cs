@@ -16,13 +16,14 @@ public class Customer : AuditableSoftDeleteEntity
     // Properties
 
     public string Name { get; set; } = string.Empty;
-    public string? County { get; set; }
-    public IncompleteAddress? Location { get; set; }
-    public IncompleteAddress? MailingAddress { get; set; }
     public string Description { get; set; } = string.Empty;
 
     [MaxLength(2000)] // https://stackoverflow.com/q/417142/212978
     public string? WebSite { get; set; } = string.Empty;
+
+    public IncompleteAddress Location { get; set; } = default!;
+    public string? County { get; set; }
+    public IncompleteAddress MailingAddress { get; set; } = default!;
 
     // Collections
 
