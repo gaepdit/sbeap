@@ -4,69 +4,79 @@
 After `/Account/Login` page will redirect to:
 
 - `/` (Home page {links employee access portals})
-- `/Public` (Public Home page {links to public pages} )
 
-These are search pages that will show results as a table at bottom of page.
-> - `/Public` Public search page results will only show cases pertaining to that particular public user and will have links to only the user's Cases:
-> 1. `/Case/{id}` (Specific Case)
----
-> - `/` Internal search page results for internal users will show all cases and case info as determined by search criteria, and will link to specified pages as follows: 
+These are search pages that will show results as a table at bottom of each page determined by search criteria, and will link to specified pages as follows: 
+
 > 1. `/Case/{id}` (Specific Case)
 > 2. `/Customer/{id}` (All Cases for a specific customer - Customer refers to Client Data in Air DB)
-> 3. `/Office/{id}` (All Cases for a specific office)
-> 4. `/Contact/{id}` (All Cases for a specific Contact - Contact refers to Client Contact data in Air DB)
+> 4. `/Contact/{id}` (All Cases for a specific Program Contact)
 
 ### Redirects
 
 | Redirect                   | To                                           |
 |----------------------------|----------------------------------------------|
-| `/Public`                  | `/Public` (Public Users Only)                |
-| `/`                        | `/Case/{id}`, `/Customer/{id}`, `/Office/{id}`, or `/Contact/{id}`|
+| `/`                        | `/Case/{id}`, `/Customer/{id}`, or `/Contact/{id}`|
 
-# Public pages
-
-* `/Public` (public search for Case, restricted to only cases pertaining to User)
-* `/Case/Public/{id}` (public detail view of a specific Case, with list of links to Action Items) 
-* `/ActionItem/Public/{id}` (public view of Action Item in a specific Case)
-* `/Account/Edit/{id}` (public Edit page of own Customer Info)
-
-### Redirects
-
-| Redirect                   | To                   |
-|----------------------------|----------------------|
-| `/Public/{id}`             | `/Case/Public/{id}`  |
-| (menu Bar)`AccountInfo`    | `/Account/Edit/{id}`  |
-
-
-# Internal Pages
+# Pages
 
 ## Case Pages
 
-* `/Case/Details/{id}` (Internal detail view of a Case with links to Customer, Office, Contact, List of Action Items)
+* `/Case/Details/{id}` (Detail view of a Case with links to Edit, Customer and Contact)
 * `/Case/Add` (Add New Case)
 * `/Case/Edit/{id}` (Edit Case)
 
+### Redirects
+
+| Redirect      | To      |
+|----------------|-------------|
+| `/Case/Details/{id}` | `/Case/Edit/{id}`, `/Customer/Details/{id}`, `/Contact/Details/{id}`  |
+
 ## Customer Pages *{Customer refers to Company Info}*
 
-* `/Customer/Details/{id}` (Customer *{Company}* Info with link to Contact, and list of links to Cases)
+* `/Customer/Details/{id}` (Customer *{Company}* Info with links to Edit and list of links to Cases)
 * `/Customer/Add` (Add new Customer)
 * `/Customer/Edit/{id}` (Edit Customer)
 
-## Office Pages
+### Redirects
 
-* `/Office/Details/{id}` (List of cases handled by an Office. Links to Customers and Cases)
+| Redirects   | To    |
+|-------------|----------|
+| `/Customer/Details/{id}`  | `/Customer/Edit/{id}`, `/Case/Details/{id}` |
 
-## Action Item Pages
+## Contact Pages
 
-* `/ActionItem/Details/{id}` (Details for Action Item. Link to Edit)
-* `/ActionItem/Add` (Add New Action Item)
-* `/ActionItem/Edit/{id}` (Edit Action Item)
+* `/Contact/Details/{id}` (List of Customers handled by a Program Contact)
+
+### Redirects
+
+| Redirect     | To     |
+|--------------|---------|
+| `/Contact/Details/{id}`  | `/Customer/Details/{id}` |
+
+### Redirects
+
+| Redirects   | To   |
+|---------------|----------|
+| `/ActionItem/Details/{id}`  | `/Case/Details/{id}` |
 
 ## Maintenance Pages 
-> Maintenance pages availble to internal management personal to modifiy Drop Down Menus
+> Maintenance pages available to Site Admin personnel to modifiy Drop Down Menus
+
+### Office Maintenance Pages
+
+* `/Maintenance` (List of Items that can be modified on Site - Action Items and Offices)
+
+### Office Maintenance Pages
 
 * `/Maintenance/Office` (List of Internal Offices to assign cases to. Can be removed from list here)
+* `/Maintenance/Office/Add` (Add New Office)
 * `/Maintenance/Office/Edit/{id}` (Edit Office properties)
+
+### Action Item Maintenance Pages
+
+* `/Maintenance/ActionItem/Details/{id}` (Details for Action Item. Links to Edit)
+* `/Maintenance/ActionItem/Add` (Add New Action Item)
+* `/Maintenance/ActionItem/Edit/{id}` (Edit Action Item)
 
 # User Account and Admin pages
 
@@ -82,3 +92,11 @@ These are search pages that will show results as a table at bottom of page.
 * `/Admin/Users/Details/{id}`
 * `/Admin/Users/Edit/{id}` (edit contact info)
 * `/Admin/Users/EditRoles/{id}` (edit roles)
+
+# Menu Bar
+
+* Home (Redirect to Search Page: `/`)
+* Account (Redirect to Account Edit Page: `/Account/Edit/{id}`)
+* Add Customer (Redirect to Add Customer Page: `/Customer/Add`)
+* Add Case (Redirect to Add Case Page: `/Case/Add`)
+* More (Drop Down to show links to Users or Site Maintenance Pages: `/Admin/Users` or `/Maintenance`)
