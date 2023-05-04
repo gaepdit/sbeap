@@ -19,7 +19,7 @@ public static class DataStores
         }
         else
         {
-            string? connectionString = configuration.GetConnectionString("DefaultConnection");
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
 
             if (string.IsNullOrEmpty(connectionString))
             {
@@ -28,7 +28,14 @@ public static class DataStores
             else
             {
                 services.AddDbContext<AppDbContext>(opts =>
-                    opts.UseSqlServer(connectionString, x => x.MigrationsAssembly("EfRepository")));
+                    opts.UseSqlServer(connectionString, sqlServerOpts =>
+                    {
+                        // DateOnly and TimeOnly entity properties require the following package: 
+                        // ErikEJ.EntityFrameworkCore.SqlServer.DateOnlyTimeOnly
+                        // This will no longer be necessary after upgrading to .NET 8.
+                        sqlServerOpts.UseDateOnlyTimeOnly();
+                        sqlServerOpts.MigrationsAssembly("EfRepository");
+                    }));
             }
 
             services.AddScoped<IOfficeRepository, OfficeRepository>();
