@@ -1,4 +1,5 @@
 using FluentAssertions.Execution;
+using Sbeap.Domain.Identity;
 using Sbeap.LocalRepository.Identity;
 using System.Diagnostics;
 
@@ -101,14 +102,13 @@ public class UserRoleStore
     [Test]
     public async Task GetUsersInRole_IfSome_ReturnsListOfUsers()
     {
-        var roleName = _store.Roles.First().Name;
-        Debug.Assert(roleName != null, "role.NormalizedName != null");
-        var result = await _store.GetUsersInRoleAsync(roleName, CancellationToken.None);
+        using var store = new LocalUserStore();
+        var result = await store.GetUsersInRoleAsync(RoleName.UserAdmin, CancellationToken.None);
 
         using (new AssertionScope())
         {
             result.Should().HaveCount(1);
-            result[0].Should().Be(_store.UserStore.First());
+            result[0].Should().BeEquivalentTo(_store.UserStore.First());
         }
     }
 
