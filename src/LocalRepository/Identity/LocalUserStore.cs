@@ -6,9 +6,9 @@ using Sbeap.TestData.Identity;
 namespace Sbeap.LocalRepository.Identity;
 
 public sealed class LocalUserStore :
-        IUserRoleStore<ApplicationUser>, // inherits IUserStore<ApplicationUser>
-        IUserLoginStore<ApplicationUser>,
-        IQueryableUserStore<ApplicationUser>
+    IUserRoleStore<ApplicationUser>, // inherits IUserStore<ApplicationUser>
+    IUserLoginStore<ApplicationUser>,
+    IQueryableUserStore<ApplicationUser>
 {
     public IQueryable<ApplicationUser> Users => UserStore.AsQueryable();
 
@@ -26,11 +26,13 @@ public sealed class LocalUserStore :
         Roles = UserData.GetRoles.ToList();
 
         // Seed User Roles
+        UserRoles = new List<IdentityUserRole<string>>();
+
         // -- admin
-        UserRoles = Roles
+        UserRoles.AddRange(Roles
             .Select(role => new IdentityUserRole<string>
                 { RoleId = role.Id, UserId = UserStore.Single(e => e.GivenName == "Admin").Id })
-            .ToList();
+            .ToList());
 
         // -- staff
         var staffUserId = UserStore.Single(e => e.GivenName == "General").Id;
