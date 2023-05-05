@@ -1,6 +1,4 @@
-﻿using Sbeap.Domain.Entities.Agencies;
-
-namespace Sbeap.AppServices.Cases.Dto;
+﻿namespace Sbeap.AppServices.Cases.Dto;
 
 public class CaseworkUpdateDto
 {
