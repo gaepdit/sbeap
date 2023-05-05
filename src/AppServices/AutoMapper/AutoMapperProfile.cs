@@ -23,6 +23,7 @@ public class AutoMapperProfile : Profile
         // Cases
         CreateMap<Casework, CaseworkViewDto>();
         CreateMap<Casework, CaseworkUpdateDto>();
+        CreateMap<Casework, CaseworkSearchResultDto>();
 
         // Contacts
         CreateMap<Contact, ContactViewDto>();
@@ -31,6 +32,7 @@ public class AutoMapperProfile : Profile
         // Customers
         CreateMap<Customer, CustomerViewDto>();
         CreateMap<Customer, CustomerUpdateDto>();
+        CreateMap<Customer, CustomerSearchResultDto>();
 
         // Offices
         CreateMap<Office, OfficeViewDto>();
