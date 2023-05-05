@@ -1,4 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Sbeap.Domain.Entities.Cases;
+using Sbeap.Domain.Entities.Contacts;
+using Sbeap.Domain.Entities.Customers;
 using Sbeap.Domain.Entities.Offices;
 using Sbeap.EfRepository.Contexts;
 using Sbeap.EfRepository.Repositories;
@@ -15,6 +18,9 @@ public static class DataStores
         if (ApplicationSettings.DevSettings.UseInMemoryData)
         {
             // Uses local static data if no database is built.
+            services.AddSingleton<ICaseworkRepository, LocalCaseworkRepository>();
+            services.AddSingleton<IContactRepository, LocalContactRepository>();
+            services.AddSingleton<ICustomerRepository, LocalCustomerRepository>();
             services.AddSingleton<IOfficeRepository, LocalOfficeRepository>();
         }
         else
