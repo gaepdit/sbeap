@@ -5,6 +5,7 @@ using Sbeap.AppServices.RegisterServices;
 using Sbeap.WebApp.Platform.Raygun;
 using Sbeap.WebApp.Platform.Services;
 using Sbeap.WebApp.Platform.Settings;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -59,13 +60,14 @@ builder.Services.AddHostedService<MigratorHostedService>();
 
 // Add API documentation.
 builder.Services.AddMvcCore().AddApiExplorer();
-builder.Services.AddSwaggerGen(c =>
+builder.Services.AddSwaggerGen(opts =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo
+    opts.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
         Title = "SBEAP API",
     });
+    opts.CustomSchemaIds(e => e.FullName);
 });
 
 // Configure bundling and minification.
@@ -98,12 +100,12 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 // Configure API documentation.
-app.UseSwagger(c => { c.RouteTemplate = "api-docs/{documentName}/openapi.json"; });
-app.UseSwaggerUI(c =>
+app.UseSwagger(opts => { opts.RouteTemplate = "api-docs/{documentName}/openapi.json"; });
+app.UseSwaggerUI(opts =>
 {
-    c.SwaggerEndpoint("v1/openapi.json", "SBEAP API v1");
-    c.RoutePrefix = "api-docs";
-    c.DocumentTitle = "SBEAP API";
+    opts.SwaggerEndpoint("v1/openapi.json", "SBEAP API v1");
+    opts.RoutePrefix = "api-docs";
+    opts.DocumentTitle = "SBEAP API";
 });
 
 // Map endpoints.

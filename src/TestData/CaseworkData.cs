@@ -37,6 +37,12 @@ internal static class CaseworkData
             ReferralNotes = string.Empty,
             ReferralDate = null,
         },
+        new(new Guid("50000000-0000-0000-0000-000000000004"),
+            CustomerData.GetCustomers.ElementAt(1),
+            DateOnly.FromDateTime(DateTime.Today.AddDays(-10)))
+        {
+            Description = "Deleted Case",
+        },
     };
 
     private static IEnumerable<Casework>? _cases;
@@ -46,7 +52,15 @@ internal static class CaseworkData
         get
         {
             if (_cases is not null) return _cases;
-            _cases = CaseworkSeedItems;
+            _cases = CaseworkSeedItems.ToList();
+            _cases.ElementAt(3).SetDeleted("00000000-0000-0000-0000-000000000001");
+
+            foreach (var casework in _cases)
+            {
+                casework.ActionItems = ActionItemData.GetActionItems
+                    .Where(e => e.Casework.Id == casework.Id).ToList();
+            }
+
             return _cases;
         }
     }

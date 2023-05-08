@@ -20,8 +20,8 @@ public class ActionItem : AuditableSoftDeleteEntity
     // Properties
 
     public Casework Casework { get; private init; } = default!;
-    public ActionItemType ActionItemType { get; private init; } = default!;
 
+    public ActionItemType ActionItemType { get; set; } = default!;
     public DateOnly ActionDate { get; set; }
     public string Notes { get; set; } = string.Empty;
     public ApplicationUser EnteredBy { get; set; } = default!;

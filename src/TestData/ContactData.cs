@@ -8,7 +8,7 @@ internal static class ContactData
 {
     private static IEnumerable<Contact> ContactSeedItems => new List<Contact>
     {
-        new(new Guid("40000000-0000-0000-0000-000000000001"),
+        new(new Guid("41000000-0000-0000-0000-000000000001"),
             CustomerData.GetCustomers.ElementAt(0))
         {
             Honorific = "M.",
@@ -24,7 +24,7 @@ internal static class ContactData
                 ValueObjectData.AlternatePhoneNumber,
             },
         },
-        new(new Guid("40000000-0000-0000-0000-000000000002"),
+        new(new Guid("41000000-0000-0000-0000-000000000002"),
             CustomerData.GetCustomers.ElementAt(0))
         {
             Honorific = string.Empty,
@@ -35,7 +35,7 @@ internal static class ContactData
             Notes = string.Empty,
             Address = IncompleteAddress.EmptyAddress,
         },
-        new(new Guid("40000000-0000-0000-0000-000000000003"),
+        new(new Guid("41000000-0000-0000-0000-000000000003"),
             CustomerData.GetCustomers.ElementAt(1))
         {
             Honorific = "Mx.",

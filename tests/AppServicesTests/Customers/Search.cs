@@ -3,7 +3,6 @@ using GaEpd.AppLibrary.Pagination;
 using Sbeap.AppServices.Customers;
 using Sbeap.AppServices.Customers.Dto;
 using Sbeap.AppServices.UserServices;
-using Sbeap.Domain.Entities.Cases;
 using Sbeap.Domain.Entities.Contacts;
 using Sbeap.Domain.Entities.Customers;
 using Sbeap.TestData;
@@ -30,8 +29,7 @@ public class Search
             .ReturnsAsync(count);
 
         var appService = new CustomerService(AppServicesTestsSetup.Mapper!, Mock.Of<IUserService>(),
-            customerRepoMock.Object, Mock.Of<ICustomerManager>(),
-            Mock.Of<IContactRepository>(), Mock.Of<ICaseworkRepository>());
+            customerRepoMock.Object, Mock.Of<ICustomerManager>(), Mock.Of<IContactRepository>());
 
         // Act
         var result = await appService.SearchAsync(Mock.Of<CustomerSearchDto>(), paging, CancellationToken.None);
@@ -60,8 +58,7 @@ public class Search
             .ReturnsAsync(count);
 
         var appService = new CustomerService(AppServicesTestsSetup.Mapper!, Mock.Of<IUserService>(),
-            customerRepoMock.Object, Mock.Of<ICustomerManager>(),
-            Mock.Of<IContactRepository>(), Mock.Of<ICaseworkRepository>());
+            customerRepoMock.Object, Mock.Of<ICustomerManager>(), Mock.Of<IContactRepository>());
 
         // Act
         var result = await appService.SearchAsync(Mock.Of<CustomerSearchDto>(), paging, CancellationToken.None);

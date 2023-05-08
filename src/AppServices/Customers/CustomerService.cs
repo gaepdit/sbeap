@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using GaEpd.AppLibrary.Pagination;
-using Sbeap.AppServices.Cases.Dto;
 using Sbeap.AppServices.Customers.Dto;
 using Sbeap.AppServices.UserServices;
-using Sbeap.Domain.Entities.Cases;
 using Sbeap.Domain.Entities.Contacts;
 using Sbeap.Domain.Entities.Customers;
 using Sbeap.Domain.ValueObjects;
@@ -17,22 +15,16 @@ public sealed class CustomerService : ICustomerService
     private readonly ICustomerRepository _customers;
     private readonly ICustomerManager _manager;
     private readonly IContactRepository _contacts;
-    private readonly ICaseworkRepository _cases;
 
     public CustomerService(
-        IMapper mapper,
-        IUserService users,
-        ICustomerRepository customers,
-        ICustomerManager manager,
-        IContactRepository contacts,
-        ICaseworkRepository cases)
+        IMapper mapper, IUserService users, ICustomerRepository customers, ICustomerManager manager,
+        IContactRepository contacts)
     {
         _mapper = mapper;
         _users = users;
         _customers = customers;
         _manager = manager;
         _contacts = contacts;
-        _cases = cases;
     }
 
     // Customer read
@@ -53,22 +45,9 @@ public sealed class CustomerService : ICustomerService
 
     public async Task<CustomerViewDto?> FindAsync(Guid id, CancellationToken token = default)
     {
-        var customer = await _customers.FindAsync(id, token);
-        if (customer is null) return null;
-
-        var item = _mapper.Map<CustomerViewDto>(customer);
-        item.Contacts.AddRange(await GetContactsAsync(customer, token));
-        item.Cases.AddRange(await GetCasesAsync(customer, token));
-        return item;
+        var customer = await _customers.FindIncludeAllAsync(id, token);
+        return customer is null ? null : _mapper.Map<CustomerViewDto>(customer);
     }
-
-    private async Task<IEnumerable<ContactViewDto>> GetContactsAsync(Customer customer, CancellationToken token) =>
-        _mapper.Map<IReadOnlyList<ContactViewDto>>(await _contacts.GetListAsync(e => e.Customer == customer, token));
-
-    private async Task<IEnumerable<CaseworkSearchResultDto>> GetCasesAsync(
-        Customer customer, CancellationToken token) =>
-        _mapper.Map<IReadOnlyList<CaseworkSearchResultDto>>(
-            await _cases.GetListAsync(e => e.Customer == customer, token));
 
     // Customer write
 
@@ -174,6 +153,5 @@ public sealed class CustomerService : ICustomerService
     {
         _customers.Dispose();
         _contacts.Dispose();
-        _cases.Dispose();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Sbeap.Domain.Entities.Offices;
+using Sbeap.TestData.Identity;
 
 namespace Sbeap.TestData;
 
@@ -16,7 +17,14 @@ internal static class OfficeData
         get
         {
             if (_offices is not null) return _offices;
-            _offices = OfficeSeedItems;
+            _offices = OfficeSeedItems.ToList();
+
+            foreach (var office in _offices)
+            {
+                office.StaffMembers = UserData.GetUsers
+                    .Where(e => e.Office?.Id == office.Id).ToList();
+            }
+
             return _offices;
         }
     }
