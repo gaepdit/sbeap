@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Sbeap.AppServices.Cases.Dto;
 
@@ -85,6 +86,7 @@ public record CaseworkSearchDto
 // Search enums
 
 // "All" is included as an additional Case Status option in the UI representing the default state.
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum CaseStatus
 {
     Open,
@@ -95,12 +97,14 @@ public enum CaseStatus
 // "Deleted" = only deleted cases
 // "All" = all cases
 // "Not Deleted" (null) = only non-deleted cases
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum SearchDeleteStatus
 {
     Deleted = 0,
     All = 1,
 }
 
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum SortBy
 {
     [Description("Customer.Name")] CustomerAsc,

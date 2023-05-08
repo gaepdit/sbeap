@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Sbeap.AppServices.Customers.Dto;
 
@@ -38,12 +39,14 @@ public record CustomerSearchDto
 // "Deleted" = only deleted customers
 // "All" = all customers
 // "Not Deleted" (null) = only non-deleted customers
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum SearchDeleteStatus
 {
     Deleted = 0,
     All = 1,
 }
 
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum SortBy
 {
     [Description("Name")] NameAsc,

@@ -1,5 +1,4 @@
-﻿using Sbeap.Domain.Entities.Agencies;
-using Sbeap.Domain.Entities.Customers;
+﻿using Sbeap.Domain.Entities.Customers;
 
 namespace Sbeap.AppServices.Cases.Dto;
 

@@ -1,4 +1,4 @@
-﻿using Sbeap.Domain.Entities.Contacts;
+﻿using Sbeap.AppServices.Cases.Dto;
 using Sbeap.Domain.ValueObjects;
 
 namespace Sbeap.AppServices.Customers.Dto;
@@ -11,6 +11,9 @@ public class CustomerViewDto
     public string? County { get; init; }
     public IncompleteAddress Location { get; init; } = default!;
     public IncompleteAddress MailingAddress { get; init; } = default!;
-    public ICollection<ContactViewDto> Contacts { get; } = new List<ContactViewDto>();
+
+    public List<ContactViewDto> Contacts { get; } = new();
+    public List<CaseworkSearchResultDto> Cases { get; } = new();
+
     public bool IsDeleted { get; init; }
 }

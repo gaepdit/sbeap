@@ -26,7 +26,7 @@ public static class RepositoryHelper
         AgencyData.ClearData();
         ActionItemData.ClearData();
         ActionItemTypeData.ClearData();
-        AgencyData.ClearData();
+        CustomerData.ClearData();
         OfficeData.ClearData();
         UserData.ClearData();
     }

@@ -1,4 +1,5 @@
 ﻿using Sbeap.Domain.Entities.Contacts;
+using Sbeap.Domain.ValueObjects;
 using Sbeap.TestData.Constants;
 
 namespace Sbeap.TestData;
@@ -32,7 +33,7 @@ internal static class ContactData
             Title = string.Empty,
             Email = string.Empty,
             Notes = string.Empty,
-            Address = null,
+            Address = IncompleteAddress.EmptyAddress,
         },
         new(new Guid("40000000-0000-0000-0000-000000000003"),
             CustomerData.GetCustomers.ElementAt(1))

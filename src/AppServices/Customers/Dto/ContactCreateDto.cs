@@ -1,12 +1,11 @@
-﻿using Sbeap.Domain.Entities.Customers;
-using Sbeap.Domain.ValueObjects;
+﻿using Sbeap.Domain.ValueObjects;
 using System.ComponentModel.DataAnnotations;
 
 namespace Sbeap.AppServices.Customers.Dto;
 
 public class ContactCreateDto
 {
-    public Customer Customer { get; init; } = default!;
+    public Guid CustomerId { get; init; }
 
     public string Honorific { get; init; } = string.Empty;
     public string GivenName { get; init; } = string.Empty;

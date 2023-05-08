@@ -1,4 +1,5 @@
 ﻿using Sbeap.Domain.Entities.Customers;
+using Sbeap.Domain.ValueObjects;
 using Sbeap.TestData.Constants;
 
 namespace Sbeap.TestData;
@@ -20,8 +21,17 @@ internal static class CustomerData
         {
             Name = string.Empty,
             County = null,
-            Location = null,
-            MailingAddress = null,
+            Location = IncompleteAddress.EmptyAddress,
+            MailingAddress = IncompleteAddress.EmptyAddress,
+            Description = string.Empty,
+            WebSite = null,
+        },
+        new(new Guid("40000000-0000-0000-0000-000000000003"))
+        {
+            Name = "Deleted Customer",
+            County = null,
+            Location = IncompleteAddress.EmptyAddress,
+            MailingAddress = IncompleteAddress.EmptyAddress,
             Description = string.Empty,
             WebSite = null,
         },
@@ -34,7 +44,8 @@ internal static class CustomerData
         get
         {
             if (_customers is not null) return _customers;
-            _customers = CustomerSeedItems;
+            _customers = CustomerSeedItems.ToList();
+            _customers.ElementAt(2).SetDeleted("00000000-0000-0000-0000-000000000001");
             return _customers;
         }
     }
