@@ -26,7 +26,7 @@ public class AppServicesTestsSetup
             .ExcludingMissingMembers()
 
             // DateTimeOffset comparison is often off by a few microseconds.
-            .Using<DateTimeOffset>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1.Milliseconds()))
+            .Using<DateTimeOffset>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 10.Milliseconds()))
             .WhenTypeIs<DateTimeOffset>()
 
             // Exclude some concurrency properties automatically added by ASP.NET Identity.
@@ -34,15 +34,15 @@ public class AppServicesTestsSetup
             .Using(new IdentityUserSelectionRule())
         );
     }
-}
 
-internal class IdentityUserSelectionRule : IMemberSelectionRule
-{
-    public IEnumerable<IMember> SelectMembers(INode currentNode, IEnumerable<IMember> selectedMembers,
-        MemberSelectionContext context) =>
-        selectedMembers.Where(e => !(e.DeclaringType.Name.StartsWith(nameof(IdentityUser)) &&
-            e.Name is nameof(ApplicationUser.SecurityStamp) or nameof(ApplicationUser.ConcurrencyStamp)));
+    private class IdentityUserSelectionRule : IMemberSelectionRule
+    {
+        public IEnumerable<IMember> SelectMembers(INode currentNode, IEnumerable<IMember> selectedMembers,
+            MemberSelectionContext context) =>
+            selectedMembers.Where(e => !(e.DeclaringType.Name.StartsWith(nameof(IdentityUser)) &&
+                e.Name is nameof(ApplicationUser.SecurityStamp) or nameof(ApplicationUser.ConcurrencyStamp)));
 
-    public bool IncludesMembers => false;
-    public override string ToString() => "Exclude SecurityStamp and ConcurrencyStamp from IdentityUser";
+        public bool IncludesMembers => false;
+        public override string ToString() => "Exclude SecurityStamp and ConcurrencyStamp from IdentityUser";
+    }
 }

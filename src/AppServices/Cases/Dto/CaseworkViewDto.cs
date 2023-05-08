@@ -1,11 +1,11 @@
-﻿using Sbeap.Domain.Entities.Customers;
+﻿using Sbeap.AppServices.Customers.Dto;
 
 namespace Sbeap.AppServices.Cases.Dto;
 
 public class CaseworkViewDto
 {
     public Guid Id { get; init; }
-    public Customer Customer { get; init; } = default!;
+    public CustomerSearchResultDto Customer { get; init; } = default!;
     public string Description { get; init; } = string.Empty;
     public DateOnly CaseOpenedDate { get; init; }
     public DateOnly? CaseClosedDate { get; init; }

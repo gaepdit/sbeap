@@ -13,7 +13,7 @@ public record CustomerSearchDto
     public string? County { get; set; }
 
     [Display(Name = "Deletion Status")]
-    public SearchDeleteStatus? DeletedStatus { get; init; }
+    public CaseDeletedStatus? DeletedStatus { get; init; }
 
     // UI Routing
     public IDictionary<string, string?> AsRouteValues() => new Dictionary<string, string?>
@@ -40,7 +40,7 @@ public record CustomerSearchDto
 // "All" = all customers
 // "Not Deleted" (null) = only non-deleted customers
 [JsonConverter(typeof(JsonStringEnumConverter))]
-public enum SearchDeleteStatus
+public enum CaseDeletedStatus
 {
     Deleted = 0,
     All = 1,

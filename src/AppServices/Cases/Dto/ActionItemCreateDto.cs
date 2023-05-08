@@ -4,7 +4,7 @@ namespace Sbeap.AppServices.Cases.Dto;
 
 public class ActionItemCreateDto
 {
-    public Guid Casework { get; init; }
+    public Guid CaseworkId { get; init; }
 
     public ActionItemType ActionItemType { get; private init; } = default!;
     public DateOnly ActionDate { get; init; }

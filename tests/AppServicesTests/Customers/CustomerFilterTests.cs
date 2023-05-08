@@ -26,7 +26,7 @@ public class CustomerFilterTests
     public void DeletedSpec_ReturnsAllDeleted()
     {
         // Arrange
-        var spec = new CustomerSearchDto { DeletedStatus = SearchDeleteStatus.Deleted };
+        var spec = new CustomerSearchDto { DeletedStatus = CaseDeletedStatus.Deleted };
         var expected = CustomerData.GetCustomers.Where(e => e.IsDeleted);
 
         // Act
@@ -39,10 +39,10 @@ public class CustomerFilterTests
     }
 
     [Test]
-    public void NeutralDeletedSpec_ReturnsAll()
+    public void DeletedSpecNeutral_ReturnsAll()
     {
         // Arrange
-        var spec = new CustomerSearchDto { DeletedStatus = SearchDeleteStatus.All };
+        var spec = new CustomerSearchDto { DeletedStatus = CaseDeletedStatus.All };
 
         // Act
         var predicate = CustomerFilters.CustomerSearchPredicate(spec);

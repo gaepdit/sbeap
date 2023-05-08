@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Sbeap.Domain.Entities.ActionItems;
+using Sbeap.Domain.Entities.Agencies;
 using Sbeap.Domain.Entities.Cases;
 using Sbeap.Domain.Entities.Contacts;
 using Sbeap.Domain.Entities.Customers;
@@ -18,6 +20,8 @@ public static class DataStores
         if (ApplicationSettings.DevSettings.UseInMemoryData)
         {
             // Uses local static data if no database is built.
+            services.AddSingleton<IActionItemRepository, LocalActionItemRepository>();
+            services.AddSingleton<IAgencyRepository, LocalAgencyRepository>();
             services.AddSingleton<ICaseworkRepository, LocalCaseworkRepository>();
             services.AddSingleton<IContactRepository, LocalContactRepository>();
             services.AddSingleton<ICustomerRepository, LocalCustomerRepository>();

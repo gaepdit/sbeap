@@ -15,7 +15,7 @@ public record CaseworkSearchDto
     public CaseStatus? Status { get; init; }
 
     [Display(Name = "Deletion Status")]
-    public SearchDeleteStatus? DeletedStatus { get; init; }
+    public CaseDeletedStatus? DeletedStatus { get; init; }
 
     // Dates
 
@@ -98,7 +98,7 @@ public enum CaseStatus
 // "All" = all cases
 // "Not Deleted" (null) = only non-deleted cases
 [JsonConverter(typeof(JsonStringEnumConverter))]
-public enum SearchDeleteStatus
+public enum CaseDeletedStatus
 {
     Deleted = 0,
     All = 1,
