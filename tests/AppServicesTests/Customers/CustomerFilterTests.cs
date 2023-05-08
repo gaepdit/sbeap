@@ -39,7 +39,7 @@ public class CustomerFilterTests
     }
 
     [Test]
-    public void NeutralDeletedSpec_ReturnsAll()
+    public void DeletedSpecNeutral_ReturnsAll()
     {
         // Arrange
         var spec = new CustomerSearchDto { DeletedStatus = CaseDeletedStatus.All };

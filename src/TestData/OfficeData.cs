@@ -18,13 +18,6 @@ internal static class OfficeData
         {
             if (_offices is not null) return _offices;
             _offices = OfficeSeedItems.ToList();
-
-            foreach (var office in _offices)
-            {
-                office.StaffMembers = UserData.GetUsers
-                    .Where(e => e.Office?.Id == office.Id).ToList();
-            }
-
             return _offices;
         }
     }
