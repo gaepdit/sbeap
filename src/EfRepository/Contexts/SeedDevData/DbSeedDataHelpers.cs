@@ -33,7 +33,7 @@ public static class DbSeedDataHelpers
         context.SaveChanges();
     }
 
-    private static void SeedAgencyData(AppDbContext context)
+    internal static void SeedAgencyData(AppDbContext context)
     {
         if (context.Agencies.Any()) return;
         context.Agencies.AddRange(AgencyData.GetAgencies);
@@ -61,7 +61,7 @@ public static class DbSeedDataHelpers
         context.SaveChanges();
     }
 
-    public static void SeedOfficeData(AppDbContext context)
+    internal static void SeedOfficeData(AppDbContext context)
     {
         if (context.Offices.Any()) return;
         context.Offices.AddRange(OfficeData.GetOffices);

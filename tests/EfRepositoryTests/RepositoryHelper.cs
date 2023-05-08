@@ -1,5 +1,8 @@
 ﻿using GaEpd.AppLibrary.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Sbeap.Domain.Entities.Agencies;
+using Sbeap.Domain.Entities.Cases;
+using Sbeap.Domain.Entities.Customers;
 using Sbeap.Domain.Entities.Offices;
 using Sbeap.EfRepository.Contexts;
 using Sbeap.EfRepository.Contexts.SeedDevData;
@@ -122,8 +125,50 @@ public sealed class RepositoryHelper : IDisposable
 
     private static void ClearAllStaticData()
     {
+        ContactData.ClearData();
+        CaseworkData.ClearData();
+        AgencyData.ClearData();
+        ActionItemData.ClearData();
+        ActionItemTypeData.ClearData();
+        CustomerData.ClearData();
         OfficeData.ClearData();
         UserData.ClearData();
+    }
+
+    /// <summary>
+    /// Seeds data for the Agency entity and returns an instance of AgencyRepository.
+    /// </summary>
+    /// <returns>An <see cref="AgencyRepository"/>.</returns>
+    public IAgencyRepository GetAgencyRepository()
+    {
+        ClearAllStaticData();
+        DbSeedDataHelpers.SeedAgencyData(_context);
+        Context = new AppDbContext(_options);
+        return new AgencyRepository(Context);
+    }
+
+    /// <summary>
+    /// Seeds data for the Casework entity and returns an instance of CaseworkRepository.
+    /// </summary>
+    /// <returns>An <see cref="CaseworkRepository"/>.</returns>
+    public ICaseworkRepository GetCaseworkRepository()
+    {
+        ClearAllStaticData();
+        DbSeedDataHelpers.SeedAllData(_context);
+        Context = new AppDbContext(_options);
+        return new CaseworkRepository(Context);
+    }
+
+    /// <summary>
+    /// Seeds data for the Customer entity and returns an instance of CustomerRepository.
+    /// </summary>
+    /// <returns>An <see cref="CustomerRepository"/>.</returns>
+    public ICustomerRepository GetCustomerRepository()
+    {
+        ClearAllStaticData();
+        DbSeedDataHelpers.SeedAllData(_context);
+        Context = new AppDbContext(_options);
+        return new CustomerRepository(Context);
     }
 
     /// <summary>

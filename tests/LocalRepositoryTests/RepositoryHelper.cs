@@ -7,6 +7,24 @@ namespace LocalRepositoryTests;
 
 public static class RepositoryHelper
 {
+    public static LocalAgencyRepository GetAgencyRepository()
+    {
+        ClearAllStaticData();
+        return new LocalAgencyRepository();
+    }
+
+    public static LocalCaseworkRepository GetCaseworkRepository()
+    {
+        ClearAllStaticData();
+        return new LocalCaseworkRepository();
+    }
+
+    public static LocalCustomerRepository GetCustomerRepository()
+    {
+        ClearAllStaticData();
+        return new LocalCustomerRepository();
+    }
+
     public static LocalOfficeRepository GetOfficeRepository()
     {
         ClearAllStaticData();

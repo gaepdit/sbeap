@@ -32,5 +32,5 @@ public class Casework : AuditableSoftDeleteEntity
 
     // Collections
 
-    public ICollection<ActionItem> ActionItems { get; set; } = new List<ActionItem>();
+    public List<ActionItem> ActionItems { get; set; } = new List<ActionItem>();
 }
