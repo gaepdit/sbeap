@@ -23,6 +23,6 @@ public class ActionItem : AuditableSoftDeleteEntity
     public ActionItemType ActionItemType { get; private init; } = default!;
 
     public DateOnly ActionDate { get; set; }
-    public ApplicationUser CommittedBy { get; set; } = default!;
     public string Notes { get; set; } = string.Empty;
+    public ApplicationUser EnteredBy { get; set; } = default!;
 }

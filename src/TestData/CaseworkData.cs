@@ -1,5 +1,4 @@
-﻿using Cts.TestData.Constants;
-using Sbeap.Domain.Entities.Cases;
+﻿using Sbeap.Domain.Entities.Cases;
 using Sbeap.TestData.Constants;
 
 namespace Sbeap.TestData;
@@ -15,7 +14,7 @@ internal static class CaseworkData
             CaseClosedDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-2)),
             Description = TextData.MultipleParagraphs,
             InteragencyReferral = AgencyData.GetAgencies.ElementAt(0),
-            ReferralInformation = TextData.ShortPhrase,
+            ReferralNotes = TextData.ShortPhrase,
             ReferralDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-2)),
         },
         new(new Guid("50000000-0000-0000-0000-000000000002"),
@@ -25,7 +24,7 @@ internal static class CaseworkData
             CaseClosedDate = null,
             Description = string.Empty,
             InteragencyReferral = null,
-            ReferralInformation = string.Empty,
+            ReferralNotes = string.Empty,
             ReferralDate = null,
         },
         new(new Guid("50000000-0000-0000-0000-000000000003"),
@@ -35,7 +34,7 @@ internal static class CaseworkData
             CaseClosedDate = null,
             Description = TextData.EmojiWord,
             InteragencyReferral = null,
-            ReferralInformation = string.Empty,
+            ReferralNotes = string.Empty,
             ReferralDate = null,
         },
     };

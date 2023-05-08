@@ -28,4 +28,6 @@ public record IncompleteAddress : ValueObject
         yield return State ?? string.Empty;
         yield return PostalCode ?? string.Empty;
     }
+
+    public static IncompleteAddress EmptyAddress => new();
 }

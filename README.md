@@ -57,6 +57,7 @@ The following development settings configure the data stores and authentication.
 - *UseEfMigrations* — Uses Entity Framework migrations when `true`. When `false`, the database is deleted and recreated on each run. (Only applies if *UseInMemoryData* is `false`.)
 - *UseAzureAd* — If `true`, connects to Azure AD for user authentication. (The app must be registered in the Azure portal, and configuration added to the settings file.) If `false`, authentication is simulated using test user data.
 - *LocalUserIsAuthenticated* — Simulates a successful login with a test account when `true`. Simulates a failed login when `false`. (Only applies if *UseAzureAd* is `false`.)
+- *LocalUserIsStaff* — Adds the Staff and Site Maintenance Roles to the logged in account when `true` or no roles when `false`. (Applies whether *UserAzureAd* is `true` or `false`.)
 - *LocalUserIsAdmin* — Adds all App Roles to the logged in account when `true` or no roles when `false`. (Applies whether *UserAzureAd* is `true` or `false`.)
 
 When running in the production environment, the settings are automatically set as follows:
@@ -66,6 +67,7 @@ UseInMemoryData = false,
 UseEfMigrations = true,
 UseAzureAd = true,
 LocalUserIsAuthenticated = false,
+LocalUserIsStaff = false,
 LocalUserIsAdmin = false,
 ```
 

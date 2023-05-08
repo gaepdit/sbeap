@@ -14,9 +14,7 @@ public class StaffFilters
 
         var result = UserData.GetUsers.AsQueryable().ApplyFilter(spec);
 
-        result.Should().BeEquivalentTo(expected, opts =>
-            opts.Excluding(e => e.SecurityStamp)
-                .Excluding(e => e.ConcurrencyStamp));
+        result.Should().BeEquivalentTo(expected);
     }
 
     [Test]
@@ -31,9 +29,7 @@ public class StaffFilters
 
         var result = UserData.GetUsers.AsQueryable().ApplyFilter(spec);
 
-        result.Should().BeEquivalentTo(expected, opts =>
-            opts.Excluding(e => e.SecurityStamp)
-                .Excluding(e => e.ConcurrencyStamp));
+        result.Should().BeEquivalentTo(expected);
     }
 
     [Test]
@@ -46,9 +42,7 @@ public class StaffFilters
 
         var result = UserData.GetUsers.AsQueryable().ApplyFilter(spec);
 
-        result.Should().BeEquivalentTo(expected, opts =>
-            opts.Excluding(e => e.SecurityStamp)
-                .Excluding(e => e.ConcurrencyStamp));
+        result.Should().BeEquivalentTo(expected);
     }
 
     [Test]
@@ -61,9 +55,7 @@ public class StaffFilters
 
         var result = UserData.GetUsers.AsQueryable().ApplyFilter(spec);
 
-        result.Should().BeEquivalentTo(expected, opts =>
-            opts.Excluding(e => e.SecurityStamp)
-                .Excluding(e => e.ConcurrencyStamp));
+        result.Should().BeEquivalentTo(expected);
     }
 
     [Test]
@@ -74,9 +66,7 @@ public class StaffFilters
 
         var result = UserData.GetUsers.AsQueryable().ApplyFilter(spec);
 
-        result.Should().BeEquivalentTo(expected, opts =>
-            opts.Excluding(e => e.SecurityStamp)
-                .Excluding(e => e.ConcurrencyStamp));
+        result.Should().BeEquivalentTo(expected);
     }
 
     [Test]
@@ -84,8 +74,6 @@ public class StaffFilters
     {
         var spec = new StaffSearchDto { Status = SearchStaffStatus.All };
         var result = UserData.GetUsers.AsQueryable().ApplyFilter(spec);
-        result.Should().BeEquivalentTo(UserData.GetUsers, opts =>
-            opts.Excluding(e => e.SecurityStamp)
-                .Excluding(e => e.ConcurrencyStamp));
+        result.Should().BeEquivalentTo(UserData.GetUsers);
     }
 }

@@ -1,20 +1,19 @@
 ﻿using AutoMapper;
 using GaEpd.AppLibrary.ListItems;
-using Sbeap.AppServices.Staff;
 using Sbeap.AppServices.Staff.Dto;
 using Sbeap.AppServices.UserServices;
 using Sbeap.Domain.Entities.Offices;
 
 namespace Sbeap.AppServices.Offices;
 
-public sealed class OfficeAppService : IOfficeAppService
+public sealed class OfficeService : IOfficeService
 {
     private readonly IOfficeRepository _repository;
     private readonly IOfficeManager _manager;
     private readonly IMapper _mapper;
     private readonly IUserService _users;
 
-    public OfficeAppService(
+    public OfficeService(
         IOfficeRepository repository,
         IOfficeManager manager,
         IMapper mapper,
@@ -30,12 +29,6 @@ public sealed class OfficeAppService : IOfficeAppService
     {
         var item = await _repository.FindAsync(id, token);
         return _mapper.Map<OfficeViewDto>(item);
-    }
-
-    public async Task<OfficeUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default)
-    {
-        var item = await _repository.FindAsync(id, token);
-        return _mapper.Map<OfficeUpdateDto>(item);
     }
 
     public async Task<IReadOnlyList<OfficeViewDto>> GetListAsync(CancellationToken token = default)
@@ -54,6 +47,12 @@ public sealed class OfficeAppService : IOfficeAppService
         item.SetCreator((await _users.GetCurrentUserAsync())?.Id);
         await _repository.InsertAsync(item, token: token);
         return item.Id;
+    }
+
+    public async Task<OfficeUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default)
+    {
+        var item = await _repository.FindAsync(id, token);
+        return _mapper.Map<OfficeUpdateDto>(item);
     }
 
     public async Task UpdateAsync(OfficeUpdateDto resource, CancellationToken token = default)

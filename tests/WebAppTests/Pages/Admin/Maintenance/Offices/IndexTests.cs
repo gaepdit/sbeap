@@ -16,7 +16,7 @@ public class IndexTests
     [Test]
     public async Task OnGet_ReturnsWithList()
     {
-        var serviceMock = new Mock<IOfficeAppService>();
+        var serviceMock = new Mock<IOfficeService>();
         serviceMock.Setup(l => l.GetListAsync(CancellationToken.None)).ReturnsAsync(ListTest);
         var authorizationMock = new Mock<IAuthorizationService>();
         authorizationMock.Setup(l => l.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), null, It.IsAny<string>()))

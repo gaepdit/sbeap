@@ -18,7 +18,7 @@ public class EditTests
     [Test]
     public async Task OnGet_ReturnsWithItem()
     {
-        var serviceMock = new Mock<IOfficeAppService>();
+        var serviceMock = new Mock<IOfficeService>();
         serviceMock.Setup(l => l.FindForUpdateAsync(ItemTest.Id, CancellationToken.None)).ReturnsAsync(ItemTest);
         var page = new EditModel(serviceMock.Object, Mock.Of<IValidator<OfficeUpdateDto>>())
             { TempData = WebAppTestsSetup.PageTempData() };
@@ -36,7 +36,7 @@ public class EditTests
     [Test]
     public async Task OnGet_GivenNullId_ReturnsNotFound()
     {
-        var serviceMock = new Mock<IOfficeAppService>();
+        var serviceMock = new Mock<IOfficeService>();
         var page = new EditModel(serviceMock.Object, Mock.Of<IValidator<OfficeUpdateDto>>())
             { TempData = WebAppTestsSetup.PageTempData() };
 
@@ -52,7 +52,7 @@ public class EditTests
     [Test]
     public async Task OnGet_GivenInvalidId_ReturnsNotFound()
     {
-        var serviceMock = new Mock<IOfficeAppService>();
+        var serviceMock = new Mock<IOfficeService>();
         serviceMock.Setup(l => l.FindForUpdateAsync(It.IsAny<Guid>(), CancellationToken.None))
             .ReturnsAsync((OfficeUpdateDto?)null);
         var page = new EditModel(serviceMock.Object, Mock.Of<IValidator<OfficeUpdateDto>>())
@@ -66,7 +66,7 @@ public class EditTests
     [Test]
     public async Task OnPost_GivenSuccess_ReturnsRedirectWithDisplayMessage()
     {
-        var serviceMock = new Mock<IOfficeAppService>();
+        var serviceMock = new Mock<IOfficeService>();
         var validatorMock = new Mock<IValidator<OfficeUpdateDto>>();
         validatorMock.Setup(l => l.ValidateAsync(It.IsAny<OfficeUpdateDto>(), CancellationToken.None))
             .ReturnsAsync(new ValidationResult());
@@ -89,7 +89,7 @@ public class EditTests
     [Test]
     public async Task OnPost_GivenInvalidItem_ReturnsPageWithModelErrors()
     {
-        var serviceMock = new Mock<IOfficeAppService>();
+        var serviceMock = new Mock<IOfficeService>();
         var validatorMock = new Mock<IValidator<OfficeUpdateDto>>();
         var validationFailures = new List<ValidationFailure> { new("property", "message") };
         validatorMock.Setup(l => l.ValidateAsync(It.IsAny<OfficeUpdateDto>(), CancellationToken.None))

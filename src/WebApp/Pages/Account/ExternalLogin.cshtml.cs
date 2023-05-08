@@ -22,14 +22,14 @@ public class ExternalLoginModel : PageModel
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IConfiguration _configuration;
-    private readonly IStaffAppService _staffService;
+    private readonly IStaffService _staffService;
     private readonly ILogger<ExternalLoginModel> _logger;
 
     public ExternalLoginModel(
         SignInManager<ApplicationUser> signInManager,
         UserManager<ApplicationUser> userManager,
         IConfiguration configuration,
-        IStaffAppService staffService,
+        IStaffService staffService,
         ILogger<ExternalLoginModel> logger)
     {
         _signInManager = signInManager;
@@ -66,17 +66,22 @@ public class ExternalLoginModel : PageModel
     private async Task<IActionResult> SignInAsLocalUser()
     {
         _logger.LogInformation(
-            "Local user signin attempted with settings LocalUserIsAuthenticated: {LocalUserIsAuthenticated} and LocalUserIsAdmin: {LocalUserIsAdmin}",
+            "Local user signin attempted with settings {LocalUserIsAuthenticated}, {LocalUserIsStaff}, and {LocalUserIsAdmin}",
             ApplicationSettings.DevSettings.LocalUserIsAuthenticated,
+            ApplicationSettings.DevSettings.LocalUserIsStaff,
             ApplicationSettings.DevSettings.LocalUserIsAdmin);
         if (!ApplicationSettings.DevSettings.LocalUserIsAuthenticated) return Forbid();
 
-        var staff = ApplicationSettings.DevSettings.LocalUserIsAdmin
-            ? (await _staffService.GetListAsync(new StaffSearchDto { Name = "Admin" })).First()
-            : (await _staffService.GetListAsync(new StaffSearchDto { Name = "General" })).First();
+        var search = new StaffSearchDto { Name = "Limited" };
+        if (ApplicationSettings.DevSettings.LocalUserIsStaff)
+            search.Name = "General";
+        else if (ApplicationSettings.DevSettings.LocalUserIsAdmin)
+            search.Name = "Admin";
 
-        var user = await _userManager.FindByIdAsync(staff.Id);
-        _logger.LogInformation("Local user {StaffName} with ID {StaffId} signed in", staff.DisplayName, staff.Id);
+        var staffId = (await _staffService.GetListAsync(search)).First().Id;
+
+        var user = await _userManager.FindByIdAsync(staffId);
+        _logger.LogInformation("Local user with ID {StaffId} signed in", staffId);
 
         await _signInManager.SignInAsync(user!, false);
         return LocalRedirect(ReturnUrl);
@@ -160,11 +165,17 @@ public class ExternalLoginModel : PageModel
         _logger.LogInformation("Created new user {UserName}", user.UserName);
 
         // Add new user to application Roles if seeded in app settings or local admin user setting is enabled.
-        var seedUsers = _configuration.GetSection("SeedAdminUsers").Get<string[]>();
-        if (ApplicationSettings.DevSettings.LocalUserIsAdmin ||
-            (seedUsers != null && seedUsers.Contains(user.Email, StringComparer.InvariantCultureIgnoreCase)))
+        var seedAdminUsers = _configuration.GetSection("SeedAdminUsers").Get<string[]>();
+        if (ApplicationSettings.DevSettings.LocalUserIsStaff)
         {
-            _logger.LogInformation("Seeding roles for new user {UserName}", user.UserName);
+            _logger.LogInformation("Seeding staff role for new user {UserName}", user.UserName);
+            await _userManager.AddToRoleAsync(user, RoleName.Staff);
+        }
+
+        if (ApplicationSettings.DevSettings.LocalUserIsAdmin ||
+            (seedAdminUsers != null && seedAdminUsers.Contains(user.Email, StringComparer.InvariantCultureIgnoreCase)))
+        {
+            _logger.LogInformation("Seeding all roles for new user {UserName}", user.UserName);
             foreach (var role in AppRole.AllRoles) await _userManager.AddToRoleAsync(user, role.Key);
         }
 

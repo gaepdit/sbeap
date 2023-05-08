@@ -7,6 +7,7 @@ public static class RoleName
 {
     // These are the strings that are stored in the database. Avoid modifying these once set!
 
+    public const string Staff = nameof(Staff);
     public const string SiteMaintenance = nameof(SiteMaintenance);
     public const string UserAdmin = nameof(UserAdmin);
 }
@@ -52,6 +53,12 @@ public class AppRole
     }
 
     // These static Role objects are used for displaying role information in the UI.
+
+    public static AppRole StaffRole { get; } = new(
+        RoleName.Staff, "SBEAP Staff",
+        "Can create and edit customers, contacts, and cases. Can also add and remove action items related " +
+        "to cases."
+    );
 
     public static AppRole SiteMaintenanceRole { get; } = new(
         RoleName.SiteMaintenance, "Site Maintenance",

@@ -1,7 +1,6 @@
 ﻿using Sbeap.Domain.ValueObjects;
-using Sbeap.TestData.Constants;
 
-namespace Cts.TestData.Constants;
+namespace Sbeap.TestData.Constants;
 
 public static class ValueObjectData
 {

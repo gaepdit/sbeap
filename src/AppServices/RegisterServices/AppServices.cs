@@ -10,6 +10,6 @@ public static class AppServices
     {
         // Offices
         services.AddScoped<IOfficeManager, OfficeManager>();
-        services.AddScoped<IOfficeAppService, OfficeAppService>();
+        services.AddScoped<IOfficeService, OfficeService>();
     }
 }

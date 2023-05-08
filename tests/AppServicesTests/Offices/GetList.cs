@@ -18,7 +18,7 @@ public class GetList
             .ReturnsAsync(itemList);
         var managerMock = new Mock<IOfficeManager>();
         var userServiceMock = new Mock<IUserService>();
-        var appService = new OfficeAppService(repoMock.Object, managerMock.Object,
+        var appService = new OfficeService(repoMock.Object, managerMock.Object,
             AppServicesTestsSetup.Mapper!, userServiceMock.Object);
 
         var result = await appService.GetListAsync();
@@ -34,7 +34,7 @@ public class GetList
             .ReturnsAsync(new List<Office>());
         var managerMock = new Mock<IOfficeManager>();
         var userServiceMock = new Mock<IUserService>();
-        var appService = new OfficeAppService(repoMock.Object, managerMock.Object,
+        var appService = new OfficeService(repoMock.Object, managerMock.Object,
             AppServicesTestsSetup.Mapper!, userServiceMock.Object);
 
         var result = await appService.GetListAsync();

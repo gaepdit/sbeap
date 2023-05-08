@@ -1,5 +1,6 @@
 ﻿using FluentValidation.TestHelper;
 using Sbeap.AppServices.Offices;
+using Sbeap.AppServices.Offices.Validators;
 using Sbeap.Domain.Entities.Offices;
 using Sbeap.TestData.Constants;
 

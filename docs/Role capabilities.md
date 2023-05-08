@@ -4,15 +4,23 @@
 
 Visitors to this site who are not logged have no access to any pages or data on the site.
 
-## Staff
+## User
 
-All Users with accounts who are logged into the application can:
+All Users with work accounts who are logged into the application can:
 
-* Edit profile data for themselves, including contact information.
+* View a list of SBEAP Users.
+* Edit account info for themselves, including changing assigned Office.
 
 ## User Roles
 
 Users can also be granted one or more of the following roles.
+
+### Staff
+
+Users in the Staff role can:
+
+* Create and edit Customers, Contacts, and Cases.
+* Add and delete Action Items related to Cases.
 
 ### User Account Admin
 
@@ -24,4 +32,4 @@ Users in the User Account Admin role can:
 
 Users in the Site Maintenance role can:
 
-* Edit the lookup tables used for drop-down lists.
+* Edit the lookup tables used for drop-down lists (Action Item Types and Agencies).
