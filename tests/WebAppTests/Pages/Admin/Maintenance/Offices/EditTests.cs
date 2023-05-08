@@ -13,7 +13,7 @@ namespace WebAppTests.Pages.Admin.Maintenance.Offices;
 
 public class EditTests
 {
-    private static readonly OfficeUpdateDto ItemTest = new() { Id = Guid.Empty, Name = TestConstants.ValidName };
+    private static readonly OfficeUpdateDto ItemTest = new() { Id = Guid.Empty, Name = TextData.ValidName };
 
     [Test]
     public async Task OnGet_ReturnsWithItem()

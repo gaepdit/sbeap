@@ -1,0 +1,35 @@
+﻿using Sbeap.Domain.Entities.ActionItems;
+using Sbeap.Domain.Entities.Agencies;
+using Sbeap.Domain.Entities.Customers;
+
+namespace Sbeap.Domain.Entities.Cases;
+
+public class Casework : AuditableSoftDeleteEntity
+{
+    // Constructors
+
+    [UsedImplicitly] // Used by ORM.
+    private Casework() { }
+
+    internal Casework(Guid id, Customer customer, DateOnly caseOpenedDate) : base(id)
+    {
+        Customer = customer;
+        CaseOpenedDate = caseOpenedDate;
+    }
+
+    // Properties
+
+    public Customer Customer { get; private init; } = default!;
+
+    public DateOnly CaseOpenedDate { get; set; }
+    public DateOnly? CaseClosedDate { get; set; }
+    public bool IsClosed => CaseClosedDate is not null;
+    public string Description { get; set; } = string.Empty;
+    public Agency? InteragencyReferral { get; set; }
+    public string ReferralInformation { get; set; } = string.Empty;
+    public DateOnly? ReferralDate { get; set; }
+
+    // Collections
+
+    public ICollection<ActionItem> ActionItems { get; set; } = new List<ActionItem>();
+}

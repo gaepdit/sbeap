@@ -46,7 +46,13 @@ public sealed class RepositoryHelper : IDisposable
     /// <param name="callingMember">The unit test method requesting the Repository Helper.</param>
     private RepositoryHelper(object callingClass, string callingMember)
     {
-        _options = callingClass.CreateUniqueMethodOptions<AppDbContext>(callingMember: callingMember);
+        _options = callingClass.CreateUniqueMethodOptions<AppDbContext>(callingMember: callingMember,
+            builder: opts => opts.UseSqlServer(
+                sqlServerOpts =>
+                {
+                    // This will no longer be necessary after upgrading to .NET 8.
+                    sqlServerOpts.UseDateOnlyTimeOnly();
+                }));
         _context = new AppDbContext(_options);
         _context.Database.EnsureClean();
     }

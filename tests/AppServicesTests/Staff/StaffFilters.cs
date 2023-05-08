@@ -1,4 +1,4 @@
-﻿using Sbeap.AppServices.Staff;
+using Sbeap.AppServices.Staff;
 using Sbeap.AppServices.Staff.Dto;
 using Sbeap.TestData.Identity;
 
@@ -14,7 +14,9 @@ public class StaffFilters
 
         var result = UserData.GetUsers.AsQueryable().ApplyFilter(spec);
 
-        result.Should().BeEquivalentTo(expected);
+        result.Should().BeEquivalentTo(expected, opts =>
+            opts.Excluding(e => e.SecurityStamp)
+                .Excluding(e => e.ConcurrencyStamp));
     }
 
     [Test]
@@ -29,7 +31,9 @@ public class StaffFilters
 
         var result = UserData.GetUsers.AsQueryable().ApplyFilter(spec);
 
-        result.Should().BeEquivalentTo(expected);
+        result.Should().BeEquivalentTo(expected, opts =>
+            opts.Excluding(e => e.SecurityStamp)
+                .Excluding(e => e.ConcurrencyStamp));
     }
 
     [Test]
@@ -42,20 +46,24 @@ public class StaffFilters
 
         var result = UserData.GetUsers.AsQueryable().ApplyFilter(spec);
 
-        result.Should().BeEquivalentTo(expected);
+        result.Should().BeEquivalentTo(expected, opts =>
+            opts.Excluding(e => e.SecurityStamp)
+                .Excluding(e => e.ConcurrencyStamp));
     }
 
     [Test]
     public void OfficeFilter_ReturnsMatches()
     {
-        var office = UserData.GetUsers.First(e => e is { Active: true, Office: { } }).Office;
-        var spec = new StaffSearchDto { Office = office!.Id };
+        var office = UserData.GetUsers.First().Office;
+        var spec = new StaffSearchDto { Office = office!.Id, Status = SearchStaffStatus.All };
         var expected = UserData.GetUsers
-            .Where(e => e.Active && e.Office == office);
+            .Where(e => e.Office!.Id == office.Id);
 
         var result = UserData.GetUsers.AsQueryable().ApplyFilter(spec);
 
-        result.Should().BeEquivalentTo(expected);
+        result.Should().BeEquivalentTo(expected, opts =>
+            opts.Excluding(e => e.SecurityStamp)
+                .Excluding(e => e.ConcurrencyStamp));
     }
 
     [Test]
@@ -66,7 +74,9 @@ public class StaffFilters
 
         var result = UserData.GetUsers.AsQueryable().ApplyFilter(spec);
 
-        result.Should().BeEquivalentTo(expected);
+        result.Should().BeEquivalentTo(expected, opts =>
+            opts.Excluding(e => e.SecurityStamp)
+                .Excluding(e => e.ConcurrencyStamp));
     }
 
     [Test]
@@ -74,6 +84,8 @@ public class StaffFilters
     {
         var spec = new StaffSearchDto { Status = SearchStaffStatus.All };
         var result = UserData.GetUsers.AsQueryable().ApplyFilter(spec);
-        result.Should().BeEquivalentTo(UserData.GetUsers);
+        result.Should().BeEquivalentTo(UserData.GetUsers, opts =>
+            opts.Excluding(e => e.SecurityStamp)
+                .Excluding(e => e.ConcurrencyStamp));
     }
 }

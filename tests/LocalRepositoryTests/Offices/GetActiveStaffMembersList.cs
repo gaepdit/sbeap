@@ -9,7 +9,7 @@ public class GetActiveStaffMembersList
     private LocalOfficeRepository _repository = default!;
 
     [SetUp]
-    public void SetUp() => _repository = new LocalOfficeRepository();
+    public void SetUp() => _repository = RepositoryHelper.GetOfficeRepository();
 
     [TearDown]
     public void TearDown() => _repository.Dispose();
@@ -17,7 +17,6 @@ public class GetActiveStaffMembersList
     [Test]
     public async Task WhenStaffExist_ReturnsList()
     {
-        // First active office was seeded with active staff.
         var item = _repository.Items.First(e => e.Active);
         var result = await _repository.GetActiveStaffMembersListAsync(item.Id);
         result.Should().BeEquivalentTo(item.StaffMembers);

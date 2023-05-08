@@ -20,9 +20,9 @@ public class EditTests
     private static readonly StaffViewDto StaffViewTest = new()
     {
         Id = Guid.Empty.ToString(),
-        Email = TestConstants.ValidEmail,
-        GivenName = TestConstants.ValidName,
-        FamilyName = TestConstants.ValidName,
+        Email = TextData.ValidEmail,
+        GivenName = TextData.ValidName,
+        FamilyName = TextData.ValidName,
     };
 
     private static readonly StaffUpdateDto StaffUpdateTest = new() { Id = Guid.Empty.ToString() };

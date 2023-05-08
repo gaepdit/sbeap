@@ -10,7 +10,7 @@ public class OfficeMapping
     [Test]
     public void OfficeViewMappingWorks()
     {
-        var item = new Office(Guid.NewGuid(), TestConstants.ValidName);
+        var item = new Office(Guid.NewGuid(), TextData.ValidName);
 
         var result = AppServicesTestsSetup.Mapper!.Map<OfficeViewDto>(item);
 
@@ -25,7 +25,7 @@ public class OfficeMapping
     [Test]
     public void OfficeUpdateMappingWorks()
     {
-        var item = new Office(Guid.NewGuid(), TestConstants.ValidName);
+        var item = new Office(Guid.NewGuid(), TextData.ValidName);
 
         var result = AppServicesTestsSetup.Mapper!.Map<OfficeUpdateDto>(item);
 

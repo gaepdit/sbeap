@@ -21,9 +21,9 @@ public class EditTests
     {
         Id = Guid.Empty.ToString(),
         Active = true,
-        Email = TestConstants.ValidEmail,
-        GivenName = TestConstants.ValidName,
-        FamilyName = TestConstants.ValidName,
+        Email = TextData.ValidEmail,
+        GivenName = TextData.ValidName,
+        FamilyName = TextData.ValidName,
     };
 
     private static readonly StaffUpdateDto StaffUpdateTest = new()

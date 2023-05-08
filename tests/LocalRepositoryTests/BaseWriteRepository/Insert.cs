@@ -10,7 +10,7 @@ public class Insert
     private LocalOfficeRepository _repository = default!;
 
     [SetUp]
-    public void SetUp() => _repository = new LocalOfficeRepository();
+    public void SetUp() => _repository = RepositoryHelper.GetOfficeRepository();
 
     [TearDown]
     public void TearDown() => _repository.Dispose();
@@ -19,7 +19,7 @@ public class Insert
     public async Task WhenItemIsValid_InsertsItem()
     {
         var initialCount = _repository.Items.Count;
-        var newItem = new Office(Guid.NewGuid(), TestConstants.ValidName);
+        var newItem = new Office(Guid.NewGuid(), TextData.ValidName);
 
         await _repository.InsertAsync(newItem);
 

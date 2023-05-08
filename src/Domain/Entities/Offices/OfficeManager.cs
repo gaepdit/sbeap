@@ -22,7 +22,7 @@ public class OfficeManager : IOfficeManager
 
     private async Task ThrowIfDuplicateName(string name, Guid? ignoreId, CancellationToken token)
     {
-        // Validate the name is not a duplicate
+        // Validate the name is not a duplicate.
         var existing = await _repository.FindByNameAsync(name.Trim(), token);
         if (existing is not null && (ignoreId is null || existing.Id != ignoreId))
             throw new NameAlreadyExistsException(name);
