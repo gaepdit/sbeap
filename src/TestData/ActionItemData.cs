@@ -8,7 +8,7 @@ internal static class ActionItemData
 {
     private static IEnumerable<ActionItem> ActionItemSeedItems => new List<ActionItem>
     {
-        new(new Guid("60000000-0000-0000-0000-000000000001"),
+        new(new Guid("51000000-0000-0000-0000-000000000001"),
             CaseworkData.GetCases.ElementAt(0),
             ActionItemTypeData.GetActionItemTypes.ElementAt(6))
         {
@@ -16,13 +16,21 @@ internal static class ActionItemData
             EnteredBy = UserData.GetUsers.ElementAt(0),
             Notes = TextData.MultipleParagraphs,
         },
-        new(new Guid("60000000-0000-0000-0000-000000000002"),
+        new(new Guid("51000000-0000-0000-0000-000000000002"),
             CaseworkData.GetCases.ElementAt(0),
             ActionItemTypeData.GetActionItemTypes.ElementAt(3))
         {
             ActionDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-2)),
             EnteredBy = UserData.GetUsers.ElementAt(1),
             Notes = string.Empty,
+        },
+        new(new Guid("51000000-0000-0000-0000-000000000003"),
+            CaseworkData.GetCases.ElementAt(0),
+            ActionItemTypeData.GetActionItemTypes.ElementAt(3))
+        {
+            ActionDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-2)),
+            EnteredBy = UserData.GetUsers.ElementAt(1),
+            Notes = "Deleted Action Item",
         },
     };
 
@@ -33,7 +41,8 @@ internal static class ActionItemData
         get
         {
             if (_actionItems is not null) return _actionItems;
-            _actionItems = ActionItemSeedItems;
+            _actionItems = ActionItemSeedItems.ToList();
+            _actionItems.ElementAt(2).SetDeleted("00000000-0000-0000-0000-000000000001");
             return _actionItems;
         }
     }

@@ -5,7 +5,6 @@ using Sbeap.AppServices.RegisterServices;
 using Sbeap.WebApp.Platform.Raygun;
 using Sbeap.WebApp.Platform.Services;
 using Sbeap.WebApp.Platform.Settings;
-using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 

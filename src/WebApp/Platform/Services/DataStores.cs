@@ -48,6 +48,11 @@ public static class DataStores
                     }));
             }
 
+            services.AddScoped<IActionItemRepository, ActionItemRepository>();
+            services.AddScoped<IAgencyRepository, AgencyRepository>();
+            services.AddScoped<ICaseworkRepository, CaseworkRepository>();
+            services.AddScoped<IContactRepository, ContactRepository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IOfficeRepository, OfficeRepository>();
         }
     }
