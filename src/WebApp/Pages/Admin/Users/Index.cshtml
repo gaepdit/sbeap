@@ -99,7 +99,7 @@
                 <tbody>
                 @foreach (var item in Model.SearchResults.Items)
                 {
-                    <tr class="@(item.Id == Model.HighlightId ? "list-group-item-warning" : !item.Active ? "bg-secondary bg-opacity-25" : "")">
+                    <tr class="@(item.Active ? "" : "bg-secondary bg-opacity-25")">
                         <td>
                             @if (item.Email.Equals(User.Identity?.Name))
                             {

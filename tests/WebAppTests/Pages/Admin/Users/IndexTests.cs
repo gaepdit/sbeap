@@ -40,7 +40,6 @@ public class IndexTests
             page.SearchResults.Should().Be(output);
             page.SearchResults.Items.Should().BeEmpty();
             page.ShowResults.Should().BeTrue();
-            page.HighlightId.Should().BeNull();
         }
     }
 

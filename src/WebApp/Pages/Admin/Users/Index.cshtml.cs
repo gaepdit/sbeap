@@ -33,9 +33,6 @@ public class IndexModel : PageModel
     public bool ShowResults { get; private set; }
     public IPaginatedResult<StaffSearchResultDto> SearchResults { get; private set; } = default!;
     public string SortByName => Spec.Sort.ToString();
-    
-    [TempData]
-    public string? HighlightId { get; set; }
 
     // Select lists
     public SelectList RoleItems { get; private set; } = default!;
