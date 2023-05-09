@@ -23,7 +23,7 @@ internal static class CustomerData
             County = null,
             Location = IncompleteAddress.EmptyAddress,
             MailingAddress = IncompleteAddress.EmptyAddress,
-            Description = string.Empty,
+            Description = TextData.Paragraph,
             WebSite = null,
         },
         new(new Guid("40000000-0000-0000-0000-000000000003"))

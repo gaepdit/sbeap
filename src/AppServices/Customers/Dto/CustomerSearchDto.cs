@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
@@ -6,14 +6,14 @@ namespace Sbeap.AppServices.Customers.Dto;
 
 public record CustomerSearchDto
 {
-    public SortBy Sort { get; init; } = SortBy.NameAsc;
+    public CustomerSortBy Sort { get; init; } = CustomerSortBy.NameAsc;
 
     public string? Name { get; set; }
     public string? Description { get; set; }
     public string? County { get; set; }
 
     [Display(Name = "Deletion Status")]
-    public CaseDeletedStatus? DeletedStatus { get; init; }
+    public CustomerDeletedStatus? DeletedStatus { get; init; }
 
     // UI Routing
     public IDictionary<string, string?> AsRouteValues() => new Dictionary<string, string?>
@@ -40,14 +40,14 @@ public record CustomerSearchDto
 // "All" = all customers
 // "Not Deleted" (null) = only non-deleted customers
 [JsonConverter(typeof(JsonStringEnumConverter))]
-public enum CaseDeletedStatus
+public enum CustomerDeletedStatus
 {
     Deleted = 0,
     All = 1,
 }
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
-public enum SortBy
+public enum CustomerSortBy
 {
     [Description("Name")] NameAsc,
     [Description("Name desc")] NameDesc,

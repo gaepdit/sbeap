@@ -28,10 +28,10 @@ public static class CustomerFilters
         string? input) => string.IsNullOrWhiteSpace(input) ? predicate : predicate.And(e => e.County == input);
 
     private static Expression<Func<Customer, bool>> ByDeletedStatus(this Expression<Func<Customer, bool>> predicate,
-        CaseDeletedStatus? input) => input switch
+        CustomerDeletedStatus? input) => input switch
     {
-        CaseDeletedStatus.All => predicate,
-        CaseDeletedStatus.Deleted => predicate.And(e => e.IsDeleted),
+        CustomerDeletedStatus.All => predicate,
+        CustomerDeletedStatus.Deleted => predicate.And(e => e.IsDeleted),
         _ => predicate.And(e => !e.IsDeleted),
     };
 }

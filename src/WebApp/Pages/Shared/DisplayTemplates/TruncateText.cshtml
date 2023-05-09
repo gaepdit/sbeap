@@ -1,0 +1,13 @@
+﻿@model string
+@if (string.IsNullOrEmpty(Model))
+{
+    <span class="text-muted">none</span>
+}
+else if (Model.Length>50)
+{
+    @Model[..50]@:&nbsp;…
+}
+else
+{
+    @Model
+}
