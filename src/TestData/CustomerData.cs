@@ -19,7 +19,7 @@ internal static class CustomerData
         },
         new(new Guid("40000000-0000-0000-0000-000000000002"))
         {
-            Name = string.Empty,
+            Name = TextData.EmojiWord,
             County = null,
             Location = IncompleteAddress.EmptyAddress,
             MailingAddress = IncompleteAddress.EmptyAddress,

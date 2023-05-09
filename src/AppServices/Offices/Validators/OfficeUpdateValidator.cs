@@ -15,6 +15,7 @@ public class OfficeUpdateValidator : AbstractValidator<OfficeUpdateDto>
 
         RuleFor(e => e.Name)
             .Cascade(CascadeMode.Stop)
+            .NotEmpty()
             .Length(SimpleNamedEntity.MinNameLength, SimpleNamedEntity.MaxNameLength)
             .MustAsync(async (e, _, token) => await NotDuplicateName(e, token))
             .WithMessage("The name entered already exists.");

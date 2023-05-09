@@ -57,7 +57,7 @@ public class CustomerFilterTests
     public void TextNameSpec_ReturnsFilteredList()
     {
         // Arrange
-        var referenceItem = CustomerData.GetCustomers.First(e => !e.IsDeleted && !string.IsNullOrEmpty(e.Name));
+        var referenceItem = CustomerData.GetCustomers.First(e => !e.IsDeleted);
         var spec = new CustomerSearchDto { Name = referenceItem.Name };
         var expected = CustomerData.GetCustomers.Where(e => !e.IsDeleted && e.Name == referenceItem.Name);
 
