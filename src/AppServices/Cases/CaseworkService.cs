@@ -82,8 +82,8 @@ public sealed class CaseworkService : ICaseworkService
         item.CaseClosureNotes = resource.CaseClosureNotes;
         item.ReferralDate = resource.ReferralDate;
         item.ReferralNotes = resource.ReferralNotes;
-        if (resource.InteragencyReferralId is not null)
-            item.InteragencyReferral = await _agencies.GetAsync(resource.InteragencyReferralId.Value, token);
+        if (resource.ReferralAgencyId is not null)
+            item.ReferralAgency = await _agencies.GetAsync(resource.ReferralAgencyId.Value, token);
 
         await _cases.UpdateAsync(item, token: token);
     }

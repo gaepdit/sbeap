@@ -12,6 +12,6 @@ public sealed class CustomerRepository : BaseRepository<Customer, Guid>, ICustom
         await Context.Set<Customer>()
             .Include(e => e.Contacts.Where(i => !i.IsDeleted))
             .Include(e => e.Cases.Where(i => !i.IsDeleted))
-            .Include(e => e.Cases).ThenInclude(e => e.InteragencyReferral)
+            .Include(e => e.Cases).ThenInclude(e => e.ReferralAgency)
             .SingleOrDefaultAsync(e => e.Id.Equals(id), token);
 }

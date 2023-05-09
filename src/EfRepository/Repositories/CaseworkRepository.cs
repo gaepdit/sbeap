@@ -14,6 +14,6 @@ public sealed class CaseworkRepository : BaseRepository<Casework, Guid>, ICasewo
             .Include(e => e.ActionItems.Where(i => !i.IsDeleted))
             .Include(e => e.ActionItems).ThenInclude(e => e.ActionItemType)
             .Include(e => e.ActionItems).ThenInclude(e => e.EnteredBy)
-            .Include(e => e.InteragencyReferral)
+            .Include(e => e.ReferralAgency)
             .SingleOrDefaultAsync(e => e.Id.Equals(id), token);
 }
