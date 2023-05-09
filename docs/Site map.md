@@ -1,22 +1,59 @@
 # Site Map
 
-* `/` Home page
+## Application Pages
 
-## Application pages
+### Home Page
 
-TODO
+- `/` (Home page/user dashboard)
+
+### Customer Pages 
+
+* `/Customers` (Customer search)
+* `/Customers/Add` (Add new Customer with Contact)
+* `/Customers/Details/{id}` (Customer details; list of Contacts with a new Contact form; list of Cases with a new Case form)
+* `/Customers/Edit/{id}` (Edit Customer details)
+* `/Customers/Delete` (Delete Customer)
+* `/Customers/Details/{id}/EditContact/{contactId}` (Edit Contact) 
+* `/Customers/Details/{id}/DeleteContact/{contactId}` (Delete Contact)
+
+### Case Pages
+
+* `/Cases` (Case search)
+* `/Cases/Details/{id}` (Case details with list of Action Items and a new Action Item form)
+* `/Cases/Edit/{id}` (Edit Case details)
+* `/Cases/Delete/{id}` (Delete Case)
+* `/Cases/Details/{id}/EditAction/{actionId}` (Edit Action Item)
+* `/Cases/Details/{id}/DeleteAction/{actionId}` (Delete Action Item)
+
+### Maintenance Pages 
+
+Maintenance pages available to Site Admin personnel to modify lookup tables used for drop-down lists. Editable items comprise Action Items, Agencies, and Offices.
+
+* `/Admin/Maintenance` (List of item types)
+* `/Admin/Maintenance/[type]` (List of items of given type; can be removed from list here)
+* `/Admin/Maintenance/[type]/Add` (Add new item)
+* `/Admin/Maintenance/[type]/Edit/{id}` (Edit item)
 
 ## User Account and Admin pages
 
-### Account login and profile pages
+### Account Pages
 
-* `/Account` (view profile)
+* `/Account` (View profile)
 * `/Account/Login`
-* `/Account/Edit` (edit contact info)
+* `/Account/Edit` (Edit contact info)
 
-### User management pages
+### User Management Pages
 
-* `/Admin/Users` (search)
+* `/Admin/Users` (User search)
 * `/Admin/Users/Details/{id}`
-* `/Admin/Users/Edit/{id}` (edit contact info)
-* `/Admin/Users/EditRoles/{id}` (edit roles)
+* `/Admin/Users/Edit/{id}` (Edit contact info)
+* `/Admin/Users/EditRoles/{id}` (Edit roles)
+
+## Menu Bar
+
+* Home (`/`)
+* Customer search (`/Customers`)
+* Case search (`/Cases`)
+* Add Customer (`/Customers/Add`)
+* More (Drop-down to show links to User Search and Site Maintenance pages: `/Admin/Users` or `/Admin/Maintenance`)
+* Account (Drop-down to show links to Profile page or sign-out: `/Account`)
