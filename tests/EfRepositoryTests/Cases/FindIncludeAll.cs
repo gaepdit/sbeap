@@ -8,7 +8,7 @@ public class FindIncludeAll
     private ICaseworkRepository _repository = default!;
 
     [SetUp]
-    public void SetUp() => _repository = RepositoryHelper.CreateSqlServerRepositoryHelper(this).GetCaseworkRepository();
+    public void SetUp() => _repository = RepositoryHelper.CreateRepositoryHelper().GetCaseworkRepository();
 
     [TearDown]
     public void TearDown() => _repository.Dispose();

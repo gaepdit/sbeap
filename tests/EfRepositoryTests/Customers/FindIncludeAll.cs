@@ -8,7 +8,7 @@ public class FindIncludeAll
     private ICustomerRepository _repository = default!;
 
     [SetUp]
-    public void SetUp() => _repository = RepositoryHelper.CreateSqlServerRepositoryHelper(this).GetCustomerRepository();
+    public void SetUp() => _repository = RepositoryHelper.CreateRepositoryHelper().GetCustomerRepository();
 
     [TearDown]
     public void TearDown() => _repository.Dispose();
