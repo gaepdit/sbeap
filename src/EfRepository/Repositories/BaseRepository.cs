@@ -102,6 +102,8 @@ public abstract class BaseRepository<TEntity, TKey> : IRepository<TEntity, TKey>
         }
     }
 
+    public async Task SaveChangesAsync(CancellationToken token = default) => await Context.SaveChangesAsync(token);
+    
     // ReSharper disable once VirtualMemberNeverOverridden.Global
     protected virtual void Dispose(bool disposing)
     {

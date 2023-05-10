@@ -83,6 +83,9 @@ public abstract class BaseRepository<TEntity, TKey> : IRepository<TEntity, TKey>
     public async Task DeleteAsync(TEntity entity, bool autoSave = true, CancellationToken token = default) =>
         Items.Remove(await GetAsync(entity.Id, token));
 
+    // Local repository does not require changes to be explicitly saved.
+    public Task SaveChangesAsync(CancellationToken token = default) => Task.CompletedTask;
+
     // ReSharper disable once VirtualMemberNeverOverridden.Global
     protected virtual void Dispose(bool disposing)
     {
