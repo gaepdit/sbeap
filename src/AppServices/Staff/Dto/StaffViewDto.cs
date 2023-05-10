@@ -1,10 +1,11 @@
-﻿using Sbeap.AppServices.Offices;
+﻿using Sbeap.AppServices.DtoBase;
+using Sbeap.AppServices.Offices;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace Sbeap.AppServices.Staff.Dto;
 
-public class StaffViewDto
+public class StaffViewDto : IDtoHasNameProperty
 {
     public string Id { get; init; } = string.Empty;
     public string GivenName { get; init; } = string.Empty;
@@ -17,7 +18,7 @@ public class StaffViewDto
     public bool Active { get; init; }
 
     [JsonIgnore]
-    public string DisplayName =>
+    public string Name =>
         string.Join(" ", new[] { GivenName, FamilyName }.Where(s => !string.IsNullOrEmpty(s)));
 
     [JsonIgnore]

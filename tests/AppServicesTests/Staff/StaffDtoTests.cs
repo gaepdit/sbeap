@@ -27,7 +27,7 @@ public class StaffDtoTests
     public void DisplayName_ExpectedBehavior(string givenName, string familyName, string expected)
     {
         var staffViewDto = new StaffViewDto { GivenName = givenName, FamilyName = familyName };
-        staffViewDto.DisplayName.Should().Be(expected);
+        staffViewDto.Name.Should().Be(expected);
     }
 
     [TestCase("abc", "def", "def, abc")]

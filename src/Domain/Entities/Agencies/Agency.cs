@@ -1,30 +1,8 @@
-﻿namespace Sbeap.Domain.Entities.Agencies;
+﻿using Sbeap.Domain.Entities.EntityBase;
 
-public class Agency : AuditableEntity
+namespace Sbeap.Domain.Entities.Agencies;
+
+public class Agency : SimpleNamedEntity
 {
-    // Constants
-
-    public const int MaxNameLength = 50;
-    public const int MinNameLength = 2;
-
-    // Constructors
-
-    [UsedImplicitly] // Used by ORM.
-    private Agency() { }
-
-    internal Agency(Guid id, string name) : base(id) => SetName(name);
-
-    // Properties
-    
-    [StringLength(MaxNameLength, MinimumLength = MinNameLength)]
-    public string Name { get; private set; } = string.Empty;
-
-    public bool Active { get; set; } = true;
-
-    // Methods
-    
-    internal void ChangeName(string name) => SetName(name);
-
-    private void SetName(string name) =>
-        Name = Guard.ValidLength(name.Trim(), MinNameLength, MaxNameLength);
+    public Agency(Guid id, string name) : base(id, name) { }
 }

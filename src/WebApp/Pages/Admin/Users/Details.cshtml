@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model DetailsModel
 @{
-    ViewData["Title"] = "User Profile: " + Model.DisplayStaff.DisplayName;
+    ViewData["Title"] = "User Profile: " + Model.DisplayStaff.Name;
 }
 
 <h1>User Profile</h1>
@@ -13,7 +13,7 @@
     {
         <em class="text-warning">Inactive:</em>
     }
-    @Model.DisplayStaff.DisplayName
+    @Model.DisplayStaff.Name
     @if (Model.DisplayStaff.Email.Equals(User.Identity?.Name))
     {
         <a asp-page="/Account/Index">
