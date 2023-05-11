@@ -1,3 +1,4 @@
+using Sbeap.Domain.Entities.EntityBase;
 using Sbeap.Domain.Entities.Offices;
 using Sbeap.Domain.Exceptions;
 using Sbeap.TestData.Constants;
@@ -62,6 +63,6 @@ public class ChangeName
         var action = async () => await manager.ChangeNameAsync(item, TextData.ShortName);
 
         (await action.Should().ThrowAsync<ArgumentException>())
-            .WithMessage($"The length must be at least the minimum length '{Office.MinNameLength}'.*");
+            .WithMessage($"The length must be at least the minimum length '{SimpleNamedEntity.MinNameLength}'.*");
     }
 }
