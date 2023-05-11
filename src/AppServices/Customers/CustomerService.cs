@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GaEpd.AppLibrary.Pagination;
 using Sbeap.AppServices.Customers.Dto;
+using Sbeap.AppServices.Staff;
 using Sbeap.AppServices.UserServices;
 using Sbeap.Domain.Entities.Contacts;
 using Sbeap.Domain.Entities.Customers;
@@ -12,19 +13,21 @@ public sealed class CustomerService : ICustomerService
 {
     private readonly IMapper _mapper;
     private readonly IUserService _users;
+    private readonly IStaffService _staff;
     private readonly ICustomerRepository _customers;
     private readonly ICustomerManager _manager;
     private readonly IContactRepository _contacts;
 
     public CustomerService(
-        IMapper mapper, IUserService users, ICustomerRepository customers, ICustomerManager manager,
-        IContactRepository contacts)
+        IMapper mapper, IUserService users, IStaffService staff, ICustomerRepository customers,
+        ICustomerManager manager, IContactRepository contacts)
     {
         _mapper = mapper;
         _users = users;
         _customers = customers;
         _manager = manager;
         _contacts = contacts;
+        _staff = staff;
     }
 
     // Customer read
@@ -46,7 +49,13 @@ public sealed class CustomerService : ICustomerService
     public async Task<CustomerViewDto?> FindAsync(Guid id, CancellationToken token = default)
     {
         var customer = await _customers.FindIncludeAllAsync(id, token);
-        return customer is null ? null : _mapper.Map<CustomerViewDto>(customer);
+        if (customer is null) return null;
+
+        var view = _mapper.Map<CustomerViewDto>(customer);
+        if (customer is { IsDeleted: true, DeletedById: not null })
+            view.DeletedBy = await _staff.FindAsync(customer.DeletedById);
+
+        return view;
     }
 
     // Customer write

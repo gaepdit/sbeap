@@ -17,7 +17,10 @@ public class FindIncludeAll
     public async Task WhenItemExists_ReturnsItem()
     {
         var item = CustomerData.GetCustomers.First();
+        item.Contacts.RemoveAll(c => c.IsDeleted);
+
         var result = await _repository.FindIncludeAllAsync(item.Id);
+
         result.Should().BeEquivalentTo(item, opts => opts
             .IgnoringCyclicReferences()
             .For(e => e.Cases).Exclude(i => i.ActionItems)
