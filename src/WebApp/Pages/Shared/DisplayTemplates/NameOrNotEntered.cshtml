@@ -1,0 +1,9 @@
+﻿@model Sbeap.AppServices.DtoBase.IDtoHasNameProperty?
+@if (Model is null)
+{
+    <span class="text-muted">[Not entered]</span>
+}
+else
+{
+    @Model.Name
+}

@@ -12,5 +12,9 @@ public class CustomerCreateValidator : AbstractValidator<CustomerCreateDto>
             .Cascade(CascadeMode.Stop)
             .NotEmpty()
             .MinimumLength(Customer.MinNameLength);
+
+        RuleFor(e => e.Website)
+            .Must(uri => Uri.TryCreate(uri, UriKind.Absolute, out _))
+            .When(x => !string.IsNullOrEmpty(x.Website));
     }
 }

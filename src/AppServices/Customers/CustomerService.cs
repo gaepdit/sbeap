@@ -81,10 +81,11 @@ public sealed class CustomerService : ICustomerService
         await _customers.UpdateAsync(item, token: token);
     }
 
-    public async Task DeleteAsync(Guid id, CancellationToken token = default)
+    public async Task DeleteAsync(Guid id, string comments, CancellationToken token = default)
     {
         var item = await _customers.GetAsync(id, token);
         item.SetDeleted((await _users.GetCurrentUserAsync())?.Id);
+        item.DeleteComments = comments;
         await _customers.UpdateAsync(item, token: token);
     }
 

@@ -10,10 +10,12 @@
 
 * `/Customers` (Customer search)
 * `/Customers/Add` (Add new Customer with Contact)
-* `/Customers/Details/{id}` (Customer details; list of Contacts with a new Contact form; list of Cases with a new Case form)
+* `/Customers/Details/{id}` (Customer details; list of Contacts; list of Cases with a new Case form)
 * `/Customers/Edit/{id}` (Edit Customer details)
-* `/Customers/Delete` (Delete Customer)
-* `/Customers/Details/{id}/EditContact/{contactId}` (Edit Contact) 
+* `/Customers/Delete/{id}` (Delete Customer)
+* `/Customers/Restore/{id}` (Restore Customer)
+* `/Customers/Details/{id}/AddContact` (Add new Contact)
+* `/Customers/Details/{id}/EditContact/{contactId}` (Edit Contact)
 * `/Customers/Details/{id}/DeleteContact/{contactId}` (Delete Contact)
 
 ### Case Pages
@@ -22,12 +24,13 @@
 * `/Cases/Details/{id}` (Case details with list of Action Items and a new Action Item form)
 * `/Cases/Edit/{id}` (Edit Case details)
 * `/Cases/Delete/{id}` (Delete Case)
+* `/Cases/Restore/{id}` (Restore Case)
 * `/Cases/Details/{id}/EditAction/{actionId}` (Edit Action Item)
 * `/Cases/Details/{id}/DeleteAction/{actionId}` (Delete Action Item)
 
 ### Maintenance Pages 
 
-Maintenance pages available to Site Admin personnel to modify lookup tables used for drop-down lists. Editable items comprise Action Items, Agencies, and Offices.
+Maintenance pages available to Site Admin personnel to modify lookup tables used for drop-down lists. Editable items comprise Action Item Types, Agencies, and Offices.
 
 * `/Admin/Maintenance` (List of item types)
 * `/Admin/Maintenance/[type]` (List of items of given type; can be removed from list here)

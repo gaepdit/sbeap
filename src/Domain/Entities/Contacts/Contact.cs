@@ -18,6 +18,7 @@ public class Contact : AuditableSoftDeleteEntity
     // Properties
 
     public Customer Customer { get; private init; } = default!;
+    public DateTimeOffset? EnteredOn { get; init; }
 
     public string Honorific { get; set; } = string.Empty;
     public string GivenName { get; set; } = string.Empty;

@@ -93,15 +93,15 @@
                 {
                     <tr class="@(item.IsDeleted ? "table-danger" : "")">
                         <th scope="row" class="fw-normal">
-                            <a asp-page="Details" class="btn btn-outline-primary btn-sm" asp-route-id="@item.Id">@Html.DisplayFor(m => item.Name, "StringOrNone")</a>
+                            <a asp-page="Details" class="btn btn-outline-info btn-sm" asp-route-id="@item.Id">@Html.DisplayFor(m => item.Name, TemplateNames.StringOrNone)</a>
                             @if (item.IsDeleted)
                             {
                                 <br />
                                 <strong>DELETED</strong>
                             }
                         </th>
-                        <td>@Html.DisplayFor(m => item.Description, "TruncateText")</td>
-                        <td>@Html.DisplayFor(m => item.County, "StringOrNone")</td>
+                        <td>@Html.DisplayFor(m => item.Description, TemplateNames.TruncateText, new { MaxLength = 50 })</td>
+                        <td>@Html.DisplayFor(m => item.County, TemplateNames.StringOrNone)</td>
                     </tr>
                 }
                 </tbody>

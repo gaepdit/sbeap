@@ -6,5 +6,5 @@ namespace Sbeap.Domain.Entities.Customers;
 public class CustomerManager : ICustomerManager
 {
     public Customer Create(string name) => new(Guid.NewGuid()) { Name = name };
-    public Contact CreateContact(Customer customer) => new(Guid.NewGuid(), customer);
+    public Contact CreateContact(Customer customer) => new(Guid.NewGuid(), customer) { EnteredOn = DateTimeOffset.Now };
 }

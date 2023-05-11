@@ -23,7 +23,8 @@ public static class TextData
     public const string ThirdWord = "Apple";
     public const string EmojiWord = "🙁+🕶=😎";
 
-    public const string ShortPhrase = "I love apple pie";
+    public const string ShortPhrase = "Chocolate bar cookie";
+    public const string AnotherShortPhrase = "Brownie croissant";
     public const string Phrase = "Pudding bear claw I love liquorice pie fruitcake.";
 
     public static readonly string ShortMultiline = "Cake pastry pie I love chocolate cake." +

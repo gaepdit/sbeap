@@ -23,16 +23,20 @@ public class Customer : AuditableSoftDeleteEntity
     public string Name { get; set; } = string.Empty;
 
     public string Description { get; set; } = string.Empty;
+    public string? County { get; set; }
 
     [MaxLength(2000)] // https://stackoverflow.com/q/417142/212978
-    public string? WebSite { get; set; } = string.Empty;
+    public string? Website { get; set; } = string.Empty;
 
     public IncompleteAddress Location { get; set; } = default!;
-    public string? County { get; set; }
     public IncompleteAddress MailingAddress { get; set; } = default!;
 
     // Collections
 
-    public ICollection<Contact> Contacts { get; set; } = new List<Contact>();
+    public List<Contact> Contacts { get; set; } = new List<Contact>();
     public ICollection<Casework> Cases { get; set; } = new List<Casework>();
+
+    // Properties: Deletion
+
+    public string? DeleteComments { get; set; }
 }

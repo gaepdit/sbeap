@@ -42,6 +42,10 @@
     {
       "library": "anchor-js@5.0.0",
       "destination": "wwwroot/lib/anchor-js/"
+    },
+    {
+      "library": "masonry@4.2.2",
+      "destination": "wwwroot/lib/masonry/"
     }
   ]
 }

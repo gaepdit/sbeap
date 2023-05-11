@@ -1,4 +1,4 @@
-// ReSharper disable UnusedMember.Global
+﻿// ReSharper disable UnusedMember.Global
 
 namespace Sbeap.WebApp.Pages.Shared.DisplayTemplates;
 
@@ -7,9 +7,19 @@ namespace Sbeap.WebApp.Pages.Shared.DisplayTemplates;
 /// </summary>
 public static class TemplateNames
 {
-    public const string IncompleteAddress = nameof(IncompleteAddress);
     public const string BoolActive = nameof(BoolActive);
+    public const string BoolClosed = nameof(BoolClosed);
+    public const string County = nameof(County);
+    public const string IncompleteAddress = nameof(IncompleteAddress);
+    public const string LongDateTimeOrNotEntered = nameof(LongDateTimeOrNotEntered);
+    public const string NameOrNotEntered = nameof(NameOrNotEntered);
     public const string NameOrNone = nameof(NameOrNone);
+    public const string PhoneNumbersCollection = nameof(PhoneNumbersCollection);
+    public const string ProbableEmailOrNotEntered = nameof(ProbableEmailOrNotEntered);
+    public const string ProbableUrlOrNotEntered = nameof(ProbableUrlOrNotEntered);
+    public const string ShortDateOrBlank = nameof(ShortDateOrBlank);
     public const string SortArrow = nameof(SortArrow);
     public const string StringOrNone = nameof(StringOrNone);
+    public const string StringOrNotEntered = nameof(StringOrNotEntered);
+    public const string TruncateText = nameof(TruncateText);
 }
