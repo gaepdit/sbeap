@@ -10,7 +10,10 @@ public class StaffViewDto : IDtoHasNameProperty
     public string Id { get; init; } = string.Empty;
     public string GivenName { get; init; } = string.Empty;
     public string FamilyName { get; init; } = string.Empty;
-    public string Email { get; init; } = string.Empty;
+
+    [Display(Name = "Email cannot be changed")]
+    public string? Email { get; init; }
+
     public string? Phone { get; init; }
     public OfficeViewDto? Office { get; init; }
 

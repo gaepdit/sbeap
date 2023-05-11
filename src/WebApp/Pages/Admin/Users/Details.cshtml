@@ -1,5 +1,4 @@
 ﻿@page "{id:Guid?}"
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model DetailsModel
 @{
     ViewData["Title"] = "User Profile: " + Model.DisplayStaff.Name;
@@ -14,7 +13,7 @@
         <em class="text-warning">Inactive:</em>
     }
     @Model.DisplayStaff.Name
-    @if (Model.DisplayStaff.Email.Equals(User.Identity?.Name))
+    @if (Model.DisplayStaff.Email!.Equals(User.Identity?.Name))
     {
         <a asp-page="/Account/Index">
             <span class="badge text-bg-info">YOU</span>
