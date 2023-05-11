@@ -11,7 +11,7 @@ public class CaseworkViewDto
     public DateOnly? CaseClosedDate { get; init; }
     public bool IsClosed { get; init; }
     public string? CaseClosureNotes { get; init; }
-    public string? InteragencyReferralName { get; init; }
+    public string? ReferralAgencyName { get; init; }
     public DateOnly? ReferralDate { get; init; }
     public string? ReferralNotes { get; init; }
     public ICollection<ActionItemViewDto> ActionItems { get; init; } = new List<ActionItemViewDto>();

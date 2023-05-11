@@ -26,11 +26,11 @@ public class Casework : AuditableSoftDeleteEntity
     public DateOnly? CaseClosedDate { get; set; }
     public bool IsClosed => CaseClosedDate is not null;
     public string? CaseClosureNotes { get; set; }
-    public Agency? InteragencyReferral { get; set; }
+    public Agency? ReferralAgency { get; set; }
     public DateOnly? ReferralDate { get; set; }
     public string? ReferralNotes { get; set; }
 
     // Collections
 
-    public ICollection<ActionItem> ActionItems { get; set; } = new List<ActionItem>();
+    public List<ActionItem> ActionItems { get; set; } = new List<ActionItem>();
 }

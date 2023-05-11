@@ -13,7 +13,7 @@ internal static class CaseworkData
         {
             CaseClosedDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-2)),
             Description = TextData.MultipleParagraphs,
-            InteragencyReferral = AgencyData.GetAgencies.ElementAt(0),
+            ReferralAgency = AgencyData.GetAgencies.ElementAt(0),
             ReferralNotes = TextData.ShortPhrase,
             ReferralDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-2)),
         },
@@ -23,7 +23,7 @@ internal static class CaseworkData
         {
             CaseClosedDate = null,
             Description = string.Empty,
-            InteragencyReferral = null,
+            ReferralAgency = null,
             ReferralNotes = string.Empty,
             ReferralDate = null,
         },
@@ -33,7 +33,7 @@ internal static class CaseworkData
         {
             CaseClosedDate = null,
             Description = TextData.EmojiWord,
-            InteragencyReferral = null,
+            ReferralAgency = null,
             ReferralNotes = string.Empty,
             ReferralDate = null,
         },
