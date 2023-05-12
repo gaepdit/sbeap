@@ -1,4 +1,5 @@
 using FluentAssertions.Execution;
+using Sbeap.Domain.Entities.EntityBase;
 using Sbeap.Domain.Entities.Offices;
 
 namespace DomainTests.Offices.Entity;
@@ -31,6 +32,6 @@ public class Constructor
     {
         var action = () => new Office(Guid.Empty, "a");
         action.Should().Throw<ArgumentException>()
-            .WithMessage($"The length must be at least the minimum length '{Office.MinNameLength}'.*");
+            .WithMessage($"The length must be at least the minimum length '{SimpleNamedEntity.MinNameLength}'.*");
     }
 }
