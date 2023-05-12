@@ -22,7 +22,7 @@ public class Customer : AuditableSoftDeleteEntity
     [StringLength(int.MaxValue, MinimumLength = MinNameLength)]
     public string Name { get; set; } = string.Empty;
 
-    public string Description { get; set; } = string.Empty;
+    public string? Description { get; set; } = string.Empty;
     public string? County { get; set; }
 
     [MaxLength(2000)] // https://stackoverflow.com/q/417142/212978
@@ -33,8 +33,8 @@ public class Customer : AuditableSoftDeleteEntity
 
     // Collections
 
-    public List<Contact> Contacts { get; set; } = new List<Contact>();
-    public ICollection<Casework> Cases { get; set; } = new List<Casework>();
+    public List<Contact> Contacts { get; set; } = new();
+    public List<Casework> Cases { get; set; } = new();
 
     // Properties: Deletion
 

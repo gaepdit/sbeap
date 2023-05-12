@@ -10,7 +10,7 @@ internal static class CustomerData
     {
         new(new Guid("40000000-0000-0000-0000-000000000001"))
         {
-            Name = TextData.ShortPhrase,
+            Name = TextData.Phrase,
             County = TextData.AnotherWord,
             Location = ValueObjectData.LessCompleteAddress,
             MailingAddress = ValueObjectData.CompleteAddress,

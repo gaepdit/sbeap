@@ -16,5 +16,14 @@ public class CustomerCreateValidator : AbstractValidator<CustomerCreateDto>
         RuleFor(e => e.Website)
             .Must(uri => Uri.TryCreate(uri, UriKind.Absolute, out _))
             .When(x => !string.IsNullOrEmpty(x.Website));
+
+        RuleFor(e => e.Contact)
+            .Must(e =>
+                e is null ||
+                e.Equals(ContactCreateDto.EmptyContact) ||
+                !string.IsNullOrWhiteSpace(e.GivenName) ||
+                !string.IsNullOrWhiteSpace(e.FamilyName) ||
+                !string.IsNullOrWhiteSpace(e.Title))
+            .WithMessage("At least a name or title must be entered to create a contact.");
     }
 }

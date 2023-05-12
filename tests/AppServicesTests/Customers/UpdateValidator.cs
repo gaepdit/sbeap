@@ -15,7 +15,7 @@ public class UpdateValidator
 
         var result = await validator.TestValidateAsync(model);
 
-        result.ShouldNotHaveValidationErrorFor(e => e.Name);
+        result.ShouldNotHaveAnyValidationErrors();
     }
 
     [Test]

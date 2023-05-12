@@ -20,17 +20,17 @@ public class Contact : AuditableSoftDeleteEntity
     public Customer Customer { get; private init; } = default!;
     public DateTimeOffset? EnteredOn { get; init; }
 
-    public string Honorific { get; set; } = string.Empty;
-    public string GivenName { get; set; } = string.Empty;
-    public string FamilyName { get; set; } = string.Empty;
-    public string Title { get; set; } = string.Empty;
+    public string? Honorific { get; set; } = string.Empty;
+    public string? GivenName { get; set; } = string.Empty;
+    public string? FamilyName { get; set; } = string.Empty;
+    public string? Title { get; set; } = string.Empty;
 
     [EmailAddress]
     [StringLength(150)]
     [DataType(DataType.EmailAddress)]
-    public string Email { get; set; } = string.Empty;
+    public string? Email { get; set; } = string.Empty;
 
-    public string Notes { get; set; } = string.Empty;
+    public string? Notes { get; set; } = string.Empty;
     public IncompleteAddress Address { get; set; } = default!;
 
     // Collections

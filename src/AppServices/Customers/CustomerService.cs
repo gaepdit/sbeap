@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using GaEpd.AppLibrary.Pagination;
 using Sbeap.AppServices.Customers.Dto;
 using Sbeap.AppServices.Staff;
@@ -62,15 +62,20 @@ public sealed class CustomerService : ICustomerService
 
     public async Task<Guid> CreateAsync(CustomerCreateDto resource, CancellationToken token = default)
     {
-        var item = _manager.Create(resource.Name, (await _users.GetCurrentUserAsync())?.Id);
-        item.SetCreator((await _users.GetCurrentUserAsync())?.Id);
-        item.Description = resource.Description;
-        item.County = resource.County;
-        item.Location = resource.Location;
-        item.MailingAddress = resource.MailingAddress;
+        var userId = (await _users.GetCurrentUserAsync())?.Id;
+        var customer = _manager.Create(resource.Name, userId);
+        
+        customer.Description = resource.Description;
+        customer.County = resource.County;
+        customer.Website = resource.Website;
+        customer.Location = resource.Location;
+        customer.MailingAddress = resource.MailingAddress;
 
-        await _customers.InsertAsync(item, token: token);
-        return item.Id;
+        await _customers.InsertAsync(customer, autoSave: false, token: token);
+        await CreateContactAsync(customer, resource.Contact, userId, token);
+
+        await _customers.SaveChangesAsync(token);
+        return customer.Id;
     }
 
     public async Task<CustomerUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default) =>
@@ -100,21 +105,31 @@ public sealed class CustomerService : ICustomerService
 
     // Contacts
 
-    public async Task AddContactAsync(ContactCreateDto resource, CancellationToken token = default)
+    public async Task AddContactAsync(Customer customer, ContactCreateDto resource, CancellationToken token = default)
     {
-        var customer = await _customers.GetAsync(resource.CustomerId, token);
-        var item = _manager.CreateContact(customer, (await _users.GetCurrentUserAsync())?.Id);
+        await CreateContactAsync(customer, resource, (await _users.GetCurrentUserAsync())?.Id, token);
+        await _contacts.SaveChangesAsync(token);
+    }
 
-        item.Honorific = resource.Honorific;
-        item.GivenName = resource.GivenName;
-        item.FamilyName = resource.FamilyName;
-        item.Title = resource.Title;
-        item.Email = resource.Email;
-        item.Notes = resource.Notes;
-        item.Address = resource.Address;
-        item.PhoneNumbers.Add(resource.PhoneNumber);
+    private async Task CreateContactAsync(
+        Customer customer, ContactCreateDto resource, string? userId, CancellationToken token = default)
+    {
+        if (resource == ContactCreateDto.EmptyContact) return;
 
-        await _contacts.InsertAsync(item, token: token);
+        var contact = _manager.CreateContact(customer, userId);
+        
+        contact.Honorific = resource.Honorific;
+        contact.GivenName = resource.GivenName;
+        contact.FamilyName = resource.FamilyName;
+        contact.Title = resource.Title;
+        contact.Email = resource.Email;
+        contact.Notes = resource.Notes;
+        contact.Address = resource.Address;
+
+        if (resource.PhoneNumber != PhoneNumber.EmptyPhoneNumber)
+            contact.PhoneNumbers.Add(resource.PhoneNumber);
+
+        await _contacts.InsertAsync(contact, autoSave: false, token: token);
     }
 
     public async Task<ContactUpdateDto?> FindContactForUpdateAsync(Guid id, CancellationToken token = default) =>

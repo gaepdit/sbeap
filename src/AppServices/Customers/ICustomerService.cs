@@ -1,5 +1,6 @@
 ﻿using GaEpd.AppLibrary.Pagination;
 using Sbeap.AppServices.Customers.Dto;
+using Sbeap.Domain.Entities.Customers;
 using Sbeap.Domain.ValueObjects;
 
 namespace Sbeap.AppServices.Customers;
@@ -19,7 +20,7 @@ public interface ICustomerService : IDisposable
     Task DeleteAsync(Guid id, string comments, CancellationToken token = default);
 
     // Contacts
-    Task AddContactAsync(ContactCreateDto resource, CancellationToken token = default);
+    Task AddContactAsync(Customer customer, ContactCreateDto resource, CancellationToken token = default);
     Task<ContactUpdateDto?> FindContactForUpdateAsync(Guid id, CancellationToken token = default);
     Task UpdateContactAsync(ContactUpdateDto resource, CancellationToken token = default);
     Task DeleteContactAsync(Guid contactId, CancellationToken token = default);

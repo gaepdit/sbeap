@@ -13,7 +13,7 @@ else
         {
             <div>
                 @item.Number
-                @if (item.Type != PhoneType.Unknown)
+                @if (item.Type != null && item.Type != PhoneType.Unknown)
                 {
                     <em>(@item.Type.GetDisplayName())</em>
                 }

@@ -69,7 +69,11 @@
 
 <h2 class="h3 mt-3">Cases</h2>
 
-@* TODO: New Case form *@
+<div class="container bg-light border border-info rounded-1 my-3 py-2">
+    <h3 class="h5">Start a new Case</h3>
+    @* TODO: New Case form *@
+    <p>TODO: New Case form</p>
+</div>
 
 @if (Model.Item.Cases.Count == 0)
 {
@@ -115,12 +119,10 @@ else
     <div class="col-md-auto d-print-none ms-md-3">
         @if (!Model.Item.IsDeleted)
         {
-            <a asp-page="AddContact" asp-route-id="@Model.Item.Id" class="btn btn-outline-primary">Add New</a>
+            <a asp-page="AddContact" asp-route-id="@Model.Item.Id" class="btn btn-outline-primary">Add New Contact</a>
         }
     </div>
 </div>
-
-@* TODO: New Contact form *@
 
 @if (Model.Item.Contacts.Count == 0)
 {

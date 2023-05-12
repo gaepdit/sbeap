@@ -10,16 +10,18 @@ public record PhoneNumber : ValueObject
     [StringLength(25)]
     [DataType(DataType.PhoneNumber)]
     [Display(Name = "Phone number")]
-    public string Number { get; [UsedImplicitly] init; } = string.Empty;
+    public string? Number { get; [UsedImplicitly] init; }
 
     [Display(Name = "Phone type")]
-    public PhoneType Type { get; [UsedImplicitly] init; } = PhoneType.Unknown;
+    public PhoneType? Type { get; [UsedImplicitly] init; }
 
     protected override IEnumerable<object> GetEqualityComponents()
     {
-        yield return Number;
-        yield return Type;
+        yield return Number ?? string.Empty;
+        yield return Type ?? PhoneType.Unknown;
     }
+
+    public static PhoneNumber EmptyPhoneNumber => new();
 }
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
