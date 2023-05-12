@@ -148,21 +148,25 @@ else
                                 {
                                     <div class="col-auto d-print-none ms-2">
                                         <a asp-page="EditContact" asp-route-id="@Model.Item.Id" asp-route-contactId="@item.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+                                        @if (Model.UserCan[CustomerOperation.ManageDeletions])
+                                        {
+                                            <a asp-page="DeleteContact" asp-route-id="@Model.Item.Id" asp-route-contactId="@item.Id" class="btn btn-sm btn-outline-danger ms-1">Delete</a>
+                                        }
                                     </div>
                                 }
                             </div>
 
                             <dl class="row">
-                                <dt class="">@Html.DisplayNameFor(m => item.Email)</dt>
-                                <dd class="">@Html.DisplayFor(m => item.Email, DisplayTemplate.ProbableEmailOrNotEntered)</dd>
-                                <dt class="">@Html.DisplayNameFor(m => item.Address)</dt>
-                                <dd class="">@Html.DisplayFor(m => item.Address)</dd>
-                                <dt class="">@Html.DisplayNameFor(m => item.PhoneNumbers)</dt>
-                                <dd class="">@Html.DisplayFor(m => item.PhoneNumbers, DisplayTemplate.PhoneNumbersCollection)</dd>
-                                <dt class="">@Html.DisplayNameFor(m => item.EnteredOn)</dt>
-                                <dd class="">@Html.DisplayFor(m => item.EnteredOn, DisplayTemplate.ShortDateOrBlank)</dd>
-                                <dt class="">@Html.DisplayNameFor(m => item.Notes)</dt>
-                                <dd class=" text-break text-pre-line">@Html.DisplayFor(m => item.Notes, DisplayTemplate.StringOrNone)</dd>
+                                <dt>@Html.DisplayNameFor(m => item.Email)</dt>
+                                <dd>@Html.DisplayFor(m => item.Email, DisplayTemplate.ProbableEmailOrNotEntered)</dd>
+                                <dt>@Html.DisplayNameFor(m => item.Address)</dt>
+                                <dd>@Html.DisplayFor(m => item.Address)</dd>
+                                <dt>@Html.DisplayNameFor(m => item.PhoneNumbers)</dt>
+                                <dd>@Html.DisplayFor(m => item.PhoneNumbers, DisplayTemplate.PhoneNumberCollection)</dd>
+                                <dt>@Html.DisplayNameFor(m => item.EnteredOn)</dt>
+                                <dd>@Html.DisplayFor(m => item.EnteredOn, DisplayTemplate.ShortDateOrBlank)</dd>
+                                <dt>@Html.DisplayNameFor(m => item.Notes)</dt>
+                                <dd class="text-break text-pre-line">@Html.DisplayFor(m => item.Notes, DisplayTemplate.StringOrNone)</dd>
                             </dl>
                         </div>
                     </div>
