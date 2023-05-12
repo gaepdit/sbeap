@@ -11,10 +11,11 @@ public interface IAgencyManager
     /// Creates a new <see cref="Agency"/>.
     /// </summary>
     /// <param name="name">The name of the Agency to create.</param>
+    /// <param name="createdById"></param>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
     /// <exception cref="NameAlreadyExistsException">Thrown if an Agency already exists with the given name.</exception>
     /// <returns>The Agency that was created.</returns>
-    Task<Agency> CreateAsync(string name, CancellationToken token = default);
+    Task<Agency> CreateAsync(string name, string? createdById, CancellationToken token = default);
 
     /// <summary>
     /// Changes the name of an <see cref="Agency"/>.

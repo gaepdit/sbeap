@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using GaEpd.AppLibrary.Pagination;
 using Sbeap.AppServices.Customers.Dto;
 using Sbeap.AppServices.Staff;
@@ -62,7 +62,7 @@ public sealed class CustomerService : ICustomerService
 
     public async Task<Guid> CreateAsync(CustomerCreateDto resource, CancellationToken token = default)
     {
-        var item = _manager.Create(resource.Name);
+        var item = _manager.Create(resource.Name, (await _users.GetCurrentUserAsync())?.Id);
         item.SetCreator((await _users.GetCurrentUserAsync())?.Id);
         item.Description = resource.Description;
         item.County = resource.County;
@@ -79,8 +79,8 @@ public sealed class CustomerService : ICustomerService
     public async Task UpdateAsync(CustomerUpdateDto resource, CancellationToken token = default)
     {
         var item = await _customers.GetAsync(resource.Id, token);
-
         item.SetUpdater((await _users.GetCurrentUserAsync())?.Id);
+
         item.Name = resource.Name;
         item.Description = resource.Description;
         item.County = resource.County;
@@ -103,9 +103,8 @@ public sealed class CustomerService : ICustomerService
     public async Task AddContactAsync(ContactCreateDto resource, CancellationToken token = default)
     {
         var customer = await _customers.GetAsync(resource.CustomerId, token);
-        var item = _manager.CreateContact(customer);
+        var item = _manager.CreateContact(customer, (await _users.GetCurrentUserAsync())?.Id);
 
-        item.SetCreator((await _users.GetCurrentUserAsync())?.Id);
         item.Honorific = resource.Honorific;
         item.GivenName = resource.GivenName;
         item.FamilyName = resource.FamilyName;
@@ -124,8 +123,8 @@ public sealed class CustomerService : ICustomerService
     public async Task UpdateContactAsync(ContactUpdateDto resource, CancellationToken token = default)
     {
         var item = await _contacts.GetAsync(resource.Id, token);
-
         item.SetUpdater((await _users.GetCurrentUserAsync())?.Id);
+
         item.Honorific = resource.Honorific;
         item.GivenName = resource.GivenName;
         item.FamilyName = resource.FamilyName;

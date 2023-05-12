@@ -14,14 +14,16 @@ public interface ICaseworkManager
     /// </summary>
     /// <param name="customer">The <see cref="Customer"/> the Casework was opened for.</param>
     /// <param name="caseOpenedDate">The date the Casework was opened.</param>
+    /// <param name="createdById">The ID of the user creating the entity.</param>
     /// <returns>The Casework that was created.</returns>
-    Casework Create(Customer customer, DateOnly caseOpenedDate);
+    Casework Create(Customer customer, DateOnly caseOpenedDate, string? createdById);
 
     /// <summary>
     /// Creates a new <see cref="ActionItem"/>.
     /// </summary>
     /// <param name="casework">The <see cref="Casework"/> this Action Item belongs to.</param>
     /// <param name="actionItemType">The <see cref="ActionItemType"/> of this Action Item.</param>
+    /// <param name="createdById">The ID of the user creating the entity.</param>
     /// <returns>The Action Item that was created.</returns>
-    ActionItem CreateActionItem(Casework casework, ActionItemType actionItemType);
+    ActionItem CreateActionItem(Casework casework, ActionItemType actionItemType, string? createdById);
 }
