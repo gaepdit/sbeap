@@ -32,7 +32,7 @@ public class Delete
         _repositoryHelper.ClearChangeTracker();
 
         // (Still part of arrange...)
-        var getResult = await _repository.GetAsync(item.Id);
+        var getResult = await _repository.FindAsync(item.Id);
         getResult.Should().BeEquivalentTo(item);
 
         // Act
