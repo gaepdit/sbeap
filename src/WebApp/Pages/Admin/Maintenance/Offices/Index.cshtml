@@ -1,5 +1,6 @@
 ﻿@page
 @using Sbeap.Domain.Identity
+@using Sbeap.WebApp.Pages.Shared.DisplayTemplates
 @model IndexModel
 @{
     ViewData["Title"] = $"Site Maintenance: {IndexModel.ThisOption.PluralName}";
@@ -62,7 +63,7 @@ else
                     }
                 </td>
                 <td>
-                    @Html.DisplayFor(m => item.Active)
+                    @Html.DisplayFor(m => item.Active, DisplayTemplate.BoolActive)
                 </td>
             </tr>
         }

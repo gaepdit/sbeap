@@ -17,20 +17,22 @@ namespace WebAppTests.Pages.Account;
 
 public class EditTests
 {
-    private static readonly StaffViewDto StaffViewTest = new()
-    {
-        Id = Guid.Empty.ToString(),
-        Active = true,
-        Email = TextData.ValidEmail,
-        GivenName = TextData.ValidName,
-        FamilyName = TextData.ValidName,
-    };
+    private static readonly StaffViewDto StaffViewTest = new(
+        Guid.Empty.ToString(),
+        TextData.ValidName,
+        TextData.ValidName,
+        TextData.ValidEmail,
+        null,
+        null,
+        true
+    );
 
-    private static readonly StaffUpdateDto StaffUpdateTest = new()
-    {
-        Id = Guid.Empty.ToString(),
-        Active = true,
-    };
+    private static readonly StaffUpdateDto StaffUpdateTest = new(
+        Guid.Empty.ToString(),
+        null,
+        null,
+        true
+    );
 
     [Test]
     public async Task OnGet_PopulatesThePageModel()

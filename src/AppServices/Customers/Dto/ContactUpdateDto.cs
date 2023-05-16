@@ -3,26 +3,18 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Sbeap.AppServices.Customers.Dto;
 
-public class ContactUpdateDto
-{
-    public Guid Id { get; init; }
-
-    public string? Honorific { get; init; } = string.Empty;
-
-    [Display(Name = "First name")]
-    public string? GivenName { get; init; } = string.Empty;
-
-    [Display(Name = "Last name")]
-    public string? FamilyName { get; init; } = string.Empty;
-
-    public string? Title { get; init; } = string.Empty;
-
+public record ContactUpdateDto
+(
+    Guid Id,
+    string? Honorific,
+    [Display(Name = "First name")] string? GivenName,
+    [Display(Name = "Last name")] string? FamilyName,
+    string? Title,
     [EmailAddress]
     [StringLength(150)]
     [DataType(DataType.EmailAddress)]
     [Display(Name = "Email address")]
-    public string? Email { get; init; } = string.Empty;
-
-    public string? Notes { get; init; } = string.Empty;
-    public IncompleteAddress Address { get; init; } = default!;
-}
+    string? Email,
+    string? Notes,
+    IncompleteAddress Address
+);

@@ -5,61 +5,48 @@ using System.Text.Json.Serialization;
 namespace Sbeap.AppServices.Cases.Dto;
 
 public record CaseworkSearchDto
-{
+(
     // Sorting
-    public CaseworkSortBy Sort { get; init; } = CaseworkSortBy.CustomerAsc;
+    CaseworkSortBy Sort,
 
     // Status
-
-    [Display(Name = "Case Status")]
-    public CaseStatus? Status { get; init; }
-
-    [Display(Name = "Deletion Status")]
-    public CaseDeletedStatus? DeletedStatus { get; init; }
+    [Display(Name = "Case Status")] CaseStatus? Status,
+    [Display(Name = "Deletion Status")] CaseDeletedStatus? DeletedStatus,
 
     // Dates
-
     [Display(Name = "From")]
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
-    public DateOnly? OpenedFrom { get; init; }
-
+    // [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    DateOnly? OpenedFrom,
     [Display(Name = "Through")]
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
-    public DateOnly? OpenedTo { get; init; }
-
+    // [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    DateOnly? OpenedTo,
     [Display(Name = "From")]
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
-    public DateOnly? ClosedFrom { get; init; }
-
+    // [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    DateOnly? ClosedFrom,
     [Display(Name = "Through")]
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
-    public DateOnly? ClosedTo { get; init; }
+    // [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    DateOnly? ClosedTo,
 
     // Fields
-
-    public string? CustomerName { get; init; } 
-
-    public string? Description { get; set; }
-
-    [Display(Name = "Referred to")]
-    public Guid? Agency { get; init; }
+    string? CustomerName,
+    string? Description,
+    [Display(Name = "Referred to")] Guid? Agency,
 
     // Referral
-
     [Display(Name = "From")]
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
-    public DateOnly? ReferredFrom { get; init; }
-
+    // [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    DateOnly? ReferredFrom,
     [Display(Name = "Through")]
     [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
-    public DateOnly? ReferredTo { get; init; }
-
+    // [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    DateOnly? ReferredTo
+)
+{
     // UI Routing
     public IDictionary<string, string?> AsRouteValues() => new Dictionary<string, string?>
     {
@@ -77,10 +64,10 @@ public record CaseworkSearchDto
         { nameof(ReferredTo), ReferredTo?.ToString("d") },
     };
 
-    public void TrimAll()
+    public CaseworkSearchDto TrimAll() => this with
     {
-        Description = Description?.Trim();
-    }
+        Description = Description?.Trim(),
+    };
 }
 
 // Search enums

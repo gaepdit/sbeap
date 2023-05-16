@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Sbeap.AppServices.Customers.Dto;
 
-public class CustomerViewDto
+public record CustomerViewDto
 {
     public Guid Id { get; init; }
     public string Name { get; init; } = string.Empty;
@@ -28,7 +28,7 @@ public class CustomerViewDto
     public bool IsDeleted { get; init; }
 
     [Display(Name = "Deleted By")]
-    public StaffViewDto? DeletedBy { get; set; }
+    public StaffViewDto? DeletedBy { get; init; }
 
     [Display(Name = "Date Deleted")]
     public DateTimeOffset? DeletedAt { get; init; }

@@ -52,10 +52,9 @@ public sealed class CustomerService : ICustomerService
         if (customer is null) return null;
 
         var view = _mapper.Map<CustomerViewDto>(customer);
-        if (customer is { IsDeleted: true, DeletedById: not null })
-            view.DeletedBy = await _staff.FindAsync(customer.DeletedById);
-
-        return view;
+        return customer is { IsDeleted: true, DeletedById: not null }
+            ? view with { DeletedBy = await _staff.FindAsync(customer.DeletedById) }
+            : view;
     }
 
     // Customer write
@@ -64,7 +63,7 @@ public sealed class CustomerService : ICustomerService
     {
         var userId = (await _users.GetCurrentUserAsync())?.Id;
         var customer = _manager.Create(resource.Name, userId);
-        
+
         customer.Description = resource.Description;
         customer.County = resource.County;
         customer.Website = resource.Website;
@@ -114,10 +113,10 @@ public sealed class CustomerService : ICustomerService
     private async Task CreateContactAsync(
         Customer customer, ContactCreateDto resource, string? userId, CancellationToken token = default)
     {
-        if (resource == ContactCreateDto.EmptyContact) return;
+        if (resource.IsEmpty()) return;
 
         var contact = _manager.CreateContact(customer, userId);
-        
+
         contact.Honorific = resource.Honorific;
         contact.GivenName = resource.GivenName;
         contact.FamilyName = resource.FamilyName;

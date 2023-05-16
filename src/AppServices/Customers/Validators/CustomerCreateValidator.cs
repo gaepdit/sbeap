@@ -20,6 +20,6 @@ public class CustomerCreateValidator : AbstractValidator<CustomerCreateDto>
         // Embedded Contact
         RuleFor(e => e.Contact)
             .SetValidator(new ContactCreateValidator())
-            .When(e => e.Contact != ContactCreateDto.EmptyContact);
+            .When(e => !e.Contact.IsEmpty());
     }
 }

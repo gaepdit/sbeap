@@ -9,11 +9,12 @@ namespace WebAppTests.Api;
 [TestFixture]
 public class OfficeApiTests
 {
+    private static OfficeViewDto ValidOfficeView => new(Guid.Empty, TextData.ValidName, true);
+
     [Test]
     public async Task ListOffices_ReturnsListOfOffices()
     {
-        List<OfficeViewDto> officeList = new()
-            { new OfficeViewDto { Id = Guid.Empty, Name = TextData.ValidName } };
+        List<OfficeViewDto> officeList = new() { ValidOfficeView };
         var service = new Mock<IOfficeService>();
         service.Setup(l => l.GetListAsync(CancellationToken.None))
             .ReturnsAsync(officeList);
@@ -27,10 +28,9 @@ public class OfficeApiTests
     [Test]
     public async Task GetOffice_ReturnsOfficeView()
     {
-        var item = Mock.Of<OfficeViewDto>();
         var service = new Mock<IOfficeService>();
         service.Setup(l => l.FindAsync(Guid.Empty, CancellationToken.None))
-            .ReturnsAsync(item);
+            .ReturnsAsync(ValidOfficeView);
         var apiController = new OfficeApiController(service.Object);
 
         var response = await apiController.GetOfficeAsync(Guid.Empty);
@@ -40,7 +40,7 @@ public class OfficeApiTests
             response.Result.Should().BeOfType<OkObjectResult>();
             var result = response.Result as OkObjectResult;
             result.Should().NotBeNull();
-            result?.Value.Should().Be(item);
+            result?.Value.Should().Be(ValidOfficeView);
         }
     }
 

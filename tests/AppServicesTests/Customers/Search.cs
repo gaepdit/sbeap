@@ -14,6 +14,8 @@ namespace AppServicesTests.Customers;
 
 public class Search
 {
+    private static CustomerSearchDto DefaultCustomerSearchDto => new(CustomerSortBy.NameAsc, null, null, null, null);
+
     [Test]
     public async Task WhenItemsExist_ReturnsPagedList()
     {
@@ -34,7 +36,7 @@ public class Search
             Mock.Of<IContactRepository>());
 
         // Act
-        var result = await appService.SearchAsync(Mock.Of<CustomerSearchDto>(), paging, CancellationToken.None);
+        var result = await appService.SearchAsync(DefaultCustomerSearchDto, paging, CancellationToken.None);
 
         // Assert
         using (new AssertionScope())
@@ -64,7 +66,7 @@ public class Search
             Mock.Of<IContactRepository>());
 
         // Act
-        var result = await appService.SearchAsync(Mock.Of<CustomerSearchDto>(), paging, CancellationToken.None);
+        var result = await appService.SearchAsync(DefaultCustomerSearchDto, paging, CancellationToken.None);
 
         // Assert
         using (new AssertionScope())

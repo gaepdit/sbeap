@@ -72,11 +72,14 @@ public class ExternalLoginModel : PageModel
             ApplicationSettings.DevSettings.LocalUserIsAdmin);
         if (!ApplicationSettings.DevSettings.LocalUserIsAuthenticated) return Forbid();
 
-        var search = new StaffSearchDto { Name = "Limited" };
+        StaffSearchDto search;
+
         if (ApplicationSettings.DevSettings.LocalUserIsStaff)
-            search.Name = "General";
+            search = new StaffSearchDto(SortBy.NameAsc, "General", null, null, null, null);
         else if (ApplicationSettings.DevSettings.LocalUserIsAdmin)
-            search.Name = "Admin";
+            search = new StaffSearchDto(SortBy.NameAsc, "Admin", null, null, null, null);
+        else
+            search = new StaffSearchDto(SortBy.NameAsc, "Limited", null, null, null, null);
 
         var staffId = (await _staffService.GetListAsync(search)).First().Id;
 

@@ -22,7 +22,7 @@ public class Create
             .ReturnsAsync((ApplicationUser?)null);
         var appService = new OfficeService(repoMock.Object, managerMock.Object,
             AppServicesTestsSetup.Mapper!, userServiceMock.Object);
-        var resource = new OfficeCreateDto { Name = TextData.ValidName };
+        var resource = new OfficeCreateDto(TextData.ValidName);
 
         var result = await appService.CreateAsync(resource);
 

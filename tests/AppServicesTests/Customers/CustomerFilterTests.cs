@@ -6,11 +6,13 @@ namespace AppServicesTests.Customers;
 
 public class CustomerFilterTests
 {
+    private static CustomerSearchDto DefaultCustomerSearchDto => new(CustomerSortBy.NameAsc, null, null, null, null);
+
     [Test]
     public void DefaultFilter_ReturnsAllNotDeleted()
     {
         // Arrange
-        var spec = new CustomerSearchDto();
+        var spec = DefaultCustomerSearchDto;
         var expected = CustomerData.GetCustomers.Where(e => !e.IsDeleted);
 
         // Act
@@ -26,7 +28,7 @@ public class CustomerFilterTests
     public void DeletedSpec_ReturnsAllDeleted()
     {
         // Arrange
-        var spec = new CustomerSearchDto { DeletedStatus = CustomerDeletedStatus.Deleted };
+        var spec = DefaultCustomerSearchDto with { DeletedStatus = CustomerDeletedStatus.Deleted };
         var expected = CustomerData.GetCustomers.Where(e => e.IsDeleted);
 
         // Act
@@ -42,7 +44,7 @@ public class CustomerFilterTests
     public void DeletedSpecNeutral_ReturnsAll()
     {
         // Arrange
-        var spec = new CustomerSearchDto { DeletedStatus = CustomerDeletedStatus.All };
+        var spec = DefaultCustomerSearchDto with { DeletedStatus = CustomerDeletedStatus.All };
 
         // Act
         var predicate = CustomerFilters.CustomerSearchPredicate(spec);
@@ -58,7 +60,7 @@ public class CustomerFilterTests
     {
         // Arrange
         var referenceItem = CustomerData.GetCustomers.First(e => !e.IsDeleted);
-        var spec = new CustomerSearchDto { Name = referenceItem.Name };
+        var spec = DefaultCustomerSearchDto with { Name = referenceItem.Name };
         var expected = CustomerData.GetCustomers.Where(e => !e.IsDeleted && e.Name == referenceItem.Name);
 
         // Act
@@ -75,7 +77,7 @@ public class CustomerFilterTests
     {
         // Arrange
         var referenceItem = CustomerData.GetCustomers.First(e => !e.IsDeleted && !string.IsNullOrEmpty(e.County));
-        var spec = new CustomerSearchDto { County = referenceItem.County };
+        var spec = DefaultCustomerSearchDto with { County = referenceItem.County };
         var expected = CustomerData.GetCustomers.Where(e => !e.IsDeleted && e.County == referenceItem.County);
 
         // Act
@@ -92,7 +94,7 @@ public class CustomerFilterTests
     {
         // Arrange
         var referenceItem = CustomerData.GetCustomers.First(e => !e.IsDeleted && !string.IsNullOrEmpty(e.Description));
-        var spec = new CustomerSearchDto { Description = referenceItem.Description };
+        var spec = DefaultCustomerSearchDto with { Description = referenceItem.Description };
         var expected = CustomerData.GetCustomers.Where(e => !e.IsDeleted && e.Description == referenceItem.Description);
 
         // Act

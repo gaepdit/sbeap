@@ -108,7 +108,7 @@
                         </td>
                         <td>@item.Email</td>
                         <td>@Html.DisplayFor(m => item.OfficeName, DisplayTemplate.StringOrNone)</td>
-                        <td>@Html.DisplayFor(m => item.Active)</td>
+                        <td>@Html.DisplayFor(m => item.Active, DisplayTemplate.BoolActive)</td>
                     </tr>
                 }
                 </tbody>

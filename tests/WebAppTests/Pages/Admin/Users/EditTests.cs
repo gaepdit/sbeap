@@ -17,15 +17,19 @@ namespace WebAppTests.Pages.Admin.Users;
 
 public class EditTests
 {
-    private static readonly StaffViewDto StaffViewTest = new()
-    {
-        Id = Guid.Empty.ToString(),
-        Email = TextData.ValidEmail,
-        GivenName = TextData.ValidName,
-        FamilyName = TextData.ValidName,
-    };
+    private static readonly OfficeViewDto OfficeViewTest = new(Guid.Empty, TextData.ValidName, true);
 
-    private static readonly StaffUpdateDto StaffUpdateTest = new() { Id = Guid.Empty.ToString() };
+    private static readonly StaffViewDto StaffViewTest = new(
+        Guid.Empty.ToString(),
+        TextData.ValidName,
+        TextData.ValidName,
+        TextData.ValidEmail,
+        null,
+        OfficeViewTest,
+        true
+    );
+
+    private static readonly StaffUpdateDto StaffUpdateTest = new(Guid.Empty.ToString(), null, null, true);
 
     [Test]
     public async Task OnGet_PopulatesThePageModel()
@@ -36,8 +40,9 @@ public class EditTests
         var officeServiceMock = new Mock<IOfficeService>();
         officeServiceMock.Setup(l => l.GetActiveListItemsAsync(CancellationToken.None))
             .ReturnsAsync(new List<ListItem>());
-        var pageModel = new EditModel(staffServiceMock.Object, officeServiceMock.Object, Mock.Of<IValidator<StaffUpdateDto>>())
-        { TempData = WebAppTestsSetup.PageTempData() };
+        var pageModel = new EditModel(staffServiceMock.Object, officeServiceMock.Object,
+                Mock.Of<IValidator<StaffUpdateDto>>())
+            { TempData = WebAppTestsSetup.PageTempData() };
 
         var result = await pageModel.OnGetAsync(StaffViewTest.Id);
 
@@ -54,8 +59,8 @@ public class EditTests
     public async Task OnGet_MissingIdReturnsNotFound()
     {
         var pageModel = new EditModel(Mock.Of<IStaffService>(),
-            Mock.Of<IOfficeService>(), Mock.Of<IValidator<StaffUpdateDto>>())
-        { TempData = WebAppTestsSetup.PageTempData() };
+                Mock.Of<IOfficeService>(), Mock.Of<IValidator<StaffUpdateDto>>())
+            { TempData = WebAppTestsSetup.PageTempData() };
 
         var result = await pageModel.OnGetAsync(null);
 
@@ -73,8 +78,8 @@ public class EditTests
         staffServiceMock.Setup(l => l.FindAsync(It.IsAny<string>()))
             .ReturnsAsync((StaffViewDto?)null);
         var pageModel = new EditModel(staffServiceMock.Object,
-            Mock.Of<IOfficeService>(), Mock.Of<IValidator<StaffUpdateDto>>())
-        { TempData = WebAppTestsSetup.PageTempData() };
+                Mock.Of<IOfficeService>(), Mock.Of<IValidator<StaffUpdateDto>>())
+            { TempData = WebAppTestsSetup.PageTempData() };
 
         var result = await pageModel.OnGetAsync(Guid.Empty.ToString());
 
@@ -94,7 +99,7 @@ public class EditTests
         validatorMock.Setup(l => l.ValidateAsync(It.IsAny<StaffUpdateDto>(), CancellationToken.None))
             .ReturnsAsync(new ValidationResult());
         var page = new EditModel(staffServiceMock.Object, Mock.Of<IOfficeService>(), validatorMock.Object)
-        { UpdateStaff = StaffUpdateTest, TempData = WebAppTestsSetup.PageTempData() };
+            { UpdateStaff = StaffUpdateTest, TempData = WebAppTestsSetup.PageTempData() };
 
         var result = await page.OnPostAsync();
 
@@ -118,7 +123,7 @@ public class EditTests
         validatorMock.Setup(l => l.ValidateAsync(It.IsAny<StaffUpdateDto>(), CancellationToken.None))
             .ReturnsAsync(new ValidationResult());
         var page = new EditModel(staffServiceMock.Object, Mock.Of<IOfficeService>(), validatorMock.Object)
-        { UpdateStaff = StaffUpdateTest, TempData = WebAppTestsSetup.PageTempData() };
+            { UpdateStaff = StaffUpdateTest, TempData = WebAppTestsSetup.PageTempData() };
 
         var result = await page.OnPostAsync();
 
@@ -140,7 +145,7 @@ public class EditTests
             .ReturnsAsync(new ValidationResult(validationFailures));
 
         var page = new EditModel(staffServiceMock.Object, officeServiceMock.Object, validatorMock.Object)
-        { UpdateStaff = StaffUpdateTest, TempData = WebAppTestsSetup.PageTempData() };
+            { UpdateStaff = StaffUpdateTest, TempData = WebAppTestsSetup.PageTempData() };
 
         var result = await page.OnPostAsync();
 
@@ -164,7 +169,7 @@ public class EditTests
         validatorMock.Setup(l => l.ValidateAsync(It.IsAny<StaffUpdateDto>(), CancellationToken.None))
             .ReturnsAsync(new ValidationResult(validationFailures));
         var page = new EditModel(staffServiceMock.Object, Mock.Of<IOfficeService>(), validatorMock.Object)
-        { UpdateStaff = StaffUpdateTest, TempData = WebAppTestsSetup.PageTempData() };
+            { UpdateStaff = StaffUpdateTest, TempData = WebAppTestsSetup.PageTempData() };
 
         var result = await page.OnPostAsync();
 

@@ -6,15 +6,17 @@ namespace AppServicesTests.Cases;
 
 public class CaseworkFilterTests
 {
+    private static CaseworkSearchDto DefaultCaseworkSearch => new(CaseworkSortBy.CustomerAsc, null, null, null, null,
+        null, null, null, null, null, null, null);
+
     [Test]
     public void DefaultFilter_ReturnsAllNotDeleted()
     {
         // Arrange
-        var spec = new CaseworkSearchDto();
         var expected = CaseworkData.GetCases.Where(e => !e.IsDeleted);
 
         // Act
-        var predicate = CaseworkFilters.CaseworkSearchPredicate(spec);
+        var predicate = CaseworkFilters.CaseworkSearchPredicate(DefaultCaseworkSearch);
         var result = CaseworkData.GetCases
             .Where(predicate.Compile()).AsQueryable().ToList();
 
@@ -26,7 +28,7 @@ public class CaseworkFilterTests
     public void DeletedSpec_ReturnsAllDeleted()
     {
         // Arrange
-        var spec = new CaseworkSearchDto { DeletedStatus = CaseDeletedStatus.Deleted };
+        var spec = DefaultCaseworkSearch with { DeletedStatus = CaseDeletedStatus.Deleted };
         var expected = CaseworkData.GetCases.Where(e => e.IsDeleted);
 
         // Act
@@ -42,7 +44,7 @@ public class CaseworkFilterTests
     public void DeletedSpecNeutral_ReturnsAll()
     {
         // Arrange
-        var spec = new CaseworkSearchDto { DeletedStatus = CaseDeletedStatus.All };
+        var spec = DefaultCaseworkSearch with { DeletedStatus = CaseDeletedStatus.All };
 
         // Act
         var predicate = CaseworkFilters.CaseworkSearchPredicate(spec);
@@ -57,7 +59,7 @@ public class CaseworkFilterTests
     public void StatusOpen_ReturnsFilteredList()
     {
         // Arrange
-        var spec = new CaseworkSearchDto { Status = CaseStatus.Open };
+        var spec = DefaultCaseworkSearch with { Status = CaseStatus.Open };
         var expected = CaseworkData.GetCases.Where(e => e is { IsDeleted: false, IsClosed: false });
 
         // Act
@@ -73,7 +75,7 @@ public class CaseworkFilterTests
     public void StatusClosed_ReturnsFilteredList()
     {
         // Arrange
-        var spec = new CaseworkSearchDto { Status = CaseStatus.Closed };
+        var spec = DefaultCaseworkSearch with { Status = CaseStatus.Closed };
         var expected = CaseworkData.GetCases.Where(e => e is { IsDeleted: false, IsClosed: true });
 
         // Act
@@ -90,7 +92,7 @@ public class CaseworkFilterTests
     {
         // Arrange
         var referenceItem = CaseworkData.GetCases.First(e => !e.IsDeleted && !string.IsNullOrEmpty(e.Customer.Name));
-        var spec = new CaseworkSearchDto { CustomerName = referenceItem.Customer.Name };
+        var spec = DefaultCaseworkSearch with { CustomerName = referenceItem.Customer.Name };
         var expected = CaseworkData.GetCases.Where(e => !e.IsDeleted && e.Customer.Name == referenceItem.Customer.Name);
 
         // Act
@@ -107,7 +109,7 @@ public class CaseworkFilterTests
     {
         // Arrange
         var referenceItem = CaseworkData.GetCases.First(e => !e.IsDeleted && !string.IsNullOrEmpty(e.Description));
-        var spec = new CaseworkSearchDto { Description = referenceItem.Description };
+        var spec = DefaultCaseworkSearch with { Description = referenceItem.Description };
         var expected = CaseworkData.GetCases.Where(e => !e.IsDeleted && e.Description == referenceItem.Description);
 
         // Act
@@ -124,8 +126,10 @@ public class CaseworkFilterTests
     {
         // Arrange
         var referenceItem = CaseworkData.GetCases.First(e => !e.IsDeleted);
-        var spec = new CaseworkSearchDto
-            { OpenedFrom = referenceItem.CaseOpenedDate, OpenedTo = referenceItem.CaseOpenedDate };
+        var spec = DefaultCaseworkSearch with
+        {
+            OpenedFrom = referenceItem.CaseOpenedDate, OpenedTo = referenceItem.CaseOpenedDate
+        };
 
         var expected = CaseworkData.GetCases
             .Where(e => !e.IsDeleted && e.CaseOpenedDate == referenceItem.CaseOpenedDate);
@@ -144,8 +148,10 @@ public class CaseworkFilterTests
     {
         // Arrange
         var referenceItem = CaseworkData.GetCases.First(e => e is { IsDeleted: false, IsClosed: true });
-        var spec = new CaseworkSearchDto
-            { ClosedFrom = referenceItem.CaseClosedDate, ClosedTo = referenceItem.CaseClosedDate };
+        var spec = DefaultCaseworkSearch with
+        {
+            ClosedFrom = referenceItem.CaseClosedDate, ClosedTo = referenceItem.CaseClosedDate
+        };
 
         var expected = CaseworkData.GetCases
             .Where(e => !e.IsDeleted && e.CaseClosedDate == referenceItem.CaseClosedDate);

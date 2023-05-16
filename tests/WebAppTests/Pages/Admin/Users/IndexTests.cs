@@ -11,6 +11,8 @@ namespace WebAppTests.Pages.Admin.Users;
 
 public class IndexTests
 {
+    private static StaffSearchDto DefaultStaffSearch => new(SortBy.NameAsc, null, null, null, null, null);
+
     [Test]
     public async Task OnSearch_IfValidModel_ReturnsPage()
     {
@@ -30,7 +32,7 @@ public class IndexTests
             { TempData = WebAppTestsSetup.PageTempData() };
 
         // Act
-        var result = await page.OnGetSearchAsync(new StaffSearchDto());
+        var result = await page.OnGetSearchAsync(DefaultStaffSearch);
 
         // Assert
         using (new AssertionScope())
@@ -54,7 +56,7 @@ public class IndexTests
             { TempData = WebAppTestsSetup.PageTempData() };
         page.ModelState.AddModelError("Error", "Sample error description");
 
-        var result = await page.OnGetSearchAsync(new StaffSearchDto());
+        var result = await page.OnGetSearchAsync(DefaultStaffSearch);
 
         using (new AssertionScope())
         {

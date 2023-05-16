@@ -43,14 +43,11 @@ public class IndexModel : PageModel
 
     public async Task<IActionResult> OnGetSearchAsync(StaffSearchDto spec, [FromQuery] int p = 1)
     {
-        spec.TrimAll();
-        var paging = new PaginatedRequest(p, GlobalConstants.PageSize, spec.Sort.GetDescription());
-
-        Spec = spec;
-        ShowResults = true;
-
+        Spec = spec.TrimAll();
         await PopulateSelectListsAsync();
-        SearchResults = await _staffService.SearchAsync(spec, paging);
+        var paging = new PaginatedRequest(p, GlobalConstants.PageSize, Spec.Sort.GetDescription());
+        SearchResults = await _staffService.SearchAsync(Spec, paging);
+        ShowResults = true;
         return Page();
     }
 

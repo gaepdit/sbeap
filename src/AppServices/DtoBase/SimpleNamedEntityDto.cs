@@ -8,29 +8,25 @@ public interface IDtoHasNameProperty
     string Name { get; }
 }
 
-public abstract class SimpleNamedEntityViewDto : IDtoHasNameProperty
-{
-    public Guid Id { get; init; }
-    public string Name { get; init; } = string.Empty;
+public abstract record SimpleNamedEntityViewDto
+(
+    Guid Id,
+    string Name,
+    bool Active
+) : IDtoHasNameProperty;
 
-    [UIHint("BoolActive")]
-    public bool Active { get; init; }
-}
-
-public abstract class SimpleNamedEntityCreateDto
-{
+public abstract record SimpleNamedEntityCreateDto
+(
     [Required(AllowEmptyStrings = false)]
     [StringLength(SimpleNamedEntity.MaxNameLength, MinimumLength = SimpleNamedEntity.MinNameLength)]
-    public string Name { get; init; } = string.Empty;
-}
+    string Name
+);
 
-public abstract class SimpleNamedEntityUpdateDto
-{
-    public Guid Id { get; init; }
-
+public abstract record SimpleNamedEntityUpdateDto
+(
+    Guid Id,
     [Required(AllowEmptyStrings = false)]
     [StringLength(SimpleNamedEntity.MaxNameLength, MinimumLength = SimpleNamedEntity.MinNameLength)]
-    public string Name { get; init; } = string.Empty;
-
-    public bool Active { get; init; }
-}
+    string Name,
+    bool Active
+);

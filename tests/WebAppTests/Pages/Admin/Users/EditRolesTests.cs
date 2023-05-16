@@ -15,16 +15,17 @@ namespace WebAppTests.Pages.Admin.Users;
 
 public class EditRolesTests
 {
-    private static readonly OfficeViewDto OfficeViewTest = new() { Id = Guid.Empty, Name = TextData.ValidName };
+    private static readonly OfficeViewDto OfficeViewTest = new(Guid.Empty, TextData.ValidName, true);
 
-    private static readonly StaffViewDto StaffViewTest = new()
-    {
-        Id = Guid.Empty.ToString(),
-        Email = TextData.ValidEmail,
-        GivenName = TextData.ValidName,
-        FamilyName = TextData.ValidName,
-        Office = OfficeViewTest,
-    };
+    private static readonly StaffViewDto StaffViewTest = new(
+        Guid.Empty.ToString(),
+        TextData.ValidName,
+        TextData.ValidName,
+        TextData.ValidEmail,
+        null,
+        OfficeViewTest,
+        true
+    );
 
     private static readonly List<EditRolesModel.RoleSetting> RoleSettingsTest = new()
     {

@@ -1,16 +1,20 @@
 ﻿using FluentValidation.TestHelper;
 using Sbeap.AppServices.Customers.Dto;
 using Sbeap.AppServices.Customers.Validators;
+using Sbeap.Domain.ValueObjects;
 using Sbeap.TestData.Constants;
 
 namespace AppServicesTests.Customers;
 
 public class ContactCreateValidatorTests
 {
+    private static ContactCreateDto EmptyContactCreateDto => new(null, null, null, null, null, null,
+        new IncompleteAddress(), new PhoneNumber());
+
     [Test]
     public async Task ValidDto_ReturnsAsValid()
     {
-        var model = new ContactCreateDto
+        var model = EmptyContactCreateDto with
         {
             GivenName = TextData.ValidName,
             Email = TextData.ValidEmail,
@@ -25,10 +29,9 @@ public class ContactCreateValidatorTests
     [Test]
     public async Task EmptyContact_ReturnsAsInvalid()
     {
-        var model = ContactCreateDto.EmptyContact;
         var validator = new ContactCreateValidator();
 
-        var result = await validator.TestValidateAsync(model);
+        var result = await validator.TestValidateAsync(EmptyContactCreateDto);
 
         result.ShouldHaveValidationErrorFor(e => e.Title);
     }
@@ -36,7 +39,7 @@ public class ContactCreateValidatorTests
     [Test]
     public async Task InvalidEmail_ReturnsAsInvalid()
     {
-        var model = new ContactCreateDto
+        var model = EmptyContactCreateDto with
         {
             Title = TextData.Phrase,
             Email = TextData.NonExistentName, // invalid as email
@@ -51,7 +54,10 @@ public class ContactCreateValidatorTests
     [Test]
     public async Task MissingNameOrTitle_ReturnsAsInvalid()
     {
-        var model = new ContactCreateDto { Email = TextData.ValidEmail };
+        var model = EmptyContactCreateDto with
+        {
+            Email = TextData.ValidEmail,
+        };
         var validator = new ContactCreateValidator();
 
         var result = await validator.TestValidateAsync(model);

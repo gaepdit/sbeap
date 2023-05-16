@@ -34,13 +34,10 @@ public class IndexModel : PageModel
 
     public async Task<IActionResult> OnGetSearchAsync(CustomerSearchDto spec, [FromQuery] int p = 1)
     {
-        spec.TrimAll();
-        var paging = new PaginatedRequest(p, GlobalConstants.PageSize, spec.Sort.GetDescription());
-
-        Spec = spec;
+        Spec = spec.TrimAll();
+        var paging = new PaginatedRequest(p, GlobalConstants.PageSize, Spec.Sort.GetDescription());
+        SearchResults = await _service.SearchAsync(Spec, paging);
         ShowResults = true;
-
-        SearchResults = await _service.SearchAsync(spec, paging);
         return Page();
     }
 }

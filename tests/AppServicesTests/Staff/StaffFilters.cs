@@ -6,13 +6,14 @@ namespace AppServicesTests.Staff;
 
 public class StaffFilters
 {
+    private static StaffSearchDto DefaultStaffSearch => new(SortBy.NameAsc, null, null, null, null, null);
+
     [Test]
     public void DefaultFilter_ReturnsAllActive()
     {
-        var spec = new StaffSearchDto();
         var expected = UserData.GetUsers.Where(e => e.Active);
 
-        var result = UserData.GetUsers.AsQueryable().ApplyFilter(spec);
+        var result = UserData.GetUsers.AsQueryable().ApplyFilter(DefaultStaffSearch);
 
         result.Should().BeEquivalentTo(expected);
     }
@@ -21,7 +22,7 @@ public class StaffFilters
     public void NameFilter_ReturnsMatches()
     {
         var name = UserData.GetUsers.First(e => e.Active).GivenName;
-        var spec = new StaffSearchDto { Name = name };
+        var spec = DefaultStaffSearch with { Name = name };
         var expected = UserData.GetUsers
             .Where(e => e.Active &&
                 (string.Equals(e.GivenName, name, StringComparison.CurrentCultureIgnoreCase) ||
@@ -36,7 +37,7 @@ public class StaffFilters
     public void EmailFilter_ReturnsMatches()
     {
         var email = UserData.GetUsers.First(e => e.Active).Email;
-        var spec = new StaffSearchDto { Email = email };
+        var spec = DefaultStaffSearch with { Email = email };
         var expected = UserData.GetUsers
             .Where(e => e.Active && e.Email == email);
 
@@ -49,7 +50,7 @@ public class StaffFilters
     public void OfficeFilter_ReturnsMatches()
     {
         var office = UserData.GetUsers.First().Office;
-        var spec = new StaffSearchDto { Office = office!.Id, Status = SearchStaffStatus.All };
+        var spec = DefaultStaffSearch with { Office = office!.Id, Status = SearchStaffStatus.All };
         var expected = UserData.GetUsers
             .Where(e => e.Office!.Id == office.Id);
 
@@ -61,7 +62,7 @@ public class StaffFilters
     [Test]
     public void InactiveFilter_ReturnsAllInactive()
     {
-        var spec = new StaffSearchDto { Status = SearchStaffStatus.Inactive };
+        var spec = DefaultStaffSearch with { Status = SearchStaffStatus.Inactive };
         var expected = UserData.GetUsers.Where(e => !e.Active);
 
         var result = UserData.GetUsers.AsQueryable().ApplyFilter(spec);
@@ -72,7 +73,7 @@ public class StaffFilters
     [Test]
     public void StatusAllFilter_ReturnsAll()
     {
-        var spec = new StaffSearchDto { Status = SearchStaffStatus.All };
+        var spec = DefaultStaffSearch with { Status = SearchStaffStatus.All };
         var result = UserData.GetUsers.AsQueryable().ApplyFilter(spec);
         result.Should().BeEquivalentTo(UserData.GetUsers);
     }

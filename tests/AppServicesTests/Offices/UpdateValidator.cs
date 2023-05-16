@@ -14,12 +14,7 @@ public class UpdateValidator
         var repoMock = new Mock<IOfficeRepository>();
         repoMock.Setup(l => l.FindByNameAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((Office?)null);
-        var model = new OfficeUpdateDto
-        {
-            Id = Guid.Empty,
-            Name = TextData.ValidName,
-            Active = true,
-        };
+        var model = new OfficeUpdateDto(Id: Guid.Empty, Name: TextData.ValidName, Active: true);
 
         var validator = new OfficeUpdateValidator(repoMock.Object);
         var result = await validator.TestValidateAsync(model);
@@ -33,12 +28,7 @@ public class UpdateValidator
         var repoMock = new Mock<IOfficeRepository>();
         repoMock.Setup(l => l.FindByNameAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new Office(Guid.NewGuid(), TextData.ValidName));
-        var model = new OfficeUpdateDto
-        {
-            Id = Guid.Empty,
-            Name = TextData.ValidName,
-            Active = true,
-        };
+        var model = new OfficeUpdateDto(Id: Guid.Empty, Name: TextData.ValidName, Active: true);
 
         var validator = new OfficeUpdateValidator(repoMock.Object);
         var result = await validator.TestValidateAsync(model);
@@ -53,12 +43,7 @@ public class UpdateValidator
         var repoMock = new Mock<IOfficeRepository>();
         repoMock.Setup(l => l.FindByNameAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new Office(Guid.Empty, TextData.ValidName));
-        var model = new OfficeUpdateDto
-        {
-            Id = Guid.Empty,
-            Name = TextData.ValidName,
-            Active = true,
-        };
+        var model = new OfficeUpdateDto(Id: Guid.Empty, Name: TextData.ValidName, Active: true);
 
         var validator = new OfficeUpdateValidator(repoMock.Object);
         var result = await validator.TestValidateAsync(model);
@@ -72,7 +57,7 @@ public class UpdateValidator
         var repoMock = new Mock<IOfficeRepository>();
         repoMock.Setup(l => l.FindByNameAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((Office?)null);
-        var model = new OfficeUpdateDto { Name = TextData.ShortName };
+        var model = new OfficeUpdateDto(Id: Guid.Empty, Name: TextData.ShortName, Active: true);
 
         var validator = new OfficeUpdateValidator(repoMock.Object);
         var result = await validator.TestValidateAsync(model);

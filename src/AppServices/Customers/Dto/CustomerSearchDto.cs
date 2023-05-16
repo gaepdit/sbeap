@@ -5,16 +5,14 @@ using System.Text.Json.Serialization;
 namespace Sbeap.AppServices.Customers.Dto;
 
 public record CustomerSearchDto
+(
+    CustomerSortBy Sort,
+    string? Name,
+    string? Description,
+    string? County,
+    [Display(Name = "Deletion Status")] CustomerDeletedStatus? DeletedStatus
+)
 {
-    public CustomerSortBy Sort { get; init; } = CustomerSortBy.NameAsc;
-
-    public string? Name { get; set; }
-    public string? Description { get; set; }
-    public string? County { get; set; }
-
-    [Display(Name = "Deletion Status")]
-    public CustomerDeletedStatus? DeletedStatus { get; init; }
-
     // UI Routing
     public IDictionary<string, string?> AsRouteValues() => new Dictionary<string, string?>
     {
@@ -25,12 +23,12 @@ public record CustomerSearchDto
         { nameof(DeletedStatus), DeletedStatus?.ToString() },
     };
 
-    public void TrimAll()
+    public CustomerSearchDto TrimAll() => this with
     {
-        Name = Name?.Trim();
-        Description = Description?.Trim();
-        County = County?.Trim();
-    }
+        Name = Name?.Trim(),
+        Description = Description?.Trim(),
+        County = County?.Trim(),
+    };
 }
 
 // Search enums

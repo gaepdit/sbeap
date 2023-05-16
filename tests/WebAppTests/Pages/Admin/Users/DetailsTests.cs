@@ -16,13 +16,16 @@ public class DetailsTests
     [Test]
     public async Task OnGet_PopulatesThePageModel()
     {
-        var staffView = new StaffViewDto
-        {
-            Id = Guid.Empty.ToString(),
-            Email = TextData.ValidEmail,
-            GivenName = TextData.ValidName,
-            FamilyName = TextData.ValidName,
-        };
+        var staffView = new StaffViewDto(
+            Guid.Empty.ToString(),
+            TextData.ValidName,
+            TextData.ValidName,
+            TextData.ValidEmail,
+            null,
+            null,
+            true
+        );
+
         var serviceMock = new Mock<IStaffService>();
         serviceMock.Setup(l => l.FindAsync(It.IsAny<string>()))
             .ReturnsAsync(staffView);

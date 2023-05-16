@@ -10,15 +10,15 @@ public record IncompleteAddress : ValueObject
     public string? Street { get; [UsedImplicitly] init; }
 
     [Display(Name = "Apt / Suite / Other")]
-    public string? Street2 { get; [UsedImplicitly] set; }
+    public string? Street2 { get; [UsedImplicitly] init; }
 
-    public string? City { get; [UsedImplicitly] set; }
+    public string? City { get; [UsedImplicitly] init; }
 
-    public string? State { get; [UsedImplicitly] set; }
+    public string? State { get; [UsedImplicitly] init; }
 
     [DataType(DataType.PostalCode)]
     [Display(Name = "Postal Code")]
-    public string? PostalCode { get; [UsedImplicitly] set; }
+    public string? PostalCode { get; [UsedImplicitly] init; }
 
     protected override IEnumerable<object> GetEqualityComponents()
     {

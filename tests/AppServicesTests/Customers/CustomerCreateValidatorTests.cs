@@ -1,19 +1,26 @@
 ﻿using FluentValidation.TestHelper;
 using Sbeap.AppServices.Customers.Dto;
 using Sbeap.AppServices.Customers.Validators;
+using Sbeap.Domain.ValueObjects;
 using Sbeap.TestData.Constants;
 
 namespace AppServicesTests.Customers;
 
 public class CustomerCreateValidatorTests
 {
+    private static ContactCreateDto EmptyContactCreate => new(null, null, null, null, null, null,
+        new IncompleteAddress(), new PhoneNumber());
+
+    private static CustomerCreateDto EmptyCustomerCreate => new(string.Empty, null, null, null, new IncompleteAddress(),
+        new IncompleteAddress(), EmptyContactCreate);
+
     [Test]
     public async Task ValidDtoWithEmptyContact_ReturnsAsValid()
     {
-        var model = new CustomerCreateDto
+        var model = EmptyCustomerCreate with
         {
             Name = TextData.ValidName,
-            Contact = ContactCreateDto.EmptyContact,
+            Contact = EmptyContactCreate,
         };
         var validator = new CustomerCreateValidator();
 
@@ -25,10 +32,10 @@ public class CustomerCreateValidatorTests
     [Test]
     public async Task ValidDtoWithValidContact_ReturnsAsValid()
     {
-        var model = new CustomerCreateDto
+        var model = EmptyCustomerCreate with
         {
             Name = TextData.ValidName,
-            Contact = new ContactCreateDto { Title = TextData.Phrase },
+            Contact = EmptyContactCreate with { Title = TextData.Phrase },
         };
         var validator = new CustomerCreateValidator();
 
@@ -40,10 +47,10 @@ public class CustomerCreateValidatorTests
     [Test]
     public async Task NameTooShort_ReturnsAsInvalid()
     {
-        var model = new CustomerCreateDto
+        var model = EmptyCustomerCreate with
         {
             Name = TextData.ShortName,
-            Contact = ContactCreateDto.EmptyContact,
+            Contact = EmptyContactCreate,
         };
         var validator = new CustomerCreateValidator();
 
@@ -55,11 +62,11 @@ public class CustomerCreateValidatorTests
     [Test]
     public async Task InvalidWebsite_ReturnsAsInvalid()
     {
-        var model = new CustomerCreateDto
+        var model = EmptyCustomerCreate with
         {
             Name = TextData.ValidName,
             Website = TextData.NonExistentName, // invalid as website
-            Contact = ContactCreateDto.EmptyContact,
+            Contact = EmptyContactCreate,
         };
         var validator = new CustomerCreateValidator();
 
@@ -71,10 +78,10 @@ public class CustomerCreateValidatorTests
     [Test]
     public async Task InvalidContactEmail_ReturnsAsInvalid()
     {
-        var model = new CustomerCreateDto
+        var model = EmptyCustomerCreate with
         {
             Name = TextData.ValidName,
-            Contact = new ContactCreateDto
+            Contact = EmptyContactCreate with
             {
                 Title = TextData.Phrase,
                 Email = TextData.NonExistentName, // invalid as email
@@ -90,10 +97,10 @@ public class CustomerCreateValidatorTests
     [Test]
     public async Task ContactWithoutNameOrTitle_ReturnsAsInvalid()
     {
-        var model = new CustomerCreateDto
+        var model = EmptyCustomerCreate with
         {
             Name = TextData.ValidName,
-            Contact = new ContactCreateDto { Email = TextData.ValidEmail },
+            Contact = EmptyContactCreate with { Email = TextData.ValidEmail },
         };
         var validator = new CustomerCreateValidator();
 

@@ -10,23 +10,26 @@ public class StaffDtoTests
     [Test]
     public void DisplayName_TrimAll_TrimsItems()
     {
-        var staffSearchDto = new StaffSearchDto { Name = " abc ", Email = " def " };
+        var staffSearchDto = new StaffSearchDto(SortBy.NameAsc, " abc ", " def ", null, null, null);
 
-        staffSearchDto.TrimAll();
+        var result = staffSearchDto.TrimAll();
 
         using (new AssertionScope())
         {
-            staffSearchDto.Name.Should().Be("abc");
-            staffSearchDto.Email.Should().Be("def");
+            result.Name.Should().Be("abc");
+            result.Email.Should().Be("def");
         }
     }
+
+    private static StaffViewDto ValidStaffView =>
+        new(Guid.Empty.ToString(), string.Empty, string.Empty, null, null, null, true);
 
     [TestCase("abc", "def", "abc def")]
     [TestCase("abc", "", "abc")]
     [TestCase("", "def", "def")]
     public void DisplayName_ExpectedBehavior(string givenName, string familyName, string expected)
     {
-        var staffViewDto = new StaffViewDto { GivenName = givenName, FamilyName = familyName };
+        var staffViewDto = ValidStaffView with { GivenName = givenName, FamilyName = familyName };
         staffViewDto.Name.Should().Be(expected);
     }
 
@@ -35,19 +38,19 @@ public class StaffDtoTests
     [TestCase("", "def", "def")]
     public void SortableFullName_ExpectedBehavior(string givenName, string familyName, string expected)
     {
-        var staffViewDto = new StaffViewDto { GivenName = givenName, FamilyName = familyName };
+        var staffViewDto = ValidStaffView with { GivenName = givenName, FamilyName = familyName };
         staffViewDto.SortableFullName.Should().Be(expected);
     }
 
     [Test]
     public void AsUpdateDto_ExpectedBehavior()
     {
-        var staffViewDto = new StaffViewDto
+        var staffViewDto = ValidStaffView with
         {
             Id = Guid.NewGuid().ToString(),
             Active = true,
             Phone = TextData.ValidPhoneNumber,
-            Office = new OfficeViewDto { Id = Guid.NewGuid() },
+            Office = new OfficeViewDto(Guid.NewGuid(), TextData.ValidName, true),
         };
 
         var result = staffViewDto.AsUpdateDto();
