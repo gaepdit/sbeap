@@ -1,8 +1,8 @@
-﻿using Cts.AppServices.Complaints.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Sbeap.AppServices.Customers.Dto;
 using Sbeap.AppServices.Customers.Permissions;
 using Sbeap.Domain.Identity;
+using Sbeap.Domain.ValueObjects;
 using System.Security.Claims;
 
 namespace AppServicesTests.Customers;

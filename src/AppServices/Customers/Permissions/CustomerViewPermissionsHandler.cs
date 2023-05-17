@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Sbeap.AppServices.Customers.Dto;
-using Sbeap.AppServices.Customers.Permissions;
 using Sbeap.Domain.Identity;
 using System.Security.Principal;
 
-namespace Cts.AppServices.Complaints.Permissions;
+namespace Sbeap.AppServices.Customers.Permissions;
 
 internal class CustomerViewPermissionsHandler :
     AuthorizationHandler<CustomerOperation, CustomerViewDto>

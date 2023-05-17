@@ -1,6 +1,6 @@
-﻿using Cts.AppServices.Complaints.Permissions;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
+using Sbeap.AppServices.Customers.Permissions;
 using Sbeap.AppServices.Permissions;
 
 namespace Sbeap.AppServices.RegisterServices;
