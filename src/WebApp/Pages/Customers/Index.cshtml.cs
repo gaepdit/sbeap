@@ -1,15 +1,18 @@
 ﻿using GaEpd.AppLibrary.Enums;
 using GaEpd.AppLibrary.Pagination;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Sbeap.AppServices.Customers;
 using Sbeap.AppServices.Customers.Dto;
+using Sbeap.AppServices.Permissions;
 using Sbeap.Domain.Data;
 using Sbeap.WebApp.Platform.Constants;
 
 namespace Sbeap.WebApp.Pages.Customers;
 
+[Authorize(Policy = PolicyName.StaffUser)]
 public class IndexModel : PageModel
 {
     // Constructor
