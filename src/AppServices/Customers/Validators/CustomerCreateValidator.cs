@@ -15,6 +15,7 @@ public class CustomerCreateValidator : AbstractValidator<CustomerCreateDto>
 
         RuleFor(e => e.Website)
             .Must(uri => Uri.TryCreate(uri, UriKind.Absolute, out _))
+            .WithMessage("The Website must be a valid web address.")
             .When(x => !string.IsNullOrEmpty(x.Website));
 
         // Embedded Contact
