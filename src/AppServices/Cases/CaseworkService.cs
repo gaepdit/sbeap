@@ -59,9 +59,8 @@ public sealed class CaseworkService : ICaseworkService
     public async Task<Guid> CreateAsync(CaseworkCreateDto resource, CancellationToken token = default)
     {
         var customer = await _customers.GetAsync(resource.CustomerId, token);
-        var item = _manager.Create(customer, resource.CaseOpenedDate);
+        var item = _manager.Create(customer, resource.CaseOpenedDate, (await _users.GetCurrentUserAsync())?.Id);
 
-        item.SetCreator((await _users.GetCurrentUserAsync())?.Id);
         item.Description = resource.Description;
 
         await _cases.InsertAsync(item, token: token);
@@ -74,8 +73,8 @@ public sealed class CaseworkService : ICaseworkService
     public async Task UpdateAsync(CaseworkUpdateDto resource, CancellationToken token = default)
     {
         var item = await _cases.GetAsync(resource.Id, token);
-
         item.SetUpdater((await _users.GetCurrentUserAsync())?.Id);
+
         item.CaseOpenedDate = resource.CaseOpenedDate;
         item.Description = resource.Description;
         item.CaseClosedDate = resource.CaseClosedDate;
@@ -100,9 +99,9 @@ public sealed class CaseworkService : ICaseworkService
     public async Task AddActionItemAsync(ActionItemCreateDto resource, CancellationToken token = default)
     {
         var casework = await _cases.GetAsync(resource.CaseworkId, token);
-        var item = _manager.CreateActionItem(casework, resource.ActionItemType);
+        var item = _manager.CreateActionItem(casework, resource.ActionItemType,
+            (await _users.GetCurrentUserAsync())?.Id);
 
-        item.SetCreator((await _users.GetCurrentUserAsync())?.Id);
         item.ActionDate = resource.ActionDate;
         item.Notes = resource.Notes;
 
@@ -116,8 +115,8 @@ public sealed class CaseworkService : ICaseworkService
     public async Task UpdateActionItemAsync(ActionItemUpdateDto resource, CancellationToken token = default)
     {
         var item = await _actionItems.GetAsync(resource.Id, token);
-
         item.SetUpdater((await _users.GetCurrentUserAsync())?.Id);
+
         item.ActionItemType = resource.ActionItemType;
         item.ActionDate = resource.ActionDate;
         item.Notes = resource.Notes;

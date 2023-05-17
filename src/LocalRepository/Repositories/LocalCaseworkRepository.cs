@@ -7,5 +7,11 @@ public sealed class LocalCaseworkRepository : BaseRepository<Casework, Guid>, IC
 {
     public LocalCaseworkRepository() : base(CaseworkData.GetCases) { }
 
-    public Task<Casework?> FindIncludeAllAsync(Guid id, CancellationToken token = default) => FindAsync(id, token);
+    public async Task<Casework?> FindIncludeAllAsync(Guid id, CancellationToken token = default)
+    {
+        var results = await FindAsync(id, token);
+        if (results is null) return results;
+        results.ActionItems.RemoveAll(e => e.IsDeleted);
+        return results;
+    }
 }

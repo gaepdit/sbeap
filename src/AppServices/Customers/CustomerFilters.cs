@@ -22,16 +22,16 @@ public static class CustomerFilters
     private static Expression<Func<Customer, bool>> ContainsDescription(this Expression<Func<Customer, bool>> predicate,
         string? input) => string.IsNullOrWhiteSpace(input)
         ? predicate
-        : predicate.And(e => e.Description.Contains(input));
+        : predicate.And(e => e.Description != null && e.Description.Contains(input));
 
     private static Expression<Func<Customer, bool>> InCounty(this Expression<Func<Customer, bool>> predicate,
         string? input) => string.IsNullOrWhiteSpace(input) ? predicate : predicate.And(e => e.County == input);
 
     private static Expression<Func<Customer, bool>> ByDeletedStatus(this Expression<Func<Customer, bool>> predicate,
-        CaseDeletedStatus? input) => input switch
+        CustomerDeletedStatus? input) => input switch
     {
-        CaseDeletedStatus.All => predicate,
-        CaseDeletedStatus.Deleted => predicate.And(e => e.IsDeleted),
+        CustomerDeletedStatus.All => predicate,
+        CustomerDeletedStatus.Deleted => predicate.And(e => e.IsDeleted),
         _ => predicate.And(e => !e.IsDeleted),
     };
 }

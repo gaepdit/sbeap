@@ -1,5 +1,4 @@
 ﻿@page
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Sbeap.WebApp.Pages.Shared.DisplayTemplates
 @model IndexModel
 @{
@@ -9,7 +8,7 @@
 <h1>@ViewData["Title"]</h1>
 <hr />
 
-<h2>@Html.DisplayFor(m => m.DisplayStaff, TemplateNames.NameOrNone)</h2>
+<h2>@Html.DisplayFor(m => m.DisplayStaff, DisplayTemplate.NameOrNone)</h2>
 
 <dl class="row">
     <dt class="col-sm-3">Email</dt>

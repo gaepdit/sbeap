@@ -13,7 +13,7 @@ internal class StaffUserRequirement :
         if (!(context.User.Identity?.IsAuthenticated ?? false))
             return Task.FromResult(0);
 
-        if (context.User.IsInRole(RoleName.Staff))
+        if (context.User.IsInRole(RoleName.Staff) || context.User.IsInRole(RoleName.Admin))
             context.Succeed(requirement);
 
         return Task.FromResult(0);

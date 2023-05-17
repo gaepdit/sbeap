@@ -7,7 +7,7 @@ namespace Sbeap.AppServices.Cases.Dto;
 public record CaseworkSearchDto
 {
     // Sorting
-    public SortBy Sort { get; init; } = SortBy.CustomerAsc;
+    public CaseworkSortBy Sort { get; init; } = CaseworkSortBy.CustomerAsc;
 
     // Status
 
@@ -105,7 +105,7 @@ public enum CaseDeletedStatus
 }
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
-public enum SortBy
+public enum CaseworkSortBy
 {
     [Description("Customer.Name")] CustomerAsc,
 

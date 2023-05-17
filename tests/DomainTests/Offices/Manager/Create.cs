@@ -14,7 +14,7 @@ public class Create
             .ReturnsAsync((Office?)null);
         var manager = new OfficeManager(repoMock.Object);
 
-        var newItem = await manager.CreateAsync(TextData.ValidName);
+        var newItem = await manager.CreateAsync(TextData.ValidName, null);
 
         newItem.Name.Should().BeEquivalentTo(TextData.ValidName);
     }
@@ -27,7 +27,7 @@ public class Create
             .ReturnsAsync(new Office(Guid.Empty, TextData.ValidName));
         var manager = new OfficeManager(repoMock.Object);
 
-        var office = async () => await manager.CreateAsync(TextData.ValidName);
+        var office = async () => await manager.CreateAsync(TextData.ValidName, null);
 
         (await office.Should().ThrowAsync<NameAlreadyExistsException>())
             .WithMessage($"An entity with that name already exists. Name: {TextData.ValidName}");

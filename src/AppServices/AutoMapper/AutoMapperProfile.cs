@@ -30,7 +30,8 @@ public class AutoMapperProfile : Profile
         CreateMap<Contact, ContactUpdateDto>();
 
         // Customers
-        CreateMap<Customer, CustomerViewDto>();
+        CreateMap<Customer, CustomerViewDto>()
+            .ForMember(e => e.DeletedBy, o => o.Ignore());
         CreateMap<Customer, CustomerUpdateDto>();
         CreateMap<Customer, CustomerSearchResultDto>();
 

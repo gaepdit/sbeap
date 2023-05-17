@@ -1,0 +1,177 @@
+﻿@page "{id:guid?}"
+@using Sbeap.AppServices.Customers.Permissions
+@using Sbeap.WebApp.Pages.Shared.DisplayTemplates
+@model DetailsModel
+@{
+    ViewData["Title"] = "Customer Details";
+}
+
+@section Scripts
+{
+    <script src="~/lib/masonry/masonry.pkgd.min.js"></script>
+}
+
+<div class="row justify-content-between align-items-end g-0">
+    <h1 class="col-md mb-md-0">
+        <span class="text-muted">Customer:</span> @Model.Item.Name
+    </h1>
+    <div class="col-md-auto d-print-none ms-md-3">
+        @if (Model.Item.IsDeleted) // implies `CustomerOperation.ManageDeletions`
+        {
+            <a asp-page="Restore" asp-route-id="@Model.Item.Id" class="btn btn-outline-danger">Restore</a>
+        }
+        else
+        {
+            <a asp-page="Edit" asp-route-id="@Model.Item.Id" class="btn btn-outline-primary">Edit</a>
+
+            @if (Model.UserCan[CustomerOperation.ManageDeletions])
+            {
+                <a asp-page="Delete" asp-route-id="@Model.Item.Id" class="btn btn-outline-danger ms-1">Delete</a>
+            }
+        }
+    </div>
+</div>
+
+<hr>
+@if (Model.Item.IsDeleted) // implies `CustomerOperation.ManageDeletions`
+{
+    <h2 class="h3 text-danger">Customer Has Been Deleted</h2>
+
+    <div class="container mb-2">
+        <dl class="row">
+            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.DeletedBy)</dt>
+            <dd class="col-sm-8 col-lg-9">
+                @Html.DisplayFor(m => m.Item.DeletedBy, DisplayTemplate.NameOrNotEntered)
+                on @Html.DisplayFor(m => m.Item.DeletedAt, DisplayTemplate.LongDateTimeOrNotEntered)
+            </dd>
+            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.DeleteComments)</dt>
+            <dd class="col-sm-8 col-lg-9 text-break text-pre-line">@Model.Item.DeleteComments</dd>
+        </dl>
+    </div>
+}
+
+<h2 class="h3">Details</h2>
+
+<div class="container mt-4">
+    <dl class="row">
+        <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.Description)</dt>
+        <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.Item.Description, DisplayTemplate.StringOrNotEntered)</dd>
+        <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.County)</dt>
+        <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.Item.County, DisplayTemplate.County)</dd>
+        <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.Website)</dt>
+        <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.Item.Website, DisplayTemplate.ProbableUrlOrNotEntered)</dd>
+        <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.Location)</dt>
+        <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.Item.Location)</dd>
+        <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.MailingAddress)</dt>
+        <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.Item.MailingAddress)</dd>
+    </dl>
+</div>
+
+<h2 class="h3 mt-3">Cases</h2>
+
+<div class="container bg-light border border-info rounded-1 my-3 py-2">
+    <h3 class="h5">Start a new Case</h3>
+    @* TODO: New Case form *@
+    <p>TODO: New Case form</p>
+</div>
+
+@if (Model.Item.Cases.Count == 0)
+{
+    <p>
+        <em>None.</em>
+    </p>
+}
+else
+{
+    <table class="table" aria-label="Cases for this Customer">
+        <thead class="table-light">
+        <tr>
+            <th scope="col">Date Opened</th>
+            <th scope="col">Date Closed</th>
+            <th scope="col">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        @foreach (var item in Model.Item.Cases
+            .Where(item => !item.IsDeleted || Model.UserCan[CustomerOperation.ManageDeletions]))
+        {
+            <tr class="@(item.IsDeleted ? "table-danger" : "")">
+                <th scope="row" class="fw-normal">
+                    <a asp-page="Details" class="btn btn-outline-primary btn-sm" asp-route-id="@item.Id">@Html.DisplayFor(m => item.CaseOpenedDate)</a>
+                    @if (item.IsDeleted)
+                    {
+                        <br />
+                        <strong>DELETED</strong>
+                    }
+                </th>
+                <td>@Html.DisplayFor(m => item.CaseClosedDate)</td>
+                <td>@Html.DisplayFor(m => item.Description, DisplayTemplate.TruncateText, new { MaxLength = 200 })</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+
+<div class="row justify-content-between align-items-end g-0 mt-4 mb-3">
+    <h2 class="h3 col-md mb-md-0">Contacts</h2>
+    <div class="col-md-auto d-print-none ms-md-3">
+        @if (!Model.Item.IsDeleted)
+        {
+            <a asp-page="AddContact" asp-route-id="@Model.Item.Id" class="btn btn-outline-primary">Add New Contact</a>
+        }
+    </div>
+</div>
+
+@if (Model.Item.Contacts.Count == 0)
+{
+    <p>
+        <em>None.</em>
+    </p>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-md-2 g-3" data-masonry='{"percentPosition": true }'>
+        @foreach (var item in Model.Item.Contacts.OrderByDescending(e => e.EnteredOn))
+        {
+            <div class="col">
+                <div class="card">
+                    <div class="card-body py-0 px-2">
+                        <div class="container">
+                            <div class="row justify-content-between align-items-start g-0 my-3">
+                                <div class="col">
+                                    <h3 class="h5 card-title">@Html.DisplayFor(m => item.Name)</h3>
+                                    <h4 class="h5 card-subtitle text-muted">@Html.DisplayFor(m => item.Title)</h4>
+                                </div>
+                                @if (!Model.Item.IsDeleted)
+                                {
+                                    <div class="col-auto d-print-none ms-2">
+                                        <a asp-page="EditContact" asp-route-id="@Model.Item.Id" asp-route-contactId="@item.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+                                        @if (Model.UserCan[CustomerOperation.ManageDeletions])
+                                        {
+                                            <a asp-page="DeleteContact" asp-route-id="@Model.Item.Id" asp-route-contactId="@item.Id" class="btn btn-sm btn-outline-danger ms-1">Delete</a>
+                                        }
+                                    </div>
+                                }
+                            </div>
+
+                            <dl class="row">
+                                <dt>@Html.DisplayNameFor(m => item.Email)</dt>
+                                <dd>@Html.DisplayFor(m => item.Email, DisplayTemplate.ProbableEmailOrNotEntered)</dd>
+                                <dt>@Html.DisplayNameFor(m => item.Address)</dt>
+                                <dd>@Html.DisplayFor(m => item.Address)</dd>
+                                <dt>@Html.DisplayNameFor(m => item.PhoneNumbers)</dt>
+                                <dd>@Html.DisplayFor(m => item.PhoneNumbers, DisplayTemplate.PhoneNumberCollection)</dd>
+                                <dt>@Html.DisplayNameFor(m => item.EnteredOn)</dt>
+                                <dd>@Html.DisplayFor(m => item.EnteredOn, DisplayTemplate.ShortDateOrBlank)</dd>
+                                <dt>@Html.DisplayNameFor(m => item.Notes)</dt>
+                                <dd class="text-break text-pre-line">@Html.DisplayFor(m => item.Notes, DisplayTemplate.StringOrNone)</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

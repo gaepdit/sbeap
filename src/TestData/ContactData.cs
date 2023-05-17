@@ -11,7 +11,8 @@ internal static class ContactData
         new(new Guid("41000000-0000-0000-0000-000000000001"),
             CustomerData.GetCustomers.ElementAt(0))
         {
-            Honorific = "M.",
+            EnteredOn = DateTimeOffset.Now.AddDays(-5),
+            Honorific = "Mr.",
             GivenName = TextData.Word,
             FamilyName = TextData.AnotherWord,
             Title = TextData.ShortPhrase,
@@ -22,22 +23,38 @@ internal static class ContactData
             {
                 ValueObjectData.SamplePhoneNumber,
                 ValueObjectData.AlternatePhoneNumber,
+                ValueObjectData.UnknownPhoneNumber,
             },
         },
         new(new Guid("41000000-0000-0000-0000-000000000002"),
             CustomerData.GetCustomers.ElementAt(0))
         {
+            EnteredOn = DateTimeOffset.Now.AddDays(-4),
             Honorific = string.Empty,
             GivenName = string.Empty,
             FamilyName = string.Empty,
-            Title = string.Empty,
+            Title = TextData.AnotherShortPhrase,
             Email = string.Empty,
             Notes = string.Empty,
             Address = IncompleteAddress.EmptyAddress,
         },
         new(new Guid("41000000-0000-0000-0000-000000000003"),
-            CustomerData.GetCustomers.ElementAt(1))
+            CustomerData.GetCustomers.ElementAt(0))
         {
+            EnteredOn = DateTimeOffset.Now.AddDays(-3),
+            Honorific = "Ms.",
+            GivenName = "Deleted",
+            FamilyName = "Contact",
+            Title = TextData.Phrase,
+            Email = TextData.ValidEmail,
+            Notes = TextData.Paragraph,
+            Address = ValueObjectData.IncompleteAddress,
+            PhoneNumbers = { ValueObjectData.SamplePhoneNumber },
+        },
+        new(new Guid("41000000-0000-0000-0000-000000000004"),
+            CustomerData.GetCustomers.ElementAt(2))
+        {
+            EnteredOn = DateTimeOffset.Now.AddDays(-2),
             Honorific = "Mx.",
             GivenName = TextData.AnotherWord,
             FamilyName = TextData.EmojiWord,
@@ -56,7 +73,8 @@ internal static class ContactData
         get
         {
             if (_contacts is not null) return _contacts;
-            _contacts = ContactSeedItems;
+            _contacts = ContactSeedItems.ToList();
+            _contacts.ElementAt(2).SetDeleted("00000000-0000-0000-0000-000000000001");
             return _contacts;
         }
     }

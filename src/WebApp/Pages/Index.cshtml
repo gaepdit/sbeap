@@ -17,6 +17,20 @@
                 <a asp-page="/Admin/Users/Index">All Users</a>
             </li>
             <li>
+                <a asp-page="/Customers/Index">Customer Search</a>
+                <ul>
+                    <li>
+                        <a asp-page="/Customers/Add">Add new Customer</a>
+                    </li>
+                    <li>
+                        <a asp-page="/Customers/Details" asp-route-id="40000000-0000-0000-0000-000000000001">A Customer</a>
+                    </li>
+                    <li>
+                        <a asp-page="/Customers/Details" asp-route-id="40000000-0000-0000-0000-000000000003">A deleted Customer</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
                 <a asp-page="/Admin/Maintenance/Index">Site Maintenance</a>
             </li>
             <li>

@@ -19,8 +19,16 @@ Users can also be granted one or more of the following roles.
 
 Users in the Staff role can:
 
-* Create and edit Customers, Contacts, and Cases.
-* Add and delete Action Items related to Cases.
+* Add, view, and edit Customers.
+* Add, view, edit, and delete Contacts related to Customers.
+* Add, view, and edit Cases.
+* Add, view, edit, and delete Action Items related to Cases.
+
+### Admin
+
+Users in the Admin role have all the capabilities of Staff. Plus they can:
+
+* Delete and restore Customers and Cases.
 
 ### User Account Admin
 
@@ -32,4 +40,4 @@ Users in the User Account Admin role can:
 
 Users in the Site Maintenance role can:
 
-* Edit the lookup tables used for drop-down lists (Action Item Types and Agencies).
+* Edit the lookup tables used for drop-down lists (Action Item Types, Agencies, and Offices).

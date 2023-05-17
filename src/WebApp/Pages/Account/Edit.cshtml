@@ -1,4 +1,5 @@
 ﻿@page
+@using Sbeap.WebApp.Pages.Shared.EditorTemplates
 @model EditModel
 @{
     ViewData["Title"] = "Edit Your Profile";
@@ -17,24 +18,13 @@
         </div>
         <div class="row">
             <div class="col-lg mb-3">
-                <div class="form-floating">
-                    <input asp-for="DisplayStaff.Email" class="form-control" disabled />
-                    <label class="form-label">Email cannot be changed</label>
-                </div>
+                @Html.EditorFor(e => e.DisplayStaff.Email, EditorTemplate.InputFloatingDisabled)
             </div>
             <div class="col-md mb-3">
-                <div class="form-floating">
-                    <input asp-for="UpdateStaff.Phone" class="form-control" />
-                    <label asp-for="UpdateStaff.Phone" class="form-label"></label>
-                    <span asp-validation-for="UpdateStaff.Phone" class="invalid-feedback"></span>
-                </div>
+                @Html.EditorFor(e => e.UpdateStaff.Phone, EditorTemplate.InputFloating)
             </div>
             <div class="col-md mb-3">
-                <div class="form-floating">
-                    <select asp-for="UpdateStaff.OfficeId" asp-items="Model.OfficeItems" class="form-select"></select>
-                    <label asp-for="UpdateStaff.OfficeId" class="form-label"></label>
-                    <span asp-validation-for="UpdateStaff.OfficeId" class="invalid-feedback"></span>
-                </div>
+                @Html.EditorFor(e => e.UpdateStaff.OfficeId, EditorTemplate.SelectFloating, new { Items = Model.OfficeItems })
             </div>
         </div>
         <div class="mt-3">

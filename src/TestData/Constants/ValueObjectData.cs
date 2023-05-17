@@ -16,6 +16,12 @@ public static class ValueObjectData
         Type = PhoneType.WorkCell,
     };
 
+    public static PhoneNumber UnknownPhoneNumber => new()
+    {
+        Number = TextData.ValidPhoneNumber,
+        Type = PhoneType.Unknown,
+    };
+
     public static PhoneNumber EmptyPhoneNumber => new()
     {
         Number = string.Empty,

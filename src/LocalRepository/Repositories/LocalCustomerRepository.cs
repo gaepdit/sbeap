@@ -7,5 +7,12 @@ public sealed class LocalCustomerRepository : BaseRepository<Customer, Guid>, IC
 {
     public LocalCustomerRepository() : base(CustomerData.GetCustomers) { }
 
-    public Task<Customer?> FindIncludeAllAsync(Guid id, CancellationToken token = default) => FindAsync(id, token);
+    public async Task<Customer?> FindIncludeAllAsync(Guid id, CancellationToken token = default)
+    {
+        var results = await FindAsync(id, token);
+        if (results is null) return results;
+        results.Contacts.RemoveAll(e => e.IsDeleted);
+        results.Cases.RemoveAll(e => e.IsDeleted);
+        return results;
+    }
 }

@@ -43,8 +43,7 @@ public sealed class OfficeService : IOfficeService
 
     public async Task<Guid> CreateAsync(OfficeCreateDto resource, CancellationToken token = default)
     {
-        var item = await _manager.CreateAsync(resource.Name, token);
-        item.SetCreator((await _users.GetCurrentUserAsync())?.Id);
+        var item = await _manager.CreateAsync(resource.Name, (await _users.GetCurrentUserAsync())?.Id, token);
         await _repository.InsertAsync(item, token: token);
         return item.Id;
     }
@@ -58,11 +57,11 @@ public sealed class OfficeService : IOfficeService
     public async Task UpdateAsync(OfficeUpdateDto resource, CancellationToken token = default)
     {
         var item = await _repository.GetAsync(resource.Id, token);
+        item.SetUpdater((await _users.GetCurrentUserAsync())?.Id);
 
         if (item.Name != resource.Name.Trim())
             await _manager.ChangeNameAsync(item, resource.Name, token);
         item.Active = resource.Active;
-        item.SetUpdater((await _users.GetCurrentUserAsync())?.Id);
 
         await _repository.UpdateAsync(item, token: token);
     }

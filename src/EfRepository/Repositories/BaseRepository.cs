@@ -16,7 +16,7 @@ public abstract class BaseRepository<TEntity, TKey> : IRepository<TEntity, TKey>
 
     public async Task<TEntity> GetAsync(TKey id, CancellationToken token = default)
     {
-        var item = await Context.Set<TEntity>().AsNoTracking()
+        var item = await Context.Set<TEntity>()
             .SingleOrDefaultAsync(e => e.Id.Equals(id), token);
         return item ?? throw new EntityNotFoundException(typeof(TEntity), id);
     }

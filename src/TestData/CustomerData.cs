@@ -10,21 +10,21 @@ internal static class CustomerData
     {
         new(new Guid("40000000-0000-0000-0000-000000000001"))
         {
-            Name = TextData.Word,
+            Name = TextData.Phrase,
             County = TextData.AnotherWord,
             Location = ValueObjectData.LessCompleteAddress,
             MailingAddress = ValueObjectData.CompleteAddress,
-            Description = TextData.Phrase,
-            WebSite = TextData.ValidUrl,
+            Description = TextData.Paragraph,
+            Website = TextData.ValidUrl,
         },
         new(new Guid("40000000-0000-0000-0000-000000000002"))
         {
-            Name = string.Empty,
+            Name = TextData.EmojiWord,
             County = null,
             Location = IncompleteAddress.EmptyAddress,
             MailingAddress = IncompleteAddress.EmptyAddress,
-            Description = string.Empty,
-            WebSite = null,
+            Description = TextData.Paragraph,
+            Website = null,
         },
         new(new Guid("40000000-0000-0000-0000-000000000003"))
         {
@@ -32,8 +32,9 @@ internal static class CustomerData
             County = null,
             Location = IncompleteAddress.EmptyAddress,
             MailingAddress = IncompleteAddress.EmptyAddress,
-            Description = string.Empty,
-            WebSite = null,
+            Description = TextData.ShortMultiline,
+            Website = null,
+            DeleteComments = TextData.ShortMultiline,
         },
     };
 

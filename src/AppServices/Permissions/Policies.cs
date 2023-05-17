@@ -21,9 +21,9 @@ namespace Sbeap.AppServices.Permissions;
 //
 #pragma warning restore S125
 
-
 public static class PolicyName
 {
+    public const string AdminUser = nameof(AdminUser);
     public const string StaffUser = nameof(StaffUser);
     public const string SiteMaintainer = nameof(SiteMaintainer);
     public const string UserAdministrator = nameof(UserAdministrator);
@@ -31,6 +31,12 @@ public static class PolicyName
 
 public static class Policies
 {
+    public static AuthorizationPolicy AdminUserPolicy() =>
+        new AuthorizationPolicyBuilder()
+            .RequireAuthenticatedUser()
+            .AddRequirements(new AdminUserRequirement())
+            .Build();
+
     public static AuthorizationPolicy StaffUserPolicy() =>
         new AuthorizationPolicyBuilder()
             .RequireAuthenticatedUser()
