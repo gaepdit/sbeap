@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Sbeap.AppServices.Agencies;
 using Sbeap.AppServices.Cases;
 using Sbeap.AppServices.Customers;
 using Sbeap.AppServices.Offices;
@@ -12,6 +13,9 @@ public static class AppServices
 {
     public static void AddAppServices(this IServiceCollection services)
     {
+        // Agencies
+        services.AddScoped<IAgencyService, AgencyService>();
+
         // Cases/Action Items
         services.AddScoped<ICaseworkService, CaseworkService>();
         services.AddScoped<ICaseworkManager, CaseworkManager>();

@@ -15,8 +15,7 @@ namespace AppServicesTests.Cases;
 
 public class Search
 {
-    private static CaseworkSearchDto DefaultCaseworkSearch => new(CaseworkSortBy.CustomerAsc, null, null, null, null,
-        null, null, null, null, null, null, null);
+    private static CaseworkSearchDto DefaultCaseworkSearch => new();
 
     [Test]
     public async Task WhenItemsExist_ReturnsPagedList()

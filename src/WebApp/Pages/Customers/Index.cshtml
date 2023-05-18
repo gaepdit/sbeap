@@ -39,7 +39,7 @@
             <div class="col-md mb-3">
                 <div class="form-floating">
                     <select asp-for="Spec.DeletedStatus" name="@nameof(Model.Spec.DeletedStatus)" asp-items="Html.GetEnumSelectList<CustomerDeletedStatus>()" class="form-select">
-                        <option value="">Not Deleted</option>
+                        <option value="">@TextConstants.SelectNotDeleted</option>
                     </select>
                     <label asp-for="Spec.DeletedStatus" class="form-label"></label>
                 </div>
@@ -72,19 +72,22 @@
                 <tr>
                     <th scope="col">
                         <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
-                           asp-route-Sort="@(Model.Spec.Sort == CustomerSortBy.NameAsc ? CustomerSortBy.NameDesc : CustomerSortBy.NameAsc)">
+                           asp-route-Sort="@(Model.Spec.Sort == CustomerSortBy.Name ? CustomerSortBy.NameDesc : CustomerSortBy.Name)">
                             @Html.DisplayNameFor(m => m.Spec.Name)
-                            @Html.DisplayFor(m => m.SortByName, DisplayTemplate.SortArrow, new { up = CustomerSortBy.NameAsc.ToString(), down = CustomerSortBy.NameDesc.ToString() })
+                            @Html.DisplayFor(m => m.SortByName, DisplayTemplate.SortArrow, new { up = CustomerSortBy.Name.ToString(), down = CustomerSortBy.NameDesc.ToString() })
                         </a>
                     </th>
                     <th scope="col">
                         <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
-                           asp-route-Sort="@(Model.Spec.Sort == CustomerSortBy.DescriptionAsc ? CustomerSortBy.DescriptionDesc : CustomerSortBy.DescriptionAsc)">
+                           asp-route-Sort="@(Model.Spec.Sort == CustomerSortBy.Description ? CustomerSortBy.DescriptionDesc : CustomerSortBy.Description)">
                             @Html.DisplayNameFor(m => m.Spec.Description)
-                            @Html.DisplayFor(m => m.SortByName, DisplayTemplate.SortArrow, new { up = CustomerSortBy.DescriptionAsc.ToString(), down = CustomerSortBy.DescriptionDesc.ToString() })
+                            @Html.DisplayFor(m => m.SortByName, DisplayTemplate.SortArrow, new { up = CustomerSortBy.Description.ToString(), down = CustomerSortBy.DescriptionDesc.ToString() })
                         </a>
                     </th>
                     <th scope="col">@Html.DisplayNameFor(m => m.Spec.County)</th>
+                    <th scope="col">
+                        <span class="visually-hidden">Actions</span>
+                    </th>
                 </tr>
                 </thead>
 
@@ -93,7 +96,7 @@
                 {
                     <tr class="@(item.IsDeleted ? "table-danger" : "")">
                         <th scope="row" class="fw-normal">
-                            <a asp-page="Details" class="btn btn-outline-info btn-sm" asp-route-id="@item.Id">@Html.DisplayFor(m => item.Name, DisplayTemplate.StringOrNone)</a>
+                            @Html.DisplayFor(m => item.Name, DisplayTemplate.StringOrNone)
                             @if (item.IsDeleted)
                             {
                                 <br />
@@ -102,6 +105,9 @@
                         </th>
                         <td>@Html.DisplayFor(m => item.Description, DisplayTemplate.TruncateText, new { MaxLength = 50 })</td>
                         <td>@Html.DisplayFor(m => item.County, DisplayTemplate.StringOrNone)</td>
+                        <td>
+                            <a asp-page="Details" class="btn btn-outline-info btn-sm" asp-route-id="@item.Id">View</a>
+                        </td>
                     </tr>
                 }
                 </tbody>

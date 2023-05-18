@@ -1,4 +1,6 @@
-﻿namespace Sbeap.Domain.Entities.EntityBase;
+﻿using System.Text;
+
+namespace Sbeap.Domain.Entities.EntityBase;
 
 public abstract class SimpleNamedEntity : AuditableEntity
 {
@@ -27,4 +29,17 @@ public abstract class SimpleNamedEntity : AuditableEntity
 
     private void SetName(string name) =>
         Name = Guard.ValidLength(name.Trim(), minLength: MinNameLength, maxLength: MaxNameLength);
+
+    // Display properties
+
+    public string NameWithActivity
+    {
+        get
+        {
+            var sn = new StringBuilder();
+            sn.Append(Name);
+            if (!Active) sn.Append(" [Inactive]");
+            return sn.ToString();
+        }
+    }
 }

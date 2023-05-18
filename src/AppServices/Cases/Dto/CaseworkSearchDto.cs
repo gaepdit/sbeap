@@ -1,67 +1,89 @@
-﻿using System.ComponentModel;
+using Sbeap.AppServices.Customers.Dto;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace Sbeap.AppServices.Cases.Dto;
 
 public record CaseworkSearchDto
-(
+{
     // Sorting
-    CaseworkSortBy Sort,
+    public CaseworkSortBy Sort { get; init; } = CaseworkSortBy.Customer;
 
     // Status
-    [Display(Name = "Case Status")] CaseStatus? Status,
-    [Display(Name = "Deletion Status")] CaseDeletedStatus? DeletedStatus,
+
+    [Display(Name = "Case Status")]
+    public CaseStatus? Status { get; init; }
+
+    [Display(Name = "Case Deletion Status")]
+    public CaseDeletedStatus? DeletedStatus { get; init; }
+
+    // Case details
+
+    [Display(Name = "Case Description")]
+    public string? Description { get; init; }
+
+    // Customer details
+    
+    [Display(Name = "Customer Name")]
+    public string? CustomerName { get; init; }
+
+    [Display(Name = "Customer Deletion Status")]
+    public CustomerDeletedStatus? CustomerDeletedStatus { get; init; }
 
     // Dates
-    [Display(Name = "From")]
-    [DataType(DataType.Date)]
-    // [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
-    DateOnly? OpenedFrom,
-    [Display(Name = "Through")]
-    [DataType(DataType.Date)]
-    // [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
-    DateOnly? OpenedTo,
-    [Display(Name = "From")]
-    [DataType(DataType.Date)]
-    // [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
-    DateOnly? ClosedFrom,
-    [Display(Name = "Through")]
-    [DataType(DataType.Date)]
-    // [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
-    DateOnly? ClosedTo,
 
-    // Fields
-    string? CustomerName,
-    string? Description,
-    [Display(Name = "Referred to")] Guid? Agency,
+    [Display(Name = "From")]
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    public DateOnly? OpenedFrom { get; init; }
+
+    [Display(Name = "Through")]
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    public DateOnly? OpenedThrough { get; init; }
+
+    [Display(Name = "From")]
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    public DateOnly? ClosedFrom { get; init; }
+
+    [Display(Name = "Through")]
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    public DateOnly? ClosedThrough { get; init; }
 
     // Referral
+
+    [Display(Name = "Referred to")]
+    public Guid? ReferralAgency { get; init; }
+
     [Display(Name = "From")]
     [DataType(DataType.Date)]
-    // [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
-    DateOnly? ReferredFrom,
+    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    public DateOnly? ReferredFrom { get; init; }
+
     [Display(Name = "Through")]
     [DataType(DataType.Date)]
-    // [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
-    DateOnly? ReferredTo
-)
-{
+    [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]
+    public DateOnly? ReferredThrough { get; init; }
+
     // UI Routing
     public IDictionary<string, string?> AsRouteValues() => new Dictionary<string, string?>
     {
         { nameof(Sort), Sort.ToString() },
         { nameof(Status), Status?.ToString() },
         { nameof(DeletedStatus), DeletedStatus?.ToString() },
+        { nameof(CustomerDeletedStatus), CustomerDeletedStatus?.ToString() },
         { nameof(OpenedFrom), OpenedFrom?.ToString("d") },
-        { nameof(OpenedTo), OpenedTo?.ToString("d") },
+        { nameof(OpenedThrough), OpenedThrough?.ToString("d") },
         { nameof(ClosedFrom), ClosedFrom?.ToString("d") },
-        { nameof(ClosedTo), ClosedTo?.ToString("d") },
+        { nameof(ClosedThrough), ClosedThrough?.ToString("d") },
         { nameof(CustomerName), CustomerName },
         { nameof(Description), Description },
-        { nameof(Agency), Agency.ToString() },
+        { nameof(ReferralAgency), ReferralAgency.ToString() },
         { nameof(ReferredFrom), ReferredFrom?.ToString("d") },
-        { nameof(ReferredTo), ReferredTo?.ToString("d") },
+        { nameof(ReferredThrough), ReferredThrough?.ToString("d") },
     };
 
     public CaseworkSearchDto TrimAll() => this with
@@ -94,19 +116,25 @@ public enum CaseDeletedStatus
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum CaseworkSortBy
 {
-    [Description("Customer.Name")] CustomerAsc,
+    [Description("Customer.Name")] Customer,
 
     [Description("Customer.Name desc")] CustomerDesc,
 
     [Description("CaseOpenedDate, Customer.Name")]
-    OpenedDateAsc,
+    OpenedDate,
 
     [Description("CaseOpenedDate desc, Customer.Name")]
     OpenedDateDesc,
 
     [Description("CaseClosedDate, Customer.Name")]
-    ClosedDateAsc,
+    ClosedDate,
 
     [Description("CaseClosedDate desc, Customer.Name")]
     ClosedDateDesc,
+
+    [Description("IsDeleted, CaseClosedDate.HasValue, Customer.Name")]
+    Status,
+
+    [Description("IsDeleted desc, CaseClosedDate.HasValue desc, Customer.Name")]
+    StatusDesc,
 }
