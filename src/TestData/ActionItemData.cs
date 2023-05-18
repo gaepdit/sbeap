@@ -14,6 +14,7 @@ internal static class ActionItemData
         {
             ActionDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-4)),
             EnteredBy = UserData.GetUsers.ElementAt(0),
+            EnteredOn = DateTimeOffset.Now.AddDays(-3),
             Notes = TextData.MultipleParagraphs,
         },
         new(new Guid("51000000-0000-0000-0000-000000000002"),
@@ -22,6 +23,7 @@ internal static class ActionItemData
         {
             ActionDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-2)),
             EnteredBy = UserData.GetUsers.ElementAt(1),
+            EnteredOn = DateTimeOffset.Now.AddDays(-1),
             Notes = string.Empty,
         },
         new(new Guid("51000000-0000-0000-0000-000000000003"),
@@ -30,6 +32,7 @@ internal static class ActionItemData
         {
             ActionDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-2)),
             EnteredBy = UserData.GetUsers.ElementAt(1),
+            EnteredOn = DateTimeOffset.Now.AddDays(-2),
             Notes = "Deleted Action Item",
         },
     };

@@ -1,4 +1,4 @@
-using Sbeap.Domain.Entities.Cases;
+﻿using Sbeap.Domain.Entities.Cases;
 using Sbeap.TestData.Constants;
 
 namespace Sbeap.TestData;
@@ -28,11 +28,11 @@ internal static class CaseworkData
             ReferralDate = null,
         },
         new(new Guid("50000000-0000-0000-0000-000000000003"),
-            CustomerData.GetCustomers.ElementAt(1),
+            CustomerData.GetCustomers.ElementAt(2),
             DateOnly.FromDateTime(DateTime.Today.AddDays(-10)))
         {
             CaseClosedDate = null,
-            Description = TextData.EmojiWord,
+            Description = "An open case for a deleted customer.",
             ReferralAgency = null,
             ReferralNotes = string.Empty,
             ReferralDate = null,

@@ -21,7 +21,8 @@ public class AutoMapperProfile : Profile
         CreateMap<ActionItem, ActionItemUpdateDto>();
 
         // Cases
-        CreateMap<Casework, CaseworkViewDto>();
+        CreateMap<Casework, CaseworkViewDto>()
+            .ForMember(e => e.DeletedBy, o => o.Ignore());
         CreateMap<Casework, CaseworkUpdateDto>();
         CreateMap<Casework, CaseworkSearchResultDto>();
 
