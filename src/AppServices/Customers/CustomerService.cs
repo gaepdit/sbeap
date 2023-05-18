@@ -5,6 +5,7 @@ using Sbeap.AppServices.Staff;
 using Sbeap.AppServices.UserServices;
 using Sbeap.Domain.Entities.Contacts;
 using Sbeap.Domain.Entities.Customers;
+using Sbeap.Domain.Identity;
 using Sbeap.Domain.ValueObjects;
 
 namespace Sbeap.AppServices.Customers;
@@ -61,8 +62,8 @@ public sealed class CustomerService : ICustomerService
 
     public async Task<Guid> CreateAsync(CustomerCreateDto resource, CancellationToken token = default)
     {
-        var userId = (await _users.GetCurrentUserAsync())?.Id;
-        var customer = _manager.Create(resource.Name, userId);
+        var user = await _users.GetCurrentUserAsync();
+        var customer = _manager.Create(resource.Name, user?.Id);
 
         customer.Description = resource.Description;
         customer.County = resource.County;
@@ -71,7 +72,7 @@ public sealed class CustomerService : ICustomerService
         customer.MailingAddress = resource.MailingAddress;
 
         await _customers.InsertAsync(customer, autoSave: false, token: token);
-        await CreateContactAsync(customer, resource.Contact, userId, token);
+        await CreateContactAsync(customer, resource.Contact, user, token);
 
         await _customers.SaveChangesAsync(token);
         return customer.Id;
@@ -106,16 +107,16 @@ public sealed class CustomerService : ICustomerService
 
     public async Task AddContactAsync(Customer customer, ContactCreateDto resource, CancellationToken token = default)
     {
-        await CreateContactAsync(customer, resource, (await _users.GetCurrentUserAsync())?.Id, token);
+        await CreateContactAsync(customer, resource, await _users.GetCurrentUserAsync(), token);
         await _contacts.SaveChangesAsync(token);
     }
 
     private async Task CreateContactAsync(
-        Customer customer, ContactCreateDto resource, string? userId, CancellationToken token = default)
+        Customer customer, ContactCreateDto resource, ApplicationUser? user, CancellationToken token = default)
     {
         if (resource.IsEmpty()) return;
 
-        var contact = _manager.CreateContact(customer, userId);
+        var contact = _manager.CreateContact(customer, user?.Id);
 
         contact.Honorific = resource.Honorific;
         contact.GivenName = resource.GivenName;
@@ -124,6 +125,7 @@ public sealed class CustomerService : ICustomerService
         contact.Email = resource.Email;
         contact.Notes = resource.Notes;
         contact.Address = resource.Address;
+        contact.EnteredBy = user;
 
         if (resource.PhoneNumber != PhoneNumber.EmptyPhoneNumber)
             contact.PhoneNumbers.Add(resource.PhoneNumber);

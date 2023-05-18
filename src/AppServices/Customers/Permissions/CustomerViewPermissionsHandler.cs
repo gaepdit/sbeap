@@ -21,7 +21,7 @@ internal class CustomerViewPermissionsHandler :
 
         var success = requirement.Name switch
         {
-            CustomerOperationNames.ManageDeletions =>
+            nameof(CustomerOperation.ManageDeletions) =>
                 // Only an Admin User can delete or restore.
                 IsAdminUser(context.User),
 

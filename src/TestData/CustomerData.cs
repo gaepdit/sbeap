@@ -28,7 +28,7 @@ internal static class CustomerData
         },
         new(new Guid("40000000-0000-0000-0000-000000000003"))
         {
-            Name = "Deleted Customer",
+            Name = "A Deleted Customer",
             County = null,
             Location = IncompleteAddress.EmptyAddress,
             MailingAddress = IncompleteAddress.EmptyAddress,

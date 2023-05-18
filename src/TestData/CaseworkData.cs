@@ -1,4 +1,4 @@
-﻿using Sbeap.Domain.Entities.Cases;
+using Sbeap.Domain.Entities.Cases;
 using Sbeap.TestData.Constants;
 
 namespace Sbeap.TestData;
@@ -41,7 +41,7 @@ internal static class CaseworkData
             CustomerData.GetCustomers.ElementAt(1),
             DateOnly.FromDateTime(DateTime.Today.AddDays(-10)))
         {
-            Description = "Deleted Case",
+            Description = "A Deleted Case",
         },
     };
 

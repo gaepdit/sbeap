@@ -12,7 +12,6 @@ public sealed class LocalCustomerRepository : BaseRepository<Customer, Guid>, IC
         var results = await FindAsync(id, token);
         if (results is null) return results;
         results.Contacts.RemoveAll(e => e.IsDeleted);
-        results.Cases.RemoveAll(e => e.IsDeleted);
         return results;
     }
 }

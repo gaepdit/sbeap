@@ -11,19 +11,26 @@
     <script src="~/lib/masonry/masonry.pkgd.min.js"></script>
 }
 
+@if (Model.Item.IsDeleted)
+{
+    <div class="row justify-content-between align-items-center g-0 mb-2">
+        <h2 class="h3 text-danger col-md mb-md-0">Customer Has Been Deleted</h2>
+        <div class="col-md-auto d-print-none ms-md-3">
+            @if (Model.UserCan[CustomerOperation.ManageDeletions])
+            {
+                <a asp-page="Restore" asp-route-id="@Model.Item.Id" class="btn btn-outline-danger">Restore</a>
+            }
+        </div>
+    </div>
+}
 <div class="row justify-content-between align-items-end g-0">
     <h1 class="col-md mb-md-0">
         <span class="text-muted">Customer:</span> @Model.Item.Name
     </h1>
     <div class="col-md-auto d-print-none ms-md-3">
-        @if (Model.Item.IsDeleted) // implies `CustomerOperation.ManageDeletions`
-        {
-            <a asp-page="Restore" asp-route-id="@Model.Item.Id" class="btn btn-outline-danger">Restore</a>
-        }
-        else
+        @if (!Model.Item.IsDeleted)
         {
             <a asp-page="Edit" asp-route-id="@Model.Item.Id" class="btn btn-outline-primary">Edit</a>
-
             @if (Model.UserCan[CustomerOperation.ManageDeletions])
             {
                 <a asp-page="Delete" asp-route-id="@Model.Item.Id" class="btn btn-outline-danger ms-1">Delete</a>
@@ -33,10 +40,8 @@
 </div>
 
 <hr>
-@if (Model.Item.IsDeleted) // implies `CustomerOperation.ManageDeletions`
+@if (Model.Item.IsDeleted)
 {
-    <h2 class="h3 text-danger">Customer Has Been Deleted</h2>
-
     <div class="container mb-2">
         <dl class="row">
             <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.DeletedBy)</dt>
@@ -55,7 +60,7 @@
 <div class="container mt-4">
     <dl class="row">
         <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.Description)</dt>
-        <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.Item.Description, DisplayTemplate.StringOrNotEntered)</dd>
+        <dd class="col-md-8 col-lg-9 text-break text-pre-line">@Html.DisplayFor(m => m.Item.Description, DisplayTemplate.StringOrNotEntered)</dd>
         <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.County)</dt>
         <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.Item.County, DisplayTemplate.County)</dd>
         <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.Website)</dt>
@@ -69,44 +74,61 @@
 
 <h2 class="h3 mt-3">Cases</h2>
 
-<div class="container bg-light border border-info rounded-1 my-3 py-2">
-    <h3 class="h5">Start a new Case</h3>
-    @* TODO: New Case form *@
-    <p>TODO: New Case form</p>
-</div>
-
 @if (Model.Item.Cases.Count == 0)
 {
     <p>
         <em>None.</em>
     </p>
 }
-else
+
+@if (!Model.Item.IsDeleted)
+{
+    <div class="container bg-light border border-info rounded-1 my-3 py-2">
+        <h3 class="h5">Start a new Case</h3>
+        @* TODO: New Case form *@
+        <p>TODO: New Case form</p>
+    </div>
+}
+
+@if (Model.Item.Cases.Count > 0)
 {
     <table class="table" aria-label="Cases for this Customer">
         <thead class="table-light">
         <tr>
+            <th scope="col">Status</th>
             <th scope="col">Date Opened</th>
             <th scope="col">Date Closed</th>
             <th scope="col">Description</th>
+            <th scope="col">
+                <span class="visually-hidden">Actions</span>
+            </th>
         </tr>
         </thead>
 
         <tbody>
         @foreach (var item in Model.Item.Cases
-            .Where(item => !item.IsDeleted || Model.UserCan[CustomerOperation.ManageDeletions]))
+            .Where(item => !item.IsDeleted || Model.UserCan[CustomerOperation.ManageDeletions])
+            .OrderByDescending(item => item.CaseOpenedDate))
         {
-            <tr class="@(item.IsDeleted ? "table-danger" : "")">
+            <tr class="@(item.IsDeleted ? "table-secondary" : "")">
                 <th scope="row" class="fw-normal">
-                    <a asp-page="Details" class="btn btn-outline-primary btn-sm" asp-route-id="@item.Id">@Html.DisplayFor(m => item.CaseOpenedDate)</a>
                     @if (item.IsDeleted)
                     {
-                        <br />
                         <strong>DELETED</strong>
                     }
+                    else
+                    {
+                        @Html.DisplayFor(m => item.IsClosed, DisplayTemplate.BoolClosed)
+                    }
                 </th>
-                <td>@Html.DisplayFor(m => item.CaseClosedDate)</td>
+                <td>
+                    @Html.DisplayFor(m => item.CaseOpenedDate)
+                </td>
+                <td>@Html.DisplayFor(m => item.CaseClosedDate, DisplayTemplate.DateOnlyOrBlank)</td>
                 <td>@Html.DisplayFor(m => item.Description, DisplayTemplate.TruncateText, new { MaxLength = 200 })</td>
+                <td>
+                    <a asp-page="../Cases/Details" class="btn btn-outline-info btn-sm" asp-route-id="@item.Id">View</a>
+                </td>
             </tr>
         }
         </tbody>
@@ -156,20 +178,34 @@ else
                                 }
                             </div>
 
-                            <dl class="row">
+                            <dl class="row card-text">
                                 <dt>@Html.DisplayNameFor(m => item.Email)</dt>
                                 <dd>@Html.DisplayFor(m => item.Email, DisplayTemplate.ProbableEmailOrNotEntered)</dd>
                                 <dt>@Html.DisplayNameFor(m => item.Address)</dt>
                                 <dd>@Html.DisplayFor(m => item.Address)</dd>
                                 <dt>@Html.DisplayNameFor(m => item.PhoneNumbers)</dt>
                                 <dd>@Html.DisplayFor(m => item.PhoneNumbers, DisplayTemplate.PhoneNumberCollection)</dd>
-                                <dt>@Html.DisplayNameFor(m => item.EnteredOn)</dt>
-                                <dd>@Html.DisplayFor(m => item.EnteredOn, DisplayTemplate.ShortDateOrBlank)</dd>
                                 <dt>@Html.DisplayNameFor(m => item.Notes)</dt>
                                 <dd class="text-break text-pre-line">@Html.DisplayFor(m => item.Notes, DisplayTemplate.StringOrNone)</dd>
                             </dl>
                         </div>
                     </div>
+                    @if (item.EnteredBy is not null || item.EnteredOn is not null)
+                    {
+                        <small class="card-footer text-muted">
+                            Entered
+                            @if (item.EnteredBy is not null)
+                            {
+                                @:by
+                                @item.EnteredBy.Name
+                            }
+                            @if (item.EnteredOn is not null)
+                            {
+                                @:on
+                                @Html.DisplayFor(m => item.EnteredOn.Value, DisplayTemplate.ShortDate)
+                            }
+                        </small>
+                    }
                 </div>
             </div>
         }

@@ -11,7 +11,8 @@ public sealed class CustomerRepository : BaseRepository<Customer, Guid>, ICustom
     public async Task<Customer?> FindIncludeAllAsync(Guid id, CancellationToken token = default) =>
         await Context.Set<Customer>()
             .Include(e => e.Contacts.Where(i => !i.IsDeleted))
-            .Include(e => e.Cases.Where(i => !i.IsDeleted))
-            .Include(e => e.Cases).ThenInclude(e => e.ReferralAgency)
+            .ThenInclude(e => e.EnteredBy)
+            .Include(e => e.Cases)
+            .ThenInclude(e => e.ReferralAgency)
             .SingleOrDefaultAsync(e => e.Id.Equals(id), token);
 }
