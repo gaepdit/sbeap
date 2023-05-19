@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Sbeap.AppServices.Customers.Dto;
-using Sbeap.AppServices.Customers.Permissions;
 using Sbeap.Domain.Identity;
 using System.Security.Principal;
 
-namespace Cts.AppServices.Complaints.Permissions;
+namespace Sbeap.AppServices.Customers.Permissions;
 
 internal class CustomerViewPermissionsHandler :
     AuthorizationHandler<CustomerOperation, CustomerViewDto>
@@ -22,7 +21,7 @@ internal class CustomerViewPermissionsHandler :
 
         var success = requirement.Name switch
         {
-            CustomerOperationNames.ManageDeletions =>
+            nameof(CustomerOperation.ManageDeletions) =>
                 // Only an Admin User can delete or restore.
                 IsAdminUser(context.User),
 

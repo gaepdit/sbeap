@@ -35,10 +35,11 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
         // Some properties should always be included.
         // See https://learn.microsoft.com/en-us/ef/core/querying/related-data/eager#model-configuration-for-auto-including-navigations
         builder.Entity<ApplicationUser>().Navigation(e => e.Office).AutoInclude();
+        builder.Entity<Casework>().Navigation(e => e.Customer).AutoInclude();
 
         // The following configurations are Sqlite only.
         if (Database.ProviderName != SqliteProvider) return;
-        
+
         // Sqlite and EF Core are in conflict on how to handle collections of owned types.
         // See: https://stackoverflow.com/a/69826156/212978
         // and: https://learn.microsoft.com/en-us/ef/core/modeling/owned-entities#collections-of-owned-types

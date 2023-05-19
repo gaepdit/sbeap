@@ -2,11 +2,6 @@
 
 namespace Sbeap.AppServices.Customers.Permissions;
 
-public static class CustomerOperationNames
-{
-    public const string ManageDeletions = nameof(ManageDeletions);
-}
-
 public class CustomerOperation :
     OperationAuthorizationRequirement // implements IAuthorizationRequirement
 {
@@ -18,5 +13,5 @@ public class CustomerOperation :
 
     public static List<CustomerOperation> AllOperations { get; } = new();
 
-    public static readonly CustomerOperation ManageDeletions = new(CustomerOperationNames.ManageDeletions);
+    public static readonly CustomerOperation ManageDeletions = new(nameof(ManageDeletions));
 }

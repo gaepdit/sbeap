@@ -33,4 +33,7 @@ public class Casework : AuditableSoftDeleteEntity
     // Collections
 
     public List<ActionItem> ActionItems { get; set; } = new();
-}
+
+    // Properties: Deletion
+
+    public string? DeleteComments { get; set; }}

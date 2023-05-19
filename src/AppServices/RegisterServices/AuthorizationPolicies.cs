@@ -1,6 +1,7 @@
-﻿using Cts.AppServices.Complaints.Permissions;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
+using Sbeap.AppServices.Cases.Permissions;
+using Sbeap.AppServices.Customers.Permissions;
 using Sbeap.AppServices.Permissions;
 
 namespace Sbeap.AppServices.RegisterServices;
@@ -17,6 +18,7 @@ public static class AuthorizationPolicies
             opts.AddPolicy(PolicyName.UserAdministrator, Policies.UserAdministratorPolicy());
         });
 
+        services.AddSingleton<IAuthorizationHandler>(_ => new CaseworkViewPermissionsHandler());
         services.AddSingleton<IAuthorizationHandler>(_ => new CustomerViewPermissionsHandler());
     }
 }

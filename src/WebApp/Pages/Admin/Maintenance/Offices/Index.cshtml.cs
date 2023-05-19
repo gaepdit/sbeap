@@ -6,7 +6,7 @@ using Sbeap.AppServices.Permissions;
 
 namespace Sbeap.WebApp.Pages.Admin.Maintenance.Offices;
 
-[Authorize]
+[Authorize(Policy = PolicyName.StaffUser)]
 public class IndexModel : PageModel
 {
     public IReadOnlyList<OfficeViewDto> Items { get; private set; } = default!;

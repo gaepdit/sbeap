@@ -25,20 +25,27 @@
     <h2 class="visually-hidden">Customer Details</h2>
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 col-lg-4">
             <div class="form-floating mb-3">
                 <input asp-for="Item.Name" class="form-control" />
                 <label asp-for="Item.Name" class="form-label"></label>
                 <span asp-validation-for="Item.Name" class="invalid-feedback"></span>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 col-lg-4">
             <div class="form-floating mb-3">
                 <select asp-for="Item.County" asp-items="Model.CountiesSelectList" class="form-select">
                     <option value="">@TextConstants.SelectTextEmpty</option>
                 </select>
                 <label asp-for="Item.County" class="form-label"></label>
                 <span asp-validation-for="Item.County" class="invalid-feedback"></span>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-4">
+            <div class="form-floating mb-3">
+                <input asp-for="Item.Website" class="form-control" />
+                <label asp-for="Item.Website" class="form-label"></label>
+                <span asp-validation-for="Item.Website" class="invalid-feedback"></span>
             </div>
         </div>
     </div>

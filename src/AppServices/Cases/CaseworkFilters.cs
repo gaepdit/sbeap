@@ -1,5 +1,6 @@
 ﻿using GaEpd.AppLibrary.Domain.Predicates;
 using Sbeap.AppServices.Cases.Dto;
+using Sbeap.AppServices.Customers.Dto;
 using Sbeap.Domain.Entities.Cases;
 using System.Linq.Expressions;
 
@@ -10,28 +11,41 @@ public static class CaseworkFilters
     public static Expression<Func<Casework, bool>> CaseworkSearchPredicate(CaseworkSearchDto spec) =>
         PredicateBuilder.True<Casework>()
             .ByStatus(spec.Status)
-            .ByDeletedStatus(spec.DeletedStatus)
-            .ContainsCustomerName(spec.CustomerName)
+            .ByCaseDeletedStatus(spec.DeletedStatus)
             .ContainsDescription(spec.Description)
+            .ContainsCustomerName(spec.CustomerName)
+            .ByCustomerDeletedStatus(spec.CustomerDeletedStatus)
             .FromOpenedDate(spec.OpenedFrom)
-            .ToOpenedDate(spec.OpenedTo)
-            .FromClosedDate(spec.ClosedTo)
-            .ToClosedDate(spec.ClosedFrom);
+            .ThroughOpenedDate(spec.OpenedThrough)
+            .FromClosedDate(spec.ClosedFrom)
+            .ThroughClosedDate(spec.ClosedThrough)
+            .ReferredTo(spec.ReferralAgency)
+            .FromReferralDate(spec.ReferredFrom)
+            .ThroughReferralDate(spec.ReferredThrough);
 
     private static Expression<Func<Casework, bool>> ByStatus(this Expression<Func<Casework, bool>> predicate,
         CaseStatus? input) => input switch
     {
-        CaseStatus.Closed => predicate.And(e => e.IsClosed),
-        CaseStatus.Open => predicate.And(e => !e.IsClosed),
+        CaseStatus.Closed => predicate.And(e => e.CaseClosedDate != null),
+        CaseStatus.Open => predicate.And(e => e.CaseClosedDate == null),
         _ => predicate,
     };
 
-    private static Expression<Func<Casework, bool>> ByDeletedStatus(this Expression<Func<Casework, bool>> predicate,
+    private static Expression<Func<Casework, bool>> ByCaseDeletedStatus(this Expression<Func<Casework, bool>> predicate,
         CaseDeletedStatus? input) => input switch
     {
         CaseDeletedStatus.All => predicate,
         CaseDeletedStatus.Deleted => predicate.And(e => e.IsDeleted),
         _ => predicate.And(e => !e.IsDeleted),
+    };
+
+    private static Expression<Func<Casework, bool>> ByCustomerDeletedStatus(
+        this Expression<Func<Casework, bool>> predicate,
+        CustomerDeletedStatus? input) => input switch
+    {
+        CustomerDeletedStatus.All => predicate,
+        CustomerDeletedStatus.Deleted => predicate.And(e => e.Customer.IsDeleted),
+        _ => predicate.And(e => !e.Customer.IsDeleted),
     };
 
     private static Expression<Func<Casework, bool>> ContainsCustomerName(
@@ -51,7 +65,7 @@ public static class CaseworkFilters
             ? predicate
             : predicate.And(e => e.CaseOpenedDate >= input);
 
-    private static Expression<Func<Casework, bool>> ToOpenedDate(
+    private static Expression<Func<Casework, bool>> ThroughOpenedDate(
         this Expression<Func<Casework, bool>> predicate, DateOnly? input) =>
         input is null
             ? predicate
@@ -61,15 +75,28 @@ public static class CaseworkFilters
         this Expression<Func<Casework, bool>> predicate, DateOnly? input) =>
         input is null
             ? predicate
-            : predicate.And(e =>
-                e.IsClosed && e.CaseClosedDate != null &&
-                e.CaseClosedDate >= input);
+            : predicate.And(e => e.CaseClosedDate != null && e.CaseClosedDate >= input);
 
-    private static Expression<Func<Casework, bool>> ToClosedDate(
+    private static Expression<Func<Casework, bool>> ThroughClosedDate(
         this Expression<Func<Casework, bool>> predicate, DateOnly? input) =>
         input is null
             ? predicate
-            : predicate.And(e =>
-                e.IsClosed && e.CaseClosedDate != null &&
-                e.CaseClosedDate <= input);
+            : predicate.And(e => e.CaseClosedDate != null && e.CaseClosedDate <= input);
+
+    private static Expression<Func<Casework, bool>> ReferredTo(this Expression<Func<Casework, bool>> predicate,
+        Guid? input) => input is null
+        ? predicate
+        : predicate.And(e => e.ReferralAgency != null && e.ReferralAgency.Id == input);
+
+    private static Expression<Func<Casework, bool>> FromReferralDate(
+        this Expression<Func<Casework, bool>> predicate, DateOnly? input) =>
+        input is null
+            ? predicate
+            : predicate.And(e => e.ReferralDate != null && e.ReferralDate >= input);
+
+    private static Expression<Func<Casework, bool>> ThroughReferralDate(
+        this Expression<Func<Casework, bool>> predicate, DateOnly? input) =>
+        input is null
+            ? predicate
+            : predicate.And(e => e.ReferralDate != null && e.ReferralDate <= input);
 }

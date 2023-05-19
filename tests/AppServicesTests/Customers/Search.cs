@@ -14,7 +14,7 @@ namespace AppServicesTests.Customers;
 
 public class Search
 {
-    private static CustomerSearchDto DefaultCustomerSearchDto => new(CustomerSortBy.NameAsc, null, null, null, null);
+    private static CustomerSearchDto DefaultCustomerSearchDto => new(CustomerSortBy.Name, null, null, null, null);
 
     [Test]
     public async Task WhenItemsExist_ReturnsPagedList()

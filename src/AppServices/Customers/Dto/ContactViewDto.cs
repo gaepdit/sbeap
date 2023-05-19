@@ -1,4 +1,5 @@
-﻿using Sbeap.Domain.ValueObjects;
+﻿using Sbeap.AppServices.Staff.Dto;
+using Sbeap.Domain.ValueObjects;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
@@ -17,8 +18,8 @@ public record ContactViewDto
     string Email,
     string Notes,
     IncompleteAddress Address,
-    bool IsDeleted,
-    DateTimeOffset? EnteredOn
+    StaffViewDto? EnteredBy,
+    [Display(Name = "Entered On")] DateTimeOffset? EnteredOn
 )
 {
     [Display(Name = "Phone Numbers")]

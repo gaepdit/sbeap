@@ -1,4 +1,5 @@
 ﻿using Sbeap.Domain.Entities.Customers;
+using Sbeap.Domain.Identity;
 using Sbeap.Domain.ValueObjects;
 
 namespace Sbeap.Domain.Entities.Contacts;
@@ -18,6 +19,7 @@ public class Contact : AuditableSoftDeleteEntity
     // Properties
 
     public Customer Customer { get; private init; } = default!;
+    public ApplicationUser? EnteredBy { get; set; }
     public DateTimeOffset? EnteredOn { get; init; }
 
     public string? Honorific { get; set; } = string.Empty;

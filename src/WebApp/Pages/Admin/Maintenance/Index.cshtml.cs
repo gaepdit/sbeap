@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Sbeap.AppServices.Permissions;
 
 namespace Sbeap.WebApp.Pages.Admin.Maintenance;
 
-[Authorize]
+[Authorize(Policy = PolicyName.StaffUser)]
 public class IndexModel : PageModel
 {
     public void OnGet()

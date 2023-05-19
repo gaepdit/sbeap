@@ -1,19 +1,19 @@
 ﻿using Sbeap.AppServices.Cases;
 using Sbeap.AppServices.Cases.Dto;
+using Sbeap.AppServices.Customers.Dto;
 using Sbeap.TestData;
 
 namespace AppServicesTests.Cases;
 
 public class CaseworkFilterTests
 {
-    private static CaseworkSearchDto DefaultCaseworkSearch => new(CaseworkSortBy.CustomerAsc, null, null, null, null,
-        null, null, null, null, null, null, null);
+    private static CaseworkSearchDto DefaultCaseworkSearch => new();
 
     [Test]
     public void DefaultFilter_ReturnsAllNotDeleted()
     {
         // Arrange
-        var expected = CaseworkData.GetCases.Where(e => !e.IsDeleted);
+        var expected = CaseworkData.GetCases.Where(e => e is { IsDeleted: false, Customer.IsDeleted: false });
 
         // Act
         var predicate = CaseworkFilters.CaseworkSearchPredicate(DefaultCaseworkSearch);
@@ -44,7 +44,11 @@ public class CaseworkFilterTests
     public void DeletedSpecNeutral_ReturnsAll()
     {
         // Arrange
-        var spec = DefaultCaseworkSearch with { DeletedStatus = CaseDeletedStatus.All };
+        var spec = DefaultCaseworkSearch with
+        {
+            DeletedStatus = CaseDeletedStatus.All,
+            CustomerDeletedStatus = CustomerDeletedStatus.All,
+        };
 
         // Act
         var predicate = CaseworkFilters.CaseworkSearchPredicate(spec);
@@ -60,7 +64,8 @@ public class CaseworkFilterTests
     {
         // Arrange
         var spec = DefaultCaseworkSearch with { Status = CaseStatus.Open };
-        var expected = CaseworkData.GetCases.Where(e => e is { IsDeleted: false, IsClosed: false });
+        var expected = CaseworkData.GetCases
+            .Where(e => e is { IsDeleted: false, IsClosed: false, Customer.IsDeleted: false });
 
         // Act
         var predicate = CaseworkFilters.CaseworkSearchPredicate(spec);
@@ -128,7 +133,7 @@ public class CaseworkFilterTests
         var referenceItem = CaseworkData.GetCases.First(e => !e.IsDeleted);
         var spec = DefaultCaseworkSearch with
         {
-            OpenedFrom = referenceItem.CaseOpenedDate, OpenedTo = referenceItem.CaseOpenedDate
+            OpenedFrom = referenceItem.CaseOpenedDate, OpenedThrough = referenceItem.CaseOpenedDate
         };
 
         var expected = CaseworkData.GetCases
@@ -150,7 +155,7 @@ public class CaseworkFilterTests
         var referenceItem = CaseworkData.GetCases.First(e => e is { IsDeleted: false, IsClosed: true });
         var spec = DefaultCaseworkSearch with
         {
-            ClosedFrom = referenceItem.CaseClosedDate, ClosedTo = referenceItem.CaseClosedDate
+            ClosedFrom = referenceItem.CaseClosedDate, ClosedThrough = referenceItem.CaseClosedDate
         };
 
         var expected = CaseworkData.GetCases

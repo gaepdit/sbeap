@@ -47,8 +47,8 @@ public enum CustomerDeletedStatus
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum CustomerSortBy
 {
-    [Description("Name")] NameAsc,
+    [Description("Name")] Name,
     [Description("Name desc")] NameDesc,
-    [Description("Description")] DescriptionAsc,
+    [Description("Description")] Description,
     [Description("Description desc")] DescriptionDesc,
 }

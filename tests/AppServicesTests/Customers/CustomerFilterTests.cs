@@ -6,7 +6,7 @@ namespace AppServicesTests.Customers;
 
 public class CustomerFilterTests
 {
-    private static CustomerSearchDto DefaultCustomerSearchDto => new(CustomerSortBy.NameAsc, null, null, null, null);
+    private static CustomerSearchDto DefaultCustomerSearchDto => new(CustomerSortBy.Name, null, null, null, null);
 
     [Test]
     public void DefaultFilter_ReturnsAllNotDeleted()

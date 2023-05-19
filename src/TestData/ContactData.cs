@@ -1,6 +1,7 @@
 ﻿using Sbeap.Domain.Entities.Contacts;
 using Sbeap.Domain.ValueObjects;
 using Sbeap.TestData.Constants;
+using Sbeap.TestData.Identity;
 
 namespace Sbeap.TestData;
 
@@ -11,6 +12,7 @@ internal static class ContactData
         new(new Guid("41000000-0000-0000-0000-000000000001"),
             CustomerData.GetCustomers.ElementAt(0))
         {
+            EnteredBy = UserData.GetUsers.ElementAt(1),
             EnteredOn = DateTimeOffset.Now.AddDays(-5),
             Honorific = "Mr.",
             GivenName = TextData.Word,
@@ -29,6 +31,7 @@ internal static class ContactData
         new(new Guid("41000000-0000-0000-0000-000000000002"),
             CustomerData.GetCustomers.ElementAt(0))
         {
+            EnteredBy = UserData.GetUsers.ElementAt(0),
             EnteredOn = DateTimeOffset.Now.AddDays(-4),
             Honorific = string.Empty,
             GivenName = string.Empty,
@@ -41,6 +44,7 @@ internal static class ContactData
         new(new Guid("41000000-0000-0000-0000-000000000003"),
             CustomerData.GetCustomers.ElementAt(0))
         {
+            EnteredBy = UserData.GetUsers.ElementAt(3),
             EnteredOn = DateTimeOffset.Now.AddDays(-3),
             Honorific = "Ms.",
             GivenName = "Deleted",
@@ -54,6 +58,7 @@ internal static class ContactData
         new(new Guid("41000000-0000-0000-0000-000000000004"),
             CustomerData.GetCustomers.ElementAt(2))
         {
+            EnteredBy = UserData.GetUsers.ElementAt(1),
             EnteredOn = DateTimeOffset.Now.AddDays(-2),
             Honorific = "Mx.",
             GivenName = TextData.AnotherWord,

@@ -24,6 +24,7 @@ public class FindIncludeAll
         result.Should().BeEquivalentTo(item, opts => opts
             .IgnoringCyclicReferences()
             .For(e => e.Cases).Exclude(i => i.ActionItems)
+            .For(e => e.Contacts).Exclude(i => i.EnteredBy)
         );
     }
 
