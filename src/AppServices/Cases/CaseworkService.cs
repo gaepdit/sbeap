@@ -61,7 +61,7 @@ public sealed class CaseworkService : ICaseworkService
         var customer = await _customers.GetAsync(resource.CustomerId, token);
         var item = _manager.Create(customer, resource.CaseOpenedDate, (await _users.GetCurrentUserAsync())?.Id);
 
-        item.Description = resource.Description;
+        item.Description = resource.Description ?? string.Empty;
 
         await _cases.InsertAsync(item, token: token);
         return item.Id;

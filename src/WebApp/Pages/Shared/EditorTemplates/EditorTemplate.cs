@@ -9,6 +9,7 @@ public static class EditorTemplate
 {
     public const string Checkbox = nameof(Checkbox);
     public const string Input = nameof(Input);
+    public const string InputDateOnly = nameof(InputDateOnly);
     public const string InputDisabled = nameof(InputDisabled);
     public const string Select = nameof(Select);
     public const string SelectOptional = nameof(SelectOptional);
