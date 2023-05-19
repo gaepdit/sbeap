@@ -45,7 +45,7 @@ public class AddModel : PageModel
         if (!ModelState.IsValid) return Page();
 
         var id = await _service.CreateAsync(Item);
-        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Customer successfully created.");
+        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "New Customer successfully added.");
         return RedirectToPage("Details", new { id });
     }
 }

@@ -1,15 +1,13 @@
 ﻿using FluentValidation.TestHelper;
 using Sbeap.AppServices.Customers.Dto;
 using Sbeap.AppServices.Customers.Validators;
-using Sbeap.Domain.ValueObjects;
 using Sbeap.TestData.Constants;
 
 namespace AppServicesTests.Customers;
 
 public class ContactCreateValidatorTests
 {
-    private static ContactCreateDto EmptyContactCreateDto => new(null, null, null, null, null, null,
-        new IncompleteAddress(), new PhoneNumber());
+    private static ContactCreateDto EmptyContactCreateDto => new();
 
     [Test]
     public async Task ValidDto_ReturnsAsValid()

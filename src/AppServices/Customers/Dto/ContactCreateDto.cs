@@ -4,21 +4,30 @@ using System.ComponentModel.DataAnnotations;
 namespace Sbeap.AppServices.Customers.Dto;
 
 public record ContactCreateDto
-(
-    string? Honorific,
-    [Display(Name = "First name")] string? GivenName,
-    [Display(Name = "Last name")] string? FamilyName,
-    string? Title,
+{
+    public string? Honorific { get; init; }
+
+    [Display(Name = "First name")]
+    public string? GivenName { get; init; }
+
+    [Display(Name = "Last name")]
+    public string? FamilyName { get; init; }
+
+    public string? Title { get; init; }
+
     [EmailAddress]
     [StringLength(150)]
     [DataType(DataType.EmailAddress)]
     [Display(Name = "Email address")]
-    string? Email,
-    string? Notes,
-    IncompleteAddress Address,
-    [Display(Name = "Phone number")] PhoneNumber PhoneNumber
-)
-{
+    public string? Email { get; init; }
+
+    public string? Notes { get; init; }
+
+    public IncompleteAddress Address { get; init; } = new();
+
+    [Display(Name = "Phone number")]
+    public PhoneNumber PhoneNumber { get; init; } = new();
+
     public bool IsEmpty() =>
         string.IsNullOrEmpty(Honorific) &&
         string.IsNullOrEmpty(GivenName) &&
