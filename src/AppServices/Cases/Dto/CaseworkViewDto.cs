@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using Sbeap.AppServices.Customers.Dto;
+﻿using Sbeap.AppServices.Customers.Dto;
 using Sbeap.AppServices.Staff.Dto;
 using System.ComponentModel.DataAnnotations;
 

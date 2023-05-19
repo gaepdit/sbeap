@@ -12,7 +12,7 @@ internal static class CaseworkData
             DateOnly.FromDateTime(DateTime.Today.AddDays(-4)))
         {
             CaseClosedDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-2)),
-            Description = TextData.MultipleParagraphs,
+            Description = TextData.Paragraph,
             ReferralAgency = AgencyData.GetAgencies.ElementAt(0),
             ReferralNotes = TextData.ShortPhrase,
             ReferralDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-2)),
@@ -22,7 +22,7 @@ internal static class CaseworkData
             DateOnly.FromDateTime(DateTime.Today))
         {
             CaseClosedDate = null,
-            Description = string.Empty,
+            Description = TextData.MultipleParagraphs,
             ReferralAgency = null,
             ReferralNotes = string.Empty,
             ReferralDate = null,
