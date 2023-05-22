@@ -13,12 +13,13 @@ public static class AuthorizationPolicies
         services.AddAuthorization(opts =>
         {
             opts.AddPolicy(PolicyName.AdminUser, Policies.AdminUserPolicy());
-            opts.AddPolicy(PolicyName.StaffUser, Policies.StaffUserPolicy());
             opts.AddPolicy(PolicyName.SiteMaintainer, Policies.SiteMaintainerPolicy());
+            opts.AddPolicy(PolicyName.StaffUser, Policies.StaffUserPolicy());
             opts.AddPolicy(PolicyName.UserAdministrator, Policies.UserAdministratorPolicy());
         });
 
         services.AddSingleton<IAuthorizationHandler>(_ => new CaseworkViewPermissionsHandler());
+        services.AddSingleton<IAuthorizationHandler>(_ => new CaseworkUpdatePermissionsHandler());
         services.AddSingleton<IAuthorizationHandler>(_ => new CustomerViewPermissionsHandler());
     }
 }
