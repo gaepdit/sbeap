@@ -53,7 +53,7 @@
                 on @Html.DisplayFor(m => m.Item.DeletedAt, DisplayTemplate.LongDateTimeOrNotEntered)
             </dd>
             <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.DeleteComments)</dt>
-            <dd class="col-sm-8 col-lg-9 text-break text-pre-line">@Model.Item.DeleteComments</dd>
+            <dd class="col-sm-8 col-lg-9 text-break text-pre-line">@Html.DisplayFor(m => m.Item.DeleteComments, DisplayTemplate.StringOrNone)</dd>
         </dl>
     </div>
 }
