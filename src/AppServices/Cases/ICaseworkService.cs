@@ -1,4 +1,4 @@
-using GaEpd.AppLibrary.Pagination;
+﻿using GaEpd.AppLibrary.Pagination;
 using Sbeap.AppServices.Cases.Dto;
 
 namespace Sbeap.AppServices.Cases;
@@ -16,6 +16,7 @@ public interface ICaseworkService : IDisposable
     Task<CaseworkUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default);
     Task UpdateAsync(CaseworkUpdateDto resource, CancellationToken token = default);
     Task DeleteAsync(Guid id, string? deleteComments, CancellationToken token = default);
+    Task RestoreAsync(Guid id, CancellationToken token = default);
 
     // Action Items
     Task AddActionItemAsync(ActionItemCreateDto resource, CancellationToken token = default);

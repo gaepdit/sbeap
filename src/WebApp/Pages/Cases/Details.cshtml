@@ -17,7 +17,7 @@
         <div class="col-md-auto d-print-none ms-md-3">
             @if (Model.UserCan[CaseworkOperation.ManageDeletions])
             {
-                <a asp-page="Restore" asp-route-id="@Model.Item.Id" class="btn btn-outline-danger">Restore</a>
+                <a asp-page="Restore" asp-route-id="@Model.Item.Id" class="btn btn-outline-warning">Restore</a>
             }
         </div>
     </div>

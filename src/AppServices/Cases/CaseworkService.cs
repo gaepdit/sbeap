@@ -102,6 +102,13 @@ public sealed class CaseworkService : ICaseworkService
         await _cases.UpdateAsync(item, token: token);
     }
 
+    public async Task RestoreAsync(Guid id, CancellationToken token = default)
+    {
+        var item = await _cases.GetAsync(id, token);
+        item.SetNotDeleted();
+        await _cases.UpdateAsync(item, token: token);
+    }
+
     // Action Items
 
     public async Task AddActionItemAsync(ActionItemCreateDto resource, CancellationToken token = default)
