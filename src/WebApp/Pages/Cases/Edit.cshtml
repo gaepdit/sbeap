@@ -13,16 +13,14 @@
     <form method="post">
         <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
 
-        <fieldset>
-            <div class="row">
-                <div class="col-md-6 col-lg-4 mb-3">
-                    @Html.EditorFor(e => e.Item.CaseOpenedDate, EditorTemplate.InputDateOnly)
-                </div>
+        <div class="row">
+            <div class="col-md-6 col-lg-4 mb-3">
+                @Html.EditorFor(e => e.Item.CaseOpenedDate, EditorTemplate.InputDateOnly)
             </div>
-            <div class="mb-3">
-                @Html.EditorFor(e => e.Item.Description, EditorTemplate.Textarea, new { Rows = 5 })
-            </div>
-        </fieldset>
+        </div>
+        <div class="mb-3">
+            @Html.EditorFor(e => e.Item.Description, EditorTemplate.Textarea, new { Rows = 5 })
+        </div>
 
         <div class="row">
             <div class="col-md-6">
