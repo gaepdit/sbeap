@@ -19,17 +19,21 @@ public class EditTests
 {
     private static readonly OfficeViewDto OfficeViewTest = new(Guid.Empty, TextData.ValidName, true);
 
-    private static readonly StaffViewDto StaffViewTest = new(
-        Guid.Empty.ToString(),
-        TextData.ValidName,
-        TextData.ValidName,
-        TextData.ValidEmail,
-        null,
-        OfficeViewTest,
-        true
-    );
+    private static readonly StaffViewDto StaffViewTest = new()
+    {
+        Id = Guid.Empty.ToString(),
+        FamilyName = TextData.ValidName,
+        GivenName = TextData.ValidName,
+        Email = TextData.ValidEmail,
+        Office = OfficeViewTest,
+        Active = true,
+    };
 
-    private static readonly StaffUpdateDto StaffUpdateTest = new(Guid.Empty.ToString(), null, null, true);
+    private static readonly StaffUpdateDto StaffUpdateTest = new()
+    {
+        Id = Guid.Empty.ToString(),
+        Active = true,
+    };
 
     [Test]
     public async Task OnGet_PopulatesThePageModel()

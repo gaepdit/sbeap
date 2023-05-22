@@ -28,11 +28,10 @@
             </div>
         </div>
         <div class="mt-3">
-            <input asp-for="UpdateStaff.Id" type="hidden" />
-            <input asp-for="UpdateStaff.Active" type="hidden" />
             <button type="submit" class="btn btn-primary col-sm-3 me-2">Update Info</button>
             <a asp-page="Index" class="btn btn-outline-secondary col-md-2">Cancel</a>
         </div>
         <div class="text-danger mt-3">* denotes a required field</div>
+        <input asp-for="UpdateStaff.Id" type="hidden" />
     </form>
 </div>

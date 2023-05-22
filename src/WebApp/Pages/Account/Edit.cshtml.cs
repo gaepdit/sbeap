@@ -43,7 +43,7 @@ public class EditModel : PageModel
     public async Task<IActionResult> OnGetAsync()
     {
         var staff = await _staffService.GetCurrentUserAsync();
-        if (staff is not { Active: true }) return Forbid();
+        if (!staff.Active) return Forbid();
 
         DisplayStaff = staff;
         UpdateStaff = DisplayStaff.AsUpdateDto();
@@ -55,9 +55,15 @@ public class EditModel : PageModel
     public async Task<IActionResult> OnPostAsync()
     {
         var staff = await _staffService.GetCurrentUserAsync();
-        if (staff.Id != UpdateStaff.Id || !UpdateStaff.Active)
-            return BadRequest();
+        
+        // Inactive staff cannot do anything here.
         if (!staff.Active) return Forbid();
+        
+        // Staff can only update self here.
+        if (staff.Id != UpdateStaff.Id) return BadRequest();
+
+        // User cannot deactivate self.
+        UpdateStaff.Active = true;
 
         await _validator.ApplyValidationAsync(UpdateStaff, ModelState);
 
