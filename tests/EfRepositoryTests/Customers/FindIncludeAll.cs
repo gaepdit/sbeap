@@ -19,7 +19,7 @@ public class FindIncludeAll
         var item = CustomerData.GetCustomers.First();
         item.Contacts.RemoveAll(c => c.IsDeleted);
 
-        var result = await _repository.FindIncludeAllAsync(item.Id);
+        var result = await _repository.FindIncludeAllAsync(item.Id, true);
 
         result.Should().BeEquivalentTo(item, opts => opts
             .IgnoringCyclicReferences()
@@ -31,7 +31,7 @@ public class FindIncludeAll
     [Test]
     public async Task WhenDoesNotExist_ReturnsNull()
     {
-        var result = await _repository.FindIncludeAllAsync(Guid.Empty);
+        var result = await _repository.FindIncludeAllAsync(Guid.Empty, true);
         result.Should().BeNull();
     }
 }

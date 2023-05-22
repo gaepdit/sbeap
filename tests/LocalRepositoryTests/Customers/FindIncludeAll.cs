@@ -16,14 +16,17 @@ public class FindIncludeAll
     public async Task WhenItemExists_ReturnsItem()
     {
         var item = _repository.Items.First();
-        var result = await _repository.FindIncludeAllAsync(item.Id);
+        item.Contacts.RemoveAll(c => c.IsDeleted);
+
+        var result = await _repository.FindIncludeAllAsync(item.Id, true);
+
         result.Should().BeEquivalentTo(item);
     }
 
     [Test]
     public async Task WhenDoesNotExist_ReturnsNull()
     {
-        var result = await _repository.FindIncludeAllAsync(Guid.Empty);
+        var result = await _repository.FindIncludeAllAsync(Guid.Empty, true);
         result.Should().BeNull();
     }
 }

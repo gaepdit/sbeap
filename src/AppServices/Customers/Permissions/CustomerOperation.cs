@@ -13,5 +13,6 @@ public class CustomerOperation :
 
     public static List<CustomerOperation> AllOperations { get; } = new();
 
+    public static readonly CustomerOperation Edit = new(nameof(Edit));
     public static readonly CustomerOperation ManageDeletions = new(nameof(ManageDeletions));
 }

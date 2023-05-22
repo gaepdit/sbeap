@@ -47,9 +47,9 @@ public sealed class CustomerService : ICustomerService
         return new PaginatedResult<CustomerSearchResultDto>(list, count, paging);
     }
 
-    public async Task<CustomerViewDto?> FindAsync(Guid id, CancellationToken token = default)
+    public async Task<CustomerViewDto?> FindAsync(Guid id, bool includeDeletedCases, CancellationToken token = default)
     {
-        var customer = await _customers.FindIncludeAllAsync(id, token);
+        var customer = await _customers.FindIncludeAllAsync(id, includeDeletedCases, token);
         if (customer is null) return null;
 
         var view = _mapper.Map<CustomerViewDto>(customer);

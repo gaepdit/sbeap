@@ -28,7 +28,8 @@ Users in the Staff role can:
 
 Users in the Admin role have all the capabilities of Staff. Plus they can:
 
-* Delete and restore Customers and Cases.
+* Delete Customers and Cases.
+* View and restore deleted Customers and Cases.
 
 ### User Account Admin
 

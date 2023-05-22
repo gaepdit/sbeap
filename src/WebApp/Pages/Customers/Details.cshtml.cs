@@ -8,6 +8,7 @@ using Sbeap.AppServices.Customers.Dto;
 using Sbeap.AppServices.Customers.Permissions;
 using Sbeap.AppServices.Permissions;
 using Sbeap.AppServices.Staff;
+using Sbeap.Domain.Identity;
 using Sbeap.WebApp.Models;
 using Sbeap.WebApp.Platform.PageModelHelpers;
 
@@ -47,33 +48,33 @@ public class DetailsModel : PageModel
         if (await _staff.GetCurrentUserAsync() is not { Active: true }) return Forbid();
 
         if (id is null) return RedirectToPage("../Index");
-        var item = await _customers.FindAsync(id.Value);
+        var item = await _customers.FindAsync(id.Value, User.IsInRole(RoleName.Admin));
         if (item is null) return NotFound();
-
+        
         Item = item;
-        NewCase = new CaseworkCreateDto(id.Value);
 
         foreach (var operation in CustomerOperation.AllOperations) await SetPermissionAsync(operation);
-        if (item.IsDeleted && !UserCan[CustomerOperation.ManageDeletions]) return Forbid();
+        if (Item.IsDeleted && !UserCan[CustomerOperation.ManageDeletions]) return Forbid();
 
+        NewCase = new CaseworkCreateDto(id.Value);
         return Page();
     }
 
+    /// <summary>
+    /// Post is used to add a new Case for this Customer
+    /// </summary>
     public async Task<IActionResult> OnPostAsync(Guid? id)
     {
-        if (!ModelState.IsValid)
-        {
-            if (id is null) return RedirectToPage("../Index");
-            var item = await _customers.FindAsync(id.Value);
-            if (item is null) return NotFound();
+        if (id is null) return RedirectToPage("../Index");
+        var item = await _customers.FindAsync(id.Value, User.IsInRole(RoleName.Admin));
+        if (item is null) return NotFound();
+        
+        Item = item;
 
-            Item = item;
+        foreach (var operation in CustomerOperation.AllOperations) await SetPermissionAsync(operation);
+        if (!UserCan[CustomerOperation.Edit]) return Forbid();
 
-            foreach (var operation in CustomerOperation.AllOperations) await SetPermissionAsync(operation);
-            if (item.IsDeleted && !UserCan[CustomerOperation.ManageDeletions]) return Forbid();
-
-            return Page();
-        }
+        if (!ModelState.IsValid) return Page();
 
         var caseId = await _cases.CreateAsync(NewCase);
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "New Case successfully added.");
