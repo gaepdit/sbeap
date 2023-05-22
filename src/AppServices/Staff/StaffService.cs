@@ -104,7 +104,7 @@ public sealed class StaffService : IStaffService
             ?? throw new EntityNotFoundException(typeof(ApplicationUser), resource.Id);
 
         user.Phone = resource.Phone;
-        user.Office = resource.OfficeId is null ? null : await _officeRepository.FindAsync(resource.OfficeId.Value);
+        user.Office = resource.OfficeId is null ? null : await _officeRepository.GetAsync(resource.OfficeId.Value);
         user.Active = resource.Active;
 
         return await _userManager.UpdateAsync(user);
