@@ -27,8 +27,8 @@ public class RestoreModel : PageModel
 
     // Properties
     [BindProperty]
-    [HiddenInput]
     public Guid Id { get; set; }
+
     public CaseworkViewDto Item { get; private set; } = default!;
 
     // Methods

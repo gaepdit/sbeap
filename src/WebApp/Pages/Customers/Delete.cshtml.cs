@@ -28,7 +28,6 @@ public class DeleteModel : PageModel
 
     // Properties
     [BindProperty]
-    [HiddenInput]
     public Guid Id { get; set; }
 
     [BindProperty]

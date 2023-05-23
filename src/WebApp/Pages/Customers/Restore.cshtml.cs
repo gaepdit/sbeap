@@ -27,7 +27,6 @@ public class RestoreModel : PageModel
 
     // Properties
     [BindProperty]
-    [HiddenInput]
     public Guid Id { get; set; }
 
     public CustomerViewDto Item { get; private set; } = default!;
