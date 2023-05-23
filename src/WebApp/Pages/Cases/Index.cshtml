@@ -183,7 +183,7 @@
                 <tbody>
                 @foreach (var item in Model.SearchResults.Items)
                 {
-                    <tr class="@(item.IsDeleted ? "table-danger" : "")">
+                    <tr class="@(item.IsDeleted ? "table-secondary" : "")">
                         <th scope="row" class="fw-normal">
                             @Html.DisplayFor(m => item.CustomerName, DisplayTemplate.StringOrNone)
                         </th>

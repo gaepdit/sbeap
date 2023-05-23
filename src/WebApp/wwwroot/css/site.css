@@ -4,13 +4,13 @@
     background-color: hsl(275, 73%, 23%);
 }
 
-    .bg-brand a {
-        color: hsl(275, 100%, 92%);
-    }
+.bg-brand a {
+    color: hsl(275, 100%, 92%);
+}
 
-        .bg-brand a:hover, .bg-brand a:focus {
-            color: hsl(275, 100%, 85%);
-        }
+.bg-brand a:hover, .bg-brand a:focus {
+    color: hsl(275, 100%, 85%);
+}
 
 .text-brand {
     color: hsl(275, 73%, 23%);
@@ -40,7 +40,7 @@ a {
     border-color: #1861ac;
 }
 
-.text-warning {
+.btn-outline-warning, .text-warning {
     color: rgb(150, 113, 0) !important;
 }
 
@@ -95,14 +95,14 @@ body {
     z-index: 100;
 }
 
-    .skip-nav:focus {
-        background: #fff;
-        left: 0;
-        outline: 0;
-        position: absolute;
-        top: 0;
-        transition: all 0.2s ease-in-out;
-    }
+.skip-nav:focus {
+    background: #fff;
+    left: 0;
+    outline: 0;
+    position: absolute;
+    top: 0;
+    transition: all 0.2s ease-in-out;
+}
 
 /* Button with image 
 -------------------------------------------------- */
@@ -110,9 +110,9 @@ body {
     line-height: 1;
 }
 
-    .btn-img img {
-        height: 25px;
-    }
+.btn-img img {
+    height: 25px;
+}
 
 /* Additional font style utilities
 -------------------------------------------------- */
@@ -165,6 +165,12 @@ a.text-decoration-none:hover {
     scroll-margin-top: 1.5rem;
 }
 
+/* Card with details/summary
+-------------------------------------------------- */
+details.card:not([open]) summary.card-header {
+    border-bottom: none;
+}
+
 /* Print styles
 -------------------------------------------------- */
 @media print {
@@ -176,9 +182,9 @@ a.text-decoration-none:hover {
         margin-top: 1rem;
     }
 
-        .banner-test-site::after {
-            content: "— Not for public distribution";
-        }
+    .banner-test-site::after {
+        content: "— Not for public distribution";
+    }
 }
 
 /* Fix for Bootstrap textarea with "floating" label

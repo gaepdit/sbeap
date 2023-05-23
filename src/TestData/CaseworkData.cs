@@ -19,7 +19,7 @@ internal static class CaseworkData
         },
         new(new Guid("50000000-0000-0000-0000-000000000002"),
             CustomerData.GetCustomers.ElementAt(0),
-            DateOnly.FromDateTime(DateTime.Today))
+            DateOnly.FromDateTime(DateTime.Today).AddDays(-1))
         {
             CaseClosedDate = null,
             Description = TextData.MultipleParagraphs,
