@@ -19,7 +19,7 @@ public class UpdateValidator
         var validator = new OfficeUpdateValidator(repoMock.Object);
         var result = await validator.TestValidateAsync(model);
 
-        result.ShouldNotHaveValidationErrorFor(e => e.Name);
+        result.ShouldNotHaveAnyValidationErrors();
     }
 
     [Test]
@@ -48,7 +48,7 @@ public class UpdateValidator
         var validator = new OfficeUpdateValidator(repoMock.Object);
         var result = await validator.TestValidateAsync(model);
 
-        result.ShouldNotHaveValidationErrorFor(e => e.Name);
+        result.ShouldNotHaveAnyValidationErrors();
     }
 
     [Test]

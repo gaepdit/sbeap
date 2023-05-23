@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GaEpd.AppLibrary.Pagination;
 using Sbeap.AppServices.Cases.Dto;
+using Sbeap.AppServices.Staff.Dto;
 using Sbeap.AppServices.UserServices;
 using Sbeap.Domain.Entities.ActionItems;
 using Sbeap.Domain.Entities.Agencies;
@@ -51,7 +52,13 @@ public sealed class CaseworkService : ICaseworkService
     public async Task<CaseworkViewDto?> FindAsync(Guid id, CancellationToken token = default)
     {
         var casework = await _cases.FindIncludeAllAsync(id, token);
-        return casework is null ? null : _mapper.Map<CaseworkViewDto>(casework);
+        if (casework is null) return null;
+
+        var caseworkView = _mapper.Map<CaseworkViewDto>(casework);
+        if (casework.DeletedById != null)
+            caseworkView.DeletedBy = _mapper.Map<StaffViewDto>(await _users.FindUserAsync(casework.DeletedById));
+
+        return caseworkView;
     }
 
     // Casework write
@@ -61,7 +68,7 @@ public sealed class CaseworkService : ICaseworkService
         var customer = await _customers.GetAsync(resource.CustomerId, token);
         var item = _manager.Create(customer, resource.CaseOpenedDate, (await _users.GetCurrentUserAsync())?.Id);
 
-        item.Description = resource.Description;
+        item.Description = resource.Description ?? string.Empty;
 
         await _cases.InsertAsync(item, token: token);
         return item.Id;
@@ -87,10 +94,18 @@ public sealed class CaseworkService : ICaseworkService
         await _cases.UpdateAsync(item, token: token);
     }
 
-    public async Task DeleteAsync(Guid id, CancellationToken token = default)
+    public async Task DeleteAsync(Guid id, string? deleteComments, CancellationToken token = default)
     {
         var item = await _cases.GetAsync(id, token);
         item.SetDeleted((await _users.GetCurrentUserAsync())?.Id);
+        item.DeleteComments = deleteComments;
+        await _cases.UpdateAsync(item, token: token);
+    }
+
+    public async Task RestoreAsync(Guid id, CancellationToken token = default)
+    {
+        var item = await _cases.GetAsync(id, token);
+        item.SetNotDeleted();
         await _cases.UpdateAsync(item, token: token);
     }
 

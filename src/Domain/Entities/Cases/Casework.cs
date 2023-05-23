@@ -36,4 +36,5 @@ public class Casework : AuditableSoftDeleteEntity
 
     // Properties: Deletion
 
-    public string? DeleteComments { get; set; }}
+    public string? DeleteComments { get; set; }
+}

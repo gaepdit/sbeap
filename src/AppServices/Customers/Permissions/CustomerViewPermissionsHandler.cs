@@ -8,9 +8,6 @@ namespace Sbeap.AppServices.Customers.Permissions;
 internal class CustomerViewPermissionsHandler :
     AuthorizationHandler<CustomerOperation, CustomerViewDto>
 {
-    private static bool IsAdminUser(IPrincipal user) =>
-        user.IsInRole(RoleName.Admin);
-
     protected override Task HandleRequirementAsync(
         AuthorizationHandlerContext context,
         CustomerOperation requirement,
@@ -21,6 +18,10 @@ internal class CustomerViewPermissionsHandler :
 
         var success = requirement.Name switch
         {
+            nameof(CustomerOperation.Edit) =>
+                // Staff can edit cases.
+                IsStaffUser(context.User) && IsNotDeleted(resource),
+
             nameof(CustomerOperation.ManageDeletions) =>
                 // Only an Admin User can delete or restore.
                 IsAdminUser(context.User),
@@ -31,4 +32,10 @@ internal class CustomerViewPermissionsHandler :
         if (success) context.Succeed(requirement);
         return Task.FromResult(0);
     }
+
+    private static bool IsNotDeleted(CustomerViewDto resource) => !resource.IsDeleted;
+
+    private static bool IsStaffUser(IPrincipal user) => user.IsInRole(RoleName.Staff);
+
+    private static bool IsAdminUser(IPrincipal user) => user.IsInRole(RoleName.Admin);
 }

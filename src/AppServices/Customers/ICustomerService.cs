@@ -11,7 +11,7 @@ public interface ICustomerService : IDisposable
     Task<IPaginatedResult<CustomerSearchResultDto>> SearchAsync(
         CustomerSearchDto spec, PaginatedRequest paging, CancellationToken token = default);
 
-    Task<CustomerViewDto?> FindAsync(Guid id, CancellationToken token = default);
+    Task<CustomerViewDto?> FindAsync(Guid id, bool includeDeletedCases, CancellationToken token = default);
 
     // Customer write
     Task<Guid> CreateAsync(CustomerCreateDto resource, CancellationToken token = default);

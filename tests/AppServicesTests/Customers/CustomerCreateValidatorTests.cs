@@ -8,8 +8,7 @@ namespace AppServicesTests.Customers;
 
 public class CustomerCreateValidatorTests
 {
-    private static ContactCreateDto EmptyContactCreate => new(null, null, null, null, null, null,
-        new IncompleteAddress(), new PhoneNumber());
+    private static ContactCreateDto EmptyContactCreate => new();
 
     private static CustomerCreateDto EmptyCustomerCreate => new(string.Empty, null, null, null, new IncompleteAddress(),
         new IncompleteAddress(), EmptyContactCreate);

@@ -12,7 +12,7 @@ internal static class CaseworkData
             DateOnly.FromDateTime(DateTime.Today.AddDays(-4)))
         {
             CaseClosedDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-2)),
-            Description = TextData.MultipleParagraphs,
+            Description = TextData.Paragraph,
             ReferralAgency = AgencyData.GetAgencies.ElementAt(0),
             ReferralNotes = TextData.ShortPhrase,
             ReferralDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-2)),
@@ -22,7 +22,7 @@ internal static class CaseworkData
             DateOnly.FromDateTime(DateTime.Today))
         {
             CaseClosedDate = null,
-            Description = string.Empty,
+            Description = TextData.MultipleParagraphs,
             ReferralAgency = null,
             ReferralNotes = string.Empty,
             ReferralDate = null,
@@ -53,7 +53,7 @@ internal static class CaseworkData
         {
             if (_cases is not null) return _cases;
             _cases = CaseworkSeedItems.ToList();
-            _cases.ElementAt(3).SetDeleted("00000000-0000-0000-0000-000000000001");
+            _cases.ElementAt(3).SetDeleted("00000000-0000-0000-0000-000000000002");
 
             foreach (var casework in _cases)
             {

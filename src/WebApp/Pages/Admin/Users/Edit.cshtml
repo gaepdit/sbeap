@@ -18,17 +18,17 @@
         </div>
         <div class="row">
             <div class="col-lg mb-3">
-                @Html.EditorFor(e => e.DisplayStaff.Email, EditorTemplate.InputFloatingDisabled)
+                @Html.EditorFor(e => e.DisplayStaff.Email, EditorTemplate.InputDisabled)
             </div>
             <div class="col-md mb-3">
-                @Html.EditorFor(e => e.UpdateStaff.Phone, EditorTemplate.InputFloating)
+                @Html.EditorFor(e => e.UpdateStaff.Phone, EditorTemplate.Input)
             </div>
             <div class="col-md mb-3">
-                @Html.EditorFor(e => e.UpdateStaff.OfficeId, EditorTemplate.SelectFloating, new { Items = Model.OfficeItems })
+                @Html.EditorFor(e => e.UpdateStaff.OfficeId, EditorTemplate.Select, new { Items = Model.OfficeItems })
             </div>
         </div>
         <div class="mb-3">
-            @Html.EditorFor(e => e.UpdateStaff.Active, EditorTemplate.InputCheckbox)
+            @Html.EditorFor(e => e.UpdateStaff.Active, EditorTemplate.Checkbox)
         </div>
         <div class="mt-3">
             <button type="submit" class="btn btn-primary col-sm-3 me-2">Update Info</button>

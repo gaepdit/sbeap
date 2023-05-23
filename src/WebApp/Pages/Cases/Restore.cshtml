@@ -1,0 +1,65 @@
+﻿@page "{id:Guid?}"
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Sbeap.WebApp.Pages.Shared.DisplayTemplates
+@model RestoreModel
+
+@{
+    ViewData["Title"] = "Restore Case";
+    ViewData["NoAnchors"] = true;
+}
+
+<h1>
+    <em>Confirm</em>
+    @ViewData["Title"]
+</h1>
+
+<div class="p-3 border rounded-3 bg-dark text-light">
+    <p class="lead text-warning font-weight-medium">Are you sure you want to restore this deleted Case?</p>
+
+    <div class="container">
+        <dl class="row">
+            <dt class="col-md-4 col-lg-3">Customer</dt>
+            <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.Item.Customer.Name, DisplayTemplate.StringOrNotEntered)</dd>
+            <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.IsClosed)</dt>
+            <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.Item.IsClosed, DisplayTemplate.BoolClosed)</dd>
+            <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.CaseOpenedDate)</dt>
+            <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.Item.CaseOpenedDate, DisplayTemplate.DateOnlyOrNotEntered)</dd>
+            @if (Model.Item.IsClosed)
+            {
+                <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.CaseClosedDate)</dt>
+                <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.Item.CaseClosedDate, DisplayTemplate.DateOnlyOrNotEntered)</dd>
+            }
+            <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.Description)</dt>
+            <dd class="col-md-8 col-lg-9 text-break, text-pre-line">@Html.DisplayFor(m => m.Item.Description, DisplayTemplate.TruncateText, new { MaxLength = 100 })</dd>
+        </dl>
+    </div>
+
+    <hr>
+    <h2 class="h3">Deletion Details</h2>
+    <p>If this Case is restored, the below details will be removed.</p>
+    <div class="container mb-2">
+        <dl class="row">
+            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.DeletedBy)</dt>
+            <dd class="col-sm-8 col-lg-9">
+                @Html.DisplayFor(m => m.Item.DeletedBy, DisplayTemplate.NameOrNotEntered)
+                on @Html.DisplayFor(m => m.Item.DeletedAt, DisplayTemplate.LongDateTimeOrNotEntered)
+            </dd>
+            <dt class="col-sm-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.DeleteComments)</dt>
+            <dd class="col-sm-8 col-lg-9 text-break text-pre-line">@Html.DisplayFor(m => m.Item.DeleteComments, DisplayTemplate.StringOrNone)</dd>
+        </dl>
+    </div>
+
+    <hr>
+    <form method="post">
+        <div class="mt-3 mb-1">
+            <button type="submit" class="btn btn-warning col-5 col-sm-3 col-lg-2 me-2">Restore</button>
+            <a asp-page="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary">Cancel</a>
+        </div>
+        <input asp-for="Id" />
+    </form>
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
