@@ -24,6 +24,7 @@ namespace Sbeap.AppServices.Permissions;
 public static class PolicyName
 {
     public const string AdminUser = nameof(AdminUser);
+    public const string LoggedIn = nameof(LoggedIn);
     public const string StaffUser = nameof(StaffUser);
     public const string SiteMaintainer = nameof(SiteMaintainer);
     public const string UserAdministrator = nameof(UserAdministrator);
@@ -35,6 +36,11 @@ public static class Policies
         new AuthorizationPolicyBuilder()
             .RequireAuthenticatedUser()
             .AddRequirements(new AdminUserRequirement())
+            .Build();
+
+    public static AuthorizationPolicy LoggedInPolicy() =>
+        new AuthorizationPolicyBuilder()
+            .RequireAuthenticatedUser()
             .Build();
 
     public static AuthorizationPolicy StaffUserPolicy() =>

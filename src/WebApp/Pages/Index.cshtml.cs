@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Sbeap.AppServices.Cases;
 using Sbeap.AppServices.Cases.Dto;
+using Sbeap.AppServices.Permissions;
 using Sbeap.Domain.Identity;
 using Sbeap.WebApp.Platform.Constants;
 
@@ -16,11 +17,16 @@ public class IndexModel : PageModel
 {
     // Constructor
     private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly IAuthorizationService _authorization;
     private readonly ICaseworkService _cases;
 
-    public IndexModel(SignInManager<ApplicationUser> signInManager, ICaseworkService cases)
+    public IndexModel(
+        SignInManager<ApplicationUser> signInManager,
+        IAuthorizationService authorization,
+        ICaseworkService cases)
     {
         _signInManager = signInManager;
+        _authorization = authorization;
         _cases = cases;
     }
 
@@ -32,13 +38,18 @@ public class IndexModel : PageModel
     public async Task<IActionResult> OnGetAsync()
     {
         if (!_signInManager.IsSignedIn(User)) return LocalRedirect("~/Account/Login");
-        if (!User.IsInRole(RoleName.Staff) && !User.IsInRole(RoleName.Admin)) return Page();
 
+        ShowDashboard = await UseDashboardAsync();
+        if (!ShowDashboard) return Page();
+
+        // Load dashboard modules
         var openCasesSpec = new CaseworkSearchDto { Status = CaseStatus.Open, Sort = CaseworkSortBy.OpenedDate };
         var paging = new PaginatedRequest(1, GlobalConstants.PageSize, openCasesSpec.Sort.GetDescription());
         OpenCases = await _cases.SearchAsync(openCasesSpec, paging);
 
-        ShowDashboard = true;
         return Page();
     }
+
+    private async Task<bool> UseDashboardAsync() =>
+        (await _authorization.AuthorizeAsync(User, PolicyName.StaffUser)).Succeeded;
 }

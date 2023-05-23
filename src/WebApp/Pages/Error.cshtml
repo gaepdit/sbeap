@@ -1,4 +1,7 @@
 ﻿@page "{statusCode:int?}"
+@inject IAuthorizationService AuthorizationService
+@using Microsoft.AspNetCore.Authorization
+@using Sbeap.AppServices.Permissions
 @model ErrorModel
 @switch (Model.Status)
 {
@@ -18,7 +21,7 @@
     }
 }
 
-@if (User.Identity?.IsAuthenticated ?? false)
+@if ((await AuthorizationService.AuthorizeAsync(User, PolicyName.LoggedIn)).Succeeded)
 {
     <p>
         If you need assistance related to this error, please

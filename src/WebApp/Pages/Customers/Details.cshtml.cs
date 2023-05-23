@@ -8,7 +8,6 @@ using Sbeap.AppServices.Customers.Dto;
 using Sbeap.AppServices.Customers.Permissions;
 using Sbeap.AppServices.Permissions;
 using Sbeap.AppServices.Staff;
-using Sbeap.Domain.Identity;
 using Sbeap.WebApp.Models;
 using Sbeap.WebApp.Platform.PageModelHelpers;
 
@@ -48,9 +47,9 @@ public class DetailsModel : PageModel
         if (await _staff.GetCurrentUserAsync() is not { Active: true }) return Forbid();
 
         if (id is null) return RedirectToPage("../Index");
-        var item = await _customers.FindAsync(id.Value, User.IsInRole(RoleName.Admin));
+        var item = await _customers.FindAsync(id.Value, await ShowDeletedCasesAsync());
         if (item is null) return NotFound();
-        
+
         Item = item;
 
         foreach (var operation in CustomerOperation.AllOperations) await SetPermissionAsync(operation);
@@ -66,9 +65,9 @@ public class DetailsModel : PageModel
     public async Task<IActionResult> OnPostAsync(Guid? id)
     {
         if (id is null) return RedirectToPage("../Index");
-        var item = await _customers.FindAsync(id.Value, User.IsInRole(RoleName.Admin));
+        var item = await _customers.FindAsync(id.Value, await ShowDeletedCasesAsync());
         if (item is null) return NotFound();
-        
+
         Item = item;
 
         foreach (var operation in CustomerOperation.AllOperations) await SetPermissionAsync(operation);
@@ -83,4 +82,7 @@ public class DetailsModel : PageModel
 
     private async Task SetPermissionAsync(IAuthorizationRequirement operation) =>
         UserCan[operation] = (await _authorization.AuthorizeAsync(User, Item, operation)).Succeeded;
+
+    private async Task<bool> ShowDeletedCasesAsync() =>
+        (await _authorization.AuthorizeAsync(User, PolicyName.AdminUser)).Succeeded;
 }

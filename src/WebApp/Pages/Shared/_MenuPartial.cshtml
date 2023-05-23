@@ -1,7 +1,9 @@
-@using Sbeap.Domain.Identity
+@using Microsoft.AspNetCore.Authorization
+@using Sbeap.AppServices.Permissions
+@inject IAuthorizationService AuthorizationService
 @{
-    var isLoggedIn = User.Identity?.IsAuthenticated ?? false;
-    var isStaff = isLoggedIn && (User.IsInRole(RoleName.Staff) || User.IsInRole(RoleName.Admin));
+    var isLoggedIn = (await AuthorizationService.AuthorizeAsync(User, PolicyName.LoggedIn)).Succeeded;
+    var isStaff = (await AuthorizationService.AuthorizeAsync(User, PolicyName.StaffUser)).Succeeded;
 }
 <nav id="main-nav" class="navbar navbar-expand-sm navbar-dark bg-brand border-bottom shadow-sm mb-3 d-print-none">
     <div class="container">
