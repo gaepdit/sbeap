@@ -1,13 +1,90 @@
-﻿@page
+@page
+@using GaEpd.AppLibrary.Pagination
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Sbeap.AppServices.Cases.Dto
+@using Sbeap.WebApp.Pages.Shared.DisplayTemplates
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
 }
 
-<div class="card">
-    <div class="card-header">
-        <h2>Some helpful development links</h2>
+
+@if (!Model.ShowDashboard)
+{
+    <h1>Home Page</h1>
+    <p>See your manager to request access to the SBEAP application.</p>
+}
+else
+{
+    <h1>Dashboard</h1>
+
+    <div class="card mt-4">
+        <div class="card-header">
+            <h2 class="h5" id="open-cases">Open Cases</h2>
+        </div>
+        <div class="card-body p-0">
+            @if (Model.OpenCases.CurrentCount == 0)
+            {
+                <p>
+                    <em>None.</em>
+                </p>
+            }
+            else
+            {
+                <table class="table table-borderless small m-0" aria-labelledby="open-cases">
+                    <thead class="table-light">
+                    <tr>
+                        <th scope="col" class="ps-3">Date Opened</th>
+                        <th scope="col">Customer</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">
+                            <span class="visually-hidden">Actions</span>
+                        </th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    @foreach (var item in Model.OpenCases.Items)
+                    {
+                        <tr>
+                            <th scope="row" class="fw-normal ps-3">@Html.DisplayFor(m => item.CaseOpenedDate, DisplayTemplate.DateOnly)</th>
+                            <td>@Html.DisplayFor(m => item.CustomerName, DisplayTemplate.StringOrNone)</td>
+                            <td>@Html.DisplayFor(m => item.Description, DisplayTemplate.TruncateText, new { MaxLength = 50 })</td>
+                            <td>
+                                <a asp-page="/Cases/Details" class="btn btn-outline-info btn-sm" asp-route-id="@item.Id">View</a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
+        </div>
+        @if (Model.OpenCases.CurrentCount > 0)
+        {
+            <div class="card-footer small">
+                <div class="container px-0">
+                    <div class="row justify-content-between">
+                        <div class="col-md">
+                            <partial name="_PaginationCount" model="(IPaginatedResult)Model.OpenCases" />
+                        </div>
+                        @if (Model.OpenCases.HasNextPage)
+                        {
+                            <div class="col-md text-end">
+                                <a asp-page="/Cases/Index" asp-route-handler="search" asp-route-Status="0" asp-fragment="SearchResults"
+                                   asp-route-Sort="@(CaseworkSortBy.OpenedDate)">
+                                    View all
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
     </div>
+}
+
+<details class="card mt-4">
+    <summary class="card-header">Some helpful development links</summary>
     <div class="card-body">
         <ul>
             <li>
@@ -76,4 +153,4 @@
             </li>
         </ul>
     </div>
-</div>
+</details>
