@@ -8,12 +8,12 @@
 
 @if (Model.Item.Customer.IsDeleted)
 {
-    <h2 class="h3 text-danger">Customer Has Been Deleted</h2>
+    <h2 class="h3 text-danger">This customer has been deleted</h2>
 }
 @if (Model.Item.IsDeleted)
 {
     <div class="row justify-content-between align-items-center g-0 mb-2">
-        <h2 class="h3 text-danger col-md mb-md-0">Case Has Been Deleted</h2>
+        <h2 class="h3 text-danger col-md mb-md-0">This case has been deleted</h2>
         <div class="col-md-auto d-print-none ms-md-3">
             @if (Model.UserCan[CaseworkOperation.ManageDeletions])
             {

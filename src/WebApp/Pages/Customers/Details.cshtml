@@ -15,11 +15,11 @@
 @if (Model.Item.IsDeleted)
 {
     <div class="row justify-content-between align-items-center g-0 mb-2">
-        <h2 class="h3 text-danger col-md mb-md-0">Customer Has Been Deleted</h2>
+        <h2 class="h3 text-danger col-md mb-md-0">This customer has been deleted</h2>
         <div class="col-md-auto d-print-none ms-md-3">
             @if (Model.UserCan[CustomerOperation.ManageDeletions])
             {
-                <a asp-page="Restore" asp-route-id="@Model.Item.Id" class="btn btn-outline-danger">Restore</a>
+                <a asp-page="Restore" asp-route-id="@Model.Item.Id" class="btn btn-outline-warning">Restore</a>
             }
         </div>
     </div>

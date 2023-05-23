@@ -1,24 +1,24 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Sbeap.AppServices.Cases;
-using Sbeap.AppServices.Cases.Dto;
-using Sbeap.AppServices.Cases.Permissions;
+using Sbeap.AppServices.Customers;
+using Sbeap.AppServices.Customers.Dto;
+using Sbeap.AppServices.Customers.Permissions;
 using Sbeap.AppServices.Permissions;
 using Sbeap.WebApp.Models;
 using Sbeap.WebApp.Platform.PageModelHelpers;
 
-namespace Sbeap.WebApp.Pages.Cases;
+namespace Sbeap.WebApp.Pages.Customers;
 
 [Authorize(Policy = PolicyName.AdminUser)]
 public class RestoreModel : PageModel
 {
     // Constructor
-    private readonly ICaseworkService _service;
+    private readonly ICustomerService _service;
     private readonly IAuthorizationService _authorization;
 
     public RestoreModel(
-        ICaseworkService service,
+        ICustomerService service,
         IAuthorizationService authorization)
     {
         _service = service;
@@ -29,7 +29,8 @@ public class RestoreModel : PageModel
     [BindProperty]
     [HiddenInput]
     public Guid Id { get; set; }
-    public CaseworkViewDto Item { get; private set; } = default!;
+
+    public CustomerViewDto Item { get; private set; } = default!;
 
     // Methods
     public async Task<IActionResult> OnGetAsync(Guid? id)
@@ -44,7 +45,7 @@ public class RestoreModel : PageModel
         if (!await UserCanManageDeletions()) return Forbid();
         if (Item.IsDeleted) return Page();
 
-        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Info, "Case is not deleted.");
+        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Info, "Customer is not deleted.");
         return RedirectToPage("Details", new { Item.Id });
     }
 
@@ -58,17 +59,17 @@ public class RestoreModel : PageModel
 
         if (!Item.IsDeleted)
         {
-            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Info, "Case is not deleted.");
+            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Info, "Customer is not deleted.");
             return RedirectToPage("Details", new { Id });
         }
 
         if (!ModelState.IsValid) return Page();
 
         await _service.RestoreAsync(Id);
-        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Case successfully restored.");
+        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Customer successfully restored.");
         return RedirectToPage("Details", new { Id });
     }
 
     private async Task<bool> UserCanManageDeletions() =>
-        (await _authorization.AuthorizeAsync(User, Item, CaseworkOperation.ManageDeletions)).Succeeded;
+        (await _authorization.AuthorizeAsync(User, Item, CustomerOperation.ManageDeletions)).Succeeded;
 }

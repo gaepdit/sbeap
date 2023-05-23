@@ -104,6 +104,13 @@ public sealed class CustomerService : ICustomerService
         await _customers.UpdateAsync(item, token: token);
     }
 
+    public async Task RestoreAsync(Guid id, CancellationToken token = default)
+    {
+        var item = await _customers.GetAsync(id, token);
+        item.SetNotDeleted();
+        await _customers.UpdateAsync(item, token: token);
+    }
+
     // Contacts
 
     public async Task AddContactAsync(Customer customer, ContactCreateDto resource, CancellationToken token = default)
