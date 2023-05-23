@@ -11,7 +11,7 @@ internal static class CustomerData
         new(new Guid("40000000-0000-0000-0000-000000000001"))
         {
             Name = TextData.Phrase,
-            County = TextData.AnotherWord,
+            County = "Bacon",
             Location = ValueObjectData.LessCompleteAddress,
             MailingAddress = ValueObjectData.CompleteAddress,
             Description = TextData.Paragraph,
