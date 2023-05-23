@@ -64,12 +64,13 @@ public sealed class StaffService : IStaffService
 
     public async Task<IList<string>> GetRolesAsync(string id)
     {
-        ApplicationUser? user = await _userManager.FindByIdAsync(id);
+        var user = await _userManager.FindByIdAsync(id);
         if (user is null) return new List<string>();
         return await _userManager.GetRolesAsync(user);
     }
 
-    public async Task<IList<AppRole>> GetAppRolesAsync(string id) => AppRole.RolesAsAppRoles(await GetRolesAsync(id));
+    public async Task<IList<AppRole>> GetAppRolesAsync(string id) =>
+        AppRole.RolesAsAppRoles(await GetRolesAsync(id)).OrderBy(r => r.DisplayName).ToList();
 
     public async Task<IdentityResult> UpdateRolesAsync(string id, Dictionary<string, bool> roles)
     {
@@ -103,7 +104,7 @@ public sealed class StaffService : IStaffService
             ?? throw new EntityNotFoundException(typeof(ApplicationUser), resource.Id);
 
         user.Phone = resource.Phone;
-        user.Office = resource.OfficeId is null ? null : await _officeRepository.FindAsync(resource.OfficeId.Value);
+        user.Office = resource.OfficeId is null ? null : await _officeRepository.GetAsync(resource.OfficeId.Value);
         user.Active = resource.Active;
 
         return await _userManager.UpdateAsync(user);

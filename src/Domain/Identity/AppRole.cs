@@ -42,7 +42,7 @@ public class AppRole
     /// </summary>
     /// <param name="roles">A list of role strings.</param>
     /// <returns>A list of AppRoles.</returns>
-    public static IList<AppRole> RolesAsAppRoles(IEnumerable<string> roles)
+    public static IEnumerable<AppRole> RolesAsAppRoles(IEnumerable<string> roles)
     {
         var appRoles = new List<AppRole>();
 

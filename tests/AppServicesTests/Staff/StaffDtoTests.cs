@@ -21,8 +21,12 @@ public class StaffDtoTests
         }
     }
 
-    private static StaffViewDto ValidStaffView =>
-        new(Guid.Empty.ToString(), string.Empty, string.Empty, null, null, null, true);
+    private static StaffViewDto ValidStaffView => new()
+    {
+        Id = Guid.Empty.ToString(),
+        FamilyName = string.Empty,
+        GivenName = string.Empty,
+    };
 
     [TestCase("abc", "def", "abc def")]
     [TestCase("abc", "", "abc")]
