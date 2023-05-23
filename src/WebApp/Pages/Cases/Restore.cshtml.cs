@@ -7,7 +7,6 @@ using Sbeap.AppServices.Cases.Permissions;
 using Sbeap.AppServices.Permissions;
 using Sbeap.WebApp.Models;
 using Sbeap.WebApp.Platform.PageModelHelpers;
-using System.ComponentModel.DataAnnotations;
 
 namespace Sbeap.WebApp.Pages.Cases;
 
@@ -28,8 +27,8 @@ public class RestoreModel : PageModel
 
     // Properties
     [BindProperty]
-    [HiddenInput]
     public Guid Id { get; set; }
+
     public CaseworkViewDto Item { get; private set; } = default!;
 
     // Methods

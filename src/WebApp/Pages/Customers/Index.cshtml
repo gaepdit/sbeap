@@ -8,10 +8,6 @@
     ViewData["Title"] = "Customer Search";
 }
 
-@section Scripts {
-    <script src="~/js/formSearch.js"></script>
-}
-
 <h1>@ViewData["Title"]</h1>
 
 <div class="text-muted ps-2">
@@ -116,4 +112,8 @@
             <partial name="_PaginationNav" model="((IPaginatedResult)Model.SearchResults, Model.Spec.AsRouteValues())" />
         }
     </div>
+}
+
+@section Scripts {
+    <script src="~/js/formSearch.js"></script>
 }

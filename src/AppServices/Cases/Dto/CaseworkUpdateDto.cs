@@ -8,6 +8,8 @@ public record CaseworkUpdateDto
     public bool IsDeleted { get; [UsedImplicitly] init; }
     public bool CustomerIsDeleted { get; [UsedImplicitly] init; }
 
+    // Entity update properties
+    
     public Guid Id { get; [UsedImplicitly] init; }
 
     [Display(Name = "Date Opened")]

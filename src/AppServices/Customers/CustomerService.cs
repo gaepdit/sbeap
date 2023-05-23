@@ -47,7 +47,8 @@ public sealed class CustomerService : ICustomerService
         return new PaginatedResult<CustomerSearchResultDto>(list, count, paging);
     }
 
-    public async Task<CustomerViewDto?> FindAsync(Guid id, bool includeDeletedCases, CancellationToken token = default)
+    public async Task<CustomerViewDto?> FindAsync(
+        Guid id, bool includeDeletedCases = false, CancellationToken token = default)
     {
         var customer = await _customers.FindIncludeAllAsync(id, includeDeletedCases, token);
         if (customer is null) return null;
@@ -95,11 +96,18 @@ public sealed class CustomerService : ICustomerService
         await _customers.UpdateAsync(item, token: token);
     }
 
-    public async Task DeleteAsync(Guid id, string comments, CancellationToken token = default)
+    public async Task DeleteAsync(Guid id, string? deleteComments, CancellationToken token = default)
     {
         var item = await _customers.GetAsync(id, token);
         item.SetDeleted((await _users.GetCurrentUserAsync())?.Id);
-        item.DeleteComments = comments;
+        item.DeleteComments = deleteComments;
+        await _customers.UpdateAsync(item, token: token);
+    }
+
+    public async Task RestoreAsync(Guid id, CancellationToken token = default)
+    {
+        var item = await _customers.GetAsync(id, token);
+        item.SetNotDeleted();
         await _customers.UpdateAsync(item, token: token);
     }
 

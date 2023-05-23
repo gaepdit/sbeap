@@ -1,0 +1,84 @@
+﻿@page "{id:Guid?}"
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Sbeap.WebApp.Pages.Shared.DisplayTemplates
+@using Sbeap.WebApp.Pages.Shared.EditorTemplates
+@model DeleteModel
+
+@{
+    ViewData["Title"] = "Delete Customer";
+    ViewData["NoAnchors"] = true;
+}
+
+<h1>
+    <em>Confirm</em>
+    @ViewData["Title"]
+</h1>
+
+<div class="p-3 border rounded-3 bg-dark text-light">
+    <p class="lead text-danger font-weight-medium">Are you sure you want to delete this Customer?</p>
+
+    <div class="container small">
+        <dl class="row">
+            <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.Description)</dt>
+            <dd class="col-md-8 col-lg-9 text-break, text-pre-line">@Html.DisplayFor(m => m.Item.Description, DisplayTemplate.TruncateText, new { MaxLength = 200 })</dd>
+            <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.County)</dt>
+            <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.Item.County, DisplayTemplate.County)</dd>
+            <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.Location)</dt>
+            <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.Item.Location)</dd>
+        </dl>
+    </div>
+
+    @if (Model.Item.Cases.Count != 0)
+    {
+        <h2 class="h5 mt-3">Cases</h2>
+        <table class="table table-sm table-dark small" aria-label="Cases for this Customer">
+            <thead>
+            <tr>
+                <th scope="col">Status</th>
+                <th scope="col">Date Opened</th>
+                <th scope="col">Date Closed</th>
+                <th scope="col">Description</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            @foreach (var item in Model.Item.Cases)
+            {
+                <tr>
+                    <th scope="row" class="fw-normal">
+                        @Html.DisplayFor(m => item.IsClosed, DisplayTemplate.BoolClosed)
+                    </th>
+                    <td>
+                        @Html.DisplayFor(m => item.CaseOpenedDate)
+                    </td>
+                    <td>@Html.DisplayFor(m => item.CaseClosedDate, DisplayTemplate.DateOnlyOrBlank)</td>
+                    <td>@Html.DisplayFor(m => item.Description, DisplayTemplate.TruncateText, new { MaxLength = 50 })</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <hr>
+    }
+
+    <form method="post">
+        <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
+
+        <div class="mb-3 text-dark">
+            @Html.EditorFor(e => e.DeleteComments, EditorTemplate.Textarea, new { Rows = 1 })
+        </div>
+
+        <div class="mt-3 mb-1">
+            <button type="submit" class="btn btn-danger col-5 col-sm-3 col-lg-2 me-2">Delete</button>
+            <a asp-page="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary">Cancel</a>
+        </div>
+        <input asp-for="Id" />
+    </form>
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -23,7 +23,7 @@ public class CustomerApiController : Controller
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<CustomerViewDto>> GetCustomerAsync([FromRoute] Guid id)
     {
-        var item = await _service.FindAsync(id, false);
+        var item = await _service.FindAsync(id);
         return item is null ? Problem("ID not found.", statusCode: 404) : Ok(item);
     }
 }

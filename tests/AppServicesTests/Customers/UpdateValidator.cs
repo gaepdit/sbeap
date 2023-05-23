@@ -1,15 +1,13 @@
 ﻿using FluentValidation.TestHelper;
 using Sbeap.AppServices.Customers.Dto;
 using Sbeap.AppServices.Customers.Validators;
-using Sbeap.Domain.ValueObjects;
 using Sbeap.TestData.Constants;
 
 namespace AppServicesTests.Customers;
 
 public class UpdateValidator
 {
-    private static CustomerUpdateDto DefaultCustomerUpdate => new(Guid.Empty, string.Empty, string.Empty, null,
-        new IncompleteAddress(), new IncompleteAddress());
+    private static CustomerUpdateDto DefaultCustomerUpdate => new();
 
     [Test]
     public async Task ValidDto_ReturnsAsValid()
