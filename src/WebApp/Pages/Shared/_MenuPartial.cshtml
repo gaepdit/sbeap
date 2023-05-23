@@ -1,3 +1,6 @@
+@{
+    var isLoggedIn = User.Identity?.IsAuthenticated ?? false;
+}
 <nav id="main-nav" class="navbar navbar-expand-sm navbar-dark bg-brand border-bottom shadow-sm mb-3 d-print-none">
     <div class="container">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav-content"
@@ -9,9 +12,42 @@
                 <li class="nav-item">
                     <a class="nav-link text-white" asp-page="/Index">Home</a>
                 </li>
+                @if (isLoggedIn)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-white" asp-page="/Customers/Index">Customer Search</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" asp-page="/Customers/Add">New Customer</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" asp-page="/Cases/Index">Case Search</a>
+                    </li>
+                }
             </ul>
+
+            @if (isLoggedIn)
+            {
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown text-white">
+                        <a class="nav-link dropdown-toggle text-white" href="#" id="moreDropdownMenuLink" role="button"
+                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="View menu of additional options">
+                            More
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="moreDropdownMenuLink">
+                            <li>
+                                <a class="dropdown-item text-dark" asp-page="/Admin/Users/Index">SBEAP Users</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item text-dark" asp-page="/Admin/Maintenance/Index">Site Maintenance</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            }
+
             <ul class="navbar-nav">
-                @if (User.Identity?.IsAuthenticated ?? false)
+                @if (isLoggedIn)
                 {
                     <li class="nav-item dropdown text-white">
                         <a class="nav-link dropdown-toggle text-white" href="#" id="accountDropdownMenuLink" role="button"
