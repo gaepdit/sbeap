@@ -1,5 +1,7 @@
+@using Sbeap.Domain.Identity
 @{
     var isLoggedIn = User.Identity?.IsAuthenticated ?? false;
+    var isStaff = isLoggedIn && (User.IsInRole(RoleName.Staff) || User.IsInRole(RoleName.Admin));
 }
 <nav id="main-nav" class="navbar navbar-expand-sm navbar-dark bg-brand border-bottom shadow-sm mb-3 d-print-none">
     <div class="container">
@@ -12,7 +14,7 @@
                 <li class="nav-item">
                     <a class="nav-link text-white" asp-page="/Index">Home</a>
                 </li>
-                @if (isLoggedIn)
+                @if (isStaff)
                 {
                     <li class="nav-item">
                         <a class="nav-link text-white" asp-page="/Customers/Index">Customer Search</a>
@@ -38,9 +40,12 @@
                             <li>
                                 <a class="dropdown-item text-dark" asp-page="/Admin/Users/Index">SBEAP Users</a>
                             </li>
-                            <li>
-                                <a class="dropdown-item text-dark" asp-page="/Admin/Maintenance/Index">Site Maintenance</a>
-                            </li>
+                            @if (isStaff)
+                            {
+                                <li>
+                                    <a class="dropdown-item text-dark" asp-page="/Admin/Maintenance/Index">Site Maintenance</a>
+                                </li>
+                            }
                         </ul>
                     </li>
                 </ul>
