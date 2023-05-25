@@ -37,6 +37,12 @@ public static class RepositoryHelper
         return new LocalUserStore();
     }
 
+    public static LocalActionItemTypeRepository GetActionItemTypeRepository()
+    {
+        ClearAllStaticData();
+        return new LocalActionItemTypeRepository();
+    }
+
     private static void ClearAllStaticData()
     {
         ContactData.ClearData();
