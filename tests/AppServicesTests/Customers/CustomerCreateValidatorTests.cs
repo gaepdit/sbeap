@@ -7,7 +7,7 @@ namespace AppServicesTests.Customers;
 
 public class CustomerCreateValidatorTests
 {
-    private static ContactCreateDto EmptyContactCreate => new();
+    private static ContactCreateDto EmptyContactCreate => new(Guid.Empty);
 
     private static CustomerCreateDto EmptyCustomerCreate => new();
 

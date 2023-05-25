@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Sbeap.AppServices.Customers.Dto;
 
-public record ContactCreateDto
+public record ContactCreateDto(Guid CustomerId)
 {
     public string? Honorific { get; init; }
 

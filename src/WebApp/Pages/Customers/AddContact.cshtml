@@ -1,0 +1,87 @@
+﻿@page "~/Customers/Details/{id:guid?}/AddContact"
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Sbeap.Domain.ValueObjects
+@using Sbeap.WebApp.Pages.Shared.DisplayTemplates
+@using Sbeap.WebApp.Pages.Shared.EditorTemplates
+@model AddContactModel
+@{
+    ViewData["Title"] = "Add A New Contact";
+    ViewData["NoAnchors"] = true;
+    var phoneTypesSelectList = Html.GetEnumSelectList<PhoneType>().ToArray();
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h2 class="h3">For Customer:</h2>
+
+<div class="container mt-3">
+    <dl class="row">
+        <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Customer.Name)</dt>
+        <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.Customer.Name, DisplayTemplate.StringOrNotEntered)</dd>
+        <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Customer.Description)</dt>
+        <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.Customer.Description, DisplayTemplate.TruncateText)</dd>
+        <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Customer.County)</dt>
+        <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.Customer.County, DisplayTemplate.County)</dd>
+    </dl>
+</div>
+
+<div class="p-3 border rounded-3 bg-light">
+    <form method="post">
+        <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
+
+        <div class="row mt-2">
+            <p class="form-text">At least a name or title must be entered in order to create a contact.</p>
+
+            <div class="col-md-6">
+                <h3 class="h5 d-none d-md-block">Personal Info</h3>
+                <div class="input-group mb-3">
+                    @Html.EditorFor(e => e.NewContact.Honorific, EditorTemplate.Input)
+                    @Html.EditorFor(e => e.NewContact.GivenName, EditorTemplate.Input)
+                    @Html.EditorFor(e => e.NewContact.FamilyName, EditorTemplate.Input)
+                </div>
+                <div class="mb-3">
+                    @Html.EditorFor(e => e.NewContact.Title, EditorTemplate.Input)
+                </div>
+                <div class="mb-3">
+                    @Html.EditorFor(e => e.NewContact.Email, EditorTemplate.Input)
+                </div>
+                <div class="input-group mb-3">
+                    @Html.EditorFor(e => e.NewContact.PhoneNumber.Number, EditorTemplate.Input)
+                    @Html.EditorFor(e => e.NewContact.PhoneNumber.Type, EditorTemplate.SelectOptional, new { Items = phoneTypesSelectList })
+                </div>
+                <div class="mb-3">
+                    @Html.EditorFor(e => e.NewContact.Notes, EditorTemplate.Textarea)
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <h3>Mailing Address <small class="text-muted me-1">(optional)</small></h3>
+
+                <div class="mb-3">
+                    @Html.EditorFor(e => e.NewContact.Address.Street, EditorTemplate.Input)
+                </div>
+                <div class="mb-3">
+                    @Html.EditorFor(e => e.NewContact.Address.Street2, EditorTemplate.Input)
+                </div>
+                <div class="mb-3">
+                    @Html.EditorFor(e => e.NewContact.Address.City, EditorTemplate.Input)
+                </div>
+                <div class="input-group">
+                    @Html.EditorFor(e => e.NewContact.Address.State, EditorTemplate.SelectOptional, new { Items = Model.StatesSelectList })
+                    @Html.EditorFor(e => e.NewContact.Address.PostalCode, EditorTemplate.Input)
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-3 mb-1">
+            <button id="SubmitButton" type="submit" class="btn btn-primary col-6 col-sm-4 col-lg-3 me-2">Add New Contact</button>
+            <a asp-page="Details" asp-route-id="@Model.Customer.Id" class="btn btn-outline-secondary">Cancel</a>
+        </div>
+        <div class="text-danger mt-3">* denotes a required field</div>
+        <input asp-for="NewContact.CustomerId" type="hidden">
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
