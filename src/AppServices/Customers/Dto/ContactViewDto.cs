@@ -1,4 +1,4 @@
-﻿using Sbeap.AppServices.Staff.Dto;
+using Sbeap.AppServices.Staff.Dto;
 using Sbeap.Domain.ValueObjects;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
@@ -27,6 +27,5 @@ public record ContactViewDto
 
     // Read-only properties
     [JsonIgnore]
-    public string Name =>
-        string.Join(" ", new[] { Honorific, GivenName, FamilyName }.Where(s => !string.IsNullOrEmpty(s)));
+    public string Name => new[] { Honorific, GivenName, FamilyName }.ConcatWithSeparator();
 }

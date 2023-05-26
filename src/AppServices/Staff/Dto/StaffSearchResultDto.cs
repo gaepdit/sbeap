@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using Sbeap.Domain.Extensions;
+using System.Text.Json.Serialization;
 
 namespace Sbeap.AppServices.Staff.Dto;
 
@@ -13,6 +14,5 @@ public record StaffSearchResultDto
 )
 {
     [JsonIgnore]
-    public string SortableFullName =>
-        string.Join(", ", new[] { FamilyName, GivenName }.Where(s => !string.IsNullOrEmpty(s)));
+    public string SortableFullName => new[] { FamilyName, GivenName }.ConcatWithSeparator(", ");
 }
