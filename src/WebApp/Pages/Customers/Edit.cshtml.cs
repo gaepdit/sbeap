@@ -48,14 +48,14 @@ public class EditModel : PageModel
 
         Item = item;
 
-        if (!await UserCanEdit()) return Forbid();
-
+        if (!await UserCanEditAsync()) return Forbid();
         return Page();
     }
 
     public async Task<IActionResult> OnPostAsync()
     {
-        if (!await UserCanEdit()) return Forbid();
+        if (!await UserCanEditAsync()) return Forbid();
+
         await _validator.ApplyValidationAsync(Item, ModelState);
         if (!ModelState.IsValid) return Page();
 
@@ -65,6 +65,6 @@ public class EditModel : PageModel
         return RedirectToPage("Details", new { Item.Id });
     }
 
-    private async Task<bool> UserCanEdit() =>
+    private async Task<bool> UserCanEditAsync() =>
         (await _authorization.AuthorizeAsync(User, Item, CustomerOperation.Edit)).Succeeded;
 }

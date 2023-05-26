@@ -53,7 +53,7 @@ public class AddContactModel : PageModel
         NewContact = new ContactCreateDto(id.Value);
 
         if (!Customer.IsDeleted) return Page();
-        if (!await UserCanManageDeletions()) return NotFound();
+        if (!await UserCanManageDeletionsAsync()) return NotFound();
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Info, "Cannot add a contact to a deleted customer.");
         return RedirectToPage("Details", new { id });
     }
@@ -77,6 +77,6 @@ public class AddContactModel : PageModel
         return RedirectToPage("Details", new { id });
     }
 
-    private async Task<bool> UserCanManageDeletions() =>
+    private async Task<bool> UserCanManageDeletionsAsync() =>
         (await _authorization.AuthorizeAsync(User, PolicyName.AdminUser)).Succeeded;
 }

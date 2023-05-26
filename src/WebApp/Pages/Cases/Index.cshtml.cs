@@ -19,11 +19,16 @@ public class IndexModel : PageModel
     // Constructor
     private readonly ICaseworkService _service;
     private readonly IAgencyService _agencyService;
+    private readonly IAuthorizationService _authorization;
 
-    public IndexModel(ICaseworkService service, IAgencyService agencyService)
+    public IndexModel(
+        ICaseworkService service,
+        IAgencyService agencyService,
+        IAuthorizationService authorization)
     {
         _service = service;
         _agencyService = agencyService;
+        _authorization = authorization;
     }
 
     // Properties
@@ -31,26 +36,37 @@ public class IndexModel : PageModel
     public bool ShowResults { get; private set; }
     public IPaginatedResult<CaseworkSearchResultDto> SearchResults { get; private set; } = default!;
     public string SortByName => Spec.Sort.ToString();
+    public bool ShowDeletionSearchOptions { get; private set; }
 
     // Select lists
     public SelectList AgencySelectList { get; private set; } = default!;
 
     // Methods
-    public Task OnGetAsync()
+    public async Task<IActionResult> OnGetAsync()
     {
-        return PopulateSelectListsAsync();
+        ShowDeletionSearchOptions = await UserCanManageDeletionsAsync();
+        await PopulateSelectListsAsync();
+        return Page();
     }
 
     public async Task<IActionResult> OnGetSearchAsync(CaseworkSearchDto spec, [FromQuery] int p = 1)
     {
         Spec = spec.TrimAll();
+
+        ShowDeletionSearchOptions = await UserCanManageDeletionsAsync();
+        if (!ShowDeletionSearchOptions) Spec = Spec with { DeletedStatus = null, CustomerDeletedStatus = null };
+
         var paging = new PaginatedRequest(p, GlobalConstants.PageSize, Spec.Sort.GetDescription());
         SearchResults = await _service.SearchAsync(Spec, paging);
+
         ShowResults = true;
         await PopulateSelectListsAsync();
         return Page();
     }
 
-    private async Task PopulateSelectListsAsync() => 
+    private async Task PopulateSelectListsAsync() =>
         AgencySelectList = (await _agencyService.GetListItemsAsync(false)).ToSelectList();
+
+    private async Task<bool> UserCanManageDeletionsAsync() =>
+        (await _authorization.AuthorizeAsync(User, PolicyName.AdminUser)).Succeeded;
 }
