@@ -29,9 +29,7 @@ internal class CustomerUpdatePermissionsHandler :
         return Task.FromResult(0);
     }
 
-    private static bool IsStaffUser(IPrincipal user) =>
-        user.IsInRole(RoleName.Staff) || user.IsInRole(RoleName.Admin);
+    private static bool IsStaffUser(IPrincipal user) => user.IsInRole(RoleName.Staff) || user.IsInRole(RoleName.Admin);
 
-    private static bool IsNotDeleted(CustomerUpdateDto resource) =>
-        !resource.IsDeleted;
+    private static bool IsNotDeleted(CustomerUpdateDto resource) => !resource.IsDeleted;
 }
