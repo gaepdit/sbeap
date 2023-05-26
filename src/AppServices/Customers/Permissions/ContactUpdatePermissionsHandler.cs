@@ -20,7 +20,7 @@ internal class ContactUpdatePermissionsHandler :
         {
             nameof(CustomerOperation.Edit) =>
                 // Contacts can only be edited if they and the associated Customer are not deleted.
-                IsStaffUser(context.User) && IsNotDeleted(resource) && CustomerIsNotDeleted(resource),
+                IsStaffUser(context.User) && CustomerIsNotDeleted(resource),
 
             nameof(CustomerOperation.ManageDeletions) =>
                 // Only an Admin User can delete or restore.
@@ -36,8 +36,6 @@ internal class ContactUpdatePermissionsHandler :
     private static bool IsAdminUser(IPrincipal user) => user.IsInRole(RoleName.Admin);
 
     private static bool IsStaffUser(IPrincipal user) => user.IsInRole(RoleName.Staff) || IsAdminUser(user);
-
-    private static bool IsNotDeleted(ContactUpdateDto resource) => !resource.IsDeleted;
 
     private static bool CustomerIsNotDeleted(ContactUpdateDto resource) => !resource.CustomerIsDeleted;
 }

@@ -6,8 +6,9 @@ namespace Sbeap.AppServices.Customers.Dto;
 public record ContactUpdateDto
 {
     // Authorization handler assist properties
-    public bool IsDeleted { get; [UsedImplicitly] init; }
     public bool CustomerIsDeleted { get; [UsedImplicitly] init; }
+
+    // Entity update properties
 
     public Guid Id { get; [UsedImplicitly] init; }
     public string? Honorific { get; init; }

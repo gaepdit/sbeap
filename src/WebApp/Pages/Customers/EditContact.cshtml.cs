@@ -38,7 +38,7 @@ public class EditContactModel : PageModel
     [TempData]
     public Guid HighlightId { get; set; }
 
-    public CustomerSearchResultDto Customer { get; private set; } = default!;
+    public CustomerSearchResultDto CustomerView { get; private set; } = default!;
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
 
     // Select lists
@@ -51,7 +51,7 @@ public class EditContactModel : PageModel
 
         var customer = await _service.FindBasicInfoAsync(id.Value);
         if (customer is null) return NotFound();
-        Customer = customer;
+        CustomerView = customer;
 
         var contact = await _service.FindContactForUpdateAsync(contactId.Value);
         if (contact is null) return NotFound();
@@ -59,7 +59,7 @@ public class EditContactModel : PageModel
 
         foreach (var operation in CustomerOperation.AllOperations) await SetPermissionAsync(operation);
 
-        if (UserCan[CustomerOperation.Edit] && UpdateContact is { IsDeleted: false, CustomerIsDeleted: false })
+        if (UserCan[CustomerOperation.Edit] && !UpdateContact.CustomerIsDeleted)
             return Page();
 
         if (!UserCan[CustomerOperation.ManageDeletions]) return NotFound();
@@ -77,8 +77,8 @@ public class EditContactModel : PageModel
         var customer = await _service.FindBasicInfoAsync(id.Value);
         if (customer is null) return BadRequest();
 
-        Customer = customer;
-        if (Customer.IsDeleted) return BadRequest();
+        CustomerView = customer;
+        if (CustomerView.IsDeleted) return BadRequest();
 
         await _validator.ApplyValidationAsync(UpdateContact, ModelState);
         if (!ModelState.IsValid) return Page();

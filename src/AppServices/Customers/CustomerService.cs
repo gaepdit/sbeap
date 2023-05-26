@@ -147,8 +147,11 @@ public sealed class CustomerService : ICustomerService
         return contact.Id;
     }
 
-    public async Task<ContactUpdateDto?> FindContactForUpdateAsync(Guid id, CancellationToken token = default) =>
-        _mapper.Map<ContactUpdateDto>(await _contacts.FindAsync(id, token));
+    public async Task<ContactViewDto?> FindContactAsync(Guid contactId, CancellationToken token = default) =>
+        _mapper.Map<ContactViewDto>(await _contacts.FindAsync(e => e.Id == contactId && !e.IsDeleted, token));
+
+    public async Task<ContactUpdateDto?> FindContactForUpdateAsync(Guid contactId, CancellationToken token = default) =>
+        _mapper.Map<ContactUpdateDto>(await _contacts.FindAsync(e => e.Id == contactId && !e.IsDeleted, token));
 
     public async Task UpdateContactAsync(ContactUpdateDto resource, CancellationToken token = default)
     {

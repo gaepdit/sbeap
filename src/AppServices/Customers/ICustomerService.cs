@@ -23,7 +23,8 @@ public interface ICustomerService : IDisposable
 
     // Contacts
     Task<Guid> AddContactAsync(ContactCreateDto resource, CancellationToken token = default);
-    Task<ContactUpdateDto?> FindContactForUpdateAsync(Guid id, CancellationToken token = default);
+    Task<ContactViewDto?> FindContactAsync(Guid contactId, CancellationToken token = default);
+    Task<ContactUpdateDto?> FindContactForUpdateAsync(Guid contactId, CancellationToken token = default);
     Task UpdateContactAsync(ContactUpdateDto resource, CancellationToken token = default);
     Task DeleteContactAsync(Guid contactId, CancellationToken token = default);
     Task AddPhoneNumberAsync(Guid contactId, PhoneNumber resource, CancellationToken token = default);
