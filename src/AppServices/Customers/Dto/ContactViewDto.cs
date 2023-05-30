@@ -9,9 +9,16 @@ namespace Sbeap.AppServices.Customers.Dto;
 public record ContactViewDto
 {
     public Guid Id { get; init; }
-    private string Honorific { get; init; } = string.Empty;
-    private string GivenName { get; init; } = string.Empty;
-    private string FamilyName { get; init; } = string.Empty;
+
+    [UsedImplicitly]
+    public string Honorific { get; init; } = string.Empty;
+
+    [UsedImplicitly]
+    public string GivenName { get; init; } = string.Empty;
+
+    [UsedImplicitly]
+    public string FamilyName { get; init; } = string.Empty;
+
     public string Title { get; init; } = string.Empty;
 
     [EmailAddress]
