@@ -16,13 +16,14 @@ public static class RepositoryHelper
     public static LocalCaseworkRepository GetCaseworkRepository()
     {
         ClearAllStaticData();
-        return new LocalCaseworkRepository();
+        return new LocalCaseworkRepository(new LocalActionItemRepository());
     }
 
     public static LocalCustomerRepository GetCustomerRepository()
     {
         ClearAllStaticData();
-        return new LocalCustomerRepository();
+        return new LocalCustomerRepository(new LocalContactRepository(),
+            new LocalCaseworkRepository(new LocalActionItemRepository()));
     }
 
     public static LocalOfficeRepository GetOfficeRepository()

@@ -54,13 +54,6 @@ internal static class CaseworkData
             if (_cases is not null) return _cases;
             _cases = CaseworkSeedItems.ToList();
             _cases.ElementAt(3).SetDeleted("00000000-0000-0000-0000-000000000002");
-
-            foreach (var casework in _cases)
-            {
-                casework.ActionItems = ActionItemData.GetActionItems
-                    .Where(e => e.Casework.Id == casework.Id).ToList();
-            }
-
             return _cases;
         }
     }
