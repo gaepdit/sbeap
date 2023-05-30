@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using Sbeap.AppServices.ActionItemTypes.Dto;
 using Sbeap.AppServices.Cases.Dto;
 using Sbeap.AppServices.Customers.Dto;
 using Sbeap.AppServices.Offices;
 using Sbeap.AppServices.Staff.Dto;
 using Sbeap.Domain.Entities.ActionItems;
+using Sbeap.Domain.Entities.ActionItemTypes;
 using Sbeap.Domain.Entities.Cases;
 using Sbeap.Domain.Entities.Contacts;
 using Sbeap.Domain.Entities.Customers;
@@ -19,6 +21,10 @@ public class AutoMapperProfile : Profile
         // Action Items
         CreateMap<ActionItem, ActionItemViewDto>();
         CreateMap<ActionItem, ActionItemUpdateDto>();
+
+        // Action Item Types
+        CreateMap<ActionItemType, ActionItemTypeViewDto>();
+        CreateMap<ActionItemType, ActionItemTypeUpdateDto>();
 
         // Cases
         CreateMap<Casework, CaseworkViewDto>()
