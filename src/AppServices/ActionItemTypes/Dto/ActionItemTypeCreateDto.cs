@@ -1,8 +1,6 @@
-﻿using Sbeap.Domain.Entities.ActionItemTypes;
+﻿using Sbeap.AppServices.DtoBase;
 
 namespace Sbeap.AppServices.ActionItemTypes.Dto;
 
-public record ActionItemTypeCreateDto
-{
+public record ActionItemTypeCreateDto(string Name) : SimpleNamedEntityCreateDto(Name);
 
-}
