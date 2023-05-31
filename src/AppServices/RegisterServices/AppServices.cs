@@ -16,6 +16,9 @@ public static class AppServices
 {
     public static void AddAppServices(this IServiceCollection services)
     {
+        // Action Item Types
+        services.AddScoped<IActionItemTypeService, ActionItemTypeService>();
+
         // Agencies
         services.AddScoped<IAgencyService, AgencyService>();
         services.AddScoped<IAgencyManager, AgencyManager>();
@@ -25,6 +28,7 @@ public static class AppServices
         services.AddScoped<IActionItemTypeManager, ActionItemTypeManager>();
 
         // Cases/Action Items
+        services.AddScoped<IActionItemService, ActionItemService>();
         services.AddScoped<ICaseworkService, CaseworkService>();
         services.AddScoped<ICaseworkManager, CaseworkManager>();
 

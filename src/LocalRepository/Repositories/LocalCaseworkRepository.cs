@@ -21,7 +21,8 @@ public sealed class LocalCaseworkRepository : BaseRepository<Casework, Guid>, IC
 
         result.ActionItems = (await _actionItemRepository
                 .GetListAsync(e => e.Casework.Id == id && !e.IsDeleted, token))
-            .OrderByDescending(i => i.EnteredOn)
+            .OrderByDescending(i => i.ActionDate)
+            .ThenByDescending(i => i.EnteredOn)
             .ToList();
 
         return result;

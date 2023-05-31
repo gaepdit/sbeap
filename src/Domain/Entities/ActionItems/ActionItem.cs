@@ -25,5 +25,5 @@ public class ActionItem : AuditableSoftDeleteEntity
     public DateOnly ActionDate { get; set; }
     public string Notes { get; set; } = string.Empty;
     public ApplicationUser? EnteredBy { get; set; }
-    public DateTimeOffset? EnteredOn { get; init; }
+    public DateTimeOffset? EnteredOn { get; set; }
 }

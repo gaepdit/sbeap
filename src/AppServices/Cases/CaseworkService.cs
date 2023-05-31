@@ -3,7 +3,6 @@ using GaEpd.AppLibrary.Pagination;
 using Sbeap.AppServices.Cases.Dto;
 using Sbeap.AppServices.Staff.Dto;
 using Sbeap.AppServices.UserServices;
-using Sbeap.Domain.Entities.ActionItems;
 using Sbeap.Domain.Entities.Agencies;
 using Sbeap.Domain.Entities.Cases;
 using Sbeap.Domain.Entities.Customers;
@@ -16,19 +15,21 @@ public sealed class CaseworkService : ICaseworkService
     private readonly IUserService _users;
     private readonly ICaseworkRepository _cases;
     private readonly ICaseworkManager _manager;
-    private readonly IActionItemRepository _actionItems;
     private readonly ICustomerRepository _customers;
     private readonly IAgencyRepository _agencies;
 
     public CaseworkService(
-        IMapper mapper, IUserService users, ICaseworkRepository cases, ICaseworkManager manager,
-        IActionItemRepository actionItems, ICustomerRepository customers, IAgencyRepository agencies)
+        IMapper mapper,
+        IUserService users,
+        ICaseworkRepository cases,
+        ICaseworkManager manager,
+        ICustomerRepository customers,
+        IAgencyRepository agencies)
     {
         _mapper = mapper;
         _users = users;
         _cases = cases;
         _manager = manager;
-        _actionItems = actionItems;
         _customers = customers;
         _agencies = agencies;
     }
@@ -109,46 +110,10 @@ public sealed class CaseworkService : ICaseworkService
         await _cases.UpdateAsync(item, token: token);
     }
 
-    // Action Items
-
-    public async Task AddActionItemAsync(ActionItemCreateDto resource, CancellationToken token = default)
-    {
-        var casework = await _cases.GetAsync(resource.CaseworkId, token);
-        var item = _manager.CreateActionItem(casework, resource.ActionItemType,
-            (await _users.GetCurrentUserAsync())?.Id);
-
-        item.ActionDate = resource.ActionDate;
-        item.Notes = resource.Notes;
-
-        await _actionItems.InsertAsync(item, token: token);
-    }
-
-    public async Task<ActionItemUpdateDto?> FindActionItemForUpdateAsync(Guid id, CancellationToken token = default) =>
-        _mapper.Map<ActionItemUpdateDto>(await _actionItems.FindAsync(id, token));
-
-
-    public async Task UpdateActionItemAsync(ActionItemUpdateDto resource, CancellationToken token = default)
-    {
-        var item = await _actionItems.GetAsync(resource.Id, token);
-        item.SetUpdater((await _users.GetCurrentUserAsync())?.Id);
-
-        item.ActionItemType = resource.ActionItemType;
-        item.ActionDate = resource.ActionDate;
-        item.Notes = resource.Notes;
-
-        await _actionItems.UpdateAsync(item, token: token);
-    }
-
-    public async Task DeleteActionItemAsync(Guid actionItemId, CancellationToken token = default)
-    {
-        var item = await _actionItems.GetAsync(actionItemId, token);
-        item.SetDeleted((await _users.GetCurrentUserAsync())?.Id);
-        await _actionItems.UpdateAsync(item, token: token);
-    }
-
     public void Dispose()
     {
         _cases.Dispose();
-        _actionItems.Dispose();
+        _customers.Dispose();
+        _agencies.Dispose();
     }
 }

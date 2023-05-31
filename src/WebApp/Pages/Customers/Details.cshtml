@@ -122,7 +122,7 @@ else
 @if (Model.UserCan[CustomerOperation.Edit])
 {
     <div class="container bg-light border rounded-1 my-3 py-2">
-        <h3 class="h5">Start a New Case</h3>
+        <h3 id="start-a-new-case" class="h5">Start a New Case</h3>
 
         <form method="post" asp-fragment="start-a-new-case">
             <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>

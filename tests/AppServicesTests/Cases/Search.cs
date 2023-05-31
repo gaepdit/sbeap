@@ -4,6 +4,7 @@ using Sbeap.AppServices.Cases;
 using Sbeap.AppServices.Cases.Dto;
 using Sbeap.AppServices.UserServices;
 using Sbeap.Domain.Entities.ActionItems;
+using Sbeap.Domain.Entities.ActionItemTypes;
 using Sbeap.Domain.Entities.Agencies;
 using Sbeap.Domain.Entities.Cases;
 using Sbeap.Domain.Entities.Customers;
@@ -33,8 +34,8 @@ public class Search
             .ReturnsAsync(count);
 
         var appService = new CaseworkService(AppServicesTestsSetup.Mapper!, Mock.Of<IUserService>(),
-            caseworkRepoMock.Object, Mock.Of<ICaseworkManager>(), Mock.Of<IActionItemRepository>(),
-            Mock.Of<ICustomerRepository>(), Mock.Of<IAgencyRepository>());
+            caseworkRepoMock.Object, Mock.Of<ICaseworkManager>(), Mock.Of<ICustomerRepository>(),
+            Mock.Of<IAgencyRepository>());
 
         // Act
         var result = await appService.SearchAsync(DefaultCaseworkSearch, paging, CancellationToken.None);
@@ -63,8 +64,8 @@ public class Search
             .ReturnsAsync(count);
 
         var appService = new CaseworkService(AppServicesTestsSetup.Mapper!, Mock.Of<IUserService>(),
-            caseworkRepoMock.Object, Mock.Of<ICaseworkManager>(), Mock.Of<IActionItemRepository>(),
-            Mock.Of<ICustomerRepository>(), Mock.Of<IAgencyRepository>());
+            caseworkRepoMock.Object, Mock.Of<ICaseworkManager>(), Mock.Of<ICustomerRepository>(),
+            Mock.Of<IAgencyRepository>());
 
         // Act
         var result = await appService.SearchAsync(DefaultCaseworkSearch, paging, CancellationToken.None);
