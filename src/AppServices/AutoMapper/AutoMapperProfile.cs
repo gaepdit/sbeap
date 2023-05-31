@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Sbeap.AppServices.ActionItemTypes.Dto;
+using Sbeap.AppServices.ActionItemTypes;
 using Sbeap.AppServices.Cases.Dto;
 using Sbeap.AppServices.Customers.Dto;
 using Sbeap.AppServices.Offices;
