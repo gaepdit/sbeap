@@ -37,5 +37,5 @@ internal class ActionItemUpdatePermissionsHandler :
     private static bool IsStaffUser(IPrincipal user) => user.IsInRole(RoleName.Staff) || IsAdminUser(user);
 
     private static bool IsNotDeleted(ActionItemUpdateDto resource) =>
-        resource is { IsDeleted: false, CaseIsDeleted: false };
+        resource is { IsDeleted: false, CaseworkIsDeleted: false };
 }

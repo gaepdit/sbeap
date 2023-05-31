@@ -7,7 +7,7 @@ public record ActionItemUpdateDto
     // Authorization handler assist properties
 
     public bool IsDeleted { get; [UsedImplicitly] init; }
-    public bool CaseIsDeleted { get; [UsedImplicitly] init; }
+    public bool CaseworkIsDeleted { get; [UsedImplicitly] init; }
 
     // Entity update properties
 
