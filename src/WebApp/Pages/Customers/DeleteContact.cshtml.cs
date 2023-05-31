@@ -47,7 +47,7 @@ public class DeleteContactModel : PageModel
         if (contact is null) return NotFound();
         ContactView = contact;
 
-        ContactId = id.Value;
+        ContactId = contactId.Value;
         return Page();
     }
 

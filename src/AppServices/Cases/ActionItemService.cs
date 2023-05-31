@@ -32,8 +32,6 @@ public sealed class ActionItemService : IActionItemService
         _actionItemTypes = actionItemTypes;
     }
 
-    // Action Items
-
     public async Task<Guid> AddActionItemAsync(ActionItemCreateDto resource, CancellationToken token = default)
     {
         var casework = await _cases.GetAsync(resource.CaseworkId, token);
@@ -50,6 +48,9 @@ public sealed class ActionItemService : IActionItemService
         await _actionItems.InsertAsync(item, token: token);
         return item.Id;
     }
+
+    public async Task<ActionItemViewDto?> FindActionItemAsync(Guid actionId, CancellationToken token = default) =>
+        _mapper.Map<ActionItemViewDto>(await _actionItems.FindAsync(e => e.Id == actionId && !e.IsDeleted, token));
 
     public async Task<ActionItemUpdateDto?> FindActionItemForUpdateAsync(Guid id, CancellationToken token = default) =>
         _mapper.Map<ActionItemUpdateDto>(await _actionItems.FindAsync(id, token));

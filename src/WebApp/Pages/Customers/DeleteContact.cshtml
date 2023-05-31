@@ -30,29 +30,21 @@
             <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.ContactView.Address, DisplayTemplate.IncompleteAddressOneLine)</dd>
         </dl>
     </div>
-
+    <hr>
     <div class="container small">
         <dl class="row">
-            <dt class="col-md-4 col-lg-3">Customer Name</dt>
+            <dt class="col-md-4 col-lg-3">For Customer</dt>
             <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.CustomerView.Name, DisplayTemplate.StringOrNotEntered)</dd>
             <dt class="col-md-4 col-lg-3">Customer Description</dt>
             <dd class="col-md-8 col-lg-9 text-break text-pre-line">@Html.DisplayFor(m => m.CustomerView.Description, DisplayTemplate.TruncateText, new { MaxLength = 200 })</dd>
         </dl>
     </div>
 
-
     <form method="post">
-        <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
-
         <div class="mt-3 mb-1">
             <button type="submit" class="btn btn-danger col-5 col-sm-3 col-lg-2 me-2">Delete</button>
-            <a asp-page="Details" asp-route-id="@Model.ContactId" class="btn btn-outline-secondary">Cancel</a>
+            <a asp-page="Details" asp-route-id="@Model.CustomerView.Id" asp-fragment="contacts" class="btn btn-outline-secondary">Cancel</a>
         </div>
         <input asp-for="ContactId" type="hidden" />
     </form>
 </div>
-
-@section Scripts
-{
-    <partial name="_ValidationScriptsPartial" />
-}
