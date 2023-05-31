@@ -1,8 +1,5 @@
-﻿using Sbeap.Domain.Entities.ActionItemTypes;
+﻿using Sbeap.AppServices.DtoBase;
 
 namespace Sbeap.AppServices.ActionItemTypes.Dto;
 
-public record ActionItemTypeUpdateDto
-{
-
-}
+public record ActionItemTypeUpdateDto(Guid Id, string Name, bool Active) : SimpleNamedEntityUpdateDto(Id, Name, Active);
