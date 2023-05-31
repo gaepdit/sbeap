@@ -51,6 +51,10 @@ else
         {
             <tr class="@(item.Id == Model.HighlightId ? "list-group-item-warning" : !item.Active ? "bg-secondary bg-opacity-25" : "")">
                 <td>
+                    @if (item.Id == Model.HighlightId)
+                    {
+                        @:👉 
+                    }
                     @if (Model.IsSiteMaintainer)
                     {
                         <a asp-page="Edit" asp-route-id="@item.Id">

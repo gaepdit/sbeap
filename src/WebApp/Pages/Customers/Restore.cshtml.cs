@@ -41,7 +41,7 @@ public class RestoreModel : PageModel
         Id = id.Value;
         Item = item;
 
-        if (!await UserCanManageDeletions()) return Forbid();
+        if (!await UserCanManageDeletionsAsync()) return Forbid();
         if (Item.IsDeleted) return Page();
 
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Info, "Customer is not deleted.");
@@ -54,7 +54,7 @@ public class RestoreModel : PageModel
         if (item is null) return NotFound();
 
         Item = item;
-        if (!await UserCanManageDeletions()) return Forbid();
+        if (!await UserCanManageDeletionsAsync()) return Forbid();
 
         if (!Item.IsDeleted)
         {
@@ -69,6 +69,6 @@ public class RestoreModel : PageModel
         return RedirectToPage("Details", new { Id });
     }
 
-    private async Task<bool> UserCanManageDeletions() =>
+    private async Task<bool> UserCanManageDeletionsAsync() =>
         (await _authorization.AuthorizeAsync(User, Item, CustomerOperation.ManageDeletions)).Succeeded;
 }

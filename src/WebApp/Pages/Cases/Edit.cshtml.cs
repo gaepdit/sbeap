@@ -25,7 +25,7 @@ public class EditModel : PageModel
     public EditModel(
         ICaseworkService service,
         IAgencyService agencyService,
-        IValidator<CaseworkUpdateDto> validator, 
+        IValidator<CaseworkUpdateDto> validator,
         IAuthorizationService authorization)
     {
         _service = service;
@@ -38,6 +38,8 @@ public class EditModel : PageModel
     [BindProperty]
     public CaseworkUpdateDto Item { get; set; } = default!;
 
+    public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
+
     // Select lists
     public SelectList AgencySelectList { get; private set; } = default!;
 
@@ -49,16 +51,24 @@ public class EditModel : PageModel
         if (item is null) return NotFound();
 
         Item = item;
-        
-        if (!await UserCanEdit()) return Forbid();
-        
-        await PopulateSelectListsAsync();
-        return Page();
+
+        foreach (var operation in CaseworkOperation.AllOperations) await SetPermissionAsync(operation);
+
+        if (UserCan[CaseworkOperation.Edit] && Item is { IsDeleted: false, CustomerIsDeleted: false })
+        {
+            await PopulateSelectListsAsync();
+            return Page();
+        }
+
+        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Info, "Cannot edit a deleted customer or case.");
+        return RedirectToPage("Details", new { id });
     }
 
     public async Task<IActionResult> OnPostAsync()
     {
-        if (!await UserCanEdit()) return Forbid();
+        foreach (var operation in CaseworkOperation.AllOperations) await SetPermissionAsync(operation);
+        if (!UserCan[CaseworkOperation.Edit]) return Forbid();
+
         await _validator.ApplyValidationAsync(Item, ModelState);
         if (!ModelState.IsValid)
         {
@@ -75,6 +85,6 @@ public class EditModel : PageModel
     private async Task PopulateSelectListsAsync() =>
         AgencySelectList = (await _agencyService.GetListItemsAsync()).ToSelectList();
 
-    private async Task<bool> UserCanEdit() =>
-        (await _authorization.AuthorizeAsync(User, Item, CaseworkOperation.Edit)).Succeeded;
+    private async Task SetPermissionAsync(IAuthorizationRequirement operation) =>
+        UserCan[operation] = (await _authorization.AuthorizeAsync(User, Item, operation)).Succeeded;
 }

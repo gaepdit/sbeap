@@ -32,14 +32,17 @@
                     <label asp-for="Spec.County" class="form-label"></label>
                 </div>
             </div>
-            <div class="col-md mb-3">
-                <div class="form-floating">
-                    <select asp-for="Spec.DeletedStatus" name="@nameof(Model.Spec.DeletedStatus)" asp-items="Html.GetEnumSelectList<CustomerDeletedStatus>()" class="form-select">
-                        <option value="">@TextConstants.SelectNotDeleted</option>
-                    </select>
-                    <label asp-for="Spec.DeletedStatus" class="form-label"></label>
+            @if (Model.ShowDeletionSearchOptions)
+            {
+                <div class="col-md mb-3">
+                    <div class="form-floating">
+                        <select asp-for="Spec.DeletedStatus" name="@nameof(Model.Spec.DeletedStatus)" asp-items="Html.GetEnumSelectList<CustomerDeletedStatus>()" class="form-select">
+                            <option value="">@TextConstants.SelectNotDeleted</option>
+                        </select>
+                        <label asp-for="Spec.DeletedStatus" class="form-label"></label>
+                    </div>
                 </div>
-            </div>
+            }
         </div>
         <div class="mt-3 mb-1">
             <button id="SearchButton" type="submit" class="btn btn-primary col-sm-3 me-2">Search</button>

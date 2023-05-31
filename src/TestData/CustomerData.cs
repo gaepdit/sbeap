@@ -19,7 +19,7 @@ internal static class CustomerData
         },
         new(new Guid("40000000-0000-0000-0000-000000000002"))
         {
-            Name = TextData.EmojiWord,
+            Name = TextData.Word,
             County = null,
             Location = IncompleteAddress.EmptyAddress,
             MailingAddress = IncompleteAddress.EmptyAddress,
@@ -47,15 +47,6 @@ internal static class CustomerData
             if (_customers is not null) return _customers;
             _customers = CustomerSeedItems.ToList();
             _customers.ElementAt(2).SetDeleted("00000000-0000-0000-0000-000000000002");
-
-            foreach (var customer in _customers)
-            {
-                customer.Contacts = ContactData.GetContacts
-                    .Where(e => e.Customer.Id == customer.Id).ToList();
-                customer.Cases = CaseworkData.GetCases
-                    .Where(e => e.Customer.Id == customer.Id).ToList();
-            }
-
             return _customers;
         }
     }

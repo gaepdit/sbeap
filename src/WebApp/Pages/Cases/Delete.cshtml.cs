@@ -46,7 +46,7 @@ public class DeleteModel : PageModel
         Id = id.Value;
         Item = item;
 
-        if (!await UserCanManageDeletions()) return Forbid();
+        if (!await UserCanManageDeletionsAsync()) return Forbid();
         if (!Item.IsDeleted) return Page();
 
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Info, "Case is already deleted.");
@@ -59,7 +59,7 @@ public class DeleteModel : PageModel
         if (item is null) return NotFound();
 
         Item = item;
-        if (!await UserCanManageDeletions()) return Forbid();
+        if (!await UserCanManageDeletionsAsync()) return Forbid();
 
         if (Item.IsDeleted)
         {
@@ -74,6 +74,6 @@ public class DeleteModel : PageModel
         return RedirectToPage("Details", new { Id });
     }
 
-    private async Task<bool> UserCanManageDeletions() =>
+    private async Task<bool> UserCanManageDeletionsAsync() =>
         (await _authorization.AuthorizeAsync(User, Item, CaseworkOperation.ManageDeletions)).Succeeded;
 }

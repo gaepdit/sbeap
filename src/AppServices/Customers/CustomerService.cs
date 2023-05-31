@@ -59,6 +59,9 @@ public sealed class CustomerService : ICustomerService
             : view;
     }
 
+    public async Task<CustomerSearchResultDto?> FindBasicInfoAsync(Guid id, CancellationToken token = default) =>
+        _mapper.Map<CustomerSearchResultDto>(await _customers.FindAsync(id, token));
+
     // Customer write
 
     public async Task<Guid> CreateAsync(CustomerCreateDto resource, CancellationToken token = default)
@@ -113,16 +116,18 @@ public sealed class CustomerService : ICustomerService
 
     // Contacts
 
-    public async Task AddContactAsync(Customer customer, ContactCreateDto resource, CancellationToken token = default)
+    public async Task<Guid> AddContactAsync(ContactCreateDto resource, CancellationToken token = default)
     {
-        await CreateContactAsync(customer, resource, await _users.GetCurrentUserAsync(), token);
+        var customer = await _customers.GetAsync(resource.CustomerId, token);
+        var id = await CreateContactAsync(customer, resource, await _users.GetCurrentUserAsync(), token);
         await _contacts.SaveChangesAsync(token);
+        return id;
     }
 
-    private async Task CreateContactAsync(
+    private async Task<Guid> CreateContactAsync(
         Customer customer, ContactCreateDto resource, ApplicationUser? user, CancellationToken token = default)
     {
-        if (resource.IsEmpty()) return;
+        if (resource.IsEmpty()) return Guid.Empty;
 
         var contact = _manager.CreateContact(customer, user?.Id);
 
@@ -139,10 +144,14 @@ public sealed class CustomerService : ICustomerService
             contact.PhoneNumbers.Add(resource.PhoneNumber);
 
         await _contacts.InsertAsync(contact, autoSave: false, token: token);
+        return contact.Id;
     }
 
-    public async Task<ContactUpdateDto?> FindContactForUpdateAsync(Guid id, CancellationToken token = default) =>
-        _mapper.Map<ContactUpdateDto>(await _contacts.FindAsync(id, token));
+    public async Task<ContactViewDto?> FindContactAsync(Guid contactId, CancellationToken token = default) =>
+        _mapper.Map<ContactViewDto>(await _contacts.FindAsync(e => e.Id == contactId && !e.IsDeleted, token));
+
+    public async Task<ContactUpdateDto?> FindContactForUpdateAsync(Guid contactId, CancellationToken token = default) =>
+        _mapper.Map<ContactUpdateDto>(await _contacts.FindAsync(e => e.Id == contactId && !e.IsDeleted, token));
 
     public async Task UpdateContactAsync(ContactUpdateDto resource, CancellationToken token = default)
     {

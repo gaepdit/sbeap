@@ -35,11 +35,14 @@ public class DetailsModel : PageModel
     }
 
     // Properties
-    public CustomerViewDto Item { get; private set; } = default!;
-    public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
-
     [BindProperty]
     public CaseworkCreateDto NewCase { get; set; } = default!;
+
+    [TempData]
+    public Guid HighlightId { get; set; }
+
+    public CustomerViewDto Item { get; private set; } = default!;
+    public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
 
     // Methods
     public async Task<IActionResult> OnGetAsync(Guid? id)

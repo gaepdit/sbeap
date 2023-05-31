@@ -5,14 +5,15 @@ using System.Text.Json.Serialization;
 namespace Sbeap.AppServices.Customers.Dto;
 
 public record CustomerSearchDto
-(
-    CustomerSortBy Sort,
-    string? Name,
-    string? Description,
-    string? County,
-    [Display(Name = "Deletion Status")] CustomerDeletedStatus? DeletedStatus
-)
 {
+    public CustomerSortBy Sort { get; init; } = CustomerSortBy.Name;
+    public string? Name { get; init; }
+    public string? Description { get; init; }
+    public string? County { get; init; }
+
+    [Display(Name = "Deletion Status")]
+    public CustomerDeletedStatus? DeletedStatus { get; init; }
+
     // UI Routing
     public IDictionary<string, string?> AsRouteValues() => new Dictionary<string, string?>
     {

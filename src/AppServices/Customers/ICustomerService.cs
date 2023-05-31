@@ -12,6 +12,7 @@ public interface ICustomerService : IDisposable
         CustomerSearchDto spec, PaginatedRequest paging, CancellationToken token = default);
 
     Task<CustomerViewDto?> FindAsync(Guid id, bool includeDeletedCases = false, CancellationToken token = default);
+    Task<CustomerSearchResultDto?> FindBasicInfoAsync(Guid id, CancellationToken token = default);
 
     // Customer write
     Task<Guid> CreateAsync(CustomerCreateDto resource, CancellationToken token = default);
@@ -21,8 +22,9 @@ public interface ICustomerService : IDisposable
     Task RestoreAsync(Guid id, CancellationToken token = default);
 
     // Contacts
-    Task AddContactAsync(Customer customer, ContactCreateDto resource, CancellationToken token = default);
-    Task<ContactUpdateDto?> FindContactForUpdateAsync(Guid id, CancellationToken token = default);
+    Task<Guid> AddContactAsync(ContactCreateDto resource, CancellationToken token = default);
+    Task<ContactViewDto?> FindContactAsync(Guid contactId, CancellationToken token = default);
+    Task<ContactUpdateDto?> FindContactForUpdateAsync(Guid contactId, CancellationToken token = default);
     Task UpdateContactAsync(ContactUpdateDto resource, CancellationToken token = default);
     Task DeleteContactAsync(Guid contactId, CancellationToken token = default);
     Task AddPhoneNumberAsync(Guid contactId, PhoneNumber resource, CancellationToken token = default);

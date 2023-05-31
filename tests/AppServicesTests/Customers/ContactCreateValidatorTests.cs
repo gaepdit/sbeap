@@ -7,7 +7,7 @@ namespace AppServicesTests.Customers;
 
 public class ContactCreateValidatorTests
 {
-    private static ContactCreateDto EmptyContactCreateDto => new();
+    private static ContactCreateDto EmptyContactCreateDto => new(Guid.Empty);
 
     [Test]
     public async Task ValidDto_ReturnsAsValid()

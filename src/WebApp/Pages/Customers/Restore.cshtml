@@ -19,7 +19,7 @@
     <div class="container small">
         <dl class="row">
             <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.Description)</dt>
-            <dd class="col-md-8 col-lg-9 text-break, text-pre-line">@Html.DisplayFor(m => m.Item.Description, DisplayTemplate.TruncateText, new { MaxLength = 200 })</dd>
+            <dd class="col-md-8 col-lg-9 text-break text-pre-line">@Html.DisplayFor(m => m.Item.Description, DisplayTemplate.TruncateText, new { MaxLength = 200 })</dd>
             <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.County)</dt>
             <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.Item.County, DisplayTemplate.County)</dd>
             <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.Location)</dt>

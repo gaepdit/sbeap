@@ -1,5 +1,6 @@
 ﻿using GaEpd.AppLibrary.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
+using Sbeap.Domain.Extensions;
 
 namespace Sbeap.Domain.ValueObjects;
 
@@ -28,6 +29,9 @@ public record IncompleteAddress : ValueObject
         yield return State ?? string.Empty;
         yield return PostalCode ?? string.Empty;
     }
+
+    public string OneLine => new[] { Street, Street2, City, new[] { State, PostalCode }.ConcatWithSeparator() }
+        .ConcatWithSeparator(", ");
 
     public static IncompleteAddress EmptyAddress => new();
 }

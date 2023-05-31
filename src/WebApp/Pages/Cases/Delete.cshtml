@@ -31,7 +31,7 @@
                 <dd class="col-md-8 col-lg-9">@Html.DisplayFor(m => m.Item.CaseClosedDate, DisplayTemplate.DateOnlyOrNotEntered)</dd>
             }
             <dt class="col-md-4 col-lg-3">@Html.DisplayNameFor(m => m.Item.Description)</dt>
-            <dd class="col-md-8 col-lg-9 text-break, text-pre-line">@Html.DisplayFor(m => m.Item.Description, DisplayTemplate.TruncateText, new { MaxLength = 100 })</dd>
+            <dd class="col-md-8 col-lg-9 text-break text-pre-line">@Html.DisplayFor(m => m.Item.Description, DisplayTemplate.TruncateText, new { MaxLength = 100 })</dd>
         </dl>
     </div>
 

@@ -44,9 +44,8 @@ public class AddModel : PageModel
         await _validator.ApplyValidationAsync(Item, ModelState);
         if (!ModelState.IsValid) return Page();
 
-        var id = await _service.CreateAsync(Item);
-
-        HighlightId = id;
+        HighlightId = await _service.CreateAsync(Item);
+        
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, $"“{Item.Name}” successfully added.");
         return RedirectToPage("Index");
     }

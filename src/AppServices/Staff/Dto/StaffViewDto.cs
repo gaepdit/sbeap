@@ -1,5 +1,6 @@
 ﻿using Sbeap.AppServices.DtoBase;
 using Sbeap.AppServices.Offices;
+using Sbeap.Domain.Extensions;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
@@ -20,12 +21,10 @@ public record StaffViewDto : IDtoHasNameProperty
 
     // Display properties
     [JsonIgnore]
-    public string Name =>
-        string.Join(" ", new[] { GivenName, FamilyName }.Where(s => !string.IsNullOrEmpty(s)));
+    public string Name => new[] { GivenName, FamilyName }.ConcatWithSeparator();
 
     [JsonIgnore]
-    public string SortableFullName =>
-        string.Join(", ", new[] { FamilyName, GivenName }.Where(s => !string.IsNullOrEmpty(s)));
+    public string SortableFullName => new[] { FamilyName, GivenName }.ConcatWithSeparator(", ");
 
     public StaffUpdateDto AsUpdateDto() => new()
     {

@@ -1,28 +1,28 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Sbeap.AppServices.Cases.Dto;
+using Sbeap.AppServices.Customers.Dto;
 using Sbeap.Domain.Identity;
 using System.Security.Principal;
 
-namespace Sbeap.AppServices.Cases.Permissions;
+namespace Sbeap.AppServices.Customers.Permissions;
 
-internal class CaseworkUpdatePermissionsHandler :
-    AuthorizationHandler<CaseworkOperation, CaseworkUpdateDto>
+internal class ContactUpdatePermissionsHandler :
+    AuthorizationHandler<CustomerOperation, ContactUpdateDto>
 {
     protected override Task HandleRequirementAsync(
         AuthorizationHandlerContext context,
-        CaseworkOperation requirement,
-        CaseworkUpdateDto resource)
+        CustomerOperation requirement,
+        ContactUpdateDto resource)
     {
         if (!(context.User.Identity?.IsAuthenticated ?? false))
             return Task.FromResult(0);
 
         var success = requirement.Name switch
         {
-            nameof(CaseworkOperation.Edit) =>
-                // Cases can only be edited if they and the associated Customer are not deleted.
-                IsStaffUser(context.User) && IsNotDeleted(resource) && CustomerIsNotDeleted(resource),
+            nameof(CustomerOperation.Edit) =>
+                // Contacts can only be edited if they and the associated Customer are not deleted.
+                IsStaffUser(context.User) && CustomerIsNotDeleted(resource),
 
-            nameof(CaseworkOperation.ManageDeletions) =>
+            nameof(CustomerOperation.ManageDeletions) =>
                 // Only an Admin User can delete or restore.
                 IsAdminUser(context.User),
 
@@ -37,7 +37,5 @@ internal class CaseworkUpdatePermissionsHandler :
 
     private static bool IsStaffUser(IPrincipal user) => user.IsInRole(RoleName.Staff) || IsAdminUser(user);
 
-    private static bool IsNotDeleted(CaseworkUpdateDto resource) => !resource.IsDeleted;
-
-    private static bool CustomerIsNotDeleted(CaseworkUpdateDto resource) => !resource.CustomerIsDeleted;
+    private static bool CustomerIsNotDeleted(ContactUpdateDto resource) => !resource.CustomerIsDeleted;
 }
