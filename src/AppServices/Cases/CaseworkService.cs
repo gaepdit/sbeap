@@ -62,6 +62,9 @@ public sealed class CaseworkService : ICaseworkService
         return caseworkView;
     }
 
+    public async Task<CaseworkSearchResultDto?> FindBasicInfoAsync(Guid id, CancellationToken token = default) =>
+        _mapper.Map<CaseworkSearchResultDto>(await _cases.FindAsync(id, token));
+
     // Casework write
 
     public async Task<Guid> CreateAsync(CaseworkCreateDto resource, CancellationToken token = default)

@@ -25,7 +25,7 @@
 </div>
 
 <div class="p-3 border rounded-3 bg-light">
-    <form method="post">
+    <form method="post" asp-fragment="@Model.ContactUpdate.Id">
         <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
 
         <div class="row mt-2">
@@ -34,18 +34,18 @@
             <div class="col-md-6">
                 <h3 class="h5 d-none d-md-block">Personal Info</h3>
                 <div class="input-group mb-3">
-                    @Html.EditorFor(e => e.UpdateContact.Honorific, EditorTemplate.Input)
-                    @Html.EditorFor(e => e.UpdateContact.GivenName, EditorTemplate.Input)
-                    @Html.EditorFor(e => e.UpdateContact.FamilyName, EditorTemplate.Input)
+                    @Html.EditorFor(e => e.ContactUpdate.Honorific, EditorTemplate.Input)
+                    @Html.EditorFor(e => e.ContactUpdate.GivenName, EditorTemplate.Input)
+                    @Html.EditorFor(e => e.ContactUpdate.FamilyName, EditorTemplate.Input)
                 </div>
                 <div class="mb-3">
-                    @Html.EditorFor(e => e.UpdateContact.Title, EditorTemplate.Input)
+                    @Html.EditorFor(e => e.ContactUpdate.Title, EditorTemplate.Input)
                 </div>
                 <div class="mb-3">
-                    @Html.EditorFor(e => e.UpdateContact.Email, EditorTemplate.Input)
+                    @Html.EditorFor(e => e.ContactUpdate.Email, EditorTemplate.Input)
                 </div>
                 <div class="mb-3">
-                    @Html.EditorFor(e => e.UpdateContact.Notes, EditorTemplate.Textarea)
+                    @Html.EditorFor(e => e.ContactUpdate.Notes, EditorTemplate.Textarea)
                 </div>
             </div>
 
@@ -53,27 +53,27 @@
                 <h3>Mailing Address <small class="text-muted me-1">(optional)</small></h3>
 
                 <div class="mb-3">
-                    @Html.EditorFor(e => e.UpdateContact.Address.Street, EditorTemplate.Input)
+                    @Html.EditorFor(e => e.ContactUpdate.Address.Street, EditorTemplate.Input)
                 </div>
                 <div class="mb-3">
-                    @Html.EditorFor(e => e.UpdateContact.Address.Street2, EditorTemplate.Input)
+                    @Html.EditorFor(e => e.ContactUpdate.Address.Street2, EditorTemplate.Input)
                 </div>
                 <div class="mb-3">
-                    @Html.EditorFor(e => e.UpdateContact.Address.City, EditorTemplate.Input)
+                    @Html.EditorFor(e => e.ContactUpdate.Address.City, EditorTemplate.Input)
                 </div>
                 <div class="input-group">
-                    @Html.EditorFor(e => e.UpdateContact.Address.State, EditorTemplate.SelectOptional, new { Items = Model.StatesSelectList })
-                    @Html.EditorFor(e => e.UpdateContact.Address.PostalCode, EditorTemplate.Input)
+                    @Html.EditorFor(e => e.ContactUpdate.Address.State, EditorTemplate.SelectOptional, new { Items = Model.StatesSelectList })
+                    @Html.EditorFor(e => e.ContactUpdate.Address.PostalCode, EditorTemplate.Input)
                 </div>
             </div>
         </div>
 
         <div class="mt-3 mb-1">
             <button id="SubmitButton" type="submit" class="btn btn-primary col-6 col-sm-4 col-lg-3 me-2">Save Changes</button>
-            <a asp-page="Details" asp-route-id="@Model.CustomerView.Id" class="btn btn-outline-secondary">Cancel</a>
+            <a asp-page="Details" asp-route-id="@Model.CustomerView.Id" asp-fragment="contacts" class="btn btn-outline-secondary">Cancel</a>
         </div>
         <div class="text-danger mt-3">* denotes a required field</div>
-        <input asp-for="UpdateContact.Id" type="hidden">
+        <input asp-for="ContactUpdate.Id" type="hidden">
     </form>
 </div>
 

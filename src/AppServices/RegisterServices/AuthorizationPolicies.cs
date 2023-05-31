@@ -19,10 +19,11 @@ public static class AuthorizationPolicies
             opts.AddPolicy(PolicyName.UserAdministrator, Policies.UserAdministratorPolicy());
         });
 
-        services.AddSingleton<IAuthorizationHandler>(_ => new CaseworkViewPermissionsHandler());
+        services.AddSingleton<IAuthorizationHandler>(_ => new ActionItemUpdatePermissionsHandler());
         services.AddSingleton<IAuthorizationHandler>(_ => new CaseworkUpdatePermissionsHandler());
+        services.AddSingleton<IAuthorizationHandler>(_ => new CaseworkViewPermissionsHandler());
         services.AddSingleton<IAuthorizationHandler>(_ => new ContactUpdatePermissionsHandler());
-        services.AddSingleton<IAuthorizationHandler>(_ => new CustomerViewPermissionsHandler());
         services.AddSingleton<IAuthorizationHandler>(_ => new CustomerUpdatePermissionsHandler());
+        services.AddSingleton<IAuthorizationHandler>(_ => new CustomerViewPermissionsHandler());
     }
 }

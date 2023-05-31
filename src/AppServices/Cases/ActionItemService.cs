@@ -59,7 +59,7 @@ public sealed class ActionItemService : IActionItemService
         var item = await _actionItems.GetAsync(resource.Id, token);
         item.SetUpdater((await _users.GetCurrentUserAsync())?.Id);
 
-        item.ActionItemType = resource.ActionItemType;
+        item.ActionItemType = await _actionItemTypes.GetAsync(resource.ActionItemTypeId!.Value, token);
         item.ActionDate = resource.ActionDate;
         item.Notes = resource.Notes;
 

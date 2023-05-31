@@ -115,7 +115,7 @@
     </div>
 }
 
-<h2 class="h3 mt-3">Action Items</h2>
+<h2 class="h3 mt-3">Actions</h2>
 
 @if (Model.Item.ActionItems.Count == 0)
 {
@@ -127,9 +127,9 @@
 @if (Model.UserCan[CaseworkOperation.EditActionItems])
 {
     <div class="container bg-light border border-info rounded-1 my-3 py-2">
-        <h3 id="add-a-new-action-item" class="h5">Add a new Action Item</h3>
+        <h3 id="new-action" class="h5">Add a new Action Item</h3>
 
-        <form method="post" asp-fragment="add-a-new-action-item">
+        <form method="post" asp-fragment="new-action">
             <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
             <div class="row">
                 <div class="col-md-6 col-lg-8 mb-3">
@@ -145,7 +145,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary col-6 col-sm-4 col-lg-3 mb-1 me-2">Add New Action Item</button>
+            <button type="submit" class="btn btn-primary col-6 col-sm-4 col-lg-3 mb-1 me-2">Save Action</button>
             <div class="text-danger">* denotes a required field</div>
             <input asp-for="NewActionItem.CaseworkId" type="hidden" />
         </form>
@@ -158,8 +158,8 @@
         @foreach (var item in Model.Item.ActionItems.OrderByDescending(item => item.ActionDate))
         {
             <div class="col">
-                <div class="card">
-                    <div class="card-header">
+                <div id="@item.Id" class="card">
+                    <div class="card-header @(item.Id == Model.HighlightId ? "list-group-item-success" : "")">
                         <div class="container-full">
                             <div class="row justify-content-between align-items-start g-0 my-1">
                                 <div class="col">

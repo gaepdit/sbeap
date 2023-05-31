@@ -5,11 +5,12 @@ namespace Sbeap.AppServices.Cases.Dto;
 public record CaseworkUpdateDto
 {
     // Authorization handler assist properties
+
     public bool IsDeleted { get; [UsedImplicitly] init; }
     public bool CustomerIsDeleted { get; [UsedImplicitly] init; }
 
     // Entity update properties
-    
+
     public Guid Id { get; [UsedImplicitly] init; }
 
     [Display(Name = "Date Opened")]

@@ -10,6 +10,7 @@ public interface ICaseworkService : IDisposable
         CaseworkSearchDto spec, PaginatedRequest paging, CancellationToken token = default);
 
     Task<CaseworkViewDto?> FindAsync(Guid id, CancellationToken token = default);
+    Task<CaseworkSearchResultDto?> FindBasicInfoAsync(Guid id, CancellationToken token = default);
 
     // Casework write
     Task<Guid> CreateAsync(CaseworkCreateDto resource, CancellationToken token = default);

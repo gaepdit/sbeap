@@ -14,70 +14,77 @@ using Sbeap.WebApp.Platform.PageModelHelpers;
 namespace Sbeap.WebApp.Pages.Cases;
 
 [Authorize(Policy = PolicyName.StaffUser)]
-public class DetailsModel : PageModel
+public class EditActionModel : PageModel
 {
     // Constructor
+    private readonly IActionItemService _service;
     private readonly ICaseworkService _cases;
-    private readonly IActionItemService _actionItems;
     private readonly IActionItemTypeService _actionItemTypes;
     private readonly IAuthorizationService _authorization;
 
-    public DetailsModel(
+    public EditActionModel(
+        IActionItemService service,
         ICaseworkService cases,
-        IActionItemService actionItems,
         IActionItemTypeService actionItemTypes,
         IAuthorizationService authorization)
     {
+        _service = service;
         _cases = cases;
-        _actionItems = actionItems;
-        _actionItemTypes = actionItemTypes;
         _authorization = authorization;
+        _actionItemTypes = actionItemTypes;
     }
 
     // Properties
-    public CaseworkViewDto Item { get; private set; } = default!;
-    public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
-
     [BindProperty]
-    public ActionItemCreateDto NewActionItem { get; set; } = default!;
+    public ActionItemUpdateDto ActionItemUpdate { get; set; } = default!;
 
     [TempData]
     public Guid HighlightId { get; set; }
+
+    public CaseworkSearchResultDto CaseView { get; private set; } = default!;
+    public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
 
     // Select lists
     public SelectList ActionItemTypeSelectList { get; private set; } = default!;
 
     // Methods
-    public async Task<IActionResult> OnGetAsync(Guid? id)
+    public async Task<IActionResult> OnGetAsync(Guid? id, Guid? actionId)
     {
-        if (id is null) return RedirectToPage("../Index");
-        var item = await _cases.FindAsync(id.Value);
-        if (item is null) return NotFound();
+        if (id is null || actionId is null) return RedirectToPage("../Index");
 
-        Item = item;
+        var casework = await _cases.FindBasicInfoAsync(id.Value);
+        if (casework is null) return NotFound();
+        CaseView = casework;
+
+        var action = await _service.FindActionItemForUpdateAsync(actionId.Value);
+        if (action is null) return NotFound();
+        ActionItemUpdate = action;
 
         foreach (var operation in CaseworkOperation.AllOperations) await SetPermissionAsync(operation);
-        if (item.IsDeleted && !UserCan[CaseworkOperation.ManageDeletions]) return Forbid();
 
-        NewActionItem = new ActionItemCreateDto(id.Value);
-        await PopulateSelectListsAsync();
-        return Page();
+        if (UserCan[CaseworkOperation.EditActionItems])
+        {
+            await PopulateSelectListsAsync();
+            return Page();
+        }
+
+        if (!UserCan[CaseworkOperation.ManageDeletions]) return NotFound();
+        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Info, "Cannot edit a deleted case or action item.");
+        return RedirectToPage("Details", new { id });
     }
 
-    /// <summary>
-    /// Post is used to add a new Action Item for this Case
-    /// </summary>
     public async Task<IActionResult> OnPostAsync(Guid? id)
     {
         if (id is null) return RedirectToPage("../Index");
-        var item = await _cases.FindAsync(id.Value);
-        if (item is null) return NotFound();
-        if (item.IsDeleted) return BadRequest();
-
-        Item = item;
 
         foreach (var operation in CaseworkOperation.AllOperations) await SetPermissionAsync(operation);
         if (!UserCan[CaseworkOperation.EditActionItems]) return Forbid();
+
+        var casework = await _cases.FindBasicInfoAsync(id.Value);
+        if (casework is null) return BadRequest();
+
+        CaseView = casework;
+        if (CaseView.IsDeleted) return BadRequest();
 
         if (!ModelState.IsValid)
         {
@@ -85,8 +92,10 @@ public class DetailsModel : PageModel
             return Page();
         }
 
-        HighlightId = await _actionItems.AddActionItemAsync(NewActionItem);
-        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "New Action successfully added.");
+        await _service.UpdateActionItemAsync(ActionItemUpdate);
+
+        HighlightId = ActionItemUpdate.Id;
+        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Action Item successfully updated.");
         return RedirectToPage("Details", new { id });
     }
 
@@ -94,5 +103,5 @@ public class DetailsModel : PageModel
         ActionItemTypeSelectList = (await _actionItemTypes.GetListItemsAsync()).ToSelectList();
 
     private async Task SetPermissionAsync(IAuthorizationRequirement operation) =>
-        UserCan[operation] = (await _authorization.AuthorizeAsync(User, Item, operation)).Succeeded;
+        UserCan[operation] = (await _authorization.AuthorizeAsync(User, ActionItemUpdate, operation)).Succeeded;
 }
