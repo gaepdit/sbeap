@@ -30,7 +30,7 @@ internal static class CustomerData
         {
             Name = "A Deleted Customer",
             County = null,
-            Location = IncompleteAddress.EmptyAddress,
+            Location = ValueObjectData.AlternateCompleteAddress,
             MailingAddress = IncompleteAddress.EmptyAddress,
             Description = TextData.ShortMultiline,
             Website = null,
