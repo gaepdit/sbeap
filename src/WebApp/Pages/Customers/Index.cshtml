@@ -25,6 +25,12 @@
         </div>
         <div class="row">
             <div class="col-md mb-3">
+                <div class="form-floating mb-3">
+                    <input asp-for="Spec.City" name="@nameof(Model.Spec.City)" class="form-control" />
+                    <label asp-for="Spec.City" class="form-label"></label>
+                </div>
+            </div>
+            <div class="col-md mb-3">
                 <div class="form-floating">
                     <select asp-for="Spec.County" name="@nameof(Model.Spec.County)" asp-items="Model.CountiesSelectList" class="form-select">
                         <option value="">@TextConstants.SelectTextAny</option>
@@ -83,6 +89,7 @@
                             @Html.DisplayFor(m => m.SortByName, DisplayTemplate.SortArrow, new { up = CustomerSortBy.Description.ToString(), down = CustomerSortBy.DescriptionDesc.ToString() })
                         </a>
                     </th>
+                    <th scope="col">@Html.DisplayNameFor(m => m.Spec.City)</th>
                     <th scope="col">@Html.DisplayNameFor(m => m.Spec.County)</th>
                     <th scope="col">
                         <span class="visually-hidden">Actions</span>
