@@ -22,11 +22,11 @@ public class Customer : AuditableSoftDeleteEntity
     [StringLength(int.MaxValue, MinimumLength = MinNameLength)]
     public string Name { get; set; } = string.Empty;
 
-    public string? Description { get; set; } = string.Empty;
+    public string? Description { get; set; }
     public string? County { get; set; }
 
     [MaxLength(2000)] // https://stackoverflow.com/q/417142/212978
-    public string? Website { get; set; } = string.Empty;
+    public string? Website { get; set; }
 
     public IncompleteAddress Location { get; set; } = default!;
     public IncompleteAddress MailingAddress { get; set; } = default!;
