@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
+using Sbeap.AppServices.ActionItemTypes.Permissions;
 using Sbeap.AppServices.Cases.Permissions;
 using Sbeap.AppServices.Customers.Permissions;
 using Sbeap.AppServices.Permissions;
@@ -24,5 +25,7 @@ public static class AuthorizationPolicies
         services.AddSingleton<IAuthorizationHandler>(_ => new ContactUpdatePermissionsHandler());
         services.AddSingleton<IAuthorizationHandler>(_ => new CustomerViewPermissionsHandler());
         services.AddSingleton<IAuthorizationHandler>(_ => new CustomerUpdatePermissionsHandler());
+        services.AddSingleton<IAuthorizationHandler>(_ => new ActionItemTypeUpdatePermissionsHandler());
+        services.AddSingleton<IAuthorizationHandler>(_ => new ActionItemTypeViewPermissionsHandler());
     }
 }
