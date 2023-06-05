@@ -25,7 +25,7 @@ public static class AuthorizationPolicies
         services.AddSingleton<IAuthorizationHandler>(_ => new ContactUpdatePermissionsHandler());
         services.AddSingleton<IAuthorizationHandler>(_ => new CustomerViewPermissionsHandler());
         services.AddSingleton<IAuthorizationHandler>(_ => new CustomerUpdatePermissionsHandler());
-        //services.AddSingleton<IAuthorizationHandler>(_ => new ActionItemTypeUpdatePermissionsHandler());
-        //services.AddSingleton<IAuthorizationHandler>(_ => new ActionItemTypeViewPermissionsHandler());
+        services.AddSingleton<IAuthorizationHandler>(_ => new ActionItemTypeUpdatePermissionsHandler());
+        services.AddSingleton<IAuthorizationHandler>(_ => new ActionItemTypeViewPermissionsHandler());
     }
 }
