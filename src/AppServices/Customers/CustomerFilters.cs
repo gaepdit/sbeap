@@ -11,6 +11,7 @@ public static class CustomerFilters
         PredicateBuilder.True<Customer>()
             .ContainsName(spec.Name)
             .ContainsDescription(spec.Description)
+            .InCity(spec.City)
             .InCounty(spec.County)
             .ByDeletedStatus(spec.DeletedStatus);
 
@@ -23,6 +24,13 @@ public static class CustomerFilters
         string? input) => string.IsNullOrWhiteSpace(input)
         ? predicate
         : predicate.And(e => e.Description != null && e.Description.Contains(input));
+
+    private static Expression<Func<Customer, bool>> InCity(this Expression<Func<Customer, bool>> predicate,
+        string? input) => string.IsNullOrWhiteSpace(input)
+        ? predicate
+        : predicate.And(e =>
+            (e.Location.City != null && e.Location.City.Contains(input)) ||
+            (e.MailingAddress.City != null && e.MailingAddress.City.Contains(input)));
 
     private static Expression<Func<Customer, bool>> InCounty(this Expression<Func<Customer, bool>> predicate,
         string? input) => string.IsNullOrWhiteSpace(input) ? predicate : predicate.And(e => e.County == input);

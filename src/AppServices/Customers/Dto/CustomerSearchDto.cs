@@ -9,6 +9,7 @@ public record CustomerSearchDto
     public CustomerSortBy Sort { get; init; } = CustomerSortBy.Name;
     public string? Name { get; init; }
     public string? Description { get; init; }
+    public string? City { get; init; }
     public string? County { get; init; }
 
     [Display(Name = "Deletion Status")]
@@ -20,6 +21,7 @@ public record CustomerSearchDto
         { nameof(Sort), Sort.ToString() },
         { nameof(Name), Name },
         { nameof(Description), Description },
+        { nameof(City), City },
         { nameof(County), County },
         { nameof(DeletedStatus), DeletedStatus?.ToString() },
     };
@@ -28,6 +30,7 @@ public record CustomerSearchDto
     {
         Name = Name?.Trim(),
         Description = Description?.Trim(),
+        City = City?.Trim(),
         County = County?.Trim(),
     };
 }

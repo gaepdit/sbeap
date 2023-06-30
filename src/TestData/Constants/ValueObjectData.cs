@@ -22,12 +22,6 @@ public static class ValueObjectData
         Type = PhoneType.Unknown,
     };
 
-    public static PhoneNumber EmptyPhoneNumber => new()
-    {
-        Number = string.Empty,
-        Type = PhoneType.Unknown,
-    };
-
     public static IncompleteAddress CompleteAddress => new()
     {
         Street = "123 Main St.",
@@ -41,7 +35,7 @@ public static class ValueObjectData
     {
         Street = "2000 Alternate St.",
         Street2 = "Box 2000",
-        City = "Alt-ville",
+        City = "New-ville",
         PostalCode = "98765-2222",
         State = "Florida",
     };
@@ -50,7 +44,7 @@ public static class ValueObjectData
     {
         Street = "456 Second St.",
         Street2 = null,
-        City = "Town-ville",
+        City = "Alt-ville",
         PostalCode = "98765",
         State = "GA",
     };
@@ -62,14 +56,5 @@ public static class ValueObjectData
         City = null,
         PostalCode = null,
         State = "GA",
-    };
-
-    public static IncompleteAddress EmptyAddress => new()
-    {
-        Street = null,
-        Street2 = null,
-        City = null,
-        PostalCode = null,
-        State = null,
     };
 }
