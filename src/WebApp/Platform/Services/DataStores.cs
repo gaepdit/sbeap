@@ -51,6 +51,7 @@ public static class DataStores
             }
 
             services.AddScoped<IActionItemRepository, ActionItemRepository>();
+            services.AddScoped<IActionItemTypeRepository, ActionItemTypeRepository>();
             services.AddScoped<IAgencyRepository, AgencyRepository>();
             services.AddScoped<ICaseworkRepository, CaseworkRepository>();
             services.AddScoped<IContactRepository, ContactRepository>();
