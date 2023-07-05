@@ -15,7 +15,7 @@ public class ActionItemTypeApiController : Controller
 
     [HttpGet]
     public async Task<IReadOnlyList<ActionItemTypeViewDto>> ListActionItemTypesServiceAsync() =>
-        (IReadOnlyList<ActionItemTypeViewDto>)await _actionItemTypesService.GetListItemsAsync();
+        (IReadOnlyList<ActionItemTypeViewDto>)await _actionItemTypesService.GetListAsync();
 
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<ActionItemTypeViewDto>> GetActionItemTypeAsync([FromRoute] Guid id)
