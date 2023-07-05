@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Sbeap.AppServices.ActionItemTypes;
 
-namespace Sbeap.WebApp.Api;
+namespace MyAppRoot.WebApp.Api;
 
 [ApiController]
 [Route("api/ActionItemTypes")]

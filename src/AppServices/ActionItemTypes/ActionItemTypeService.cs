@@ -23,31 +23,10 @@ public sealed class ActionItemTypeService : IActionItemTypeService
         _users = users;
     }
 
-    public async Task<Guid> CreateActionItemTypeAsync(ActionItemTypeCreateDto resource, CancellationToken token = default)
-    {
-        var item = await _manager.CreateAsync(resource.Name, (await _users.GetCurrentUserAsync())?.Id, token);
-        await _repository.InsertAsync(item, token: token);
-        return item.Id;
-    }
-
-    public async Task DeleteActionItemTypeAsync(Guid id, CancellationToken token = default)
-    {
-        var item = await _repository.GetAsync(id, token);
-        item.Active = false;
-        await _repository.UpdateAsync(item, token: token);
-    }
-
-    public async Task RestoreActionItemTypeAsync(Guid id, CancellationToken token = default)
-    {
-        var item = await _repository.GetAsync(id, token);
-        item.Active = true;
-        await _repository.UpdateAsync(item, token: token);
-    }
-
-    public async Task<ActionItemTypeUpdateDto?> FindActionItemTypeForUpdateAsync(Guid id, CancellationToken token = default)
+    public async Task<ActionItemTypeViewDto?> FindAsync(Guid id, CancellationToken token = default)
     {
         var item = await _repository.FindAsync(id, token);
-        return _mapper.Map<ActionItemTypeUpdateDto>(item);
+        return _mapper.Map<ActionItemTypeViewDto>(item);
     }
 
     public async Task<IReadOnlyList<ActionItemTypeViewDto>> GetListAsync(CancellationToken token = default)
@@ -60,6 +39,18 @@ public sealed class ActionItemTypeService : IActionItemTypeService
         (await _repository.GetListAsync(e => e.Active, token)).OrderBy(e => e.Name)
         .Select(e => new ListItem(e.Id, e.Name)).ToList();
 
+    public async Task<Guid> CreateActionItemTypeAsync(ActionItemTypeCreateDto resource, CancellationToken token = default)
+    {
+        var item = await _manager.CreateAsync(resource.Name, (await _users.GetCurrentUserAsync())?.Id, token);
+        await _repository.InsertAsync(item, token: token);
+        return item.Id;
+    }
+
+    public async Task<ActionItemTypeUpdateDto?> FindActionItemTypeForUpdateAsync(Guid id, CancellationToken token = default)
+    {
+        var item = await _repository.FindAsync(id, token);
+        return _mapper.Map<ActionItemTypeUpdateDto>(item);
+    }
     public async Task UpdateActionItemTypeAsync(ActionItemTypeUpdateDto resource, CancellationToken token = default)
     {
         var item = await _repository.GetAsync(resource.Id, token);
@@ -69,6 +60,19 @@ public sealed class ActionItemTypeService : IActionItemTypeService
             await _manager.ChangeNameAsync(item, resource.Name, token);
         item.Active = resource.Active;
 
+        await _repository.UpdateAsync(item, token: token);
+    }
+    public async Task DeleteActionItemTypeAsync(Guid id, CancellationToken token = default)
+    {
+        var item = await _repository.GetAsync(id, token);
+        item.Active = false;
+        await _repository.UpdateAsync(item, token: token);
+    }
+
+    public async Task RestoreActionItemTypeAsync(Guid id, CancellationToken token = default)
+    {
+        var item = await _repository.GetAsync(id, token);
+        item.Active = true;
         await _repository.UpdateAsync(item, token: token);
     }
 
