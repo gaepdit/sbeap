@@ -10,5 +10,5 @@ public sealed class AgencyRepository : BaseRepository<Agency, Guid>, IAgencyRepo
 
     public async Task<Agency?> FindByNameAsync(string name, CancellationToken token = default) =>
         await Context.Agencies.AsNoTracking()
-            .SingleOrDefaultAsync(e => string.Equals(e.Name.ToUpper(), name.ToUpper()), token);
+            .SingleOrDefaultAsync(e => string.Equals(e.Name.ToUpper(), name.ToUpper()), cancellationToken: token);
 }

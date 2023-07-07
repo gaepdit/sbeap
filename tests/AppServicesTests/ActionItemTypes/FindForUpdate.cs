@@ -6,7 +6,7 @@ using Sbeap.TestData.Constants;
 
 namespace AppServicesTests.ActionItemTypes;
 
-internal class FindForUpdate
+public class FindForUpdate
 {
     [Test]
     public async Task WhenItemExists_ReturnsViewDto()

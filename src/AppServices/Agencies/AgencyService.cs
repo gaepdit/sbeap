@@ -1,8 +1,6 @@
 using AutoMapper;
 using GaEpd.AppLibrary.ListItems;
-using Sbeap.AppServices.ActionItemTypes;
 using Sbeap.AppServices.UserServices;
-using Sbeap.Domain.Entities.ActionItemTypes;
 using Sbeap.Domain.Entities.Agencies;
 
 namespace Sbeap.AppServices.Agencies;
