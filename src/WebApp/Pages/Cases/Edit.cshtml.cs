@@ -83,7 +83,7 @@ public class EditModel : PageModel
     }
 
     private async Task PopulateSelectListsAsync() =>
-        AgencySelectList = (await _agencyService.GetListItemsAsync()).ToSelectList();
+        AgencySelectList = (SelectList)await _agencyService.GetActiveListItemsAsync();
 
     private async Task SetPermissionAsync(IAuthorizationRequirement operation) =>
         UserCan[operation] = (await _authorization.AuthorizeAsync(User, Item, operation)).Succeeded;

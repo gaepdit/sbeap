@@ -16,7 +16,7 @@ public class AgencyApiController : Controller
         await _agencyService.GetListItemsAsync();
 
     [HttpGet("{id:guid}")]
-    public async Task<ActionResult<AgencyViewDto>> GetActionItemTypeAsync([FromRoute] Guid id)
+    public async Task<ActionResult<AgencyViewDto>> GetAgencyAsync([FromRoute] Guid id)
     {
         var item = await _agencyService.FindAgencyForUpdateAsync(id);
         return item != null ? Ok(item) : Problem("ID not found.", statusCode: 404);

@@ -65,7 +65,7 @@ public class IndexModel : PageModel
     }
 
     private async Task PopulateSelectListsAsync() =>
-        AgencySelectList = (await _agencyService.GetListItemsAsync(false)).ToSelectList();
+        AgencySelectList = (SelectList)await _agencyService.GetActiveListItemsAsync();
 
     private async Task<bool> UserCanManageDeletionsAsync() =>
         (await _authorization.AuthorizeAsync(User, PolicyName.AdminUser)).Succeeded;
