@@ -6,7 +6,7 @@ namespace Sbeap.AppServices.Agencies;
 public interface IAgencyService : IDisposable
 {
     Task<AgencyViewDto?> FindAsync(Guid id, CancellationToken token = default);
-    Task<IReadOnlyList<ListItem>> GetListItemsAsync(bool activeOnly = true, CancellationToken token = default);
+    Task<IReadOnlyList<AgencyViewDto>> GetListItemsAsync(CancellationToken token = default);
     Task<IReadOnlyList<ListItem>> GetActiveListItemsAsync(CancellationToken token = default);
     Task<Guid> CreateAgencyAsync(AgencyCreateDto resource, CancellationToken token = default);
     Task<AgencyUpdateDto?> FindAgencyForUpdateAsync(Guid id, CancellationToken token = default);

@@ -1,5 +1,6 @@
 using AutoMapper;
 using GaEpd.AppLibrary.ListItems;
+using Sbeap.AppServices.ActionItemTypes;
 using Sbeap.AppServices.UserServices;
 using Sbeap.Domain.Entities.Agencies;
 
@@ -29,10 +30,11 @@ public sealed class AgencyService : IAgencyService
         return _mapper.Map<AgencyViewDto>(item);
     }
 
-    public async Task<IReadOnlyList<ListItem>> GetListItemsAsync(
-        bool activeOnly = true, CancellationToken token = default) =>
-        (await _repository.GetListAsync(e => !activeOnly || e.Active, token)).OrderBy(e => e.Name)
-        .Select(e => new ListItem(e.Id, e.NameWithActivity)).ToList();
+    public async Task<IReadOnlyList<AgencyViewDto>> GetListItemsAsync(CancellationToken token = default)
+    {
+        var list = (await _repository.GetListAsync(token)).OrderBy(e => e.Name).ToList();
+        return _mapper.Map<IReadOnlyList<AgencyViewDto>>(list);
+    }
 
     public async Task<IReadOnlyList<ListItem>> GetActiveListItemsAsync(CancellationToken token = default) =>
         (await _repository.GetListAsync(e => e.Active, token)).OrderBy(e => e.Name)
