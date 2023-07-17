@@ -12,7 +12,8 @@ public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
     public AppDbContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-        optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=sbeap-app;");
+        optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=sbeap-app;",
+            x => x.UseDateOnlyTimeOnly());
         return new AppDbContext(optionsBuilder.Options);
     }
 }
