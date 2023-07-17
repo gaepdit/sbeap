@@ -14,8 +14,7 @@ namespace Sbeap.EfRepository.Contexts;
 
 public class AppDbContext : IdentityDbContext<ApplicationUser>
 {
-    internal const string SqlServerProvider = "Microsoft.EntityFrameworkCore.SqlServer";
-    internal const string SqliteProvider = "Microsoft.EntityFrameworkCore.Sqlite";
+    private const string SqliteProvider = "Microsoft.EntityFrameworkCore.Sqlite";
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
