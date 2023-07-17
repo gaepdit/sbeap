@@ -35,8 +35,19 @@ public class MigratorHostedService : IHostedService
             await context.Database.EnsureCreatedAsync(cancellationToken);
         }
 
-        // If running in the development environment, add seed data to database.
-        if (env.IsDevelopment()) DbSeedDataHelpers.SeedAllData(context);
+        if (env.IsDevelopment())
+        {
+            // If running in the development environment, add seed data to database.
+            DbSeedDataHelpers.SeedAllData(context);
+        }
+        else
+        {
+            // If not running in the development environment, initialize any new roles.
+            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            foreach (var role in AppRole.AllRoles.Keys)
+                if (!await context.Roles.AnyAsync(e => e.Name == role, cancellationToken))
+                    await roleManager.CreateAsync(new IdentityRole(role));
+        }
     }
 
     // noop
