@@ -721,8 +721,8 @@ namespace Sbeap.EfRepository.Migrations
                                 .HasMaxLength(25)
                                 .HasColumnType("nvarchar(25)");
 
-                            b1.Property<int?>("Type")
-                                .HasColumnType("int");
+                            b1.Property<string>("Type")
+                                .HasColumnType("nvarchar(25)");
 
                             b1.HasKey("ContactId", "Id");
 

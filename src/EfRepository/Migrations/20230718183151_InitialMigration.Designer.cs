@@ -12,7 +12,7 @@ using Sbeap.EfRepository.Contexts;
 namespace Sbeap.EfRepository.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230717180835_InitialMigration")]
+    [Migration("20230718183151_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -724,8 +724,8 @@ namespace Sbeap.EfRepository.Migrations
                                 .HasMaxLength(25)
                                 .HasColumnType("nvarchar(25)");
 
-                            b1.Property<int?>("Type")
-                                .HasColumnType("int");
+                            b1.Property<string>("Type")
+                                .HasColumnType("nvarchar(25)");
 
                             b1.HasKey("ContactId", "Id");
 

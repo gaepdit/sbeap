@@ -381,7 +381,7 @@ namespace Sbeap.EfRepository.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Number = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
-                    Type = table.Column<int>(type: "int", nullable: true)
+                    Type = table.Column<string>(type: "nvarchar(25)", nullable: true)
                 },
                 constraints: table =>
                 {
