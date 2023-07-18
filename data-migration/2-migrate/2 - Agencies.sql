@@ -1,4 +1,5 @@
-use [sbeap-app]
+USE [sbeap-app]
+GO
 
 -- Data comes from code in the IAIP and existing data in the SBEAPCASELOG.STRINTERAGENCY column, modified based on
 -- conversations with the program.

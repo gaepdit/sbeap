@@ -1,6 +1,6 @@
-USE airbranch;
+USE [sbeap-app]
 GO
-SET ANSI_NULLS ON;
+SET ANSI_NULLS ON
 GO
 
 CREATE OR ALTER FUNCTION dbo.FormatOnlyValidPhoneNumber(@phone nvarchar(25))
@@ -15,7 +15,7 @@ Overview:   Formats a phone number for display. (SBEAP phone numbers are inconsi
 
   If the input phone number has any non-digit characters or if the number of digits is less than
   ten, then null is returned. Otherwise, it is formatted as '###-###-####' for the first ten
-  digits, and any remainaing digits are returned as a phone number extension.
+  digits, and any remaining digits are returned as a phone number extension.
 
   (Compare with the `FormatPhoneNumber` function which returns invalid phone numbers unchanged.)
 

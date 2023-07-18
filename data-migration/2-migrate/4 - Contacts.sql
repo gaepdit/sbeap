@@ -1,4 +1,5 @@
--- use [sbeap-app]
+USE [sbeap-app]
+GO
 
 -- Data comes from the SBEAPCLIENTCONTACTS and SBEAPCLIENTLINK tables.
 -- * Contacts without a link to a Customer (client) are ignored.
@@ -6,14 +7,6 @@
 -- * State names are substituted.
 -- * Postal codes are formatted.
 -- * Invalid states and postal codes are ignored.
-
--- -- Add temporary columns to store the old IDs.
--- alter table Contacts
---     add AirBranchContactId int
--- go
--- alter table Contacts
---     add AirBranchCustomerId int
--- go
 
 -- insert into Contacts
 --     (Id,
@@ -35,7 +28,7 @@
 --      AirBranchCustomerId)
 
 select newid()                                                    as [Id],
---        u.Id                                                       as [CustomerId],
+       u.Id                                                       as [CustomerId],
        nullif(trim(c.STRCLIENTSALUTATION), '')                    as [Honorific],
        nullif(trim(c.STRCLIENTFIRSTNAME), '')                     as [GivenName],
        nullif(trim(c.STRCLIENTLASTNAME), '')                      as [FamilyName],
@@ -73,18 +66,18 @@ select newid()                                                    as [Id],
            when c.STRCLIENTSTATE = 'VA' then 'Virginia'
            when c.STRCLIENTSTATE = 'WI' then 'Wisconsin'
        end                                                        as [Address_State],
-       AIRBRANCH.dbo.FormatZipCode(trim(c.STRCLIENTZIPCODE))      as [Address_PostalCode],
+       dbo.FormatZipCode(trim(c.STRCLIENTZIPCODE))      as [Address_PostalCode],
        c.DATCLIENTCREATED at time zone 'Eastern Standard Time'    as [CreatedAt],
        c.DATMODIFINGDATE at time zone 'Eastern Standard Time'     as [UpdatedAt],
        convert(bit, 0)                                            as [IsDelete],
        convert(int, c.CLIENTCONTACTID)                            as [AirBranchContactId],
        convert(int, l.CLIENTID)                                   as [AirBranchCustomerId]
 
-from AIRBRANCH.dbo.SBEAPCLIENTCONTACTS c
-    left join AIRBRANCH.dbo.SBEAPCLIENTLINK l
+from dbo.SBEAPCLIENTCONTACTS c
+    left join dbo.SBEAPCLIENTLINK l
     on c.CLIENTCONTACTID = l.CLIENTCONTACTID
---     inner join Customers u
---     on u.AirBranchCustomerId = l.CLIENTID
+    inner join Customers u
+    on u.AirBranchCustomerId = l.CLIENTID
 where l.CLIENTCONTACTID is not null
   and l.CLIENTID is not null
 

@@ -1,4 +1,5 @@
-use [sbeap-app]
+USE [sbeap-app]
+GO
 
 -- Data comes from the LOOKUPSBEAPCASEWORK table, modified based on conversations with the program.
 

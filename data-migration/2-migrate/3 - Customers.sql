@@ -1,4 +1,5 @@
--- use [sbeap-app]
+USE [sbeap-app]
+GO
 
 -- Data comes from the SBEAPCLIENTS and SBEAPCLIENTDATA tables.
 -- * All strings are trimmed.
@@ -6,11 +7,6 @@
 -- * State names are substituted.
 -- * Postal codes are formatted.
 -- * Invalid states and postal codes are ignored.
-
--- -- Add temporary column to store the old ID.
--- alter table Customers
---     add AirBranchCustomerId int
--- go
 
 -- insert into Customers
 --     (Id,
@@ -33,12 +29,12 @@
 --      IsDeleted,
 --      AirBranchCustomerId)
 
-select newid()                                                     as [Id],
-       nullif(trim(c.STRCOMPANYNAME), '')                          as [Name],
-       nullif(trim(l.STRCOUNTYNAME), '')                           as [County],
-       nullif(trim(c.STRCOMPANYADDRESS), '')                       as [Location_Street],
-       nullif(trim(c.STRCOMPANYADDRESS2), '')                      as [Location_Street2],
-       nullif(trim(c.STRCOMPANYCITY), '')                          as [Location_City],
+select newid()                                                  as [Id],
+       isnull(nullif(trim(c.STRCOMPANYNAME), ''), 'unknown')    as [Name],
+       nullif(trim(l.STRCOUNTYNAME), '')                        as [County],
+       nullif(trim(c.STRCOMPANYADDRESS), '')                    as [Location_Street],
+       nullif(trim(c.STRCOMPANYADDRESS2), '')                   as [Location_Street2],
+       nullif(trim(c.STRCOMPANYCITY), '')                       as [Location_City],
        case
            when c.STRCOMPANYSTATE = 'AL' then 'Alabama'
            when c.STRCOMPANYSTATE = 'CA' then 'California'
@@ -65,12 +61,12 @@ select newid()                                                     as [Id],
            when c.STRCOMPANYSTATE = 'TX' then 'Texas'
            when c.STRCOMPANYSTATE = 'VA' then 'Virginia'
            when c.STRCOMPANYSTATE = 'WI' then 'Wisconsin'
-       end                                                         as [Location_State],
+       end                                                      as [Location_State],
        IIF(len(trim(c.STRCOMPANYZIPCODE)) > 10, null,
-           AIRBRANCH.dbo.FormatZipCode(trim(c.STRCOMPANYZIPCODE))) as [Location_PostalCode],
-       nullif(trim(c.STRMAILINGADDRESS), '')                       as [MailingAddress_Street],
-       nullif(trim(c.STRMAILINGADDRESS2), '')                      as [MailingAddress_Street2],
-       nullif(trim(c.STRMAILINGCITY), '')                          as [MailingAddress_City],
+           dbo.FormatZipCode(c.STRCOMPANYZIPCODE))              as [Location_PostalCode],
+       nullif(trim(c.STRMAILINGADDRESS), '')                    as [MailingAddress_Street],
+       nullif(trim(c.STRMAILINGADDRESS2), '')                   as [MailingAddress_Street2],
+       nullif(trim(c.STRMAILINGCITY), '')                       as [MailingAddress_City],
        case
            when c.STRMAILINGSTATE = 'AL' then 'Alabama'
            when c.STRMAILINGSTATE = 'CA' then 'California'
@@ -97,20 +93,20 @@ select newid()                                                     as [Id],
            when c.STRMAILINGSTATE = 'TX' then 'Texas'
            when c.STRMAILINGSTATE = 'VA' then 'Virginia'
            when c.STRMAILINGSTATE = 'WI' then 'Wisconsin'
-       end                                                         as [MailingAddress_State],
+       end                                                      as [MailingAddress_State],
        IIF(len(trim(c.STRMAILINGZIPCODE)) > 10, null,
-           AIRBRANCH.dbo.FormatZipCode(trim(c.STRMAILINGZIPCODE))) as [MailingAddress_PostalCode],
-       c.DATCOMPANYCREATED at time zone 'Eastern Standard Time'    as [CreatedAt],
-       c.DATMODIFINGDATE at time zone 'Eastern Standard Time'      as [UpdatedAt],
-       nullif(trim(d.STRCLIENTDESCRIPTION), '')                    as [Description],
-       nullif(trim(d.STRCLIENTWEBSITE), '')                        as [WebSite],
-       convert(bit, 0)                                             as [IsDeleted],
-       convert(int, c.CLIENTID)                                    as [AirBranchCustomerId]
+           dbo.FormatZipCode(trim(c.STRMAILINGZIPCODE)))        as [MailingAddress_PostalCode],
+       nullif(trim(d.STRCLIENTDESCRIPTION), '')                 as [Description],
+       nullif(trim(d.STRCLIENTWEBSITE), '')                     as [WebSite],
+       c.DATCOMPANYCREATED at time zone 'Eastern Standard Time' as [CreatedAt],
+       c.DATMODIFINGDATE at time zone 'Eastern Standard Time'   as [UpdatedAt],
+       convert(bit, 0)                                          as [IsDeleted],
+       convert(int, c.CLIENTID)                                 as [AirBranchCustomerId]
 
-from AIRBRANCH.dbo.SBEAPCLIENTS c
-    inner join AIRBRANCH.dbo.SBEAPCLIENTDATA d
+from dbo.SBEAPCLIENTS c
+    inner join dbo.SBEAPCLIENTDATA d
     on c.CLIENTID = d.CLIENTID
-    left join AIRBRANCH.dbo.LOOKUPCOUNTYINFORMATION l
+    left join dbo.LOOKUPCOUNTYINFORMATION l
     on l.STRCOUNTYCODE = c.STRCOMPANYCOUNTY
 
 order by convert(int, c.CLIENTID)

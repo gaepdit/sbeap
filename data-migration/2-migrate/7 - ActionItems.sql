@@ -1,4 +1,5 @@
--- use [sbeap-app]
+USE [sbeap-app]
+GO
 
 -- Data comes from the SBEAPACTIONLOG and LOOKUPSBEAPCASEWORK tables.
 -- * Notes come from the subtables:
@@ -21,10 +22,8 @@
 
 -- Compliance Assistance
 select newid(),
-       a.NUMCASEID                                            as [TempCaseId],
---        c.Id                                                   as [CaseworkId],
-       l.STRWORKDESCRIPTION                                   as [TempActionItemType],
---        t.Id                                                   as [ActionItemTypeId],
+       c.Id                                                   as [CaseworkId],
+       t.Id                                                   as [ActionItemTypeId],
        convert(date, a.DATACTIONOCCURED)                      as [ActionDate],
        concat_ws
            (CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10),
@@ -51,24 +50,22 @@ select newid(),
        a.DATCREATIONDATE at time zone 'Eastern Standard Time' as [CreatedAt],
        n.DATMODIFINGDATE at time zone 'Eastern Standard Time' as [UpdatedAt],
        convert(bit, 0)                                        as [IsDelete]
-from AIRBRANCH.dbo.SBEAPACTIONLOG a
-    inner join AIRBRANCH.dbo.LOOKUPSBEAPCASEWORK l
+from dbo.SBEAPACTIONLOG a
+    inner join dbo.LOOKUPSBEAPCASEWORK l
     on a.NUMACTIONTYPE = l.NUMACTIONTYPE
-    inner join AIRBRANCH.dbo.SBEAPCOMPLIANCEASSIST n
+    inner join dbo.SBEAPCOMPLIANCEASSIST n
     on a.NUMACTIONID = n.NUMACTIONID
-    --     inner join Cases c
---     on convert(int, a.NUMCASEID) = c.AirBranchCaseId
---     left join ActionItemTypes t
---     on t.Name = l.STRWORKDESCRIPTION
+    inner join Cases c
+    on convert(int, a.NUMCASEID) = c.AirBranchCaseId
+    left join ActionItemTypes t
+    on t.Name = l.STRWORKDESCRIPTION
 
--- union
+union
 
 -- Conferences
 select newid(),
-       a.NUMCASEID                                            as [TempCaseId],
---        c.Id                                                   as [CaseworkId],
-       l.STRWORKDESCRIPTION                                   as [TempActionItemType],
---        t.Id                                                   as [ActionItemTypeId],
+       c.Id                                                   as [CaseworkId],
+       t.Id                                                   as [ActionItemTypeId],
        convert(date, a.DATACTIONOCCURED)                      as [ActionDate],
        concat_ws
            (CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10),
@@ -100,24 +97,22 @@ select newid(),
        a.DATCREATIONDATE at time zone 'Eastern Standard Time' as [CreatedAt],
        n.DATMODIFINGDATE at time zone 'Eastern Standard Time' as [UpdatedAt],
        convert(bit, 0)                                        as [IsDelete]
-from AIRBRANCH.dbo.SBEAPACTIONLOG a
-    inner join AIRBRANCH.dbo.LOOKUPSBEAPCASEWORK l
+from dbo.SBEAPACTIONLOG a
+    inner join dbo.LOOKUPSBEAPCASEWORK l
     on a.NUMACTIONTYPE = l.NUMACTIONTYPE
-    inner join AIRBRANCH.dbo.SBEAPCONFERENCELOG n
+    inner join dbo.SBEAPCONFERENCELOG n
     on a.NUMACTIONID = n.NUMACTIONID
-    --     inner join Cases c
---     on convert(int, a.NUMCASEID) = c.AirBranchCaseId
---     left join ActionItemTypes t
---     on t.Name = l.STRWORKDESCRIPTION
+    inner join Cases c
+    on convert(int, a.NUMCASEID) = c.AirBranchCaseId
+    left join ActionItemTypes t
+    on t.Name = l.STRWORKDESCRIPTION
 
--- union
+union
 
 -- Phone Log
 select newid(),
-       a.NUMCASEID                                            as [TempCaseId],
---        c.Id                                                   as [CaseworkId],
-       l.STRWORKDESCRIPTION                                   as [TempActionItemType],
---        t.Id                                                   as [ActionItemTypeId],
+       c.Id                                                   as [CaseworkId],
+       t.Id                                                   as [ActionItemTypeId],
        convert(date, a.DATACTIONOCCURED)                      as [ActionDate],
        concat_ws
            (CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10),
@@ -130,24 +125,22 @@ select newid(),
        a.DATCREATIONDATE at time zone 'Eastern Standard Time' as [CreatedAt],
        convert(date, n.DATMODIFINGDATE)                       as [UpdatedAt],
        convert(bit, 0)                                        as [IsDelete]
-from AIRBRANCH.dbo.SBEAPACTIONLOG a
-    inner join AIRBRANCH.dbo.LOOKUPSBEAPCASEWORK l
+from dbo.SBEAPACTIONLOG a
+    inner join dbo.LOOKUPSBEAPCASEWORK l
     on a.NUMACTIONTYPE = l.NUMACTIONTYPE
-    inner join AIRBRANCH.dbo.SBEAPPHONELOG n
+    inner join dbo.SBEAPPHONELOG n
     on a.NUMACTIONID = n.NUMACTIONID
-    --     inner join Cases c
---     on convert(int, a.NUMCASEID) = c.AirBranchCaseId
---     left join ActionItemTypes t
---     on t.Name = l.STRWORKDESCRIPTION
+    inner join Cases c
+    on convert(int, a.NUMCASEID) = c.AirBranchCaseId
+    left join ActionItemTypes t
+    on t.Name = l.STRWORKDESCRIPTION
 
 union
 
 -- Permit Assistance
 select newid(),
-       a.NUMCASEID                                            as [TempCaseId],
---        c.Id                                                   as [CaseworkId],
-       l.STRWORKDESCRIPTION                                   as [TempActionItemType],
---        t.Id                                                   as [ActionItemTypeId],
+       c.Id                                                   as [CaseworkId],
+       t.Id                                                   as [ActionItemTypeId],
        convert(date, a.DATACTIONOCCURED)                      as [ActionDate],
        concat_ws
            (CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10),
@@ -209,36 +202,34 @@ select newid(),
        a.DATCREATIONDATE at time zone 'Eastern Standard Time' as [CreatedAt],
        n.DATMODIFINGDATE at time zone 'Eastern Standard Time' as [UpdatedAt],
        convert(bit, 0)                                        as [IsDelete]
-from AIRBRANCH.dbo.SBEAPACTIONLOG a
-    inner join AIRBRANCH.dbo.LOOKUPSBEAPCASEWORK l
+from dbo.SBEAPACTIONLOG a
+    inner join dbo.LOOKUPSBEAPCASEWORK l
     on a.NUMACTIONTYPE = l.NUMACTIONTYPE
-    inner join AIRBRANCH.dbo.SBEAPTECHNICALASSIST n
+    inner join dbo.SBEAPTECHNICALASSIST n
     on a.NUMACTIONID = n.NUMACTIONID
-    --     inner join Cases c
---     on convert(int, a.NUMCASEID) = c.AirBranchCaseId
---     left join ActionItemTypes t
---     on t.Name = l.STRWORKDESCRIPTION
+    inner join Cases c
+    on convert(int, a.NUMCASEID) = c.AirBranchCaseId
+    left join ActionItemTypes t
+    on t.Name = l.STRWORKDESCRIPTION
 
 union
 
 -- Other
 select newid(),
-       a.NUMCASEID                                            as [TempCaseId],
---        c.Id                                                   as [CaseworkId],
-       l.STRWORKDESCRIPTION                                   as [TempActionItemType],
---        t.Id                                                   as [ActionItemTypeId],
+       c.Id                                                   as [CaseworkId],
+       t.Id                                                   as [ActionItemTypeId],
        convert(date, a.DATACTIONOCCURED)                      as [ActionDate],
        isnull(trim(n.STRCASENOTES), '')                       as [Notes],
        a.DATCREATIONDATE at time zone 'Eastern Standard Time' as [EnteredOn],
        a.DATCREATIONDATE at time zone 'Eastern Standard Time' as [CreatedAt],
        n.DATMODIFINGDATE at time zone 'Eastern Standard Time' as [UpdatedAt],
        convert(bit, 0)                                        as [IsDelete]
-from AIRBRANCH.dbo.SBEAPACTIONLOG a
-    inner join AIRBRANCH.dbo.LOOKUPSBEAPCASEWORK l
+from dbo.SBEAPACTIONLOG a
+    inner join dbo.LOOKUPSBEAPCASEWORK l
     on a.NUMACTIONTYPE = l.NUMACTIONTYPE
-    inner join AIRBRANCH.dbo.SBEAPOTHERLOG n
+    inner join dbo.SBEAPOTHERLOG n
     on a.NUMACTIONID = n.NUMACTIONID
-    --     inner join Cases c
---     on convert(int, a.NUMCASEID) = c.AirBranchCaseId
---     left join ActionItemTypes t
---     on t.Name = l.STRWORKDESCRIPTION
+    inner join Cases c
+    on convert(int, a.NUMCASEID) = c.AirBranchCaseId
+    left join ActionItemTypes t
+    on t.Name = l.STRWORKDESCRIPTION
