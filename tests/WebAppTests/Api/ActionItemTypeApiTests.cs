@@ -25,25 +25,24 @@ public class ActionItemTypeApiTests
         result.Should().BeEquivalentTo(actionItemTypeList);
     }
 
-    // Test Not correct
-    //[Test]
-    //public async Task GetActionItemType_ReturnsActionItemTypeView()
-    //{
-    //    var service = new Mock<IActionItemTypeService>();
-    //    service.Setup(l => l.FindAsync(Guid.Empty, CancellationToken.None))
-    //        .ReturnsAsync(ValidActionItemTypeView);
-    //    var apiController = new ActionItemTypeApiController(service.Object);
+    [Test]
+    public async Task GetActionItemType_ReturnsActionItemTypeView()
+    {
+        var service = new Mock<IActionItemTypeService>();
+        service.Setup(l => l.FindAsync(Guid.Empty, CancellationToken.None))
+            .ReturnsAsync(ValidActionItemTypeView);
+        var apiController = new ActionItemTypeApiController(service.Object);
 
-    //    var response = await apiController.GetActionItemTypeAsync(Guid.Empty);
+        var response = await apiController.GetActionItemTypeAsync(Guid.Empty);
 
-    //    using (new AssertionScope())
-    //    {
-    //        response.Result.Should().BeOfType<OkObjectResult>();
-    //        var result = response.Result as OkObjectResult;
-    //        result.Should().NotBeNull();
-    //        result?.Value.Should().Be(ValidActionItemTypeView);
-    //    }
-    //}
+        using (new AssertionScope())
+        {
+            response.Result.Should().BeOfType<OkObjectResult>();
+            var result = response.Result as OkObjectResult;
+            result.Should().NotBeNull();
+            result?.Value.Should().Be(ValidActionItemTypeView);
+        }
+    }
 
     [Test]
     public async Task GetActionItemType_UnknownIdReturnsNotFound()

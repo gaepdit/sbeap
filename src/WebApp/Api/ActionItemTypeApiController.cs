@@ -18,7 +18,7 @@ public class ActionItemTypeApiController : Controller
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<ActionItemTypeViewDto>> GetActionItemTypeAsync([FromRoute] Guid id)
     {
-        var item = await _actionItemTypesService.FindActionItemTypeForUpdateAsync(id);
+        var item = await _actionItemTypesService.FindAsync(id);
         return item != null ? Ok(item) : Problem("ID not found.", statusCode: 404);
     }
 }

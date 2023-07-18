@@ -40,7 +40,7 @@ public class EditModel : PageModel
     public async Task<IActionResult> OnGetAsync(Guid? id)
     {
         if (id is null) return RedirectToPage("Index");
-        var item = await _service.FindActionItemTypeForUpdateAsync(id.Value);
+        var item = await _service.FindForUpdateAsync(id.Value);
         if (item is null) return NotFound();
 
         Item = item;
@@ -53,7 +53,7 @@ public class EditModel : PageModel
         await _validator.ApplyValidationAsync(Item, ModelState);
         if (!ModelState.IsValid) return Page();
 
-        await _service.UpdateActionItemTypeAsync(Item);
+        await _service.UpdateAsync(Item);
 
         HighlightId = Item.Id;
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, $"“{Item.Name}” successfully updated.");

@@ -143,7 +143,7 @@ public sealed class RepositoryHelper : IDisposable
     public IActionItemTypeRepository GetActionItemTypeRepository()
     {
         ClearAllStaticData();
-        DbSeedDataHelpers.SeedAllData(_context);
+        DbSeedDataHelpers.SeedActionItemTypeData(_context);
         Context = new AppDbContext(_options);
         return new ActionItemTypeRepository(Context);
     }
