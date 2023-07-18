@@ -17,7 +17,7 @@ public class AgencyApiTests
     {
         List<AgencyViewDto> agencyList = new() { ValidAgencyView };
         var service = new Mock<IAgencyService>();
-        service.Setup(l => l.GetListItemsAsync(CancellationToken.None))
+        service.Setup(l => l.GetListAsync(false, CancellationToken.None))
             .ReturnsAsync(agencyList);
         var apiController = new AgencyApiController(service.Object);
 
@@ -34,7 +34,7 @@ public class AgencyApiTests
             .ReturnsAsync(ValidAgencyView);
         var apiController = new AgencyApiController(service.Object);
 
-        var response = await apiController.GetAgencyAsync(Guid.Empty);
+        var response = await apiController.GetAsync(Guid.Empty);
 
         using (new AssertionScope())
         {
@@ -53,7 +53,7 @@ public class AgencyApiTests
             .ReturnsAsync(null as AgencyViewDto);
         var apiController = new AgencyApiController(service.Object);
 
-        var response = await apiController.GetAgencyAsync(Guid.Empty);
+        var response = await apiController.GetAsync(Guid.Empty);
 
         using (new AssertionScope())
         {

@@ -13,12 +13,12 @@ public class AgencyApiController : Controller
 
     [HttpGet]
     public async Task<IReadOnlyList<AgencyViewDto>> ListAgencyServiceAsync() =>
-        await _agencyService.GetListItemsAsync();
+        await _agencyService.GetListAsync(false);
 
     [HttpGet("{id:guid}")]
-    public async Task<ActionResult<AgencyViewDto>> GetAgencyAsync([FromRoute] Guid id)
+    public async Task<ActionResult<AgencyViewDto>> GetAsync([FromRoute] Guid id)
     {
-        var item = await _agencyService.FindAgencyForUpdateAsync(id);
+        var item = await _agencyService.FindAsync(id);
         return item != null ? Ok(item) : Problem("ID not found.", statusCode: 404);
     }
 }

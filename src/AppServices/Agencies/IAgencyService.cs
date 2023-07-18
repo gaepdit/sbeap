@@ -1,16 +1,13 @@
 ﻿using GaEpd.AppLibrary.ListItems;
-using Sbeap.AppServices.ActionItemTypes;
 
 namespace Sbeap.AppServices.Agencies;
 
 public interface IAgencyService : IDisposable
 {
     Task<AgencyViewDto?> FindAsync(Guid id, CancellationToken token = default);
-    Task<IReadOnlyList<AgencyViewDto>> GetListItemsAsync(CancellationToken token = default);
-    Task<IReadOnlyList<ListItem>> GetActiveListItemsAsync(CancellationToken token = default);
-    Task<Guid> CreateAgencyAsync(AgencyCreateDto resource, CancellationToken token = default);
-    Task<AgencyUpdateDto?> FindAgencyForUpdateAsync(Guid id, CancellationToken token = default);
-    Task UpdateAgencyAsync(AgencyUpdateDto resource, CancellationToken token = default);
-    Task DeleteAgencyAsync(Guid id, CancellationToken token = default);
-    Task RestoreAgencyAsync(Guid id, CancellationToken token = default);
+    Task<IReadOnlyList<AgencyViewDto>> GetListAsync(bool active = true, CancellationToken token = default);
+    Task<IReadOnlyList<ListItem>> GetListItemsAsync(bool active = true, CancellationToken token = default);
+    Task<Guid> CreateAsync(AgencyCreateDto resource, CancellationToken token = default);
+    Task<AgencyUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default);
+    Task UpdateAsync(AgencyUpdateDto resource, CancellationToken token = default);
 }

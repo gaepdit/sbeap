@@ -1,6 +1,5 @@
 using AutoMapper;
 using GaEpd.AppLibrary.ListItems;
-using Sbeap.AppServices.ActionItemTypes;
 using Sbeap.AppServices.UserServices;
 using Sbeap.Domain.Entities.Agencies;
 
@@ -30,30 +29,30 @@ public sealed class AgencyService : IAgencyService
         return _mapper.Map<AgencyViewDto>(item);
     }
 
-    public async Task<IReadOnlyList<AgencyViewDto>> GetListItemsAsync(CancellationToken token = default)
+    public async Task<IReadOnlyList<AgencyViewDto>> GetListAsync(bool active = true, CancellationToken token = default)
     {
-        var list = (await _repository.GetListAsync(token)).OrderBy(e => e.Name).ToList();
+        var list = (await _repository.GetListAsync(e => e.Active, token)).OrderBy(e => e.Name).ToList();
         return _mapper.Map<IReadOnlyList<AgencyViewDto>>(list);
     }
 
-    public async Task<IReadOnlyList<ListItem>> GetActiveListItemsAsync(CancellationToken token = default) =>
+    public async Task<IReadOnlyList<ListItem>> GetListItemsAsync(bool active = true, CancellationToken token = default) =>
         (await _repository.GetListAsync(e => e.Active, token)).OrderBy(e => e.Name)
         .Select(e => new ListItem(e.Id, e.Name)).ToList();
 
-    public async Task<Guid> CreateAgencyAsync(AgencyCreateDto resource, CancellationToken token = default)
+    public async Task<Guid> CreateAsync(AgencyCreateDto resource, CancellationToken token = default)
     {
         var item = await _manager.CreateAsync(resource.Name, (await _users.GetCurrentUserAsync())?.Id, token);
         await _repository.InsertAsync(item, token: token);
         return item.Id;
     }
 
-    public async Task<AgencyUpdateDto?> FindAgencyForUpdateAsync(Guid id, CancellationToken token = default)
+    public async Task<AgencyUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default)
     {
         var item = await _repository.FindAsync(id, token);
         return _mapper.Map<AgencyUpdateDto>(item);
     }
 
-    public async Task UpdateAgencyAsync(AgencyUpdateDto resource, CancellationToken token = default)
+    public async Task UpdateAsync(AgencyUpdateDto resource, CancellationToken token = default)
     {
         var item = await _repository.GetAsync(resource.Id, token);
         item.SetUpdater((await _users.GetCurrentUserAsync())?.Id);
@@ -62,20 +61,6 @@ public sealed class AgencyService : IAgencyService
             await _manager.ChangeNameAsync(item, resource.Name, token);
         item.Active = resource.Active;
 
-        await _repository.UpdateAsync(item, token: token);
-    }
-
-    public async Task DeleteAgencyAsync(Guid id, CancellationToken token = default)
-    {
-        var item = await _repository.GetAsync(id, token);
-        item.Active = false;
-        await _repository.UpdateAsync(item, token: token);
-    }
-
-    public async Task RestoreAgencyAsync(Guid id, CancellationToken token = default)
-    {
-        var item = await _repository.GetAsync(id, token);
-        item.Active = true;
         await _repository.UpdateAsync(item, token: token);
     }
 

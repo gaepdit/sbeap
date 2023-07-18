@@ -21,7 +21,7 @@ public class GetList
         var appService = new AgencyService(repoMock.Object, managerMock.Object,
             AppServicesTestsSetup.Mapper!, userServiceMock.Object);
 
-        var result = await appService.GetListItemsAsync();
+        var result = await appService.GetListAsync();
 
         result.Should().BeEquivalentTo(itemList);
     }
@@ -37,7 +37,7 @@ public class GetList
         var appService = new AgencyService(repoMock.Object, managerMock.Object,
             AppServicesTestsSetup.Mapper!, userServiceMock.Object);
 
-        var result = await appService.GetListItemsAsync();
+        var result = await appService.GetListAsync();
 
         result.Should().BeEmpty();
     }

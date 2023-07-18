@@ -20,7 +20,7 @@ public class FindForUpdate
         var appService = new AgencyService(repoMock.Object, managerMock.Object,
             AppServicesTestsSetup.Mapper!, userServiceMock.Object);
 
-        var result = await appService.FindAgencyForUpdateAsync(Guid.Empty);
+        var result = await appService.FindForUpdateAsync(Guid.Empty);
 
         result.Should().BeEquivalentTo(agency);
     }
@@ -38,7 +38,7 @@ public class FindForUpdate
         var appService = new AgencyService(repoMock.Object, managerMock.Object,
             mapperMock.Object, userServiceMock.Object);
 
-        var result = await appService.FindAgencyForUpdateAsync(Guid.Empty);
+        var result = await appService.FindForUpdateAsync(Guid.Empty);
 
         result.Should().BeNull();
     }
