@@ -24,7 +24,7 @@ public class Create
             AppServicesTestsSetup.Mapper!, userServiceMock.Object);
         var resource = new ActionItemTypeCreateDto(TextData.ValidName);
 
-        var result = await appService.CreateActionItemTypeAsync(resource);
+        var result = await appService.CreateAsync(resource);
 
         result.Should().Be(item.Id);
     }

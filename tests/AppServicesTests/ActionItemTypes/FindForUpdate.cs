@@ -20,7 +20,7 @@ internal class FindForUpdate
         var appService = new ActionItemTypeService(repoMock.Object, managerMock.Object,
             AppServicesTestsSetup.Mapper!, userServiceMock.Object);
 
-        var result = await appService.FindActionItemTypeForUpdateAsync(Guid.Empty);
+        var result = await appService.FindForUpdateAsync(Guid.Empty);
 
         result.Should().BeEquivalentTo(ActionItemType);
     }
@@ -38,7 +38,7 @@ internal class FindForUpdate
         var appService = new ActionItemTypeService(repoMock.Object, managerMock.Object,
             mapperMock.Object, userServiceMock.Object);
 
-        var result = await appService.FindActionItemTypeForUpdateAsync(Guid.Empty);
+        var result = await appService.FindForUpdateAsync(Guid.Empty);
 
         result.Should().BeNull();
     }
