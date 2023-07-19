@@ -17,7 +17,7 @@ public class AgencyApiTests
     {
         List<AgencyViewDto> agencyList = new() { ValidAgencyView };
         var service = new Mock<IAgencyService>();
-        service.Setup(l => l.GetListAsync(false, CancellationToken.None))
+        service.Setup(l => l.GetListAsync(CancellationToken.None))
             .ReturnsAsync(agencyList);
         var apiController = new AgencyApiController(service.Object);
 

@@ -29,14 +29,14 @@ public sealed class AgencyService : IAgencyService
         return _mapper.Map<AgencyViewDto>(item);
     }
 
-    public async Task<IReadOnlyList<AgencyViewDto>> GetListAsync(bool active = true, CancellationToken token = default)
+    public async Task<IReadOnlyList<AgencyViewDto>> GetListAsync(CancellationToken token = default)
     {
-        var list = (await _repository.GetListAsync(e => e.Active, token)).OrderBy(e => e.Name).ToList();
+        var list = (await _repository.GetListAsync(token)).OrderBy(e => e.Name).ToList();
         return _mapper.Map<IReadOnlyList<AgencyViewDto>>(list);
     }
 
-    public async Task<IReadOnlyList<ListItem>> GetListItemsAsync(bool active = true, CancellationToken token = default) =>
-        (await _repository.GetListAsync(e => e.Active, token)).OrderBy(e => e.Name)
+    public async Task<IReadOnlyList<ListItem>> GetListItemsAsync(bool activeOnly = true, CancellationToken token = default) =>
+        (await _repository.GetListAsync(e => !activeOnly || e.Active, token)).OrderBy(e => e.Name)
         .Select(e => new ListItem(e.Id, e.Name)).ToList();
 
     public async Task<Guid> CreateAsync(AgencyCreateDto resource, CancellationToken token = default)

@@ -13,7 +13,7 @@ public class AgencyApiController : Controller
 
     [HttpGet]
     public async Task<IReadOnlyList<AgencyViewDto>> ListAgencyServiceAsync() =>
-        await _agencyService.GetListAsync(false);
+        await _agencyService.GetListAsync();
 
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<AgencyViewDto>> GetAsync([FromRoute] Guid id)
