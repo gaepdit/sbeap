@@ -9,6 +9,7 @@ namespace MyAppRoot.WebApp.Api;
 public class ActionItemTypeApiController : Controller
 {
     private readonly IActionItemTypeService _actionItemTypesService;
+
     public ActionItemTypeApiController(IActionItemTypeService actionItemTypeService) => _actionItemTypesService = actionItemTypeService;
 
     [HttpGet]

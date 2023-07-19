@@ -14,5 +14,6 @@ public class ActionItemTypeOperation :
     public static List<ActionItemTypeOperation> AllOperations { get; } = new();
 
     public static readonly ActionItemTypeOperation Edit = new(nameof(Edit));
+
     public static readonly ActionItemTypeOperation ManageDeletions = new(nameof(ManageDeletions));
 }

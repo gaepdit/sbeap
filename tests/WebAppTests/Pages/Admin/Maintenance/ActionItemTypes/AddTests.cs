@@ -19,7 +19,7 @@ public class AddTests
     public async Task OnPost_GivenSuccess_ReturnsRedirectWithDisplayMessage()
     {
         var serviceMock = new Mock<IActionItemTypeService>();
-        serviceMock.Setup(l => l.CreateActionItemTypeAsync(It.IsAny<ActionItemTypeCreateDto>(), CancellationToken.None))
+        serviceMock.Setup(l => l.CreateAsync(It.IsAny<ActionItemTypeCreateDto>(), CancellationToken.None))
             .ReturnsAsync(Guid.Empty);
         var validatorMock = new Mock<IValidator<ActionItemTypeCreateDto>>();
         validatorMock.Setup(l => l.ValidateAsync(It.IsAny<ActionItemTypeCreateDto>(), CancellationToken.None))

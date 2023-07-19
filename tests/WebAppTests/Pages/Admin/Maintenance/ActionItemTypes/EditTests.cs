@@ -19,7 +19,7 @@ public class EditTests
     public async Task OnGet_ReturnsWithItem()
     {
         var serviceMock = new Mock<IActionItemTypeService>();
-        serviceMock.Setup(l => l.FindActionItemTypeForUpdateAsync(ItemTest.Id, CancellationToken.None)).ReturnsAsync(ItemTest);
+        serviceMock.Setup(l => l.FindForUpdateAsync(ItemTest.Id, CancellationToken.None)).ReturnsAsync(ItemTest);
         var page = new EditModel(serviceMock.Object, Mock.Of<IValidator<ActionItemTypeUpdateDto>>())
         { TempData = WebAppTestsSetup.PageTempData() };
 
@@ -53,7 +53,7 @@ public class EditTests
     public async Task OnGet_GivenInvalidId_ReturnsNotFound()
     {
         var serviceMock = new Mock<IActionItemTypeService>();
-        serviceMock.Setup(l => l.FindActionItemTypeForUpdateAsync(It.IsAny<Guid>(), CancellationToken.None))
+        serviceMock.Setup(l => l.FindForUpdateAsync(It.IsAny<Guid>(), CancellationToken.None))
             .ReturnsAsync((ActionItemTypeUpdateDto?)null);
         var page = new EditModel(serviceMock.Object, Mock.Of<IValidator<ActionItemTypeUpdateDto>>())
         { TempData = WebAppTestsSetup.PageTempData() };
