@@ -10,7 +10,9 @@ namespace Sbeap.WebApp.Pages.Admin.Maintenance.ActionItemType;
 public class IndexModel : PageModel
 {
     public IReadOnlyList<ActionItemTypeViewDto> Items { get; private set; } = default!;
+
     public static MaintenanceOption ThisOption => MaintenanceOption.ActionItemType;
+
     public bool IsSiteMaintainer { get; private set; }
 
     [TempData]

@@ -9,10 +9,10 @@ namespace Sbeap.WebApp.Pages.Admin.Maintenance.Agency;
 [Authorize(Policy = PolicyName.StaffUser)]
 public class IndexModel : PageModel
 {
-    public IReadOnlyList<AgencyViewDto>
-    Items
-    { get; private set; } = default!;
+    public IReadOnlyList<AgencyViewDto> Items { get; private set; } = default!;
+
     public static MaintenanceOption ThisOption => MaintenanceOption.Agency;
+
     public bool IsSiteMaintainer { get; private set; }
 
     [TempData]
