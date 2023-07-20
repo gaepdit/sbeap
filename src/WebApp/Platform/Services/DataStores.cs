@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Sbeap.Domain.Entities.ActionItems;
+using Sbeap.Domain.Entities.ActionItemTypes;
 using Sbeap.Domain.Entities.Agencies;
 using Sbeap.Domain.Entities.Cases;
 using Sbeap.Domain.Entities.Contacts;
@@ -21,6 +22,7 @@ public static class DataStores
         {
             // Uses local static data if no database is built.
             services.AddSingleton<IActionItemRepository, LocalActionItemRepository>();
+            services.AddSingleton<IActionItemTypeRepository, LocalActionItemTypeRepository>();
             services.AddSingleton<IAgencyRepository, LocalAgencyRepository>();
             services.AddSingleton<ICaseworkRepository, LocalCaseworkRepository>();
             services.AddSingleton<IContactRepository, LocalContactRepository>();
@@ -49,6 +51,7 @@ public static class DataStores
             }
 
             services.AddScoped<IActionItemRepository, ActionItemRepository>();
+            services.AddScoped<IActionItemTypeRepository, ActionItemTypeRepository>();
             services.AddScoped<IAgencyRepository, AgencyRepository>();
             services.AddScoped<ICaseworkRepository, CaseworkRepository>();
             services.AddScoped<IContactRepository, ContactRepository>();

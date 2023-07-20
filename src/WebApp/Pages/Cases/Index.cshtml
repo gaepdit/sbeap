@@ -168,7 +168,7 @@
                     <th scope="col">
                         <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
                            asp-route-Sort="@(Model.Spec.Sort == CaseworkSortBy.ClosedDate ? CaseworkSortBy.ClosedDateDesc : CaseworkSortBy.ClosedDate)">
-                            Date Opened
+                            Date Closed
                             @Html.DisplayFor(m => m.SortByName, DisplayTemplate.SortArrow, new { up = CaseworkSortBy.ClosedDate.ToString(), down = CaseworkSortBy.ClosedDateDesc.ToString() })
                         </a>
                     </th>

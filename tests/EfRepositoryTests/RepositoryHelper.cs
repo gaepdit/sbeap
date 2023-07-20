@@ -1,5 +1,6 @@
 ﻿using GaEpd.AppLibrary.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Sbeap.Domain.Entities.ActionItemTypes;
 using Sbeap.Domain.Entities.Agencies;
 using Sbeap.Domain.Entities.Cases;
 using Sbeap.Domain.Entities.Customers;
@@ -133,6 +134,18 @@ public sealed class RepositoryHelper : IDisposable
         CustomerData.ClearData();
         OfficeData.ClearData();
         UserData.ClearData();
+    }
+
+    /// <summary>
+    /// Seeds data for the Action Item Type entity and returns an instance of ActionItemTypeRepository.
+    /// </summary>
+    /// <returns>An <see cref="ActionItemTypeRepository"/>.</returns>
+    public IActionItemTypeRepository GetActionItemTypeRepository()
+    {
+        ClearAllStaticData();
+        DbSeedDataHelpers.SeedActionItemTypeData(_context);
+        Context = new AppDbContext(_options);
+        return new ActionItemTypeRepository(Context);
     }
 
     /// <summary>

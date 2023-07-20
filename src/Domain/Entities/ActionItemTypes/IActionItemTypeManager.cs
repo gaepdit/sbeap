@@ -3,7 +3,7 @@ using Sbeap.Domain.Exceptions;
 namespace Sbeap.Domain.Entities.ActionItemTypes;
 
 /// <summary>
-/// A manager for managing Offices.
+/// A manager for managing Action Item Types.
 /// </summary>
 public interface IActionItemTypeManager
 {

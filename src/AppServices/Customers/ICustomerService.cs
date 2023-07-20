@@ -1,6 +1,5 @@
 ﻿using GaEpd.AppLibrary.Pagination;
 using Sbeap.AppServices.Customers.Dto;
-using Sbeap.Domain.Entities.Customers;
 using Sbeap.Domain.ValueObjects;
 
 namespace Sbeap.AppServices.Customers;

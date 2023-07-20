@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Sbeap.AppServices.Offices;
 
-namespace MyAppRoot.WebApp.Api;
+namespace Sbeap.WebApp.Api;
 
 [ApiController]
 [Route("api/offices")]

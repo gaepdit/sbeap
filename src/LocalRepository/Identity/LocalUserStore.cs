@@ -113,7 +113,7 @@ public sealed class LocalUserStore :
             string.Equals(r.Name, roleName, StringComparison.InvariantCultureIgnoreCase))?.Id;
         if (roleId is null) return Task.CompletedTask;
 
-        var exists = UserRoles.Any(e => e.UserId == user.Id && e.RoleId == roleId);
+        var exists = UserRoles.Exists(e => e.UserId == user.Id && e.RoleId == roleId);
         if (!exists) UserRoles.Add(new IdentityUserRole<string> { RoleId = roleId, UserId = user.Id });
 
         return Task.CompletedTask;
@@ -146,7 +146,7 @@ public sealed class LocalUserStore :
     {
         var roleId = Roles.SingleOrDefault(r =>
             string.Equals(r.Name, roleName, StringComparison.InvariantCultureIgnoreCase))?.Id;
-        return Task.FromResult(UserRoles.Any(e => e.UserId == user.Id && e.RoleId == roleId));
+        return Task.FromResult(UserRoles.Exists(e => e.UserId == user.Id && e.RoleId == roleId));
     }
 
     public Task<IList<ApplicationUser>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken)

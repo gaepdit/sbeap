@@ -9,4 +9,10 @@ public class MaintenanceOption
 
     public static MaintenanceOption Office { get; } =
         new() { SingularName = "Office", PluralName = "Offices" };
+
+    public static MaintenanceOption ActionItemType { get; } =
+        new() { SingularName = "Action Item Type", PluralName = "Action Item Types" };
+
+    public static MaintenanceOption Agency { get; } =
+        new() { SingularName = "Agency", PluralName = "Agencies" };
 }

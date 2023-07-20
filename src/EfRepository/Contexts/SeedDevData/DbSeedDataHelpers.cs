@@ -26,7 +26,7 @@ public static class DbSeedDataHelpers
         context.SaveChanges();
     }
 
-    private static void SeedActionItemTypeData(AppDbContext context)
+    internal static void SeedActionItemTypeData(AppDbContext context)
     {
         if (context.ActionItemTypes.Any()) return;
         context.ActionItemTypes.AddRange(ActionItemTypeData.GetActionItemTypes);
