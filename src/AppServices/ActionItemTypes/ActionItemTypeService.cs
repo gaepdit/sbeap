@@ -36,9 +36,8 @@ public sealed class ActionItemTypeService : IActionItemTypeService
         return _mapper.Map<IReadOnlyList<ActionItemTypeViewDto>>(list);
     }
 
-    public async Task<IReadOnlyList<ListItem>> GetListItemsAsync(
-        bool activeOnly = true, CancellationToken token = default) =>
-        (await _repository.GetListAsync(e => !activeOnly || e.Active, token)).OrderBy(e => e.Name)
+    public async Task<IReadOnlyList<ListItem>> GetListItemsAsync(CancellationToken token = default) =>
+        (await _repository.GetListAsync(e => e.Active, token)).OrderBy(e => e.Name)
         .Select(e => new ListItem(e.Id, e.NameWithActivity)).ToList();
 
     public async Task<Guid> CreateAsync(ActionItemTypeCreateDto resource, CancellationToken token = default)
