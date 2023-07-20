@@ -36,7 +36,7 @@ public sealed class ActionItemTypeService : IActionItemTypeService
         return _mapper.Map<IReadOnlyList<ActionItemTypeViewDto>>(list);
     }
 
-    public async Task<IReadOnlyList<ListItem>> GetAsync(CancellationToken token = default) =>
+    public async Task<IReadOnlyList<ListItem>> GetListItemsAsync(CancellationToken token = default) =>
         (await _repository.GetListAsync(e => e.Active, token)).OrderBy(e => e.Name)
         .Select(e => new ListItem(e.Id, e.Name)).ToList();
 
