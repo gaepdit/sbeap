@@ -11,6 +11,7 @@ public sealed class AgencyService : IAgencyService
     private readonly IAgencyManager _manager;
     private readonly IMapper _mapper;
     private readonly IUserService _users;
+
     public AgencyService(
         IAgencyRepository repository,
         IAgencyManager manager,
@@ -35,7 +36,8 @@ public sealed class AgencyService : IAgencyService
         return _mapper.Map<IReadOnlyList<AgencyViewDto>>(list);
     }
 
-    public async Task<IReadOnlyList<ListItem>> GetListItemsAsync(bool activeOnly = true, CancellationToken token = default) =>
+    public async Task<IReadOnlyList<ListItem>> GetListItemsAsync(bool activeOnly = true,
+        CancellationToken token = default) =>
         (await _repository.GetListAsync(e => !activeOnly || e.Active, token)).OrderBy(e => e.Name)
         .Select(e => new ListItem(e.Id, e.Name)).ToList();
 

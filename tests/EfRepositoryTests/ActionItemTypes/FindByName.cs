@@ -1,6 +1,6 @@
-﻿using Sbeap.TestData.Constants;
-using Sbeap.Domain.Entities.ActionItemTypes;
+﻿using Sbeap.Domain.Entities.ActionItemTypes;
 using Sbeap.TestData;
+using Sbeap.TestData.Constants;
 
 namespace EfRepositoryTests.ActionItemTypes;
 

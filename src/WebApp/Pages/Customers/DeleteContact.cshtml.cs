@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Sbeap.AppServices.Customers;
 using Sbeap.AppServices.Customers.Dto;
-using Sbeap.AppServices.Customers.Permissions;
 using Sbeap.AppServices.Permissions;
 using Sbeap.WebApp.Models;
 using Sbeap.WebApp.Platform.PageModelHelpers;
@@ -41,7 +40,7 @@ public class DeleteContactModel : PageModel
         if (customer is null) return NotFound();
         CustomerView = customer;
 
-        if (CustomerView.IsDeleted || !await UserCanManageDeletionsAsync()) 
+        if (CustomerView.IsDeleted || !await UserCanManageDeletionsAsync())
             return NotFound();
 
         var contact = await _service.FindContactAsync(contactId.Value);
@@ -60,7 +59,7 @@ public class DeleteContactModel : PageModel
         if (customer is null) return BadRequest();
         CustomerView = customer;
 
-        if (CustomerView.IsDeleted || !await UserCanManageDeletionsAsync() || !ModelState.IsValid) 
+        if (CustomerView.IsDeleted || !await UserCanManageDeletionsAsync() || !ModelState.IsValid)
             return BadRequest();
 
         await _service.DeleteContactAsync(ContactId);

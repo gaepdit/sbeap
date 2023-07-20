@@ -1,8 +1,8 @@
 ﻿using FluentValidation.TestHelper;
 using Sbeap.AppServices.Agencies;
 using Sbeap.AppServices.Agencies.Validators;
-using Sbeap.TestData.Constants;
 using Sbeap.Domain.Entities.Agencies;
+using Sbeap.TestData.Constants;
 
 namespace AppServicesTests.Agencies;
 

@@ -1,8 +1,8 @@
-﻿using Sbeap.TestData.Constants;
-using Sbeap.Domain.Entities.ActionItemTypes;
+﻿using FluentValidation.TestHelper;
 using Sbeap.AppServices.ActionItemTypes;
 using Sbeap.AppServices.ActionItemTypes.Validators;
-using FluentValidation.TestHelper;
+using Sbeap.Domain.Entities.ActionItemTypes;
+using Sbeap.TestData.Constants;
 
 namespace AppServicesTests.ActionItemTypes;
 

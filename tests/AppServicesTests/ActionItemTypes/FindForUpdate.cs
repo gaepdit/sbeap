@@ -11,10 +11,10 @@ public class FindForUpdate
     [Test]
     public async Task WhenItemExists_ReturnsViewDto()
     {
-        var ActionItemType = new ActionItemType(Guid.Empty, TextData.ValidName);
+        var actionItemType = new ActionItemType(Guid.Empty, TextData.ValidName);
         var repoMock = new Mock<IActionItemTypeRepository>();
-        repoMock.Setup(l => l.FindAsync(ActionItemType.Id, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(ActionItemType);
+        repoMock.Setup(l => l.FindAsync(actionItemType.Id, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(actionItemType);
         var managerMock = new Mock<IActionItemTypeManager>();
         var userServiceMock = new Mock<IUserService>();
         var appService = new ActionItemTypeService(repoMock.Object, managerMock.Object,
@@ -22,7 +22,7 @@ public class FindForUpdate
 
         var result = await appService.FindForUpdateAsync(Guid.Empty);
 
-        result.Should().BeEquivalentTo(ActionItemType);
+        result.Should().BeEquivalentTo(actionItemType);
     }
 
     [Test]

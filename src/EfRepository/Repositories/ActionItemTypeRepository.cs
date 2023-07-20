@@ -1,6 +1,6 @@
-﻿using Sbeap.Domain.Entities.ActionItemTypes;
+﻿using Microsoft.EntityFrameworkCore;
+using Sbeap.Domain.Entities.ActionItemTypes;
 using Sbeap.EfRepository.Contexts;
-using Microsoft.EntityFrameworkCore;
 
 namespace Sbeap.EfRepository.Repositories;
 
@@ -10,5 +10,5 @@ public sealed class ActionItemTypeRepository : BaseRepository<ActionItemType, Gu
 
     public async Task<ActionItemType?> FindByNameAsync(string name, CancellationToken token = default) =>
         await Context.ActionItemTypes.AsNoTracking()
-        .SingleOrDefaultAsync(e => string.Equals(e.Name.ToUpper(), name.ToUpper()), cancellationToken: token);
+            .SingleOrDefaultAsync(e => string.Equals(e.Name.ToUpper(), name.ToUpper()), token);
 }

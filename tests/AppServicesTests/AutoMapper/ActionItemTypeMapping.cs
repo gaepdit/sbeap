@@ -3,7 +3,6 @@ using Sbeap.AppServices.ActionItemTypes;
 using Sbeap.Domain.Entities.ActionItemTypes;
 using Sbeap.TestData.Constants;
 
-
 namespace AppServicesTests.AutoMapper;
 
 internal class ActionItemTypeMapping

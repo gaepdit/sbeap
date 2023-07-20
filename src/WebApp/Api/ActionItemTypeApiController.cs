@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Sbeap.AppServices.ActionItemTypes;
 
-namespace MyAppRoot.WebApp.Api;
+namespace Sbeap.WebApp.Api;
 
 [ApiController]
 [Route("api/ActionItemTypes")]
@@ -10,7 +10,8 @@ public class ActionItemTypeApiController : Controller
 {
     private readonly IActionItemTypeService _actionItemTypesService;
 
-    public ActionItemTypeApiController(IActionItemTypeService actionItemTypeService) => _actionItemTypesService = actionItemTypeService;
+    public ActionItemTypeApiController(IActionItemTypeService actionItemTypeService) =>
+        _actionItemTypesService = actionItemTypeService;
 
     [HttpGet]
     public async Task<IReadOnlyList<ActionItemTypeViewDto>> ListActionItemTypesServiceAsync() =>

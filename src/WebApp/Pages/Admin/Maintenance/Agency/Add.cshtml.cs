@@ -50,4 +50,3 @@ public class AddModel : PageModel
         return RedirectToPage("Index");
     }
 }
-

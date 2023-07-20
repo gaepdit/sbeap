@@ -4,7 +4,6 @@ using Sbeap.Domain.Entities.Agencies;
 using Sbeap.Domain.Identity;
 using Sbeap.TestData.Constants;
 
-
 namespace AppServicesTests.Agencies;
 
 public class Create

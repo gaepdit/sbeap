@@ -19,8 +19,8 @@ public class IndexModel : PageModel
     public Guid? HighlightId { get; set; }
 
     public async Task OnGetAsync(
-    [FromServices] IAgencyService service,
-    [FromServices] IAuthorizationService authorization)
+        [FromServices] IAgencyService service,
+        [FromServices] IAuthorizationService authorization)
     {
         Items = await service.GetListAsync();
         IsSiteMaintainer = (await authorization.AuthorizeAsync(User, PolicyName.SiteMaintainer)).Succeeded;

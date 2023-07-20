@@ -60,4 +60,3 @@ public class EditModel : PageModel
         return RedirectToPage("Index");
     }
 }
-

@@ -52,7 +52,7 @@ public sealed class ActionItemTypeService : IActionItemTypeService
         var item = await _repository.FindAsync(id, token);
         return _mapper.Map<ActionItemTypeUpdateDto>(item);
     }
-    
+
     public async Task UpdateAsync(ActionItemTypeUpdateDto resource, CancellationToken token = default)
     {
         var item = await _repository.GetAsync(resource.Id, token);

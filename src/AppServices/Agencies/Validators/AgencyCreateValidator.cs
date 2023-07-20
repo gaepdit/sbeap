@@ -23,4 +23,3 @@ public class AgencyCreateValidator : AbstractValidator<AgencyCreateDto>
     private async Task<bool> NotDuplicateName(string name, CancellationToken token = default) =>
         await _repository.FindByNameAsync(name, token) is null;
 }
-
