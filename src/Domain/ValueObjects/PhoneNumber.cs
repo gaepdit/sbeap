@@ -1,4 +1,4 @@
-﻿using GaEpd.AppLibrary.Domain.ValueObjects;
+using GaEpd.AppLibrary.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -13,6 +13,7 @@ public record PhoneNumber : ValueObject
     public string? Number { get; [UsedImplicitly] init; }
 
     [Display(Name = "Phone type")]
+    [Column(TypeName = "nvarchar(25)")]
     public PhoneType? Type { get; [UsedImplicitly] init; }
 
     protected override IEnumerable<object> GetEqualityComponents()

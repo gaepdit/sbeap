@@ -21,14 +21,13 @@ public class MigratorHostedService : IHostedService
         // Retrieve scoped services.
         using var scope = _serviceProvider.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        var env = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
-
+        
         if (ApplicationSettings.DevSettings.UseEfMigrations)
         {
             // Run any database migrations if used.
             await context.Database.MigrateAsync(cancellationToken);
 
-            // Initialize any new roles.
+            // Initialize any new roles. (No other data is seeded when running EF migrations.)
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             foreach (var role in AppRole.AllRoles.Keys)
                 if (!await context.Roles.AnyAsync(e => e.Name == role, cancellationToken))
@@ -39,10 +38,10 @@ public class MigratorHostedService : IHostedService
             // Otherwise, delete and re-create the database.
             await context.Database.EnsureDeletedAsync(cancellationToken);
             await context.Database.EnsureCreatedAsync(cancellationToken);
+            
+            // Add seed data to database.
+            DbSeedDataHelpers.SeedAllData(context);
         }
-
-        // If not running in the development environment, add seed data to database.
-        if (env.IsDevelopment()) DbSeedDataHelpers.SeedAllData(context);
     }
 
     // noop

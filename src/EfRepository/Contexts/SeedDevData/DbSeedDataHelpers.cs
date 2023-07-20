@@ -9,7 +9,6 @@ public static class DbSeedDataHelpers
 {
     public static void SeedAllData(AppDbContext context)
     {
-        SeedOfficeData(context);
         SeedIdentityData(context);
         SeedActionItemTypeData(context);
         SeedAgencyData(context);
