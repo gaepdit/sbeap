@@ -81,7 +81,7 @@ public class ExternalLoginModel : PageModel
         else
             search = new StaffSearchDto(SortBy.NameAsc, "Limited", null, null, null, null);
 
-        var staffId = (await _staffService.GetListAsync(search)).First().Id;
+        var staffId = (await _staffService.GetListAsync(search))[0].Id;
 
         var user = await _userManager.FindByIdAsync(staffId);
         _logger.LogInformation("Local user with ID {StaffId} signed in", staffId);
