@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Sbeap.AppServices.Offices;
+using Sbeap.AppServices.Permissions;
 using Sbeap.AppServices.Staff;
 using Sbeap.AppServices.Staff.Dto;
 using Sbeap.Domain.Identity;
@@ -13,7 +14,7 @@ using Sbeap.WebApp.Platform.Constants;
 
 namespace Sbeap.WebApp.Pages.Admin.Users;
 
-[Authorize]
+[Authorize(Policy = PolicyName.ActiveUser)]
 public class IndexModel : PageModel
 {
     // Constructor

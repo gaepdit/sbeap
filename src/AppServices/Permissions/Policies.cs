@@ -23,6 +23,7 @@ namespace Sbeap.AppServices.Permissions;
 
 public static class PolicyName
 {
+    public const string ActiveUser = nameof(ActiveUser);
     public const string AdminUser = nameof(AdminUser);
     public const string LoggedIn = nameof(LoggedIn);
     public const string StaffUser = nameof(StaffUser);
@@ -32,9 +33,16 @@ public static class PolicyName
 
 public static class Policies
 {
+    public static AuthorizationPolicy ActiveUserPolicy() =>
+        new AuthorizationPolicyBuilder()
+            .RequireAuthenticatedUser()
+            .AddRequirements(new ActiveUserRequirement())
+            .Build();
+
     public static AuthorizationPolicy AdminUserPolicy() =>
         new AuthorizationPolicyBuilder()
             .RequireAuthenticatedUser()
+            .AddRequirements(new ActiveUserRequirement())
             .AddRequirements(new AdminUserRequirement())
             .Build();
 
@@ -43,21 +51,24 @@ public static class Policies
             .RequireAuthenticatedUser()
             .Build();
 
-    public static AuthorizationPolicy StaffUserPolicy() =>
-        new AuthorizationPolicyBuilder()
-            .RequireAuthenticatedUser()
-            .AddRequirements(new StaffUserRequirement())
-            .Build();
-
     public static AuthorizationPolicy SiteMaintainerPolicy() =>
         new AuthorizationPolicyBuilder()
             .RequireAuthenticatedUser()
+            .AddRequirements(new ActiveUserRequirement())
             .AddRequirements(new SiteMaintainerRequirement())
+            .Build();
+
+    public static AuthorizationPolicy StaffUserPolicy() =>
+        new AuthorizationPolicyBuilder()
+            .RequireAuthenticatedUser()
+            .AddRequirements(new ActiveUserRequirement())
+            .AddRequirements(new StaffUserRequirement())
             .Build();
 
     public static AuthorizationPolicy UserAdministratorPolicy() =>
         new AuthorizationPolicyBuilder()
             .RequireAuthenticatedUser()
+            .AddRequirements(new ActiveUserRequirement())
             .AddRequirements(new UserAdministratorRequirement())
             .Build();
 }

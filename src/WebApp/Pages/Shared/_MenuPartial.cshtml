@@ -2,6 +2,7 @@
 @using Sbeap.AppServices.Permissions
 @inject IAuthorizationService AuthorizationService
 @{
+    var isActive = (await AuthorizationService.AuthorizeAsync(User, PolicyName.ActiveUser)).Succeeded;
     var isLoggedIn = (await AuthorizationService.AuthorizeAsync(User, PolicyName.LoggedIn)).Succeeded;
     var isStaff = (await AuthorizationService.AuthorizeAsync(User, PolicyName.StaffUser)).Succeeded;
 }
@@ -30,7 +31,7 @@
                 }
             </ul>
 
-            @if (isLoggedIn)
+            @if (isActive)
             {
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown text-white">

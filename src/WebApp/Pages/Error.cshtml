@@ -21,7 +21,7 @@
     }
 }
 
-@if ((await AuthorizationService.AuthorizeAsync(User, PolicyName.LoggedIn)).Succeeded)
+@if ((await AuthorizationService.AuthorizeAsync(User, PolicyName.ActiveUser)).Succeeded)
 {
     <p>
         If you need assistance related to this error, please

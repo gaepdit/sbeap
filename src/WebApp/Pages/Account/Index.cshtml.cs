@@ -1,13 +1,14 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Sbeap.AppServices.Permissions;
 using Sbeap.AppServices.Staff;
 using Sbeap.AppServices.Staff.Dto;
 using Sbeap.Domain.Identity;
 
 namespace Sbeap.WebApp.Pages.Account;
 
-[Authorize]
+[Authorize(Policy = PolicyName.LoggedIn)]
 public class IndexModel : PageModel
 {
     public StaffViewDto DisplayStaff { get; private set; } = default!;
@@ -16,12 +17,8 @@ public class IndexModel : PageModel
 
     public async Task<IActionResult> OnGetAsync([FromServices] IStaffService staffService)
     {
-        var staff = await staffService.GetCurrentUserAsync();
-        if (staff is not { Active: true }) return Forbid();
-
-        DisplayStaff = staff;
+        DisplayStaff = await staffService.GetCurrentUserAsync();
         Roles = await staffService.GetAppRolesAsync(DisplayStaff.Id);
-
         return Page();
     }
 }

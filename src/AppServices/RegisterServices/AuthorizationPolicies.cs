@@ -12,6 +12,7 @@ public static class AuthorizationPolicies
     {
         services.AddAuthorization(opts =>
         {
+            opts.AddPolicy(PolicyName.ActiveUser, Policies.ActiveUserPolicy());
             opts.AddPolicy(PolicyName.AdminUser, Policies.AdminUserPolicy());
             opts.AddPolicy(PolicyName.LoggedIn, Policies.LoggedInPolicy());
             opts.AddPolicy(PolicyName.SiteMaintainer, Policies.SiteMaintainerPolicy());
