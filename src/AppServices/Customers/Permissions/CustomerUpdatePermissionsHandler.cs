@@ -22,7 +22,7 @@ internal class CustomerUpdatePermissionsHandler :
                 // Customers can only be edited if they are not deleted.
                 IsStaffUser(context.User) && IsNotDeleted(resource),
 
-            _ => throw new ArgumentOutOfRangeException(nameof(requirement)),
+            _ => false,
         };
 
         if (success) context.Succeed(requirement);
@@ -30,6 +30,5 @@ internal class CustomerUpdatePermissionsHandler :
     }
 
     private static bool IsStaffUser(IPrincipal user) => user.IsInRole(RoleName.Staff) || user.IsInRole(RoleName.Admin);
-
     private static bool IsNotDeleted(CustomerUpdateDto resource) => !resource.IsDeleted;
 }

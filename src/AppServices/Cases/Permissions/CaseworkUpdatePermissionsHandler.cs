@@ -20,17 +20,13 @@ internal class CaseworkUpdatePermissionsHandler :
         {
             nameof(CaseworkOperation.Edit) =>
                 // Cases can only be edited if they and the associated Customer are not deleted.
-                IsStaffUser(context.User) && IsNotDeleted(resource) && CustomerIsNotDeleted(resource),
+                IsStaffUser(context.User) && IsNotDeleted(resource),
 
             nameof(CaseworkOperation.ManageDeletions) =>
                 // Only an Admin User can delete or restore.
                 IsAdminUser(context.User),
 
-            nameof(CaseworkOperation.EditActionItems) =>
-            // Action Items can only be edited if the Case is still open.
-            IsStaffUser(context.User) && IsOpen(resource) && IsNotDeleted(resource) && CustomerIsNotDeleted(resource),
-
-            _ => throw new ArgumentOutOfRangeException(nameof(requirement)),
+            _ => false,
         };
 
         if (success) context.Succeed(requirement);
@@ -38,12 +34,8 @@ internal class CaseworkUpdatePermissionsHandler :
     }
 
     private static bool IsAdminUser(IPrincipal user) => user.IsInRole(RoleName.Admin);
-
     private static bool IsStaffUser(IPrincipal user) => user.IsInRole(RoleName.Staff) || IsAdminUser(user);
 
-    private static bool IsNotDeleted(CaseworkUpdateDto resource) => !resource.IsDeleted;
-
-    private static bool CustomerIsNotDeleted(CaseworkUpdateDto resource) => !resource.CustomerIsDeleted;
-
-    private static bool IsOpen(CaseworkUpdateDto resource) => resource.CaseClosedDate is null;
+    private static bool IsNotDeleted(CaseworkUpdateDto resource) =>
+        resource is { IsDeleted: false, CustomerIsDeleted: false };
 }

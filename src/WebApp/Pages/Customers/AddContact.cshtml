@@ -1,5 +1,4 @@
 ﻿@page "~/Customers/Details/{id:guid?}/AddContact"
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Sbeap.Domain.ValueObjects
 @using Sbeap.WebApp.Pages.Shared.DisplayTemplates
 @using Sbeap.WebApp.Pages.Shared.EditorTemplates
@@ -75,7 +74,7 @@
 
         <div class="mt-3 mb-1">
             <button id="SubmitButton" type="submit" class="btn btn-primary col-6 col-sm-4 col-lg-3 me-2">Add New Contact</button>
-            <a asp-page="Details" asp-route-id="@Model.Customer.Id" class="btn btn-outline-secondary">Cancel</a>
+            <a asp-page="Details" asp-route-id="@Model.Customer.Id" asp-fragment="contacts" class="btn btn-outline-secondary">Cancel</a>
         </div>
         <div class="text-danger mt-3">* denotes a required field</div>
         <input asp-for="NewContact.CustomerId" type="hidden">

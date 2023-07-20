@@ -33,7 +33,7 @@ public class EditContactModel : PageModel
 
     // Properties
     [BindProperty]
-    public ContactUpdateDto UpdateContact { get; set; } = default!;
+    public ContactUpdateDto ContactUpdate { get; set; } = default!;
 
     [TempData]
     public Guid HighlightId { get; set; }
@@ -55,14 +55,13 @@ public class EditContactModel : PageModel
 
         var contact = await _service.FindContactForUpdateAsync(contactId.Value);
         if (contact is null) return NotFound();
-        UpdateContact = contact;
+        ContactUpdate = contact;
 
         foreach (var operation in CustomerOperation.AllOperations) await SetPermissionAsync(operation);
 
-        if (UserCan[CustomerOperation.Edit] && !UpdateContact.CustomerIsDeleted)
-            return Page();
-
+        if (UserCan[CustomerOperation.Edit]) return Page();
         if (!UserCan[CustomerOperation.ManageDeletions]) return NotFound();
+
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Info, "Cannot edit a deleted customer or contact.");
         return RedirectToPage("Details", new { id });
     }
@@ -80,16 +79,16 @@ public class EditContactModel : PageModel
         CustomerView = customer;
         if (CustomerView.IsDeleted) return BadRequest();
 
-        await _validator.ApplyValidationAsync(UpdateContact, ModelState);
+        await _validator.ApplyValidationAsync(ContactUpdate, ModelState);
         if (!ModelState.IsValid) return Page();
 
-        await _service.UpdateContactAsync(UpdateContact);
-        
-        HighlightId = UpdateContact.Id;
+        await _service.UpdateContactAsync(ContactUpdate);
+
+        HighlightId = ContactUpdate.Id;
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Contact successfully updated.");
         return RedirectToPage("Details", new { id });
     }
 
     private async Task SetPermissionAsync(IAuthorizationRequirement operation) =>
-        UserCan[operation] = (await _authorization.AuthorizeAsync(User, UpdateContact, operation)).Succeeded;
+        UserCan[operation] = (await _authorization.AuthorizeAsync(User, ContactUpdate, operation)).Succeeded;
 }
