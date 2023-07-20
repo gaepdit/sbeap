@@ -85,7 +85,7 @@ public class DetailsModel : PageModel
             return Page();
         }
 
-        HighlightId = await _actionItems.AddActionItemAsync(NewActionItem);
+        HighlightId = await _actionItems.CreateAsync(NewActionItem);
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "New Action successfully added.");
         return RedirectToPage("Details", new { id });
     }

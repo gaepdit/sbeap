@@ -56,7 +56,7 @@ public class EditActionModel : PageModel
         if (casework is null) return NotFound();
         CaseView = casework;
 
-        var action = await _service.FindActionItemForUpdateAsync(actionId.Value);
+        var action = await _service.FindForUpdateAsync(actionId.Value);
         if (action is null) return NotFound();
         ActionItemUpdate = action;
 
@@ -92,7 +92,7 @@ public class EditActionModel : PageModel
             return Page();
         }
 
-        await _service.UpdateActionItemAsync(ActionItemUpdate);
+        await _service.UpdateAsync(ActionItemUpdate);
 
         HighlightId = ActionItemUpdate.Id;
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Action Item successfully updated.");

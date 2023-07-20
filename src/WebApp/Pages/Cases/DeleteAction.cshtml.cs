@@ -46,7 +46,7 @@ public class DeleteActionModel : PageModel
         if (CaseView.IsDeleted || !await UserCanManageDeletionsAsync())
             return NotFound();
 
-        var actionItem = await _service.FindActionItemAsync(actionId.Value);
+        var actionItem = await _service.FindAsync(actionId.Value);
         if (actionItem is null) return NotFound();
         ActionItemView = actionItem;
 
@@ -65,7 +65,7 @@ public class DeleteActionModel : PageModel
         if (CaseView.IsDeleted || !await UserCanManageDeletionsAsync() || !ModelState.IsValid)
             return BadRequest();
 
-        await _service.DeleteActionItemAsync(ActionItemId);
+        await _service.DeleteAsync(ActionItemId);
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Action Item successfully deleted.");
         return RedirectToPage("Details", new { id });
     }

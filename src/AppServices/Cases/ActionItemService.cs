@@ -32,7 +32,7 @@ public sealed class ActionItemService : IActionItemService
         _actionItemTypes = actionItemTypes;
     }
 
-    public async Task<Guid> AddActionItemAsync(ActionItemCreateDto resource, CancellationToken token = default)
+    public async Task<Guid> CreateAsync(ActionItemCreateDto resource, CancellationToken token = default)
     {
         var casework = await _cases.GetAsync(resource.CaseworkId, token);
         var actionItemType = await _actionItemTypes.GetAsync(resource.ActionItemTypeId!.Value, token);
@@ -49,13 +49,13 @@ public sealed class ActionItemService : IActionItemService
         return item.Id;
     }
 
-    public async Task<ActionItemViewDto?> FindActionItemAsync(Guid actionId, CancellationToken token = default) =>
+    public async Task<ActionItemViewDto?> FindAsync(Guid actionId, CancellationToken token = default) =>
         _mapper.Map<ActionItemViewDto>(await _actionItems.FindAsync(e => e.Id == actionId && !e.IsDeleted, token));
 
-    public async Task<ActionItemUpdateDto?> FindActionItemForUpdateAsync(Guid id, CancellationToken token = default) =>
+    public async Task<ActionItemUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default) =>
         _mapper.Map<ActionItemUpdateDto>(await _actionItems.FindAsync(id, token));
 
-    public async Task UpdateActionItemAsync(ActionItemUpdateDto resource, CancellationToken token = default)
+    public async Task UpdateAsync(ActionItemUpdateDto resource, CancellationToken token = default)
     {
         var item = await _actionItems.GetAsync(resource.Id, token);
         item.SetUpdater((await _users.GetCurrentUserAsync())?.Id);
@@ -67,7 +67,7 @@ public sealed class ActionItemService : IActionItemService
         await _actionItems.UpdateAsync(item, token: token);
     }
 
-    public async Task DeleteActionItemAsync(Guid actionItemId, CancellationToken token = default)
+    public async Task DeleteAsync(Guid actionItemId, CancellationToken token = default)
     {
         var item = await _actionItems.GetAsync(actionItemId, token);
         item.SetDeleted((await _users.GetCurrentUserAsync())?.Id);
