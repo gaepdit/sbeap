@@ -13,7 +13,7 @@ using Sbeap.WebApp.Platform.Constants;
 
 namespace Sbeap.WebApp.Pages.Cases;
 
-[Authorize(Policy = PolicyName.StaffUser)]
+[Authorize(Policy = nameof(Policies.StaffUser))]
 public class IndexModel : PageModel
 {
     // Constructor
@@ -68,5 +68,5 @@ public class IndexModel : PageModel
         AgencySelectList = (await _agencyService.GetListItemsAsync(false)).ToSelectList();
 
     private async Task<bool> UserCanManageDeletionsAsync() =>
-        (await _authorization.AuthorizeAsync(User, PolicyName.AdminUser)).Succeeded;
+        (await _authorization.AuthorizeAsync(User, nameof(Policies.AdminUser))).Succeeded;
 }

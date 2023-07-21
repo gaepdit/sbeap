@@ -13,7 +13,7 @@ using Sbeap.WebApp.Platform.PageModelHelpers;
 
 namespace Sbeap.WebApp.Pages.Admin.Users;
 
-[Authorize(Policy = PolicyName.UserAdministrator)]
+[Authorize(Policy = nameof(Policies.UserAdministrator))]
 public class EditModel : PageModel
 {
     // Constructor

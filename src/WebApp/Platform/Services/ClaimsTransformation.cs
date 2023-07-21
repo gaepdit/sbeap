@@ -15,13 +15,13 @@ public class ClaimsTransformation : IClaimsTransformation
     {
         var userIsActive = (await _userManager.GetUserAsync(principal))!.Active;
 
-        if (principal.HasClaim(PolicyName.ActiveUser, userIsActive.ToString()))
+        if (principal.HasClaim(nameof(Policies.ActiveUser), userIsActive.ToString()))
             return principal;
 
         foreach (var identity in principal.Identities)
-            identity.TryRemoveClaim(identity.FindFirst(PolicyName.ActiveUser));
+            identity.TryRemoveClaim(identity.FindFirst(nameof(Policies.ActiveUser)));
 
-        (principal.Identity as ClaimsIdentity)!.AddClaim(new Claim(PolicyName.ActiveUser, userIsActive.ToString()));
+        (principal.Identity as ClaimsIdentity)!.AddClaim(new Claim(nameof(Policies.ActiveUser), userIsActive.ToString()));
 
         return principal;
     }

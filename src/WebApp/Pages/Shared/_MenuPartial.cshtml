@@ -2,9 +2,9 @@
 @using Sbeap.AppServices.Permissions
 @inject IAuthorizationService AuthorizationService
 @{
-    var isActive = (await AuthorizationService.AuthorizeAsync(User, PolicyName.ActiveUser)).Succeeded;
-    var isLoggedIn = (await AuthorizationService.AuthorizeAsync(User, PolicyName.LoggedIn)).Succeeded;
-    var isStaff = (await AuthorizationService.AuthorizeAsync(User, PolicyName.StaffUser)).Succeeded;
+    var isActive = (await AuthorizationService.AuthorizeAsync(User, nameof(Policies.ActiveUser))).Succeeded;
+    var isLoggedIn = (await AuthorizationService.AuthorizeAsync(User, nameof(Policies.LoggedIn))).Succeeded;
+    var isStaff = (await AuthorizationService.AuthorizeAsync(User, nameof(Policies.StaffUser))).Succeeded;
 }
 <nav id="main-nav" class="navbar navbar-expand-sm navbar-dark bg-brand border-bottom shadow-sm mb-3 d-print-none">
     <div class="container">

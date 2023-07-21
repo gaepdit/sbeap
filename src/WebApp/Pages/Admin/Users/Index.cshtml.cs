@@ -14,7 +14,7 @@ using Sbeap.WebApp.Platform.Constants;
 
 namespace Sbeap.WebApp.Pages.Admin.Users;
 
-[Authorize(Policy = PolicyName.ActiveUser)]
+[Authorize(Policy = nameof(Policies.ActiveUser))]
 public class IndexModel : PageModel
 {
     // Constructor

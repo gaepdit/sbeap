@@ -10,7 +10,7 @@ using Sbeap.WebApp.Platform.PageModelHelpers;
 
 namespace Sbeap.WebApp.Pages.Customers;
 
-[Authorize(Policy = PolicyName.AdminUser)]
+[Authorize(Policy = nameof(Policies.AdminUser))]
 public class RestoreModel : PageModel
 {
     // Constructor

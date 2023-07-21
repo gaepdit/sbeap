@@ -13,7 +13,7 @@ using Sbeap.WebApp.Platform.PageModelHelpers;
 
 namespace Sbeap.WebApp.Pages.Customers;
 
-[Authorize(Policy = PolicyName.StaffUser)]
+[Authorize(Policy = nameof(Policies.StaffUser))]
 public class DetailsModel : PageModel
 {
     // Constructor
@@ -87,5 +87,5 @@ public class DetailsModel : PageModel
         UserCan[operation] = (await _authorization.AuthorizeAsync(User, Item, operation)).Succeeded;
 
     private async Task<bool> ShowDeletedCasesAsync() =>
-        (await _authorization.AuthorizeAsync(User, PolicyName.AdminUser)).Succeeded;
+        (await _authorization.AuthorizeAsync(User, nameof(Policies.AdminUser))).Succeeded;
 }

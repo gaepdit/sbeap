@@ -12,12 +12,12 @@ public static class AuthorizationPolicies
     {
         services.AddAuthorization(opts =>
         {
-            opts.AddPolicy(PolicyName.ActiveUser, Policies.ActiveUserPolicy());
-            opts.AddPolicy(PolicyName.AdminUser, Policies.AdminUserPolicy());
-            opts.AddPolicy(PolicyName.LoggedIn, Policies.LoggedInPolicy());
-            opts.AddPolicy(PolicyName.SiteMaintainer, Policies.SiteMaintainerPolicy());
-            opts.AddPolicy(PolicyName.StaffUser, Policies.StaffUserPolicy());
-            opts.AddPolicy(PolicyName.UserAdministrator, Policies.UserAdministratorPolicy());
+            opts.AddPolicy(nameof(Policies.ActiveUser), Policies.ActiveUser());
+            opts.AddPolicy(nameof(Policies.AdminUser), Policies.AdminUser());
+            opts.AddPolicy(nameof(Policies.LoggedIn), Policies.LoggedIn());
+            opts.AddPolicy(nameof(Policies.SiteMaintainer), Policies.SiteMaintainer());
+            opts.AddPolicy(nameof(Policies.StaffUser), Policies.StaffUser());
+            opts.AddPolicy(nameof(Policies.UserAdministrator), Policies.UserAdministrator());
         });
 
         services.AddSingleton<IAuthorizationHandler>(_ => new ActionItemUpdatePermissionsHandler());

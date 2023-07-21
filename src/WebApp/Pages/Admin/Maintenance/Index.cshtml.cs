@@ -4,7 +4,7 @@ using Sbeap.AppServices.Permissions;
 
 namespace Sbeap.WebApp.Pages.Admin.Maintenance;
 
-[Authorize(Policy = PolicyName.StaffUser)]
+[Authorize(Policy = nameof(Policies.StaffUser))]
 public class IndexModel : PageModel
 {
     public void OnGet()

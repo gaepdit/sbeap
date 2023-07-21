@@ -9,7 +9,7 @@ using Sbeap.WebApp.Platform.PageModelHelpers;
 
 namespace Sbeap.WebApp.Pages.Cases;
 
-[Authorize(Policy = PolicyName.AdminUser)]
+[Authorize(Policy = nameof(Policies.AdminUser))]
 public class DeleteActionModel : PageModel
 {
     // Constructor
@@ -71,5 +71,5 @@ public class DeleteActionModel : PageModel
     }
 
     private async Task<bool> UserCanManageDeletionsAsync() =>
-        (await _authorization.AuthorizeAsync(User, PolicyName.AdminUser)).Succeeded;
+        (await _authorization.AuthorizeAsync(User, nameof(Policies.AdminUser))).Succeeded;
 }

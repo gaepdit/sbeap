@@ -13,7 +13,7 @@ using Sbeap.WebApp.Platform.PageModelHelpers;
 
 namespace Sbeap.WebApp.Pages.Account;
 
-[Authorize(Policy = PolicyName.ActiveUser)]
+[Authorize(Policy = nameof(Policies.ActiveUser))]
 public class EditModel : PageModel
 {
     // Constructor
@@ -56,10 +56,10 @@ public class EditModel : PageModel
     public async Task<IActionResult> OnPostAsync()
     {
         var staff = await _staffService.GetCurrentUserAsync();
-        
+
         // Inactive staff cannot do anything here.
         if (!staff.Active) return Forbid();
-        
+
         // Staff can only update self here.
         if (staff.Id != UpdateStaff.Id) return BadRequest();
 

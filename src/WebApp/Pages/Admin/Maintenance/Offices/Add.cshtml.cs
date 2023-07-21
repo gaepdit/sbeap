@@ -9,7 +9,7 @@ using Sbeap.WebApp.Platform.PageModelHelpers;
 
 namespace Sbeap.WebApp.Pages.Admin.Maintenance.Offices;
 
-[Authorize(Policy = PolicyName.SiteMaintainer)]
+[Authorize(Policy = nameof(Policies.SiteMaintainer))]
 public class AddModel : PageModel
 {
     // Constructor

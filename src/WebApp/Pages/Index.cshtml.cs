@@ -51,5 +51,5 @@ public class IndexModel : PageModel
     }
 
     private async Task<bool> UseDashboardAsync() =>
-        (await _authorization.AuthorizeAsync(User, PolicyName.StaffUser)).Succeeded;
+        (await _authorization.AuthorizeAsync(User, nameof(Policies.StaffUser))).Succeeded;
 }
