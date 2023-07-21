@@ -14,7 +14,7 @@ using Sbeap.WebApp.Platform.PageModelHelpers;
 
 namespace Sbeap.WebApp.Pages.Cases;
 
-[Authorize(Policy = PolicyName.StaffUser)]
+[Authorize(Policy = nameof(Policies.StaffUser))]
 public class EditModel : PageModel
 {
     private readonly ICaseworkService _service;

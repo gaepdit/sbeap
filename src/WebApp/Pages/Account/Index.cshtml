@@ -8,7 +8,13 @@
 <h1>@ViewData["Title"]</h1>
 <hr />
 
-<h2>@Html.DisplayFor(m => m.DisplayStaff, DisplayTemplate.NameOrNone)</h2>
+<h2>
+    @if (!Model.DisplayStaff.Active)
+    {
+        <em class="text-warning">Inactive:</em>
+    }
+    @Html.DisplayFor(m => m.DisplayStaff, DisplayTemplate.NameOrNone)
+</h2>
 
 <dl class="row">
     <dt class="col-sm-3">Email</dt>
@@ -22,7 +28,10 @@
 </dl>
 
 <div class="mb-3">
-    <a asp-page="Edit" class="btn btn-outline-primary me-2">Edit Profile</a>
+    @if (Model.DisplayStaff.Active)
+    {
+        <a asp-page="Edit" class="btn btn-outline-primary me-2">Edit Profile</a>
+    }
     <form class="form-inline d-inline-block" asp-page="Logout" method="post">
         <button type="submit" class="btn btn-danger">Sign out</button>
     </form>

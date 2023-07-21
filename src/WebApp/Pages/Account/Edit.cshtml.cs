@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Sbeap.AppServices.Offices;
+using Sbeap.AppServices.Permissions;
 using Sbeap.AppServices.Staff;
 using Sbeap.AppServices.Staff.Dto;
 using Sbeap.WebApp.Models;
@@ -12,7 +13,7 @@ using Sbeap.WebApp.Platform.PageModelHelpers;
 
 namespace Sbeap.WebApp.Pages.Account;
 
-[Authorize]
+[Authorize(Policy = nameof(Policies.ActiveUser))]
 public class EditModel : PageModel
 {
     // Constructor
@@ -55,10 +56,10 @@ public class EditModel : PageModel
     public async Task<IActionResult> OnPostAsync()
     {
         var staff = await _staffService.GetCurrentUserAsync();
-        
+
         // Inactive staff cannot do anything here.
         if (!staff.Active) return Forbid();
-        
+
         // Staff can only update self here.
         if (staff.Id != UpdateStaff.Id) return BadRequest();
 

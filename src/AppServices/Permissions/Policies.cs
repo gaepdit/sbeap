@@ -21,43 +21,44 @@ namespace Sbeap.AppServices.Permissions;
 //
 #pragma warning restore S125
 
-public static class PolicyName
-{
-    public const string AdminUser = nameof(AdminUser);
-    public const string LoggedIn = nameof(LoggedIn);
-    public const string StaffUser = nameof(StaffUser);
-    public const string SiteMaintainer = nameof(SiteMaintainer);
-    public const string UserAdministrator = nameof(UserAdministrator);
-}
-
 public static class Policies
 {
-    public static AuthorizationPolicy AdminUserPolicy() =>
+    public static AuthorizationPolicy ActiveUser() =>
         new AuthorizationPolicyBuilder()
             .RequireAuthenticatedUser()
+            .AddRequirements(new ActiveUserRequirement())
+            .Build();
+
+    public static AuthorizationPolicy AdminUser() =>
+        new AuthorizationPolicyBuilder()
+            .RequireAuthenticatedUser()
+            .AddRequirements(new ActiveUserRequirement())
             .AddRequirements(new AdminUserRequirement())
             .Build();
 
-    public static AuthorizationPolicy LoggedInPolicy() =>
+    public static AuthorizationPolicy LoggedIn() =>
         new AuthorizationPolicyBuilder()
             .RequireAuthenticatedUser()
             .Build();
 
-    public static AuthorizationPolicy StaffUserPolicy() =>
+    public static AuthorizationPolicy SiteMaintainer() =>
         new AuthorizationPolicyBuilder()
             .RequireAuthenticatedUser()
-            .AddRequirements(new StaffUserRequirement())
-            .Build();
-
-    public static AuthorizationPolicy SiteMaintainerPolicy() =>
-        new AuthorizationPolicyBuilder()
-            .RequireAuthenticatedUser()
+            .AddRequirements(new ActiveUserRequirement())
             .AddRequirements(new SiteMaintainerRequirement())
             .Build();
 
-    public static AuthorizationPolicy UserAdministratorPolicy() =>
+    public static AuthorizationPolicy StaffUser() =>
         new AuthorizationPolicyBuilder()
             .RequireAuthenticatedUser()
+            .AddRequirements(new ActiveUserRequirement())
+            .AddRequirements(new StaffUserRequirement())
+            .Build();
+
+    public static AuthorizationPolicy UserAdministrator() =>
+        new AuthorizationPolicyBuilder()
+            .RequireAuthenticatedUser()
+            .AddRequirements(new ActiveUserRequirement())
             .AddRequirements(new UserAdministratorRequirement())
             .Build();
 }

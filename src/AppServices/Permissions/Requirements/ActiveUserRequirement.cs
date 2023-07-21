@@ -1,16 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Sbeap.Domain.Identity;
 
 namespace Sbeap.AppServices.Permissions.Requirements;
 
-internal class SiteMaintainerRequirement :
-    AuthorizationHandler<SiteMaintainerRequirement>, IAuthorizationRequirement
+internal class ActiveUserRequirement :
+    AuthorizationHandler<ActiveUserRequirement>, IAuthorizationRequirement
 {
     protected override Task HandleRequirementAsync(
         AuthorizationHandlerContext context,
-        SiteMaintainerRequirement requirement)
+        ActiveUserRequirement requirement)
     {
-        if (context.User.IsInRole(RoleName.SiteMaintenance))
+        if (context.User.HasClaim(c => c is { Type: "ActiveUser", Value: "True" }))
             context.Succeed(requirement);
 
         return Task.FromResult(0);

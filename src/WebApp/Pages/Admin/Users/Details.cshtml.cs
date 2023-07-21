@@ -8,7 +8,7 @@ using Sbeap.Domain.Identity;
 
 namespace Sbeap.WebApp.Pages.Admin.Users;
 
-[Authorize]
+[Authorize(Policy = nameof(Policies.ActiveUser))]
 public class DetailsModel : PageModel
 {
     public StaffViewDto DisplayStaff { get; private set; } = default!;
@@ -27,7 +27,7 @@ public class DetailsModel : PageModel
 
         DisplayStaff = staff;
         Roles = await staffService.GetAppRolesAsync(DisplayStaff.Id);
-        IsUserAdministrator = (await authorization.AuthorizeAsync(User, PolicyName.UserAdministrator)).Succeeded;
+        IsUserAdministrator = (await authorization.AuthorizeAsync(User, nameof(Policies.UserAdministrator))).Succeeded;
 
         return Page();
     }

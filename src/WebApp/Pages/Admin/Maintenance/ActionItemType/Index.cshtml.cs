@@ -6,7 +6,7 @@ using Sbeap.AppServices.Permissions;
 
 namespace Sbeap.WebApp.Pages.Admin.Maintenance.ActionItemType;
 
-[Authorize(Policy = PolicyName.StaffUser)]
+[Authorize(Policy = nameof(Policies.StaffUser))]
 public class IndexModel : PageModel
 {
     public IReadOnlyList<ActionItemTypeViewDto> Items { get; private set; } = default!;
@@ -23,6 +23,6 @@ public class IndexModel : PageModel
         [FromServices] IAuthorizationService authorization)
     {
         Items = await service.GetListAsync();
-        IsSiteMaintainer = (await authorization.AuthorizeAsync(User, PolicyName.SiteMaintainer)).Succeeded;
+        IsSiteMaintainer = (await authorization.AuthorizeAsync(User, nameof(Policies.SiteMaintainer))).Succeeded;
     }
 }

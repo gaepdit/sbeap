@@ -11,7 +11,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Sbeap.WebApp.Pages.Customers;
 
-[Authorize(Policy = PolicyName.AdminUser)]
+[Authorize(Policy = nameof(Policies.AdminUser))]
 public class DeleteModel : PageModel
 {
     // Constructor
