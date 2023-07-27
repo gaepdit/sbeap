@@ -16,7 +16,7 @@
 * `/Customers/Restore/{id}` (Restore Customer)
 * `/Customers/Details/{id}/AddContact` (Add new Contact)
 * `/Customers/EditContact/{contactId}` (Edit Contact)
-* `/Customers/Details/{id}/DeleteContact/{contactId}` (Delete Contact)
+* `/Customers/DeleteContact/{contactId}` (Delete Contact)
 
 ### Case Pages
 
