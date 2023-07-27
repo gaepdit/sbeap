@@ -30,4 +30,34 @@ public class ContactMapping
             result.Title.Should().Be(item.Title);
         }
     }
+
+    [Test]
+    public void ContactUpdateMappingWorks()
+    {
+        var customer = new Customer(TextData.TestGuid);
+        customer.SetDeleted(null);
+
+        var item = new Contact(Guid.NewGuid(), customer)
+        {
+            Honorific = TextData.Word,
+            GivenName = TextData.AnotherWord,
+            FamilyName = TextData.ThirdWord,
+            Title = TextData.EmojiWord,
+        };
+        item.SetDeleted(null);
+
+        var result = AppServicesTestsSetup.Mapper!.Map<ContactUpdateDto>(item);
+
+        using (new AssertionScope())
+        {
+            result.Id.Should().Be(item.Id);
+            result.Honorific.Should().Be(item.Honorific);
+            result.GivenName.Should().Be(item.GivenName);
+            result.FamilyName.Should().Be(item.FamilyName);
+            result.Title.Should().Be(item.Title);
+            result.IsDeleted.Should().BeTrue();
+            result.CustomerIsDeleted.Should().BeTrue();
+            result.CustomerId.Should().Be(TextData.TestGuid);
+        }
+    }
 }

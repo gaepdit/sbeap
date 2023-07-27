@@ -1,4 +1,4 @@
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace Sbeap.TestData.Constants;
 
@@ -17,6 +17,10 @@ public static class TextData
     public const string AdditionalPhoneNumber = "770-555-1212";
     public const string? NullString = null;
     public const string EmptyString = "";
+
+    // GUIDs
+
+    public static readonly Guid TestGuid = new("99999999-0000-0000-0000-000000000009");
 
     // Words and phrases generated from [Cupcake Ipsum](https://cupcakeipsum.com/).
     public const string Word = "Cupcake";

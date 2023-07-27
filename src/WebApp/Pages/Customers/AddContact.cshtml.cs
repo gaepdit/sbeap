@@ -74,7 +74,7 @@ public class AddContactModel : PageModel
 
         HighlightId = await _service.AddContactAsync(NewContact);
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "New Contact successfully added.");
-        return RedirectToPage("Details", new { id });
+        return RedirectToPage("Details", null, new { id }, "contacts");
     }
 
     private async Task<bool> UserCanManageDeletionsAsync() =>

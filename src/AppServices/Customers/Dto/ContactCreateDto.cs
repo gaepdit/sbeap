@@ -1,4 +1,4 @@
-using Sbeap.Domain.ValueObjects;
+﻿using Sbeap.Domain.ValueObjects;
 using System.ComponentModel.DataAnnotations;
 
 namespace Sbeap.AppServices.Customers.Dto;
@@ -35,6 +35,6 @@ public record ContactCreateDto(Guid CustomerId)
         string.IsNullOrEmpty(Title) &&
         string.IsNullOrEmpty(Email) &&
         string.IsNullOrEmpty(Notes) &&
-        Address == IncompleteAddress.EmptyAddress &&
+        Address.IsEmpty &&
         PhoneNumber.IsIncomplete;
 }

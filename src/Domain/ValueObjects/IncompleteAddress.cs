@@ -34,4 +34,5 @@ public record IncompleteAddress : ValueObject
         .ConcatWithSeparator(", ");
 
     public static IncompleteAddress EmptyAddress => new();
+    public bool IsEmpty => this == EmptyAddress;
 }
