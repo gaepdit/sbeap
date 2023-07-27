@@ -4,21 +4,24 @@ namespace Sbeap.TestData.Constants;
 
 public static class ValueObjectData
 {
-    public static PhoneNumber SamplePhoneNumber => new()
+    public static PhoneNumber ValidPhoneNumber(int id) => new()
     {
+        Id = id,
         Number = TextData.ValidPhoneNumber,
         Type = PhoneType.Work,
     };
 
-    public static PhoneNumber AlternatePhoneNumber => new()
+    public static PhoneNumber AlternatePhoneNumber(int id) => new()
     {
+        Id = id,
         Number = TextData.AlternatePhoneNumber,
         Type = PhoneType.WorkCell,
     };
 
-    public static PhoneNumber UnknownPhoneNumber => new()
+    public static PhoneNumber AdditionalPhoneNumber(int id) => new()
     {
-        Number = TextData.ValidPhoneNumber,
+        Id = id,
+        Number = TextData.AdditionalPhoneNumber,
         Type = PhoneType.Unknown,
     };
 

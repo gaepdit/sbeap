@@ -46,10 +46,10 @@ public static class DbSeedDataHelpers
         context.SaveChanges();
     }
 
-    private static void SeedContactData(AppDbContext context)
+    internal static void SeedContactData(AppDbContext context)
     {
         if (context.Contacts.Any()) return;
-        context.Contacts.AddRange(ContactData.GetContacts);
+        context.Contacts.AddRange(ContactData.GetContacts(false));
         context.SaveChanges();
     }
 

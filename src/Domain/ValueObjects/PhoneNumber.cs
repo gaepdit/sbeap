@@ -7,6 +7,8 @@ namespace Sbeap.Domain.ValueObjects;
 [Owned]
 public record PhoneNumber : ValueObject
 {
+    public int Id { get; init; }
+
     [StringLength(25)]
     [DataType(DataType.PhoneNumber)]
     [Display(Name = "Phone number")]
@@ -21,18 +23,24 @@ public record PhoneNumber : ValueObject
         yield return Number ?? string.Empty;
         yield return Type ?? PhoneType.Unknown;
     }
-
-    public static PhoneNumber EmptyPhoneNumber => new();
 }
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum PhoneType
 {
-    Work = 0,
-    [Display(Name = "Work Cell")] WorkCell = 1,
-    Fax = 2,
-    Personal = 3,
-    [Display(Name = "Personal Cell")] PersonalCell = 4,
-    Other = 5,
-    Unknown = 6,
+    [UsedImplicitly] Work = 0,
+
+    [UsedImplicitly, Display(Name = "Work Cell")]
+    WorkCell = 1,
+
+    [UsedImplicitly] Fax = 2,
+
+    [UsedImplicitly] Personal = 3,
+
+    [UsedImplicitly, Display(Name = "Personal Cell")]
+    PersonalCell = 4,
+
+    [UsedImplicitly] Other = 5,
+
+    [UsedImplicitly] Unknown = 6,
 }

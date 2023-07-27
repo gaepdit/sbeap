@@ -1,4 +1,5 @@
 using Sbeap.Domain.Entities.Contacts;
+using Sbeap.Domain.ValueObjects;
 
 namespace Sbeap.Domain.Entities.Customers;
 
@@ -22,4 +23,12 @@ public interface ICustomerManager
     /// <param name="createdById">The ID of the user creating the entity.</param>
     /// <returns>The Contact that was created.</returns>
     Contact CreateContact(Customer customer, string? createdById);
+
+    /// <summary>
+    /// Creates a new <see cref="PhoneNumber"/>.
+    /// </summary>
+    /// <param name="number">The number.</param>
+    /// <param name="type">The <see cref="PhoneType"/> of the number.</param>
+    /// <returns>The Phone Number that was created.</returns>
+    PhoneNumber CreatePhoneNumber(string number, PhoneType type);
 }

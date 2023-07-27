@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using GaEpd.AppLibrary.Pagination;
 using Sbeap.AppServices.Customers.Dto;
 using Sbeap.AppServices.Staff;
@@ -127,7 +127,7 @@ public sealed class CustomerService : ICustomerService
     private async Task<Guid> CreateContactAsync(
         Customer customer, ContactCreateDto resource, ApplicationUser? user, CancellationToken token = default)
     {
-        if (resource.IsEmpty()) return Guid.Empty;
+        if (resource.IsEmpty) return Guid.Empty;
 
         var contact = _manager.CreateContact(customer, user?.Id);
 
@@ -140,8 +140,11 @@ public sealed class CustomerService : ICustomerService
         contact.Address = resource.Address;
         contact.EnteredBy = user;
 
-        if (resource.PhoneNumber != PhoneNumber.EmptyPhoneNumber)
-            contact.PhoneNumbers.Add(resource.PhoneNumber);
+        if (!resource.PhoneNumber.IsIncomplete)
+        {
+            contact.PhoneNumbers.Add(
+                _manager.CreatePhoneNumber(resource.PhoneNumber.Number, resource.PhoneNumber.Type.Value));
+        }
 
         await _contacts.InsertAsync(contact, autoSave: false, token: token);
         return contact.Id;
@@ -176,19 +179,21 @@ public sealed class CustomerService : ICustomerService
         await _contacts.UpdateAsync(item, token: token);
     }
 
-    public async Task AddPhoneNumberAsync(Guid contactId, PhoneNumber resource,
+    public async Task<PhoneNumber> AddPhoneNumberAsync(Guid contactId, PhoneNumberCreate resource,
         CancellationToken token = default)
     {
-        var item = await _contacts.GetAsync(contactId, token);
-        item.PhoneNumbers.Add(resource);
-        await _contacts.UpdateAsync(item, token: token);
+        var contact = await _contacts.GetAsync(contactId, token);
+        var phoneNumber = _manager.CreatePhoneNumber(resource.Number!, resource.Type!.Value);
+        contact.PhoneNumbers.Add(phoneNumber);
+        await _contacts.UpdateAsync(contact, token: token);
+        return phoneNumber;
     }
 
-    public async Task DeletePhoneNumberAsync(Guid contactId, PhoneNumber resource, CancellationToken token = default)
+    public async Task DeletePhoneNumberAsync(Guid contactId, int phoneNumberId, CancellationToken token = default)
     {
-        var item = await _contacts.GetAsync(contactId, token);
-        item.PhoneNumbers.Remove(resource);
-        await _contacts.UpdateAsync(item, token: token);
+        var contact = await _contacts.GetAsync(contactId, token);
+        contact.PhoneNumbers.RemoveAll(p => p.Id == phoneNumberId);
+        await _contacts.UpdateAsync(contact, token: token);
     }
 
     public void Dispose()

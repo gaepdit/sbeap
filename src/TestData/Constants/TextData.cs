@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Sbeap.TestData.Constants;
 
@@ -14,6 +14,7 @@ public static class TextData
     public const string ValidUrl = "https://example.net";
     public const string ValidPhoneNumber = "404-555-1212";
     public const string AlternatePhoneNumber = "678-555-1212";
+    public const string AdditionalPhoneNumber = "770-555-1212";
     public const string? NullString = null;
     public const string EmptyString = "";
 
