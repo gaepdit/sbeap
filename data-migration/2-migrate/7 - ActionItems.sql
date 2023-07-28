@@ -75,7 +75,6 @@ select newid(),
                 'Location: ' + CHAR(13) + CHAR(10) + n.STRCONFERENCELOCATION),
             iif(n.STRCONFERENCETOPIC is null, null,
                 'Meeting/Conference Topic: ' + CHAR(13) + CHAR(10) + n.STRCONFERENCETOPIC),
-           -- TODO: If possible, include concatenated list of attending staff.
             nullif(concat_ws
                        (' ',
                         iif(n.DATCONFERENCESTARTED is null, null,
@@ -83,6 +82,8 @@ select newid(),
                         iif(n.DATCONFERENCEENDED is null, null,
                             'Date Ended: ' + format(n.DATCONFERENCEENDED, 'd-MMM-yyyy') + '.')
                        ), ''),
+            iif(n.STRSTAFFATTENDING is null, null,
+                'Attending Staff: ' + n.STRSTAFFATTENDING),
             iif(n.STRSBEAPPRESENTATION is null, null,
                 'Presentation given by SBEAP: ' + iif(n.STRSBEAPPRESENTATION = 'True', 'Yes', 'No')),
             iif(n.STRATTENDEES is null, null, 'Number of attendees: ' + trim(n.STRATTENDEES)),
