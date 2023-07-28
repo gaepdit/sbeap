@@ -1,11 +1,11 @@
 USE [sbeap-app]
 GO
 
--- insert into dbo.Offices
---     (Id,
---      Name,
---      Active,
---      CreatedAt)
+insert into dbo.Offices
+    (Id,
+     Name,
+     Active,
+     CreatedAt)
 
 select newid()             as [Id],
        'SBEAP'             as [Name],

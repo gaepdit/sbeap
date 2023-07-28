@@ -4,19 +4,19 @@ GO
 -- Data comes from the SBEAPCASELOG and SBEAPCASELOGLINK tables.
 -- * All strings are trimmed.
 
--- insert into Cases
---     (Id,
---      CustomerId,
---      Description,
---      CaseOpenedDate,
---      CaseClosedDate,
---      ReferralAgencyId,
---      ReferralDate,
---      ReferralNotes,
---      UpdatedAt,
---      IsDeleted,
---      AirBranchCaseId,
---      AirBranchCustomerId)
+insert into Cases
+    (Id,
+     CustomerId,
+     Description,
+     CaseOpenedDate,
+     CaseClosedDate,
+     ReferralAgencyId,
+     ReferralDate,
+     ReferralNotes,
+     UpdatedAt,
+     IsDeleted,
+     AirBranchCaseId,
+     AirBranchCustomerId)
 
 select newid()                                 as [Id],
        u.Id                                    as [CustomerId],

@@ -8,26 +8,26 @@ GO
 -- * Postal codes are formatted.
 -- * Invalid states and postal codes are ignored.
 
--- insert into Customers
---     (Id,
---      Name,
---      County,
---      Location_Street,
---      Location_Street2,
---      Location_City,
---      Location_State,
---      Location_PostalCode,
---      MailingAddress_Street,
---      MailingAddress_Street2,
---      MailingAddress_City,
---      MailingAddress_State,
---      MailingAddress_PostalCode,
---      Description,
---      WebSite,
---      CreatedAt,
---      UpdatedAt,
---      IsDeleted,
---      AirBranchCustomerId)
+insert into Customers
+    (Id,
+     Name,
+     County,
+     Location_Street,
+     Location_Street2,
+     Location_City,
+     Location_State,
+     Location_PostalCode,
+     MailingAddress_Street,
+     MailingAddress_Street2,
+     MailingAddress_City,
+     MailingAddress_State,
+     MailingAddress_PostalCode,
+     Description,
+     WebSite,
+     CreatedAt,
+     UpdatedAt,
+     IsDeleted,
+     AirBranchCustomerId)
 
 select newid()                                                  as [Id],
        isnull(nullif(trim(c.STRCOMPANYNAME), ''), 'unknown')    as [Name],

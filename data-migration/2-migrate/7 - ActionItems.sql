@@ -9,16 +9,16 @@ GO
 --   * SBEAPPHONELOG
 --   * SBEAPTECHNICALASSIST
 
--- insert into ActionItems
---     (Id,
---      CaseworkId,
---      ActionItemTypeId,
---      ActionDate,
---      Notes,
---      EnteredOn,
---      CreatedAt,
---      UpdatedAt,
---      IsDeleted)
+insert into ActionItems
+    (Id,
+     CaseworkId,
+     ActionItemTypeId,
+     ActionDate,
+     Notes,
+     EnteredOn,
+     CreatedAt,
+     UpdatedAt,
+     IsDeleted)
 
 -- Compliance Assistance
 select newid(),

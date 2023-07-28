@@ -3,7 +3,7 @@ GO
 
 -- Data comes from the LOOKUPSBEAPCASEWORK table, modified based on conversations with the program.
 
--- insert into ActionItemTypes (Id, Name, Active, CreatedAt)
+insert into ActionItemTypes (Id, Name, Active, CreatedAt)
 
 select newid() as [Id], 'CAP meetings' as [Name], convert(bit, 0) as [Active], sysdatetimeoffset() as [CreatedAt]
 union
