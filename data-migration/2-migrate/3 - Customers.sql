@@ -109,4 +109,15 @@ from dbo.SBEAPCLIENTS c
     left join dbo.LOOKUPCOUNTYINFORMATION l
     on l.STRCOUNTYCODE = c.STRCOMPANYCOUNTY
 
+where c.CLIENTID not in
+      (select c2.CLIENTID
+       from dbo.SBEAPCLIENTS c2
+           left join dbo.SBEAPCASELOGLINK l2
+           on c2.CLIENTID = l2.CLIENTID
+       where l2.CLIENTID is null
+         and c2.CLIENTID not in
+             (select s2.CLIENTID
+              from dbo.SBEAPCASELOG s2
+              where s2.CLIENTID is not null))
+
 order by convert(int, c.CLIENTID)
