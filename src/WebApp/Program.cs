@@ -88,8 +88,9 @@ else
     // Production or Staging
     app.UseExceptionHandler("/Error");
     app.UseHsts();
-    if (!string.IsNullOrEmpty(ApplicationSettings.RaygunSettings.ApiKey)) app.UseRaygun();
 }
+
+if (!string.IsNullOrEmpty(ApplicationSettings.RaygunSettings.ApiKey)) app.UseRaygun();
 
 // Configure the application pipeline.
 app.UseStatusCodePagesWithReExecute("/Error/{0}");
