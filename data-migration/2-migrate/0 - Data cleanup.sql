@@ -1,4 +1,4 @@
-USE [sbeap-app1]
+USE [Sbeap]
 GO
 
 -- Update staff attending conferences with names.

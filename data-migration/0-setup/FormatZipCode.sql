@@ -1,4 +1,4 @@
-﻿USE [sbeap-app]
+﻿USE [Sbeap]
 GO
 SET ANSI_NULLS ON
 GO

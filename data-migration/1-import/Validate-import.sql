@@ -1,7 +1,7 @@
 -- USE [AIRBRANCH]
 -- GO
 
-USE [sbeap-app]
+USE [Sbeap]
 GO
 
 select 'SBEAPACTIONLOG' as [table_name], count(*) as [count] from dbo.SBEAPACTIONLOG
