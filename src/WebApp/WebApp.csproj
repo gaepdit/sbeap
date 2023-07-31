@@ -31,15 +31,14 @@
         <Content Update="appsettings.Development.json" CopyToPublishDirectory="Never">
             <DependentUpon>appsettings.json</DependentUpon>
         </Content>
-        <Content Update="appsettings.Local.json" CopyToPublishDirectory="Never">
-            <DependentUpon>appsettings.json</DependentUpon>
-        </Content>
     </ItemGroup>
 
     <ItemGroup>
-      <_ContentIncludedByDefault Remove="Pages\Shared\DisplayTemplates\Address.cshtml" />
-      <_ContentIncludedByDefault Remove="Pages\Shared\DisplayTemplates\BoolActive.cshtml" />
-      <_ContentIncludedByDefault Remove="Pages\Shared\DisplayTemplates\StringOrNone.cshtml" />
+      <None Update="Properties\PublishProfiles\Development-Server.pubxml">
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      </None>
     </ItemGroup>
 
 </Project>
