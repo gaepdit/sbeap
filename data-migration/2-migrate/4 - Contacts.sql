@@ -8,24 +8,24 @@ GO
 -- * Postal codes are formatted.
 -- * Invalid states and postal codes are ignored.
 
--- insert into Contacts
---     (Id,
---      CustomerId,
---      Honorific,
---      GivenName,
---      FamilyName,
---      Title,
---      Email,
---      Notes,
---      Address_Street,
---      Address_City,
---      Address_State,
---      Address_PostalCode,
---      CreatedAt,
---      UpdatedAt,
---      IsDeleted,
---      AirBranchContactId,
---      AirBranchCustomerId)
+insert into Contacts
+    (Id,
+     CustomerId,
+     Honorific,
+     GivenName,
+     FamilyName,
+     Title,
+     Email,
+     Notes,
+     Address_Street,
+     Address_City,
+     Address_State,
+     Address_PostalCode,
+     CreatedAt,
+     UpdatedAt,
+     IsDeleted,
+     AirBranchContactId,
+     AirBranchCustomerId)
 
 select newid()                                                    as [Id],
        u.Id                                                       as [CustomerId],

@@ -4,10 +4,10 @@ GO
 -- Data comes from the SBEAPCLIENTCONTACTS table.
 -- * Phone numbers are reformatted.
 
--- insert into PhoneNumber
---     (ContactId,
---      Number,
---      Type)
+insert into PhoneNumber
+    (ContactId,
+     Number,
+     Type)
 
 select t.ContactId,
        t.Number,

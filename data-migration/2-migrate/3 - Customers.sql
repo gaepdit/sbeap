@@ -8,26 +8,26 @@ GO
 -- * Postal codes are formatted.
 -- * Invalid states and postal codes are ignored.
 
--- insert into Customers
---     (Id,
---      Name,
---      County,
---      Location_Street,
---      Location_Street2,
---      Location_City,
---      Location_State,
---      Location_PostalCode,
---      MailingAddress_Street,
---      MailingAddress_Street2,
---      MailingAddress_City,
---      MailingAddress_State,
---      MailingAddress_PostalCode,
---      Description,
---      WebSite,
---      CreatedAt,
---      UpdatedAt,
---      IsDeleted,
---      AirBranchCustomerId)
+insert into Customers
+    (Id,
+     Name,
+     County,
+     Location_Street,
+     Location_Street2,
+     Location_City,
+     Location_State,
+     Location_PostalCode,
+     MailingAddress_Street,
+     MailingAddress_Street2,
+     MailingAddress_City,
+     MailingAddress_State,
+     MailingAddress_PostalCode,
+     Description,
+     WebSite,
+     CreatedAt,
+     UpdatedAt,
+     IsDeleted,
+     AirBranchCustomerId)
 
 select newid()                                                  as [Id],
        isnull(nullif(trim(c.STRCOMPANYNAME), ''), 'unknown')    as [Name],
@@ -108,5 +108,16 @@ from dbo.SBEAPCLIENTS c
     on c.CLIENTID = d.CLIENTID
     left join dbo.LOOKUPCOUNTYINFORMATION l
     on l.STRCOUNTYCODE = c.STRCOMPANYCOUNTY
+
+where c.CLIENTID not in
+      (select c2.CLIENTID
+       from dbo.SBEAPCLIENTS c2
+           left join dbo.SBEAPCASELOGLINK l2
+           on c2.CLIENTID = l2.CLIENTID
+       where l2.CLIENTID is null
+         and c2.CLIENTID not in
+             (select s2.CLIENTID
+              from dbo.SBEAPCASELOG s2
+              where s2.CLIENTID is not null))
 
 order by convert(int, c.CLIENTID)

@@ -4,7 +4,7 @@ GO
 -- Data comes from code in the IAIP and existing data in the SBEAPCASELOG.STRINTERAGENCY column, modified based on
 -- conversations with the program.
 
--- insert into Agencies (Id, Name, Active, CreatedAt)
+insert into Agencies (Id, Name, Active, CreatedAt)
 
 select newid(), 'Albany', convert(bit, 0), sysdatetimeoffset()
 union
