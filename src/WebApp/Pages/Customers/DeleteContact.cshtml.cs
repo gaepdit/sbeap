@@ -32,30 +32,33 @@ public class DeleteContactModel : PageModel
     public CustomerSearchResultDto CustomerView { get; private set; } = default!;
 
     // Methods
-    public async Task<IActionResult> OnGetAsync(Guid? id, Guid? contactId)
+    public async Task<IActionResult> OnGetAsync(Guid? id)
     {
-        if (id is null || contactId is null) return RedirectToPage("Index");
+        if (id is null) return RedirectToPage("Index");
 
-        var customer = await _service.FindBasicInfoAsync(id.Value);
+        var contact = await _service.FindContactAsync(id.Value);
+        if (contact is null) return NotFound();
+        ContactView = contact;
+
+        var customer = await _service.FindBasicInfoAsync(contact.CustomerId);
         if (customer is null) return NotFound();
         CustomerView = customer;
 
         if (CustomerView.IsDeleted || !await UserCanManageDeletionsAsync())
             return NotFound();
 
-        var contact = await _service.FindContactAsync(contactId.Value);
-        if (contact is null) return NotFound();
-        ContactView = contact;
-
-        ContactId = contactId.Value;
+        ContactId = id.Value;
         return Page();
     }
 
     public async Task<IActionResult> OnPostAsync(Guid? id)
     {
-        if (id is null) return RedirectToPage("../Index");
+        if (id is null || id != ContactId) return RedirectToPage("Index");
 
-        var customer = await _service.FindBasicInfoAsync(id.Value);
+        var originalContact = await _service.FindContactAsync(id.Value);
+        if (originalContact is null) return BadRequest();
+
+        var customer = await _service.FindBasicInfoAsync(originalContact.CustomerId);
         if (customer is null) return BadRequest();
         CustomerView = customer;
 
@@ -64,7 +67,7 @@ public class DeleteContactModel : PageModel
 
         await _service.DeleteContactAsync(ContactId);
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Contact successfully deleted.");
-        return RedirectToPage("Details", new { id });
+        return RedirectToPage("Details", new { CustomerView.Id });
     }
 
     private async Task<bool> UserCanManageDeletionsAsync() =>

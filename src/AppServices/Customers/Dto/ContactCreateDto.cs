@@ -26,15 +26,15 @@ public record ContactCreateDto(Guid CustomerId)
     public IncompleteAddress Address { get; init; } = new();
 
     [Display(Name = "Phone number")]
-    public PhoneNumber PhoneNumber { get; init; } = new();
+    public PhoneNumberCreate PhoneNumber { get; init; } = new();
 
-    public bool IsEmpty() =>
+    public bool IsEmpty =>
         string.IsNullOrEmpty(Honorific) &&
         string.IsNullOrEmpty(GivenName) &&
         string.IsNullOrEmpty(FamilyName) &&
         string.IsNullOrEmpty(Title) &&
         string.IsNullOrEmpty(Email) &&
         string.IsNullOrEmpty(Notes) &&
-        Address == IncompleteAddress.EmptyAddress &&
-        PhoneNumber == PhoneNumber.EmptyPhoneNumber;
+        Address.IsEmpty &&
+        PhoneNumber.IsIncomplete;
 }

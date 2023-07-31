@@ -66,18 +66,18 @@ public class ExternalLoginModel : PageModel
     private async Task<IActionResult> SignInAsLocalUser()
     {
         _logger.LogInformation(
-            "Local user signin attempted with settings {LocalUserIsAuthenticated}, {LocalUserIsStaff}, and {LocalUserIsAdmin}",
+            "Local user signin attempted with settings {LocalUserIsAuthenticated}, {LocalUserIsAdmin}, and {LocalUserIsStaff}",
             ApplicationSettings.DevSettings.LocalUserIsAuthenticated,
-            ApplicationSettings.DevSettings.LocalUserIsStaff,
-            ApplicationSettings.DevSettings.LocalUserIsAdmin);
+            ApplicationSettings.DevSettings.LocalUserIsAdmin,
+            ApplicationSettings.DevSettings.LocalUserIsStaff);
         if (!ApplicationSettings.DevSettings.LocalUserIsAuthenticated) return Forbid();
 
         StaffSearchDto search;
 
-        if (ApplicationSettings.DevSettings.LocalUserIsStaff)
-            search = new StaffSearchDto(SortBy.NameAsc, "General", null, null, null, null);
-        else if (ApplicationSettings.DevSettings.LocalUserIsAdmin)
+        if (ApplicationSettings.DevSettings.LocalUserIsAdmin)
             search = new StaffSearchDto(SortBy.NameAsc, "Admin", null, null, null, null);
+        else if (ApplicationSettings.DevSettings.LocalUserIsStaff)
+            search = new StaffSearchDto(SortBy.NameAsc, "General", null, null, null, null);
         else
             search = new StaffSearchDto(SortBy.NameAsc, "Limited", null, null, null, null);
 

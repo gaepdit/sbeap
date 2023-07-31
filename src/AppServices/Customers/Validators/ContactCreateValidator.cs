@@ -15,5 +15,10 @@ public class ContactCreateValidator : AbstractValidator<ContactCreateDto>
                 !string.IsNullOrWhiteSpace(c.FamilyName) ||
                 !string.IsNullOrWhiteSpace(c.Title))
             .WithMessage("At least a name or title must be entered to create a contact.");
+
+        // Embedded phone number
+        RuleFor(e => e.PhoneNumber)
+            .SetValidator(new PhoneNumberCreateValidator())
+            .When(e => !e.PhoneNumber.IsIncomplete);
     }
 }

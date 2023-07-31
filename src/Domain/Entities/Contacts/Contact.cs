@@ -37,5 +37,5 @@ public class Contact : AuditableSoftDeleteEntity
 
     // Collections
 
-    public ICollection<PhoneNumber> PhoneNumbers { get; } = new List<PhoneNumber>();
+    public List<PhoneNumber> PhoneNumbers { get; } = new();
 }

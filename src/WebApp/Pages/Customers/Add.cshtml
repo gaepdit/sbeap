@@ -83,10 +83,11 @@
 
         <div class="row mt-2">
             <h2>Contact <small class="text-muted">(optional)</small></h2>
-            <p class="form-text">At least a name or title must be entered in order to create a contact.</p>
+            <p class="form-text text-info">Additional contacts can be added later.</p>
 
             <div class="col-md-6">
                 <h3 class="h5 d-none d-md-block">Personal Info</h3>
+            <p class="form-text"><span class="text-danger">*</span> At least a name or title must be entered in order to create a contact.</p>
                 <div class="input-group mb-3">
                     @Html.EditorFor(e => e.Item.Contact.Honorific, EditorTemplate.Input)
                     @Html.EditorFor(e => e.Item.Contact.GivenName, EditorTemplate.Input)
@@ -98,6 +99,7 @@
                 <div class="mb-3">
                     @Html.EditorFor(e => e.Item.Contact.Email, EditorTemplate.Input)
                 </div>
+                <div class="form-text text-info mb-1">Additional phone numbers can be added later.</div>
                 <div class="input-group mb-3">
                     @Html.EditorFor(e => e.Item.Contact.PhoneNumber.Number, EditorTemplate.Input)
                     @Html.EditorFor(e => e.Item.Contact.PhoneNumber.Type, EditorTemplate.SelectOptional, new { Items = phoneTypesSelectList })

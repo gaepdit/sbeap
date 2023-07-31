@@ -26,6 +26,8 @@ public interface ICustomerService : IDisposable
     Task<ContactUpdateDto?> FindContactForUpdateAsync(Guid contactId, CancellationToken token = default);
     Task UpdateContactAsync(ContactUpdateDto resource, CancellationToken token = default);
     Task DeleteContactAsync(Guid contactId, CancellationToken token = default);
-    Task AddPhoneNumberAsync(Guid contactId, PhoneNumber resource, CancellationToken token = default);
-    Task DeletePhoneNumberAsync(Guid contactId, PhoneNumber resource, CancellationToken token = default);
+
+    // Contact phone numbers
+    Task<PhoneNumber> AddPhoneNumberAsync(Guid contactId, PhoneNumberCreate resource, CancellationToken token = default);
+    Task DeletePhoneNumberAsync(Guid contactId, int phoneNumberId, CancellationToken token = default);
 }

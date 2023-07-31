@@ -7,7 +7,7 @@ namespace Sbeap.TestData;
 
 internal static class ContactData
 {
-    private static IEnumerable<Contact> ContactSeedItems => new List<Contact>
+    private static IEnumerable<Contact> ContactSeedItems(int seedPhoneIds) => new List<Contact>
     {
         new(new Guid("41000000-0000-0000-0000-000000000001"),
             CustomerData.GetCustomers.ElementAt(0))
@@ -23,9 +23,9 @@ internal static class ContactData
             Address = ValueObjectData.CompleteAddress,
             PhoneNumbers =
             {
-                ValueObjectData.SamplePhoneNumber,
-                ValueObjectData.AlternatePhoneNumber,
-                ValueObjectData.UnknownPhoneNumber,
+                ValueObjectData.ValidPhoneNumber(seedPhoneIds * 91),
+                ValueObjectData.AlternatePhoneNumber(seedPhoneIds * 92),
+                ValueObjectData.AdditionalPhoneNumber(seedPhoneIds * 93),
             },
         },
         new(new Guid("41000000-0000-0000-0000-000000000002"),
@@ -53,7 +53,7 @@ internal static class ContactData
             Email = TextData.ValidEmail,
             Notes = TextData.Paragraph,
             Address = ValueObjectData.IncompleteAddress,
-            PhoneNumbers = { ValueObjectData.SamplePhoneNumber },
+            PhoneNumbers = { ValueObjectData.ValidPhoneNumber(seedPhoneIds * 94) },
         },
         new(new Guid("41000000-0000-0000-0000-000000000004"),
             CustomerData.GetCustomers.ElementAt(2))
@@ -67,21 +67,22 @@ internal static class ContactData
             Email = TextData.ValidEmail,
             Notes = TextData.Paragraph,
             Address = ValueObjectData.IncompleteAddress,
-            PhoneNumbers = { ValueObjectData.SamplePhoneNumber },
+            PhoneNumbers = { ValueObjectData.ValidPhoneNumber(seedPhoneIds * 95) },
         },
     };
 
     private static IEnumerable<Contact>? _contacts;
 
-    public static IEnumerable<Contact> GetContacts
+    public static IEnumerable<Contact> GetContacts(bool seedPhoneIds)
     {
-        get
-        {
-            if (_contacts is not null) return _contacts;
-            _contacts = ContactSeedItems.ToList();
-            _contacts.ElementAt(2).SetDeleted("00000000-0000-0000-0000-000000000001");
-            return _contacts;
-        }
+        if (_contacts is not null) return _contacts;
+
+        // When `seedPhoneIds` is true, Phone Number IDs will be seeded.
+        // When `seedPhoneIds` is false, all Phone Number IDs will be set to zero so that EF can auto-create them.
+        _contacts = ContactSeedItems(seedPhoneIds ? 1 : 0).ToList();
+
+        _contacts.ElementAt(2).SetDeleted("00000000-0000-0000-0000-000000000001");
+        return _contacts;
     }
 
     public static void ClearData() => _contacts = null;

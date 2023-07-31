@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Sbeap.Domain.Entities.ActionItemTypes;
 using Sbeap.Domain.Entities.Agencies;
 using Sbeap.Domain.Entities.Cases;
+using Sbeap.Domain.Entities.Contacts;
 using Sbeap.Domain.Entities.Customers;
 using Sbeap.Domain.Entities.Offices;
 using Sbeap.EfRepository.Contexts;
@@ -137,7 +138,7 @@ public sealed class RepositoryHelper : IDisposable
     }
 
     /// <summary>
-    /// Seeds data for the Action Item Type entity and returns an instance of ActionItemTypeRepository.
+    /// Seeds data and returns an instance of ActionItemTypeRepository.
     /// </summary>
     /// <returns>An <see cref="ActionItemTypeRepository"/>.</returns>
     public IActionItemTypeRepository GetActionItemTypeRepository()
@@ -149,7 +150,7 @@ public sealed class RepositoryHelper : IDisposable
     }
 
     /// <summary>
-    /// Seeds data for the Agency entity and returns an instance of AgencyRepository.
+    /// Seeds data and returns an instance of AgencyRepository.
     /// </summary>
     /// <returns>An <see cref="AgencyRepository"/>.</returns>
     public IAgencyRepository GetAgencyRepository()
@@ -161,7 +162,7 @@ public sealed class RepositoryHelper : IDisposable
     }
 
     /// <summary>
-    /// Seeds data for the Casework entity and returns an instance of CaseworkRepository.
+    /// Seeds data and returns an instance of CaseworkRepository.
     /// </summary>
     /// <returns>An <see cref="CaseworkRepository"/>.</returns>
     public ICaseworkRepository GetCaseworkRepository()
@@ -173,7 +174,7 @@ public sealed class RepositoryHelper : IDisposable
     }
 
     /// <summary>
-    /// Seeds data for the Customer entity and returns an instance of CustomerRepository.
+    /// Seeds data and returns an instance of CustomerRepository.
     /// </summary>
     /// <returns>An <see cref="CustomerRepository"/>.</returns>
     public ICustomerRepository GetCustomerRepository()
@@ -185,7 +186,19 @@ public sealed class RepositoryHelper : IDisposable
     }
 
     /// <summary>
-    /// Seeds data for the Office entity and returns an instance of OfficeRepository.
+    /// Seeds data and returns an instance of ContactRepository.
+    /// </summary>
+    /// <returns>An <see cref="ContactRepository"/>.</returns>
+    public IContactRepository GetContactRepository()
+    {
+        ClearAllStaticData();
+        DbSeedDataHelpers.SeedContactData(_context);
+        Context = new AppDbContext(_options);
+        return new ContactRepository(Context);
+    }
+
+    /// <summary>
+    /// Seeds data and returns an instance of OfficeRepository.
     /// </summary>
     /// <returns>An <see cref="OfficeRepository"/>.</returns>
     public IOfficeRepository GetOfficeRepository()

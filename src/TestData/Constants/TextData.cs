@@ -14,8 +14,13 @@ public static class TextData
     public const string ValidUrl = "https://example.net";
     public const string ValidPhoneNumber = "404-555-1212";
     public const string AlternatePhoneNumber = "678-555-1212";
+    public const string AdditionalPhoneNumber = "770-555-1212";
     public const string? NullString = null;
     public const string EmptyString = "";
+
+    // GUIDs
+
+    public static readonly Guid TestGuid = new("99999999-0000-0000-0000-000000000009");
 
     // Words and phrases generated from [Cupcake Ipsum](https://cupcakeipsum.com/).
     public const string Word = "Cupcake";
