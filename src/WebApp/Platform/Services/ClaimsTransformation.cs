@@ -13,7 +13,7 @@ public class ClaimsTransformation : IClaimsTransformation
 
     public async Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
     {
-        var userIsActive = (await _userManager.GetUserAsync(principal))!.Active;
+        var userIsActive = (await _userManager.GetUserAsync(principal))?.Active ?? false;
 
         if (principal.HasClaim(nameof(Policies.ActiveUser), userIsActive.ToString()))
             return principal;
