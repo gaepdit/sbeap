@@ -8,7 +8,7 @@ using Sbeap.Domain.Identity;
 
 namespace Sbeap.WebApp.Pages.Account;
 
-[Authorize(Policy = nameof(Policies.LoggedIn))]
+[Authorize(Policy = nameof(Policies.LoggedInUser))]
 public class IndexModel : PageModel
 {
     public StaffViewDto DisplayStaff { get; private set; } = default!;
