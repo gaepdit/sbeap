@@ -9,5 +9,5 @@ insert into dbo.Offices
 
 select newid()             as [Id],
        'SBEAP'             as [Name],
-       convert(bit, 0)     as [Active],
+       convert(bit, 1)     as [Active],
        sysdatetimeoffset() as [CreatedAt];
