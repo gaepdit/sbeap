@@ -2,6 +2,7 @@
 @using Sbeap.AppServices.Permissions
 @inject IAuthorizationService AuthorizationService
 @{
+    var hideSignin = Model is Account.LoginModel;
     var isActive = (await AuthorizationService.AuthorizeAsync(User, nameof(Policies.ActiveUser))).Succeeded;
     var isLoggedIn = (await AuthorizationService.AuthorizeAsync(User, nameof(Policies.LoggedInUser))).Succeeded;
     var isStaff = (await AuthorizationService.AuthorizeAsync(User, nameof(Policies.StaffUser))).Succeeded;
@@ -78,7 +79,7 @@
                         </ul>
                     </li>
                 }
-                else
+                else if(!hideSignin)
                 {
                     <li class="nav-item">
                         <a class="nav-link text-white" asp-page="/Account/Login">Sign in</a>
