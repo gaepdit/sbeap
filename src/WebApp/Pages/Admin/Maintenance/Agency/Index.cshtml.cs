@@ -6,7 +6,7 @@ using Sbeap.AppServices.Permissions;
 
 namespace Sbeap.WebApp.Pages.Admin.Maintenance.Agency;
 
-[Authorize(Policy = nameof(Policies.StaffUser))]
+[Authorize(Policy = nameof(Policies.AdministrationView))]
 public class IndexModel : PageModel
 {
     public IReadOnlyList<AgencyViewDto> Items { get; private set; } = default!;

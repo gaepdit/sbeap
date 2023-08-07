@@ -9,7 +9,7 @@ internal class ActiveUserRequirement :
         AuthorizationHandlerContext context,
         ActiveUserRequirement requirement)
     {
-        if (context.User.HasClaim(c => c is { Type: "ActiveUser", Value: "True" }))
+        if (context.User.HasClaim(c => c.Type == nameof(Policies.ActiveUser) && c.Value == true.ToString()))
             context.Succeed(requirement);
 
         return Task.FromResult(0);

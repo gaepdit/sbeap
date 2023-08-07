@@ -2,9 +2,11 @@
 @using Sbeap.AppServices.Permissions
 @inject IAuthorizationService AuthorizationService
 @{
+    var hideSignin = Model is Account.LoginModel;
     var isActive = (await AuthorizationService.AuthorizeAsync(User, nameof(Policies.ActiveUser))).Succeeded;
-    var isLoggedIn = (await AuthorizationService.AuthorizeAsync(User, nameof(Policies.LoggedIn))).Succeeded;
+    var isLoggedIn = (await AuthorizationService.AuthorizeAsync(User, nameof(Policies.LoggedInUser))).Succeeded;
     var isStaff = (await AuthorizationService.AuthorizeAsync(User, nameof(Policies.StaffUser))).Succeeded;
+    var canViewMaintenance = (await AuthorizationService.AuthorizeAsync(User, nameof(Policies.AdministrationView))).Succeeded;
 }
 <nav id="main-nav" class="navbar navbar-expand-sm navbar-dark bg-brand border-bottom shadow-sm mb-3 d-print-none">
     <div class="container">
@@ -43,7 +45,7 @@
                             <li>
                                 <a class="dropdown-item text-dark" asp-page="/Admin/Users/Index">SBEAP Users</a>
                             </li>
-                            @if (isStaff)
+                            @if (canViewMaintenance)
                             {
                                 <li>
                                     <a class="dropdown-item text-dark" asp-page="/Admin/Maintenance/Index">Site Maintenance</a>
@@ -77,7 +79,7 @@
                         </ul>
                     </li>
                 }
-                else
+                else if(!hideSignin)
                 {
                     <li class="nav-item">
                         <a class="nav-link text-white" asp-page="/Account/Login">Sign in</a>

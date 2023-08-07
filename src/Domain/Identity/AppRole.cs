@@ -55,24 +55,29 @@ public class AppRole
 
     // These static Role objects are used for displaying role information in the UI.
 
+    [UsedImplicitly]
     public static AppRole AdminRole { get; } = new(
         RoleName.Admin, "SBEAP Admin",
-        "Can delete and restore customers and cases."
+        "Can do everything in the “Staff” role (add, view, and edit customers and cases; add and remove " +
+        "contacts; add and remove action items). Plus, can delete and restore customers and cases."
     );
 
+    [UsedImplicitly]
     public static AppRole StaffRole { get; } = new(
         RoleName.Staff, "SBEAP Staff",
         "Can add, view, and edit customers and cases. Can add and remove contacts related " +
         "to customers. Can add and remove action items related to cases."
     );
 
+    [UsedImplicitly]
     public static AppRole SiteMaintenanceRole { get; } = new(
         RoleName.SiteMaintenance, "Site Maintenance",
         "Can update values in lookup tables (drop-down lists)."
     );
 
+    [UsedImplicitly]
     public static AppRole UserAdminRole { get; } = new(
         RoleName.UserAdmin, "User Account Admin",
-        "Can register and edit all users and roles."
+        "Can edit all user profiles and roles."
     );
 }
