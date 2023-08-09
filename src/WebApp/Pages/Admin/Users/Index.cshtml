@@ -106,7 +106,7 @@
                 {
                     <tr class="@(item.Active ? "" : "bg-secondary bg-opacity-25")">
                         <td>
-                            @if (item.Email.Equals(User.Identity?.Name))
+                            @if (item.Email.ToLowerInvariant().Equals(User.Identity?.Name!.ToLowerInvariant()))
                             {
                                 <span class="badge text-bg-info">YOU</span>
                             }
