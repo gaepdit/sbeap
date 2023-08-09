@@ -44,6 +44,9 @@ else
         <tr>
             <th scope="col">Name</th>
             <th scope="col">Active</th>
+            <th scope="col">
+                <span class="visually-hidden">Actions</span>
+            </th>
         </tr>
         </thead>
         <tbody>
@@ -55,19 +58,16 @@ else
                     {
                         @:👉
                     }
-                    @if (Model.IsSiteMaintainer)
-                    {
-                        <a asp-page="Edit" asp-route-id="@item.Id">
-                            @Html.DisplayFor(m => item.Name, "StringOrNone")
-                        </a>
-                    }
-                    else
-                    {
-                        @Html.DisplayFor(m => item.Name, "StringOrNone")
-                    }
+                    @Html.DisplayFor(m => item.Name, "StringOrNone")
                 </td>
                 <td>
                     @Html.DisplayFor(m => item.Active, DisplayTemplate.BoolActive)
+                </td>
+                <td>
+                    @if (Model.IsSiteMaintainer)
+                    {
+                        <a asp-page="Edit" asp-route-id="@item.Id.ToString()" class="btn btn-outline-primary btn-sm">Edit</a>
+                    }
                 </td>
             </tr>
         }

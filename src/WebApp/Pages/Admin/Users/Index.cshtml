@@ -95,6 +95,9 @@
                         </a>
                     </th>
                     <th scope="col">@Html.DisplayNameFor(m => m.Spec.Status)</th>
+                    <th scope="col">
+                        <span class="visually-hidden">Actions</span>
+                    </th>
                 </tr>
                 </thead>
 
@@ -107,11 +110,14 @@
                             {
                                 <span class="badge text-bg-info">YOU</span>
                             }
-                            <a asp-page="Details" asp-route-id="@item.Id">@item.SortableFullName</a>
+                            @item.SortableFullName
                         </td>
                         <td>@item.Email</td>
                         <td>@Html.DisplayFor(m => item.OfficeName, DisplayTemplate.StringOrNone)</td>
                         <td>@Html.DisplayFor(m => item.Active, DisplayTemplate.BoolActive)</td>
+                        <td>
+                            <a asp-page="Details" asp-route-id="@item.Id" class="btn btn-outline-info btn-sm">View</a>
+                        </td>
                     </tr>
                 }
                 </tbody>
