@@ -11,7 +11,13 @@ public class MigratorHostedService : IHostedService
 {
     // Inject the IServiceProvider so we can create the DbContext scoped service.
     private readonly IServiceProvider _serviceProvider;
-    public MigratorHostedService(IServiceProvider serviceProvider) => _serviceProvider = serviceProvider;
+    private readonly IConfiguration _configuration;
+
+    public MigratorHostedService(IServiceProvider serviceProvider, IConfiguration configuration)
+    {
+        _serviceProvider = serviceProvider;
+        _configuration = configuration;
+    }
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
@@ -20,27 +26,39 @@ public class MigratorHostedService : IHostedService
 
         // Retrieve scoped services.
         using var scope = _serviceProvider.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        
+
+        var migrationConnectionString = _configuration.GetConnectionString("MigrationConnection");
+        var migrationOptions = new DbContextOptionsBuilder<AppDbContext>()
+            .UseSqlServer(migrationConnectionString, builder =>
+            {
+                // DateOnly and TimeOnly entity properties require the following package: 
+                // ErikEJ.EntityFrameworkCore.SqlServer.DateOnlyTimeOnly
+                // This will no longer be necessary after upgrading to .NET 8.
+                builder.UseDateOnlyTimeOnly();
+                builder.MigrationsAssembly("EfRepository");
+            }).Options;
+
+        await using var migrationContext = new AppDbContext(migrationOptions);
+
         if (ApplicationSettings.DevSettings.UseEfMigrations)
         {
-            // Run any database migrations if used.
-            await context.Database.MigrateAsync(cancellationToken);
+            // Run any EF database migrations if used.
+            await migrationContext.Database.MigrateAsync(cancellationToken);
 
             // Initialize any new roles. (No other data is seeded when running EF migrations.)
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             foreach (var role in AppRole.AllRoles.Keys)
-                if (!await context.Roles.AnyAsync(e => e.Name == role, cancellationToken))
+                if (!await migrationContext.Roles.AnyAsync(e => e.Name == role, cancellationToken))
                     await roleManager.CreateAsync(new IdentityRole(role));
         }
         else
         {
             // Otherwise, delete and re-create the database.
-            await context.Database.EnsureDeletedAsync(cancellationToken);
-            await context.Database.EnsureCreatedAsync(cancellationToken);
-            
+            await migrationContext.Database.EnsureDeletedAsync(cancellationToken);
+            await migrationContext.Database.EnsureCreatedAsync(cancellationToken);
+
             // Add seed data to database.
-            DbSeedDataHelpers.SeedAllData(context);
+            DbSeedDataHelpers.SeedAllData(migrationContext);
         }
     }
 

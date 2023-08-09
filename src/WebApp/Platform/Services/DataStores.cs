@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Sbeap.Domain.Entities.ActionItems;
-using Sbeap.Domain.Entities.ActionItemTypes;
+using Sbeap.Domain.Entities.ActionItemTypes;
 using Sbeap.Domain.Entities.Agencies;
 using Sbeap.Domain.Entities.Cases;
 using Sbeap.Domain.Entities.Contacts;
@@ -40,13 +40,12 @@ public static class DataStores
             else
             {
                 services.AddDbContext<AppDbContext>(opts =>
-                    opts.UseSqlServer(connectionString, sqlServerOpts =>
+                    opts.UseSqlServer(connectionString, builder =>
                     {
                         // DateOnly and TimeOnly entity properties require the following package: 
                         // ErikEJ.EntityFrameworkCore.SqlServer.DateOnlyTimeOnly
                         // This will no longer be necessary after upgrading to .NET 8.
-                        sqlServerOpts.UseDateOnlyTimeOnly();
-                        sqlServerOpts.MigrationsAssembly("EfRepository");
+                        builder.UseDateOnlyTimeOnly();
                     }));
             }
 
