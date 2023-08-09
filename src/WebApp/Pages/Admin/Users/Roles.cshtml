@@ -1,0 +1,54 @@
+﻿@page
+@model RolesModel
+@{
+    ViewData["Title"] = "SBEAP Users, Roles, and Capabilities";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h2>Public</h2>
+<p>Visitors to this site who are not logged have no access to any pages or data on the site.</p>
+
+<h2>User</h2>
+<p>All Users with SOG work accounts who are logged into the application can:</p>
+<ul class="pb-3">
+    <li>View a list of SBEAP Users.</li>
+    <li>Edit account profile info for themselves, including changing assigned Office.</li>
+</ul>
+
+<h2>User Roles</h2>
+<p>Users can also be granted one or more of the following roles.</p>
+<ul>
+    <li>
+        <h3 class="h4">SBEAP Staff</h3>
+        <p>Users in the <em>SBEAP Staff</em> role can:</p>
+        <ul class="pb-3">
+            <li>Add, view, and edit Customers.</li>
+            <li>Add, view, edit, and delete Contacts related to Customers.</li>
+            <li>Add, view, and edit Cases.</li>
+            <li>Add, view, edit, and delete Action Items related to Cases.</li>
+        </ul>
+    </li>
+    <li>
+        <h3 class="h4">SBEAP Admin</h3>
+        <p>Users in the <em>SBEAP Admin</em> role have all the capabilities of the <em>SBEAP Staff</em> role. Plus they can:</p>
+        <ul class="pb-3">
+            <li>Delete Customers and Cases.</li>
+            <li>View and restore deleted Customers and Cases.</li>
+        </ul>
+    </li>
+    <li>
+        <h3 class="h4">User Account Admin</h3>
+        <p>Users in the <em>User Account Admin</em> role can:</p>
+        <ul class="pb-3">
+            <li>Create and manage user accounts and assign roles.</li>
+        </ul>
+    </li>
+    <li>
+        <h3 class="h4">Site Maintenance</h3>
+        <p>Users in the <em>Site Maintenance</em> role can:</p>
+        <ul>
+            <li>Edit the lookup tables used for drop-down lists (Action Item Types, Agencies, and Offices).</li>
+        </ul>
+    </li>
+</ul>

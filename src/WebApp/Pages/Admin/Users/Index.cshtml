@@ -38,10 +38,13 @@
             </div>
             <div class="col-md mb-3">
                 <div class="form-floating">
-                    <select asp-for="Spec.Role" asp-items="Model.RoleItems" name="@nameof(Model.Spec.Role)" class="form-select">
+                    <select asp-for="Spec.Role" asp-items="Model.RoleItems" name="@nameof(Model.Spec.Role)" class="form-select" aria-describedby="rolesHelpBlock">
                         <option value="">@TextConstants.SelectTextAny</option>
                     </select>
                     <label asp-for="Spec.Role" class="form-label"></label>
+                </div>
+                <div id="rolesHelpBlock" class="form-text">
+                    <a asp-page="Roles" target="_blank">Description of roles</a>
                 </div>
             </div>
             <div class="col-md mb-3">

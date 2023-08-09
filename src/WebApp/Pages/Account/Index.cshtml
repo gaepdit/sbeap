@@ -41,11 +41,17 @@
 
 @if (Model.Roles.Count == 0)
 {
-    <p>Your account has no application roles.</p>
+    <p>
+        Your account has no application roles. View a detailed description of
+        <a asp-page="/Admin/Users/Roles" target="_blank">user roles and capabilities</a>.
+    </p>
 }
 else
 {
-    <p>Your account has the following application roles.</p>
+    <p>
+        Your account has the following application roles. View a detailed description of
+        <a asp-page="/Admin/Users/Roles" target="_blank">user roles and capabilities</a>.
+    </p>
 
     <dl class="p-3 border rounded-3 bg-light">
         @foreach (var role in Model.Roles)

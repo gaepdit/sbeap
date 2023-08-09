@@ -9,13 +9,13 @@ Visitors to this site who are not logged have no access to any pages or data on 
 All Users with work accounts who are logged into the application can:
 
 * View a list of SBEAP Users.
-* Edit account info for themselves, including changing assigned Office.
+* Edit account profile info for themselves, including changing assigned Office.
 
 ## User Roles
 
 Users can also be granted one or more of the following roles.
 
-### Staff
+### SBEAP Staff
 
 Users in the Staff role can:
 
@@ -24,9 +24,9 @@ Users in the Staff role can:
 * Add, view, and edit Cases.
 * Add, view, edit, and delete Action Items related to Cases.
 
-### Admin
+### SBEAP Admin
 
-Users in the Admin role have all the capabilities of Staff. Plus they can:
+Users in the Admin role have all the capabilities of the "SBEAP Staff" role. Plus they can:
 
 * Delete Customers and Cases.
 * View and restore deleted Customers and Cases.

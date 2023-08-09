@@ -7,7 +7,7 @@ else
 {
     @if (Uri.TryCreate(Model, UriKind.Absolute, out _))
     {
-        <a href="@Model" target="_blank">@Model</a>
+        <a href="@Model" target="_blank" rel="noopener">@Model</a>
     }
     else
     {
