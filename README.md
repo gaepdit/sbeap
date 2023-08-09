@@ -60,6 +60,7 @@ The following settings configure the data stores and authentication for developm
 - *LocalUserIsAuthenticated* — Simulates a successful login with a test account when `true`. Simulates a failed login when `false`. (Only applies if *UseAzureAd* is `false`.)
 - *LocalUserIsStaff* — Adds the Staff and Site Maintenance Roles to the logged in account when `true` or no roles when `false`. (Applies whether *UserAzureAd* is `true` or `false`.)
 - *LocalUserIsAdmin* — Adds all App Roles to the logged in account when `true` or no roles when `false`. (Applies whether *UserAzureAd* is `true` or `false`.)     <small>An alternative way to create admin users is to add them to the `SeedAdminUsers` setting as an array of email addresses.</small>
+- *UseSecurityHeadersLocally* — Sets whether to include HTTP security headers when running locally in the Development environment.
 
 When `UseDevSettings` is missing or set to `false` or if the `DevSettings` section is missing, the settings are automatically set to production defaults as follows:
 
@@ -70,6 +71,7 @@ UseAzureAd = true,
 LocalUserIsAuthenticated = false,
 LocalUserIsStaff = false,
 LocalUserIsAdmin = false,
+UseSecurityHeadersInDev: false
 ```
 
 Here's a visualization of how the settings configure data storage at runtime.

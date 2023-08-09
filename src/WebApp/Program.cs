@@ -4,6 +4,7 @@ using Microsoft.OpenApi.Models;
 using Mindscape.Raygun4Net.AspNetCore;
 using Sbeap.AppServices.RegisterServices;
 using Sbeap.WebApp.Platform.Raygun;
+using Sbeap.WebApp.Platform.SecurityHeaders;
 using Sbeap.WebApp.Platform.Services;
 using Sbeap.WebApp.Platform.Settings;
 
@@ -77,17 +78,15 @@ builder.Services.AddWebOptimizer();
 // Build the application.
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// Configure error handling.
+if (app.Environment.IsDevelopment()) app.UseDeveloperExceptionPage(); // Development
+else app.UseExceptionHandler("/Error"); // Production or Staging
+
+// Configure security HTTP headers
+if (!app.Environment.IsDevelopment() || ApplicationSettings.DevSettings.UseSecurityHeadersInDev)
 {
-    // Development
-    app.UseDeveloperExceptionPage();
-}
-else
-{
-    // Production or Staging
-    app.UseExceptionHandler("/Error");
     app.UseHsts();
+    app.UseSecurityHeaders(policyCollection => policyCollection.AddSecurityHeaderPolicies());
 }
 
 if (!string.IsNullOrEmpty(ApplicationSettings.RaygunSettings.ApiKey)) app.UseRaygun();

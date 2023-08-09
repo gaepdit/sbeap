@@ -14,6 +14,7 @@ internal static class ApplicationSettings
         LocalUserIsAuthenticated = false,
         LocalUserIsStaff = false,
         LocalUserIsAdmin = false,
+        UseSecurityHeadersInDev = false,
     };
 
     public class DevSettingsSection
@@ -52,6 +53,11 @@ internal static class ApplicationSettings
         /// <see cref="UseAzureAd"/> is `true` or `false`.)
         /// </summary>
         public bool LocalUserIsAdmin { get; [UsedImplicitly] init; }
+
+        /// <summary>
+        /// Sets whether to include HTTP security headers when running locally in the Development environment.
+        /// </summary>
+        public bool UseSecurityHeadersInDev { get; [UsedImplicitly] init; }
     }
 
     // Raygun client settings
