@@ -24,12 +24,6 @@ public sealed class ActionItemTypeService : IActionItemTypeService
         _users = users;
     }
 
-    public async Task<ActionItemTypeViewDto?> FindAsync(Guid id, CancellationToken token = default)
-    {
-        var item = await _repository.FindAsync(id, token);
-        return _mapper.Map<ActionItemTypeViewDto>(item);
-    }
-
     public async Task<IReadOnlyList<ActionItemTypeViewDto>> GetListAsync(CancellationToken token = default)
     {
         var list = (await _repository.GetListAsync(token)).OrderBy(e => e.Name).ToList();

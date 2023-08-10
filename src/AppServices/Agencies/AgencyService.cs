@@ -24,12 +24,6 @@ public sealed class AgencyService : IAgencyService
         _users = users;
     }
 
-    public async Task<AgencyViewDto?> FindAsync(Guid id, CancellationToken token = default)
-    {
-        var item = await _repository.FindAsync(id, token);
-        return _mapper.Map<AgencyViewDto>(item);
-    }
-
     public async Task<IReadOnlyList<AgencyViewDto>> GetListAsync(CancellationToken token = default)
     {
         var list = (await _repository.GetListAsync(token)).OrderBy(e => e.Name).ToList();
