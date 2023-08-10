@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.DataProtection;
-using Microsoft.OpenApi.Models;
 using Mindscape.Raygun4Net.AspNetCore;
 using Sbeap.AppServices.RegisterServices;
 using Sbeap.WebApp.Platform.Raygun;
@@ -60,18 +59,6 @@ builder.Services.AddDataStores(builder.Configuration);
 // Initialize database.
 builder.Services.AddHostedService<MigratorHostedService>();
 
-// Add API documentation.
-builder.Services.AddMvcCore().AddApiExplorer();
-builder.Services.AddSwaggerGen(opts =>
-{
-    opts.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Version = "v1",
-        Title = "SBEAP API",
-    });
-    opts.CustomSchemaIds(e => e.FullName);
-});
-
 // Configure bundling and minification.
 builder.Services.AddWebOptimizer();
 
@@ -99,15 +86,6 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-
-// Configure API documentation.
-app.UseSwagger(opts => { opts.RouteTemplate = "api-docs/{documentName}/openapi.json"; });
-app.UseSwaggerUI(opts =>
-{
-    opts.SwaggerEndpoint("v1/openapi.json", "SBEAP API v1");
-    opts.RoutePrefix = "api-docs";
-    opts.DocumentTitle = "SBEAP API";
-});
 
 // Map endpoints.
 app.MapRazorPages();
