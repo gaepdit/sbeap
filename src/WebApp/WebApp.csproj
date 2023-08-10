@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <AssemblyVersion>2023.3.7</AssemblyVersion>
@@ -15,6 +15,7 @@
         <PackageReference Include="Microsoft.Identity.Web" />
         <PackageReference Include="Microsoft.Web.LibraryManager.Build" />
         <PackageReference Include="Mindscape.Raygun4Net.AspNetCore" />
+        <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" />
         <PackageReference Include="SonarAnalyzer.CSharp">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
