@@ -15,8 +15,8 @@ public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
     {
         var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
         optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=sbeap-app;",
-            // This will no longer be necessary after upgrading to .NET 8.
-            opts => opts.UseDateOnlyTimeOnly());
+            // FUTURE: This will no longer be necessary after upgrading to .NET 8.
+            builder => builder.UseDateOnlyTimeOnly());
         return new AppDbContext(optionsBuilder.Options);
     }
 }

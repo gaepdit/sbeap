@@ -7,5 +7,6 @@ public class Office : SimpleNamedEntity
 {
     public Office(Guid id, string name) : base(id, name) { }
 
+    [UsedImplicitly]
     public ICollection<ApplicationUser> StaffMembers { get; set; } = new List<ApplicationUser>();
 }

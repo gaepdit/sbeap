@@ -33,7 +33,7 @@ public class MigratorHostedService : IHostedService
             {
                 // DateOnly and TimeOnly entity properties require the following package: 
                 // ErikEJ.EntityFrameworkCore.SqlServer.DateOnlyTimeOnly
-                // This will no longer be necessary after upgrading to .NET 8.
+                // FUTURE: This will no longer be necessary after upgrading to .NET 8.
                 builder.UseDateOnlyTimeOnly();
                 builder.MigrationsAssembly("EfRepository");
             }).Options;

@@ -10,7 +10,6 @@ namespace AppServicesTests.Cases;
 public class CaseworkViewPermissions
 {
     private readonly CaseworkOperation[] _requirements = { CaseworkOperation.ManageDeletions };
-
     private static CustomerSearchResultDto EmptyCustomer => new(Guid.Empty, string.Empty, string.Empty, null, false);
     private static CaseworkViewDto EmptyCaseworkView => new() { Customer = EmptyCustomer };
 
@@ -21,7 +20,7 @@ public class CaseworkViewPermissions
 
         // The value for `authenticationType` parameter causes `ClaimsIdentity.IsAuthenticated` to be set to `true`.
         var user = new ClaimsPrincipal(
-            new ClaimsIdentity(new Claim[] { new(ClaimTypes.Role, RoleName.Admin) }, "Basic"));
+            new ClaimsIdentity(new Claim[] { new(ClaimTypes.Role, RoleName.Admin) }, authenticationType: "Basic"));
         var context = new AuthorizationHandlerContext(_requirements, user, EmptyCaseworkView);
         var handler = new CaseworkViewPermissionsHandler();
 
@@ -39,7 +38,7 @@ public class CaseworkViewPermissions
 
         // This `ClaimsPrincipal` is not authenticated.
         var user = new ClaimsPrincipal(
-            new ClaimsIdentity(new Claim[] { new(ClaimTypes.Role, RoleName.Admin) }));
+            new ClaimsIdentity(new Claim[] { new(ClaimTypes.Role, RoleName.Admin) }, authenticationType: null));
         var context = new AuthorizationHandlerContext(_requirements, user, EmptyCaseworkView);
         var handler = new CaseworkViewPermissionsHandler();
 
@@ -56,7 +55,7 @@ public class CaseworkViewPermissions
         // Arrange
 
         // This `ClaimsPrincipal` is authenticated but does not have the Admin role.
-        var user = new ClaimsPrincipal(new ClaimsIdentity("Basic"));
+        var user = new ClaimsPrincipal(new ClaimsIdentity(authenticationType: "Basic"));
         var context = new AuthorizationHandlerContext(_requirements, user, EmptyCaseworkView);
         var handler = new CaseworkViewPermissionsHandler();
 

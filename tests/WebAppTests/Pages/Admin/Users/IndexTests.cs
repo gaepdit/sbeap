@@ -25,7 +25,7 @@ public class IndexTests
         var output = new PaginatedResult<StaffSearchResultDto>(new List<StaffSearchResultDto>(), 1, paging);
         var staffServiceMock = new Mock<IStaffService>();
         staffServiceMock.Setup(l =>
-                l.SearchAsync(It.IsAny<StaffSearchDto>(), It.IsAny<PaginatedRequest>(), It.IsAny<CancellationToken>()))
+                l.SearchAsync(It.IsAny<StaffSearchDto>(), It.IsAny<PaginatedRequest>()))
             .ReturnsAsync(output);
 
         var page = new IndexModel(officeServiceMock.Object, staffServiceMock.Object)

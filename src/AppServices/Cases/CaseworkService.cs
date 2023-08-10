@@ -55,11 +55,10 @@ public sealed class CaseworkService : ICaseworkService
         var casework = await _cases.FindIncludeAllAsync(id, token);
         if (casework is null) return null;
 
-        var caseworkView = _mapper.Map<CaseworkViewDto>(casework);
-        if (casework.DeletedById != null)
-            caseworkView.DeletedBy = _mapper.Map<StaffViewDto>(await _users.FindUserAsync(casework.DeletedById));
-
-        return caseworkView;
+        var view = _mapper.Map<CaseworkViewDto>(casework);
+        return casework is { IsDeleted: true, DeletedById: not null }
+            ? view with { DeletedBy = _mapper.Map<StaffViewDto>(await _users.FindUserAsync(casework.DeletedById)) }
+            : view;
     }
 
     public async Task<CaseworkSearchResultDto?> FindBasicInfoAsync(Guid id, CancellationToken token = default) =>

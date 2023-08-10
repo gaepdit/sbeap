@@ -1,4 +1,5 @@
-﻿namespace Sbeap.Domain.Data;
+﻿// ReSharper disable StringLiteralTypo
+namespace Sbeap.Domain.Data;
 
 public static partial class Data
 {
