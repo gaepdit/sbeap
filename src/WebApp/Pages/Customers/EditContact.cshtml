@@ -1,5 +1,5 @@
 ﻿@page "~/Customers/EditContact/{id:guid?}"
-@using GaEpd.AppLibrary.Enums
+@using GaEpd.AppLibrary.Extensions
 @using Sbeap.Domain.ValueObjects
 @using Sbeap.WebApp.Pages.Shared.DisplayTemplates
 @using Sbeap.WebApp.Pages.Shared.EditorTemplates
@@ -102,7 +102,7 @@
                     @item.Number
                     @if (item.Type != null)
                     {
-                        <em>(@item.Type.GetDisplayName())</em>
+                        <em>(@item.Type.Value.GetDisplayName())</em>
                     }
                 </div>
             }

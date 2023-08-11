@@ -1,4 +1,4 @@
-﻿@using GaEpd.AppLibrary.Enums
+﻿@using GaEpd.AppLibrary.Extensions
 @using Sbeap.Domain.ValueObjects
 @model ICollection<Sbeap.Domain.ValueObjects.PhoneNumber>
 @if (Model.Count == 0 || Model.All(e => string.IsNullOrWhiteSpace(e.Number)))
@@ -15,7 +15,7 @@ else
                 @item.Number
                 @if (item.Type != null && item.Type != PhoneType.Unknown)
                 {
-                    <em>(@item.Type.GetDisplayName())</em>
+                    <em>(@item.Type.Value.GetDisplayName())</em>
                 }
             </div>
         }

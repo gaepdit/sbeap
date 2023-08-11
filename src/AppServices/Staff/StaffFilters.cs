@@ -1,4 +1,4 @@
-﻿using GaEpd.AppLibrary.Enums;
+﻿using GaEpd.AppLibrary.Extensions;
 using GaEpd.AppLibrary.Pagination;
 using Sbeap.AppServices.Staff.Dto;
 using Sbeap.Domain.Identity;

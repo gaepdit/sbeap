@@ -1,4 +1,4 @@
-﻿@model (GaEpd.AppLibrary.Pagination.IPaginatedResult Paging, IDictionary<string, string> RouteValues)
+@model (GaEpd.AppLibrary.Pagination.IPaginatedResult Paging, IDictionary<string, string> RouteValues)
 
 @if (Model.Paging.TotalPages > 1)
 {
@@ -9,7 +9,7 @@
                 <li class="page-item">
                     <a class="page-link" asp-fragment="SearchResults"
                        asp-all-route-data="Model.RouteValues" asp-route-handler="search"
-                       asp-route-p="@(Model.Paging.PageNumber - 1)">
+                       asp-route-p="@Model.Paging.PreviousPageNumber">
                         Previous
                     </a>
                 </li>
@@ -65,7 +65,7 @@
                 <li class="page-item">
                     <a class="page-link" asp-fragment="SearchResults"
                        asp-all-route-data="@Model.RouteValues" asp-route-handler="search"
-                       asp-route-p="@(Model.Paging.PageNumber + 1)">
+                       asp-route-p="@(Model.Paging.NextPageNumber)">
                         Next
                     </a>
                 </li>

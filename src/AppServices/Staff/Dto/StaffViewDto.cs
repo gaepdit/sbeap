@@ -1,6 +1,6 @@
-﻿using Sbeap.AppServices.DtoBase;
+﻿using GaEpd.AppLibrary.Extensions;
+using Sbeap.AppServices.DtoBase;
 using Sbeap.AppServices.Offices;
-using Sbeap.Domain.Extensions;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 

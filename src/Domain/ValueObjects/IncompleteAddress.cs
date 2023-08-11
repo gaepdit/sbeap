@@ -1,6 +1,6 @@
 ﻿using GaEpd.AppLibrary.Domain.ValueObjects;
+using GaEpd.AppLibrary.Extensions;
 using Microsoft.EntityFrameworkCore;
-using Sbeap.Domain.Extensions;
 
 namespace Sbeap.Domain.ValueObjects;
 
