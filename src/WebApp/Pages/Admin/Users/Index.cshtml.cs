@@ -10,6 +10,7 @@ using Sbeap.AppServices.Permissions;
 using Sbeap.AppServices.Staff;
 using Sbeap.AppServices.Staff.Dto;
 using Sbeap.Domain.Identity;
+using Sbeap.WebApp.Models;
 using Sbeap.WebApp.Platform.Constants;
 
 namespace Sbeap.WebApp.Pages.Admin.Users;
@@ -34,6 +35,7 @@ public class IndexModel : PageModel
     public bool ShowResults { get; private set; }
     public IPaginatedResult<StaffSearchResultDto> SearchResults { get; private set; } = default!;
     public string SortByName => Spec.Sort.ToString();
+    public PaginationNavModel PaginationNav => new(SearchResults, Spec.AsRouteValues());
 
     // Select lists
     public SelectList RoleItems { get; private set; } = default!;

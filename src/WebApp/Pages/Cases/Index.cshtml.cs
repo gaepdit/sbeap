@@ -9,6 +9,7 @@ using Sbeap.AppServices.Agencies;
 using Sbeap.AppServices.Cases;
 using Sbeap.AppServices.Cases.Dto;
 using Sbeap.AppServices.Permissions;
+using Sbeap.WebApp.Models;
 using Sbeap.WebApp.Platform.Constants;
 
 namespace Sbeap.WebApp.Pages.Cases;
@@ -37,6 +38,7 @@ public class IndexModel : PageModel
     public IPaginatedResult<CaseworkSearchResultDto> SearchResults { get; private set; } = default!;
     public string SortByName => Spec.Sort.ToString();
     public bool ShowDeletionSearchOptions { get; private set; }
+    public PaginationNavModel PaginationNav => new(SearchResults, Spec.AsRouteValues());
 
     // Select lists
     public SelectList AgencySelectList { get; private set; } = default!;

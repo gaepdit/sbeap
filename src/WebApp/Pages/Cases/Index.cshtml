@@ -146,7 +146,7 @@
         {
             <table class="table" aria-label="User search results">
                 <caption class="caption-top">
-                    <partial name="Shared/_PaginationNavAndCount" model="((IPaginatedResult)Model.SearchResults, Model.Spec.AsRouteValues())" />
+                    <partial name="Shared/_PaginationNavAndCount" model="Model.PaginationNav" />
                 </caption>
 
                 <thead class="table-light">
@@ -214,7 +214,7 @@
                 </tbody>
             </table>
 
-            <partial name="_PaginationNav" model="((IPaginatedResult)Model.SearchResults, Model.Spec.AsRouteValues())" />
+            <partial name="_PaginationNav" model="Model.PaginationNav" />
         }
     </div>
 }
