@@ -7,7 +7,7 @@
 @model EditContactModel
 @{
     ViewData["Title"] = "Edit Contact";
-    ViewData["NoAnchors"] = true;
+    ViewData["NoAnchors"] = "True";
     var phoneTypesSelectList = Html.GetEnumSelectList<PhoneType>().ToArray();
 }
 

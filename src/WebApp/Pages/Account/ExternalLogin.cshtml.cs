@@ -67,9 +67,9 @@ public class ExternalLoginModel : PageModel
     {
         _logger.LogInformation(
             "Local user signin attempted with settings {LocalUserIsAuthenticated}, {LocalUserIsAdmin}, and {LocalUserIsStaff}",
-            ApplicationSettings.DevSettings.LocalUserIsAuthenticated,
-            ApplicationSettings.DevSettings.LocalUserIsAdmin,
-            ApplicationSettings.DevSettings.LocalUserIsStaff);
+            ApplicationSettings.DevSettings.LocalUserIsAuthenticated.ToString(),
+            ApplicationSettings.DevSettings.LocalUserIsAdmin.ToString(),
+            ApplicationSettings.DevSettings.LocalUserIsStaff.ToString());
         if (!ApplicationSettings.DevSettings.LocalUserIsAuthenticated) return Forbid();
 
         StaffSearchDto search;

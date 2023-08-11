@@ -153,31 +153,31 @@
                 <tr>
                     <th scope="col">
                         <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
-                           asp-route-Sort="@(Model.Spec.Sort == CaseworkSortBy.Customer ? CaseworkSortBy.CustomerDesc : CaseworkSortBy.Customer)">
+                           asp-route-Sort="@(Model.Spec.Sort == CaseworkSortBy.Customer ? nameof(CaseworkSortBy.CustomerDesc) : nameof(CaseworkSortBy.Customer))">
                             @Html.DisplayNameFor(m => m.Spec.CustomerName)
-                            @Html.DisplayFor(m => m.SortByName, DisplayTemplate.SortArrow, new { up = CaseworkSortBy.Customer.ToString(), down = CaseworkSortBy.CustomerDesc.ToString() })
+                            @Html.DisplayFor(m => m.SortByName, DisplayTemplate.SortArrow, new { up = nameof(CaseworkSortBy.Customer), down = nameof(CaseworkSortBy.CustomerDesc) })
                         </a>
                     </th>
                     <th scope="col">
                         <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
-                           asp-route-Sort="@(Model.Spec.Sort == CaseworkSortBy.OpenedDate ? CaseworkSortBy.OpenedDateDesc : CaseworkSortBy.OpenedDate)">
+                           asp-route-Sort="@(Model.Spec.Sort == CaseworkSortBy.OpenedDate ? nameof(CaseworkSortBy.OpenedDateDesc) : nameof(CaseworkSortBy.OpenedDate))">
                             Date Opened
-                            @Html.DisplayFor(m => m.SortByName, DisplayTemplate.SortArrow, new { up = CaseworkSortBy.OpenedDate.ToString(), down = CaseworkSortBy.OpenedDateDesc.ToString() })
+                            @Html.DisplayFor(m => m.SortByName, DisplayTemplate.SortArrow, new { up = nameof(CaseworkSortBy.OpenedDate), down = nameof(CaseworkSortBy.OpenedDateDesc) })
                         </a>
                     </th>
                     <th scope="col">
                         <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
-                           asp-route-Sort="@(Model.Spec.Sort == CaseworkSortBy.ClosedDate ? CaseworkSortBy.ClosedDateDesc : CaseworkSortBy.ClosedDate)">
+                           asp-route-Sort="@(Model.Spec.Sort == CaseworkSortBy.ClosedDate ? nameof(CaseworkSortBy.ClosedDateDesc) : nameof(CaseworkSortBy.ClosedDate))">
                             Date Closed
-                            @Html.DisplayFor(m => m.SortByName, DisplayTemplate.SortArrow, new { up = CaseworkSortBy.ClosedDate.ToString(), down = CaseworkSortBy.ClosedDateDesc.ToString() })
+                            @Html.DisplayFor(m => m.SortByName, DisplayTemplate.SortArrow, new { up = nameof(CaseworkSortBy.ClosedDate), down = nameof(CaseworkSortBy.ClosedDateDesc) })
                         </a>
                     </th>
                     <th scope="col">@Html.DisplayNameFor(m => m.Spec.Description)</th>
                     <th scope="col">
                         <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
-                           asp-route-Sort="@(Model.Spec.Sort == CaseworkSortBy.Status ? CaseworkSortBy.StatusDesc : CaseworkSortBy.Status)">
+                           asp-route-Sort="@(Model.Spec.Sort == CaseworkSortBy.Status ? nameof(CaseworkSortBy.StatusDesc) : nameof(CaseworkSortBy.Status))">
                             @Html.DisplayNameFor(m => m.Spec.Status)
-                            @Html.DisplayFor(m => m.SortByName, DisplayTemplate.SortArrow, new { up = CaseworkSortBy.Status.ToString(), down = CaseworkSortBy.StatusDesc.ToString() })
+                            @Html.DisplayFor(m => m.SortByName, DisplayTemplate.SortArrow, new { up = nameof(CaseworkSortBy.Status), down = nameof(CaseworkSortBy.StatusDesc) })
                         </a>
                     </th>
                     <th scope="col">
@@ -207,7 +207,7 @@
                             }
                         </td>
                         <td>
-                            <a asp-page="Details" class="btn btn-outline-info btn-sm" asp-route-id="@item.Id">View</a>
+                            <a asp-page="Details" class="btn btn-outline-info btn-sm" asp-route-id="@item.Id.ToString()">View</a>
                         </td>
                     </tr>
                 }

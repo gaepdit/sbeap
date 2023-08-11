@@ -7,12 +7,12 @@ public class MaintenanceOption
 
     private MaintenanceOption() { }
 
-    public static MaintenanceOption Office { get; } =
+    public static MaintenanceOption Office =>
         new() { SingularName = "Office", PluralName = "Offices" };
 
-    public static MaintenanceOption ActionItemType { get; } =
+    public static MaintenanceOption ActionItemType =>
         new() { SingularName = "Action Item Type", PluralName = "Action Item Types" };
 
-    public static MaintenanceOption Agency { get; } =
+    public static MaintenanceOption Agency =>
         new() { SingularName = "Agency", PluralName = "Agencies" };
 }

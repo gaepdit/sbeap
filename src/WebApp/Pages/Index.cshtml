@@ -70,7 +70,7 @@ else
                         {
                             <div class="col-md text-end">
                                 <a asp-page="/Cases/Index" asp-route-handler="search" asp-route-Status="0" asp-fragment="SearchResults"
-                                   asp-route-Sort="@(CaseworkSortBy.OpenedDate)">
+                                   asp-route-Sort="@(nameof(CaseworkSortBy.OpenedDate))">
                                     View all
                                 </a>
                             </div>

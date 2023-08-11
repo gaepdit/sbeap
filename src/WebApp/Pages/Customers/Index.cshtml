@@ -77,16 +77,16 @@
                 <tr>
                     <th scope="col">
                         <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
-                           asp-route-Sort="@(Model.Spec.Sort == CustomerSortBy.Name ? CustomerSortBy.NameDesc : CustomerSortBy.Name)">
+                           asp-route-Sort="@(Model.Spec.Sort == CustomerSortBy.Name ? nameof(CustomerSortBy.NameDesc) : nameof(CustomerSortBy.Name))">
                             @Html.DisplayNameFor(m => m.Spec.Name)
-                            @Html.DisplayFor(m => m.SortByName, DisplayTemplate.SortArrow, new { up = CustomerSortBy.Name.ToString(), down = CustomerSortBy.NameDesc.ToString() })
+                            @Html.DisplayFor(m => m.SortByName, DisplayTemplate.SortArrow, new { up = nameof(CustomerSortBy.Name), down = nameof(CustomerSortBy.NameDesc) })
                         </a>
                     </th>
                     <th scope="col">
                         <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
-                           asp-route-Sort="@(Model.Spec.Sort == CustomerSortBy.Description ? CustomerSortBy.DescriptionDesc : CustomerSortBy.Description)">
+                           asp-route-Sort="@(Model.Spec.Sort == CustomerSortBy.Description ? nameof(CustomerSortBy.DescriptionDesc) : nameof(CustomerSortBy.Description))">
                             @Html.DisplayNameFor(m => m.Spec.Description)
-                            @Html.DisplayFor(m => m.SortByName, DisplayTemplate.SortArrow, new { up = CustomerSortBy.Description.ToString(), down = CustomerSortBy.DescriptionDesc.ToString() })
+                            @Html.DisplayFor(m => m.SortByName, DisplayTemplate.SortArrow, new { up = nameof(CustomerSortBy.Description), down = nameof(CustomerSortBy.DescriptionDesc) })
                         </a>
                     </th>
                     <th scope="col">@Html.DisplayNameFor(m => m.Spec.County)</th>
@@ -111,7 +111,7 @@
                         <td>@Html.DisplayFor(m => item.Description, DisplayTemplate.TruncateText, new { MaxLength = 50 })</td>
                         <td>@Html.DisplayFor(m => item.County, DisplayTemplate.StringOrNone)</td>
                         <td>
-                            <a asp-page="Details" class="btn btn-outline-info btn-sm" asp-route-id="@item.Id">View</a>
+                            <a asp-page="Details" class="btn btn-outline-info btn-sm" asp-route-id="@item.Id.ToString()">View</a>
                         </td>
                     </tr>
                 }
