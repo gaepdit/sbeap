@@ -55,7 +55,7 @@ public sealed class RepositoryHelper : IDisposable
             builder: opts => opts.UseSqlServer(
                 sqlServerOpts =>
                 {
-                    // This will no longer be necessary after upgrading to .NET 8.
+                    // FUTURE: This will no longer be necessary after upgrading to .NET 8.
                     sqlServerOpts.UseDateOnlyTimeOnly();
                 }));
         _context = new AppDbContext(_options);
@@ -104,8 +104,7 @@ public sealed class RepositoryHelper : IDisposable
     /// </param>
     /// <returns>A <see cref="RepositoryHelper"/> with a clean SQL Server database.</returns>
     public static RepositoryHelper CreateSqlServerRepositoryHelper(
-        object callingClass,
-        [CallerMemberName] string callingMember = "") =>
+        object callingClass, [CallerMemberName] string callingMember = "") =>
         new(callingClass, callingMember);
 
     /// <summary>

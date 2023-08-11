@@ -1,6 +1,5 @@
 ﻿@model GaEpd.AppLibrary.Pagination.IPaginatedResult
-Total:
-@Html.DisplayFor(_ => Model.TotalCount)
+Total: @Html.DisplayFor(_ => Model.TotalCount)
 @if (Model.TotalPages > 1)
 {
     <br />

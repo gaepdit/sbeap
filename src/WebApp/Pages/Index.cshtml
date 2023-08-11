@@ -62,16 +62,16 @@ else
         {
             <div class="card-footer small">
                 <div class="container px-0">
-                    <div class="row justify-content-between">
+                    <div class="row justify-content-between align-items-center">
                         <div class="col-md">
-                            <partial name="_PaginationCount" model="(IPaginatedResult)Model.OpenCases" />
+                            <partial name="_PaginationCount" model="Model.OpenCases" />
                         </div>
                         @if (Model.OpenCases.HasNextPage)
                         {
-                            <div class="col-md text-end">
+                            <div class="col-md text-end align">
                                 <a asp-page="/Cases/Index" asp-route-handler="search" asp-route-Status="0" asp-fragment="SearchResults"
-                                   asp-route-Sort="@(CaseworkSortBy.OpenedDate)">
-                                    View all
+                                   asp-route-Sort="@(nameof(CaseworkSortBy.OpenedDate))" class="btn btn-sm btn-outline-info me-2">
+                                    View All
                                 </a>
                             </div>
                         }

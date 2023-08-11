@@ -1,4 +1,4 @@
-﻿using Sbeap.Domain.Extensions;
+﻿using GaEpd.AppLibrary.Extensions;
 using System.Text.Json.Serialization;
 
 namespace Sbeap.AppServices.Staff.Dto;

@@ -34,6 +34,7 @@ internal class ContactUpdatePermissionsHandler :
     }
 
     private static bool IsAdminUser(IPrincipal user) => user.IsInRole(RoleName.Admin);
+
     private static bool IsStaffUser(IPrincipal user) => user.IsInRole(RoleName.Staff) || IsAdminUser(user);
 
     private static bool IsNotDeleted(ContactUpdateDto resource) =>

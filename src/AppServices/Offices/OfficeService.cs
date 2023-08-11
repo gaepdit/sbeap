@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using GaEpd.AppLibrary.ListItems;
-using Sbeap.AppServices.Staff.Dto;
 using Sbeap.AppServices.UserServices;
 using Sbeap.Domain.Entities.Offices;
 
@@ -23,12 +22,6 @@ public sealed class OfficeService : IOfficeService
         _manager = manager;
         _mapper = mapper;
         _users = users;
-    }
-
-    public async Task<OfficeViewDto?> FindAsync(Guid id, CancellationToken token = default)
-    {
-        var item = await _repository.FindAsync(id, token);
-        return _mapper.Map<OfficeViewDto>(item);
     }
 
     public async Task<IReadOnlyList<OfficeViewDto>> GetListAsync(CancellationToken token = default)
@@ -64,12 +57,6 @@ public sealed class OfficeService : IOfficeService
         item.Active = resource.Active;
 
         await _repository.UpdateAsync(item, token: token);
-    }
-
-    public async Task<IReadOnlyList<StaffViewDto>> GetActiveStaffAsync(Guid id, CancellationToken token = default)
-    {
-        var users = await _repository.GetActiveStaffMembersListAsync(id, token);
-        return _mapper.Map<IReadOnlyList<StaffViewDto>>(users);
     }
 
     public void Dispose() => _repository.Dispose();

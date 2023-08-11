@@ -19,7 +19,7 @@ public class CustomerViewPermissions
 
         // The value for `authenticationType` parameter causes `ClaimsIdentity.IsAuthenticated` to be set to `true`.
         var user = new ClaimsPrincipal(
-            new ClaimsIdentity(new Claim[] { new(ClaimTypes.Role, RoleName.Admin) }, "Basic"));
+            new ClaimsIdentity(new Claim[] { new(ClaimTypes.Role, RoleName.Admin) }, authenticationType: "Basic"));
         var context = new AuthorizationHandlerContext(_requirements, user, EmptyCustomerView);
         var handler = new CustomerViewPermissionsHandler();
 
@@ -37,7 +37,7 @@ public class CustomerViewPermissions
 
         // This `ClaimsPrincipal` is not authenticated.
         var user = new ClaimsPrincipal(
-            new ClaimsIdentity(new Claim[] { new(ClaimTypes.Role, RoleName.Admin) }));
+            new ClaimsIdentity(new Claim[] { new(ClaimTypes.Role, RoleName.Admin) }, authenticationType: null));
         var context = new AuthorizationHandlerContext(_requirements, user, EmptyCustomerView);
         var handler = new CustomerViewPermissionsHandler();
 
@@ -54,7 +54,7 @@ public class CustomerViewPermissions
         // Arrange
 
         // This `ClaimsPrincipal` is authenticated but does not have the Admin role.
-        var user = new ClaimsPrincipal(new ClaimsIdentity("Basic"));
+        var user = new ClaimsPrincipal(new ClaimsIdentity(authenticationType: "Basic"));
         var context = new AuthorizationHandlerContext(_requirements, user, EmptyCustomerView);
         var handler = new CustomerViewPermissionsHandler();
 

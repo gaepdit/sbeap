@@ -1,4 +1,4 @@
-﻿using GaEpd.AppLibrary.Enums;
+﻿using GaEpd.AppLibrary.Extensions;
 using GaEpd.AppLibrary.Pagination;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +8,7 @@ using Sbeap.AppServices.Customers;
 using Sbeap.AppServices.Customers.Dto;
 using Sbeap.AppServices.Permissions;
 using Sbeap.Domain.Data;
+using Sbeap.WebApp.Models;
 using Sbeap.WebApp.Platform.Constants;
 
 namespace Sbeap.WebApp.Pages.Customers;
@@ -33,6 +34,7 @@ public class IndexModel : PageModel
     public IPaginatedResult<CustomerSearchResultDto> SearchResults { get; private set; } = default!;
     public string SortByName => Spec.Sort.ToString();
     public bool ShowDeletionSearchOptions { get; private set; }
+    public PaginationNavModel PaginationNav => new(SearchResults, Spec.AsRouteValues());
 
     // Select lists
     public SelectList CountiesSelectList => new(Data.Counties);

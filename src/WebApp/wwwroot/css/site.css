@@ -159,9 +159,9 @@ a.text-decoration-none:hover {
     padding: 1px 0;
 }
 
+/* Prevent banner from covering up link target elements. 
+   See: https://www.bram.us/2020/03/01/prevent-content-from-being-hidden-underneath-a-fixed-header-by-using-scroll-margin-top/ */
 :target {
-    /* Prevent banner from covering up link target elements. 
-       See: https://www.bram.us/2020/03/01/prevent-content-from-being-hidden-underneath-a-fixed-header-by-using-scroll-margin-top/ */
     scroll-margin-top: 1.5rem;
 }
 

@@ -19,7 +19,10 @@ public record CustomerViewDto
     [Display(Name = "Mailing Address")]
     public IncompleteAddress MailingAddress { get; init; } = default!;
 
+    [UsedImplicitly]
     public List<ContactViewDto> Contacts { get; } = new();
+
+    [UsedImplicitly]
     public List<CaseworkSearchResultDto> Cases { get; } = new();
 
     // Properties: Deletion

@@ -50,8 +50,7 @@ public sealed class StaffService : IStaffService
         return _mapper.Map<List<StaffViewDto>>(users);
     }
 
-    public async Task<IPaginatedResult<StaffSearchResultDto>> SearchAsync(
-        StaffSearchDto spec, PaginatedRequest paging, CancellationToken token = default)
+    public async Task<IPaginatedResult<StaffSearchResultDto>> SearchAsync(StaffSearchDto spec, PaginatedRequest paging)
     {
         var users = string.IsNullOrEmpty(spec.Role)
             ? _userManager.Users.ApplyFilter(spec)

@@ -1,7 +1,7 @@
 using AutoMapper;
 using GaEpd.AppLibrary.Pagination;
 using Sbeap.AppServices.Customers.Dto;
-using Sbeap.AppServices.Staff;
+using Sbeap.AppServices.Staff.Dto;
 using Sbeap.AppServices.UserServices;
 using Sbeap.Domain.Entities.Contacts;
 using Sbeap.Domain.Entities.Customers;
@@ -14,13 +14,12 @@ public sealed class CustomerService : ICustomerService
 {
     private readonly IMapper _mapper;
     private readonly IUserService _users;
-    private readonly IStaffService _staff;
     private readonly ICustomerRepository _customers;
     private readonly ICustomerManager _manager;
     private readonly IContactRepository _contacts;
 
     public CustomerService(
-        IMapper mapper, IUserService users, IStaffService staff, ICustomerRepository customers,
+        IMapper mapper, IUserService users, ICustomerRepository customers,
         ICustomerManager manager, IContactRepository contacts)
     {
         _mapper = mapper;
@@ -28,7 +27,6 @@ public sealed class CustomerService : ICustomerService
         _customers = customers;
         _manager = manager;
         _contacts = contacts;
-        _staff = staff;
     }
 
     // Customer read
@@ -55,7 +53,7 @@ public sealed class CustomerService : ICustomerService
 
         var view = _mapper.Map<CustomerViewDto>(customer);
         return customer is { IsDeleted: true, DeletedById: not null }
-            ? view with { DeletedBy = await _staff.FindAsync(customer.DeletedById) }
+            ? view with { DeletedBy = _mapper.Map<StaffViewDto>(await _users.FindUserAsync(customer.DeletedById)) }
             : view;
     }
 

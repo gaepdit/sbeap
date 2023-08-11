@@ -34,7 +34,7 @@ public class AutoMapperProfile : Profile
 
         // Cases
         CreateMap<Casework, CaseworkViewDto>()
-            .ForMember(e => e.DeletedBy, o => o.Ignore());
+            .ForMember(dto => dto.DeletedBy, expression => expression.Ignore());
         CreateMap<Casework, CaseworkUpdateDto>();
         CreateMap<Casework, CaseworkSearchResultDto>();
 
@@ -44,7 +44,7 @@ public class AutoMapperProfile : Profile
 
         // Customers
         CreateMap<Customer, CustomerViewDto>()
-            .ForMember(e => e.DeletedBy, o => o.Ignore());
+            .ForMember(dto => dto.DeletedBy, expression => expression.Ignore());
         CreateMap<Customer, CustomerUpdateDto>();
         CreateMap<Customer, CustomerSearchResultDto>();
 

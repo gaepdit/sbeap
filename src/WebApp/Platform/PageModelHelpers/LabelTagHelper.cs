@@ -31,6 +31,6 @@ public class LabelTagHelper : TagHelper
     {
         // FUTURE: After updating to Bootstrap 5.3 change class to "text-danger-emphasis"
         if (Model.Metadata.IsRequired && Model.Metadata.ModelType != typeof(bool) && !Model.Metadata.ModelType.IsEnum)
-            output.Content.AppendHtml(@" <span class=""text-danger"">*</span>");
+            output.Content.AppendHtml(""" <span class="text-danger">*</span>""");
     }
 }

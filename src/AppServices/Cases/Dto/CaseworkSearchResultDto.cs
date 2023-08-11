@@ -18,5 +18,6 @@ public record CaseworkSearchResultDto
     public string Description { get; init; } = string.Empty;
 
     public bool IsClosed { get; [UsedImplicitly] init; }
+
     public bool IsDeleted { get; [UsedImplicitly] init; }
 }

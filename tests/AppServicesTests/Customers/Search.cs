@@ -2,7 +2,6 @@
 using GaEpd.AppLibrary.Pagination;
 using Sbeap.AppServices.Customers;
 using Sbeap.AppServices.Customers.Dto;
-using Sbeap.AppServices.Staff;
 using Sbeap.AppServices.UserServices;
 using Sbeap.Domain.Entities.Contacts;
 using Sbeap.Domain.Entities.Customers;
@@ -32,7 +31,7 @@ public class Search
             .ReturnsAsync(count);
 
         var appService = new CustomerService(AppServicesTestsSetup.Mapper!, Mock.Of<IUserService>(),
-            Mock.Of<IStaffService>(), customerRepoMock.Object, Mock.Of<ICustomerManager>(),
+            customerRepoMock.Object, Mock.Of<ICustomerManager>(),
             Mock.Of<IContactRepository>());
 
         // Act
@@ -62,7 +61,7 @@ public class Search
             .ReturnsAsync(count);
 
         var appService = new CustomerService(AppServicesTestsSetup.Mapper!, Mock.Of<IUserService>(),
-            Mock.Of<IStaffService>(), customerRepoMock.Object, Mock.Of<ICustomerManager>(),
+            customerRepoMock.Object, Mock.Of<ICustomerManager>(),
             Mock.Of<IContactRepository>());
 
         // Act
