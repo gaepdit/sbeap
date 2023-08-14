@@ -15,8 +15,6 @@ public static class TextData
     public const string ValidPhoneNumber = "404-555-1212";
     public const string AlternatePhoneNumber = "678-555-1212";
     public const string AdditionalPhoneNumber = "770-555-1212";
-    public const string? NullString = null;
-    public const string EmptyString = "";
 
     // GUIDs
 

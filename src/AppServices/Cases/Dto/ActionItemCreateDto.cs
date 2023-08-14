@@ -15,4 +15,4 @@ public record ActionItemCreateDto(Guid CaseworkId)
 
     [Required]
     public string Notes { get; init; } = string.Empty;
-};
+}

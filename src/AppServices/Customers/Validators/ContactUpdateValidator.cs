@@ -3,6 +3,7 @@ using Sbeap.AppServices.Customers.Dto;
 
 namespace Sbeap.AppServices.Customers.Validators;
 
+[UsedImplicitly]
 public class ContactUpdateValidator : AbstractValidator<ContactUpdateDto>
 {
     public ContactUpdateValidator()

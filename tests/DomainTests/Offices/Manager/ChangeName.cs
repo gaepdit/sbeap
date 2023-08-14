@@ -45,7 +45,7 @@ public class ChangeName
             .Returns(existingItem);
         var manager = new OfficeManager(repoMock);
 
-        Func<Task> action = async () => await manager.ChangeNameAsync(item, TextData.NewValidName);
+        var action = async () => await manager.ChangeNameAsync(item, TextData.NewValidName);
 
         (await action.Should().ThrowAsync<NameAlreadyExistsException>())
             .WithMessage($"An entity with that name already exists. Name: {TextData.NewValidName}");
@@ -60,7 +60,7 @@ public class ChangeName
             .Returns((Office?)null);
         var manager = new OfficeManager(repoMock);
 
-        Func<Task> action = async () => await manager.ChangeNameAsync(item, TextData.ShortName);
+        var action = async () => await manager.ChangeNameAsync(item, TextData.ShortName);
 
         (await action.Should().ThrowAsync<ArgumentException>())
             .WithMessage($"The length must be at least the minimum length '{SimpleNamedEntity.MinNameLength}'.*");

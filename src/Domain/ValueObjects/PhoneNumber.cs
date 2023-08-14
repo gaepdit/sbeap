@@ -21,6 +21,7 @@ public record PhoneNumber : ValueObject
     protected override IEnumerable<object> GetEqualityComponents()
     {
         yield return Number ?? string.Empty;
+        // ReSharper disable once HeapView.BoxingAllocation
         yield return Type ?? PhoneType.Unknown;
     }
 }

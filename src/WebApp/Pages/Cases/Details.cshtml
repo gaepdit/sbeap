@@ -18,7 +18,7 @@
         <div class="col-md-auto d-print-none ms-md-3">
             @if (Model.UserCan[CaseworkOperation.ManageDeletions])
             {
-                <a asp-page="Restore" asp-route-id="@Model.Item.Id" class="btn btn-outline-warning">Restore</a>
+                <a asp-page="Restore" asp-route-id="@Model.Item.Id.ToString()" class="btn btn-outline-warning">Restore</a>
             }
         </div>
     </div>
@@ -33,11 +33,11 @@
         <div class="col-md-auto d-print-none ms-md-3">
             @if (Model.UserCan[CaseworkOperation.Edit])
             {
-                <a asp-page="Edit" asp-route-id="@Model.Item.Id" class="btn btn-outline-primary">Edit</a>
+                <a asp-page="Edit" asp-route-id="@Model.Item.Id.ToString()" class="btn btn-outline-primary">Edit</a>
             }
             @if (Model.UserCan[CaseworkOperation.ManageDeletions])
             {
-                <a asp-page="Delete" asp-route-id="@Model.Item.Id" class="btn btn-outline-danger ms-1">Delete</a>
+                <a asp-page="Delete" asp-route-id="@Model.Item.Id.ToString()" class="btn btn-outline-danger ms-1">Delete</a>
             }
         </div>
     }
@@ -84,7 +84,7 @@
         <h2 class="h3">For Customer</h2>
     </div>
     <div class="col-md-auto d-print-none ms-md-3">
-        <a asp-page="../Customers/Details" asp-route-id="@Model.Item.Customer.Id" class="btn btn-outline-info">View</a>
+        <a asp-page="../Customers/Details" asp-route-id="@Model.Item.Customer.Id.ToString()" class="btn btn-outline-info">View</a>
     </div>
 </div>
 
@@ -158,7 +158,7 @@
         @foreach (var item in Model.Item.ActionItems.OrderByDescending(item => item.ActionDate))
         {
             <div class="col">
-                <div id="@item.Id" class="card">
+                <div id="@item.Id.ToString()" class="card">
                     <div class="card-header @(item.Id == Model.HighlightId ? "list-group-item-success" : "")">
                         <div class="container-full">
                             <div class="row justify-content-between align-items-start g-0 my-1">
@@ -169,10 +169,10 @@
                                 @if (Model.UserCan[CaseworkOperation.EditActionItems])
                                 {
                                     <div class="col-auto d-print-none ms-2">
-                                        <a asp-page="EditAction" asp-route-id="@Model.Item.Id" asp-route-actionId="@item.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+                                        <a asp-page="EditAction" asp-route-id="@Model.Item.Id.ToString()" asp-route-actionId="@item.Id.ToString()" class="btn btn-sm btn-outline-primary">Edit</a>
                                         @if (Model.UserCan[CaseworkOperation.ManageDeletions])
                                         {
-                                            <a asp-page="DeleteAction" asp-route-id="@Model.Item.Id" asp-route-actionId="@item.Id" class="btn btn-sm btn-outline-danger ms-1">Delete</a>
+                                            <a asp-page="DeleteAction" asp-route-id="@Model.Item.Id.ToString()" asp-route-actionId="@item.Id.ToString()" class="btn btn-sm btn-outline-danger ms-1">Delete</a>
                                         }
                                     </div>
                                 }

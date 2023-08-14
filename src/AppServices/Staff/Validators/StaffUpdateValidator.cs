@@ -4,6 +4,7 @@ using Sbeap.Domain.Identity;
 
 namespace Sbeap.AppServices.Staff.Validators;
 
+[UsedImplicitly]
 public class StaffUpdateValidator : AbstractValidator<StaffUpdateDto>
 {
     public StaffUpdateValidator()

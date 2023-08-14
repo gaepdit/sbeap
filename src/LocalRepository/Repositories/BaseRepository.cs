@@ -87,6 +87,7 @@ public abstract class BaseRepository<TEntity, TKey> : IRepository<TEntity, TKey>
     public Task SaveChangesAsync(CancellationToken token = default) => Task.CompletedTask;
 
     // ReSharper disable once VirtualMemberNeverOverridden.Global
+    // ReSharper disable once UnusedParameter.Global
     protected virtual void Dispose(bool disposing)
     {
         // This method intentionally left blank.

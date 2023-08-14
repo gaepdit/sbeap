@@ -14,7 +14,7 @@
         <div class="col-md-auto d-print-none ms-md-3">
             @if (Model.UserCan[CustomerOperation.ManageDeletions])
             {
-                <a asp-page="Restore" asp-route-id="@Model.Item.Id" class="btn btn-outline-warning">Restore</a>
+                <a asp-page="Restore" asp-route-id="@Model.Item.Id.ToString()" class="btn btn-outline-warning">Restore</a>
             }
         </div>
     </div>
@@ -26,10 +26,10 @@
     <div class="col-md-auto d-print-none ms-md-3">
         @if (!Model.Item.IsDeleted)
         {
-            <a asp-page="Edit" asp-route-id="@Model.Item.Id" class="btn btn-outline-primary">Edit</a>
+            <a asp-page="Edit" asp-route-id="@Model.Item.Id.ToString()" class="btn btn-outline-primary">Edit</a>
             @if (Model.UserCan[CustomerOperation.ManageDeletions])
             {
-                <a asp-page="Delete" asp-route-id="@Model.Item.Id" class="btn btn-outline-danger ms-1">Delete</a>
+                <a asp-page="Delete" asp-route-id="@Model.Item.Id.ToString()" class="btn btn-outline-danger ms-1">Delete</a>
             }
         }
     </div>
@@ -111,7 +111,7 @@ else
                 <td>@Html.DisplayFor(m => item.CaseClosedDate, DisplayTemplate.DateOnlyOrBlank)</td>
                 <td>@Html.DisplayFor(m => item.Description, DisplayTemplate.TruncateText, new { MaxLength = 200 })</td>
                 <td>
-                    <a asp-page="../Cases/Details" class="btn btn-outline-info btn-sm" asp-route-id="@item.Id">View</a>
+                    <a asp-page="../Cases/Details" class="btn btn-outline-info btn-sm" asp-route-id="@item.Id.ToString()">View</a>
                 </td>
             </tr>
         }
@@ -149,7 +149,7 @@ else
     <div class="col-md-auto d-print-none ms-md-3">
         @if (Model.UserCan[CustomerOperation.Edit])
         {
-            <a asp-page="AddContact" asp-route-id="@Model.Item.Id" class="btn btn-outline-primary">Add New Contact</a>
+            <a asp-page="AddContact" asp-route-id="@Model.Item.Id.ToString()" class="btn btn-outline-primary">Add New Contact</a>
         }
     </div>
 </div>
@@ -166,7 +166,7 @@ else
         @foreach (var item in Model.Item.Contacts)
         {
             <div class="col">
-                <div id="@item.Id" class="card">
+                <div id="@item.Id.ToString()" class="card">
                     <div class="card-header @(item.Id == Model.HighlightId ? "list-group-item-success" : "")">
                         <div class="container-full">
                             <div class="row justify-content-between align-items-start g-0 my-1">
@@ -187,10 +187,10 @@ else
                                 @if (Model.UserCan[CustomerOperation.Edit])
                                 {
                                     <div class="col-auto d-print-none ms-2">
-                                        <a asp-page="EditContact" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+                                        <a asp-page="EditContact" asp-route-id="@item.Id.ToString()" class="btn btn-sm btn-outline-primary">Edit</a>
                                         @if (Model.UserCan[CustomerOperation.ManageDeletions])
                                         {
-                                            <a asp-page="DeleteContact" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger ms-1">Delete</a>
+                                            <a asp-page="DeleteContact" asp-route-id="@item.Id.ToString()" class="btn btn-sm btn-outline-danger ms-1">Delete</a>
                                         }
                                     </div>
                                 }
