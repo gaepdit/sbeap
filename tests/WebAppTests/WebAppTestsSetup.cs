@@ -7,5 +7,5 @@ namespace WebAppTests;
 public static class WebAppTestsSetup
 {
     internal static TempDataDictionary PageTempData() =>
-        new(new DefaultHttpContext(), Mock.Of<ITempDataProvider>());
+        new(new DefaultHttpContext(), Substitute.For<ITempDataProvider>());
 }

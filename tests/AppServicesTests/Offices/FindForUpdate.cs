@@ -12,13 +12,12 @@ public class FindForUpdate
     public async Task WhenItemExists_ReturnsViewDto()
     {
         var office = new Office(Guid.Empty, TextData.ValidName);
-        var repoMock = new Mock<IOfficeRepository>();
-        repoMock.Setup(l => l.FindAsync(office.Id, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(office);
-        var managerMock = new Mock<IOfficeManager>();
-        var userServiceMock = new Mock<IUserService>();
-        var appService = new OfficeService(repoMock.Object, managerMock.Object,
-            AppServicesTestsSetup.Mapper!, userServiceMock.Object);
+        var repoMock = Substitute.For<IOfficeRepository>();
+        repoMock.FindAsync(office.Id, Arg.Any<CancellationToken>()).Returns(office);
+        var managerMock = Substitute.For<IOfficeManager>();
+        var userServiceMock = Substitute.For<IUserService>();
+        var appService = new OfficeService(repoMock, managerMock,
+            AppServicesTestsSetup.Mapper!, userServiceMock);
 
         var result = await appService.FindForUpdateAsync(Guid.Empty);
 
@@ -29,14 +28,13 @@ public class FindForUpdate
     public async Task WhenDoesNotExist_ReturnsNull()
     {
         var id = Guid.Empty;
-        var repoMock = new Mock<IOfficeRepository>();
-        repoMock.Setup(l => l.FindAsync(id, It.IsAny<CancellationToken>()))
-            .ReturnsAsync((Office?)null);
-        var managerMock = new Mock<IOfficeManager>();
-        var mapperMock = new Mock<IMapper>();
-        var userServiceMock = new Mock<IUserService>();
-        var appService = new OfficeService(repoMock.Object, managerMock.Object,
-            mapperMock.Object, userServiceMock.Object);
+        var repoMock = Substitute.For<IOfficeRepository>();
+        repoMock.FindAsync(id, Arg.Any<CancellationToken>()).Returns((Office?)null);
+        var managerMock = Substitute.For<IOfficeManager>();
+        var mapperMock = Substitute.For<IMapper>();
+        var userServiceMock = Substitute.For<IUserService>();
+        var appService = new OfficeService(repoMock, managerMock,
+            mapperMock, userServiceMock);
 
         var result = await appService.FindForUpdateAsync(Guid.Empty);
 

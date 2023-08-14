@@ -12,13 +12,12 @@ public class FindForUpdate
     public async Task WhenItemExists_ReturnsViewDto()
     {
         var agency = new Agency(Guid.Empty, TextData.ValidName);
-        var repoMock = new Mock<IAgencyRepository>();
-        repoMock.Setup(l => l.FindAsync(agency.Id, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(agency);
-        var managerMock = new Mock<IAgencyManager>();
-        var userServiceMock = new Mock<IUserService>();
-        var appService = new AgencyService(repoMock.Object, managerMock.Object,
-            AppServicesTestsSetup.Mapper!, userServiceMock.Object);
+        var repoMock = Substitute.For<IAgencyRepository>();
+        repoMock.FindAsync(agency.Id, Arg.Any<CancellationToken>()).Returns(agency);
+        var managerMock = Substitute.For<IAgencyManager>();
+        var userServiceMock = Substitute.For<IUserService>();
+        var appService = new AgencyService(repoMock, managerMock,
+            AppServicesTestsSetup.Mapper!, userServiceMock);
 
         var result = await appService.FindForUpdateAsync(Guid.Empty);
 
@@ -29,14 +28,13 @@ public class FindForUpdate
     public async Task WhenDoesNotExist_ReturnsNull()
     {
         var id = Guid.Empty;
-        var repoMock = new Mock<IAgencyRepository>();
-        repoMock.Setup(l => l.FindAsync(id, It.IsAny<CancellationToken>()))
-            .ReturnsAsync((Agency?)null);
-        var managerMock = new Mock<IAgencyManager>();
-        var mapperMock = new Mock<IMapper>();
-        var userServiceMock = new Mock<IUserService>();
-        var appService = new AgencyService(repoMock.Object, managerMock.Object,
-            mapperMock.Object, userServiceMock.Object);
+        var repoMock = Substitute.For<IAgencyRepository>();
+        repoMock.FindAsync(id, Arg.Any<CancellationToken>()).Returns((Agency?)null);
+        var managerMock = Substitute.For<IAgencyManager>();
+        var mapperMock = Substitute.For<IMapper>();
+        var userServiceMock = Substitute.For<IUserService>();
+        var appService = new AgencyService(repoMock, managerMock,
+            mapperMock, userServiceMock);
 
         var result = await appService.FindForUpdateAsync(Guid.Empty);
 

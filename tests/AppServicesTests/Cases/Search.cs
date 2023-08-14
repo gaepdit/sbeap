@@ -24,16 +24,15 @@ public class Search
         var count = CaseworkData.GetCases.Count();
         var paging = new PaginatedRequest(1, 100);
 
-        var caseworkRepoMock = new Mock<ICaseworkRepository>();
-        caseworkRepoMock.Setup(l => l.GetPagedListAsync(It.IsAny<Expression<Func<Casework, bool>>>(),
-                It.IsAny<PaginatedRequest>(), CancellationToken.None))
-            .ReturnsAsync(itemList);
-        caseworkRepoMock.Setup(l => l.CountAsync(It.IsAny<Expression<Func<Casework, bool>>>(), CancellationToken.None))
-            .ReturnsAsync(count);
+        var caseworkRepoMock = Substitute.For<ICaseworkRepository>();
+        caseworkRepoMock.GetPagedListAsync(Arg.Any<Expression<Func<Casework, bool>>>(),
+            Arg.Any<PaginatedRequest>(), Arg.Any<CancellationToken>()).Returns(itemList);
+        caseworkRepoMock.CountAsync(Arg.Any<Expression<Func<Casework, bool>>>(), Arg.Any<CancellationToken>())
+            .Returns(count);
 
-        var appService = new CaseworkService(AppServicesTestsSetup.Mapper!, Mock.Of<IUserService>(),
-            caseworkRepoMock.Object, Mock.Of<ICaseworkManager>(), Mock.Of<ICustomerRepository>(),
-            Mock.Of<IAgencyRepository>());
+        var appService = new CaseworkService(AppServicesTestsSetup.Mapper!, Substitute.For<IUserService>(),
+            caseworkRepoMock, Substitute.For<ICaseworkManager>(), Substitute.For<ICustomerRepository>(),
+            Substitute.For<IAgencyRepository>());
 
         // Act
         var result = await appService.SearchAsync(DefaultCaseworkSearch, paging, CancellationToken.None);
@@ -54,16 +53,15 @@ public class Search
         const int count = 0;
         var paging = new PaginatedRequest(1, 100);
 
-        var caseworkRepoMock = new Mock<ICaseworkRepository>();
-        caseworkRepoMock.Setup(l => l.GetPagedListAsync(It.IsAny<Expression<Func<Casework, bool>>>(),
-                It.IsAny<PaginatedRequest>(), CancellationToken.None))
-            .ReturnsAsync(itemList);
-        caseworkRepoMock.Setup(l => l.CountAsync(It.IsAny<Expression<Func<Casework, bool>>>(), CancellationToken.None))
-            .ReturnsAsync(count);
+        var caseworkRepoMock = Substitute.For<ICaseworkRepository>();
+        caseworkRepoMock.GetPagedListAsync(Arg.Any<Expression<Func<Casework, bool>>>(),
+            Arg.Any<PaginatedRequest>(), Arg.Any<CancellationToken>()).Returns(itemList);
+        caseworkRepoMock.CountAsync(Arg.Any<Expression<Func<Casework, bool>>>(), Arg.Any<CancellationToken>())
+            .Returns(count);
 
-        var appService = new CaseworkService(AppServicesTestsSetup.Mapper!, Mock.Of<IUserService>(),
-            caseworkRepoMock.Object, Mock.Of<ICaseworkManager>(), Mock.Of<ICustomerRepository>(),
-            Mock.Of<IAgencyRepository>());
+        var appService = new CaseworkService(AppServicesTestsSetup.Mapper!, Substitute.For<IUserService>(),
+            caseworkRepoMock, Substitute.For<ICaseworkManager>(), Substitute.For<ICustomerRepository>(),
+            Substitute.For<IAgencyRepository>());
 
         // Act
         var result = await appService.SearchAsync(DefaultCaseworkSearch, paging, CancellationToken.None);

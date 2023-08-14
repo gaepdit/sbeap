@@ -13,13 +13,12 @@ public class GetList
         var agency = new Agency(Guid.Empty, TextData.ValidName);
         var itemList = new List<Agency> { agency };
 
-        var repoMock = new Mock<IAgencyRepository>();
-        repoMock.Setup(l => l.GetListAsync(It.IsAny<CancellationToken>()))
-            .ReturnsAsync(itemList);
-        var managerMock = new Mock<IAgencyManager>();
-        var userServiceMock = new Mock<IUserService>();
-        var appService = new AgencyService(repoMock.Object, managerMock.Object,
-            AppServicesTestsSetup.Mapper!, userServiceMock.Object);
+        var repoMock = Substitute.For<IAgencyRepository>();
+        repoMock.GetListAsync(Arg.Any<CancellationToken>()).Returns(itemList);
+        var managerMock = Substitute.For<IAgencyManager>();
+        var userServiceMock = Substitute.For<IUserService>();
+        var appService = new AgencyService(repoMock, managerMock,
+            AppServicesTestsSetup.Mapper!, userServiceMock);
 
         var result = await appService.GetListAsync();
 
@@ -29,13 +28,12 @@ public class GetList
     [Test]
     public async Task WhenNoItemsExist_ReturnsEmptyList()
     {
-        var repoMock = new Mock<IAgencyRepository>();
-        repoMock.Setup(l => l.GetListAsync(It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new List<Agency>());
-        var managerMock = new Mock<IAgencyManager>();
-        var userServiceMock = new Mock<IUserService>();
-        var appService = new AgencyService(repoMock.Object, managerMock.Object,
-            AppServicesTestsSetup.Mapper!, userServiceMock.Object);
+        var repoMock = Substitute.For<IAgencyRepository>();
+        repoMock.GetListAsync(Arg.Any<CancellationToken>()).Returns(new List<Agency>());
+        var managerMock = Substitute.For<IAgencyManager>();
+        var userServiceMock = Substitute.For<IUserService>();
+        var appService = new AgencyService(repoMock, managerMock,
+            AppServicesTestsSetup.Mapper!, userServiceMock);
 
         var result = await appService.GetListAsync();
 

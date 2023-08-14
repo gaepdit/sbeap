@@ -1,4 +1,4 @@
-﻿using FluentAssertions.Execution;
+using FluentAssertions.Execution;
 using Microsoft.AspNetCore.Authorization;
 using Sbeap.AppServices.ActionItemTypes;
 using Sbeap.TestData.Constants;
@@ -16,14 +16,14 @@ public class IndexTests
     [Test]
     public async Task OnGet_ReturnsWithList()
     {
-        var serviceMock = new Mock<IActionItemTypeService>();
-        serviceMock.Setup(l => l.GetListAsync(CancellationToken.None)).ReturnsAsync(ListTest);
-        var authorizationMock = new Mock<IAuthorizationService>();
-        authorizationMock.Setup(l => l.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), null, It.IsAny<string>()))
-            .ReturnsAsync(AuthorizationResult.Success);
+        var serviceMock = Substitute.For<IActionItemTypeService>();
+        serviceMock.GetListAsync(Arg.Any<CancellationToken>()).Returns(ListTest);
+        var authorizationMock = Substitute.For<IAuthorizationService>();
+        authorizationMock.AuthorizeAsync(Arg.Any<ClaimsPrincipal>(), Arg.Is((string?)null), Arg.Any<string>())
+            .Returns(AuthorizationResult.Success());
         var page = new IndexModel { TempData = WebAppTestsSetup.PageTempData() };
 
-        await page.OnGetAsync(serviceMock.Object, authorizationMock.Object);
+        await page.OnGetAsync(serviceMock, authorizationMock);
 
         using (new AssertionScope())
         {

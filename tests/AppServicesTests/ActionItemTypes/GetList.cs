@@ -13,13 +13,12 @@ public class GetList
         var actionItemType = new ActionItemType(Guid.Empty, TextData.ValidName);
         var itemList = new List<ActionItemType> { actionItemType };
 
-        var repoMock = new Mock<IActionItemTypeRepository>();
-        repoMock.Setup(l => l.GetListAsync(It.IsAny<CancellationToken>()))
-            .ReturnsAsync(itemList);
-        var managerMock = new Mock<IActionItemTypeManager>();
-        var userServiceMock = new Mock<IUserService>();
-        var appService = new ActionItemTypeService(repoMock.Object, managerMock.Object,
-            AppServicesTestsSetup.Mapper!, userServiceMock.Object);
+        var repoMock = Substitute.For<IActionItemTypeRepository>();
+        repoMock.GetListAsync(Arg.Any<CancellationToken>()).Returns(itemList);
+        var managerMock = Substitute.For<IActionItemTypeManager>();
+        var userServiceMock = Substitute.For<IUserService>();
+        var appService = new ActionItemTypeService(repoMock, managerMock,
+            AppServicesTestsSetup.Mapper!, userServiceMock);
 
         var result = await appService.GetListAsync();
 
@@ -29,13 +28,12 @@ public class GetList
     [Test]
     public async Task WhenNoItemsExist_ReturnsEmptyList()
     {
-        var repoMock = new Mock<IActionItemTypeRepository>();
-        repoMock.Setup(l => l.GetListAsync(It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new List<ActionItemType>());
-        var managerMock = new Mock<IActionItemTypeManager>();
-        var userServiceMock = new Mock<IUserService>();
-        var appService = new ActionItemTypeService(repoMock.Object, managerMock.Object,
-            AppServicesTestsSetup.Mapper!, userServiceMock.Object);
+        var repoMock = Substitute.For<IActionItemTypeRepository>();
+        repoMock.GetListAsync(Arg.Any<CancellationToken>()).Returns(new List<ActionItemType>());
+        var managerMock = Substitute.For<IActionItemTypeManager>();
+        var userServiceMock = Substitute.For<IUserService>();
+        var appService = new ActionItemTypeService(repoMock, managerMock,
+            AppServicesTestsSetup.Mapper!, userServiceMock);
 
         var result = await appService.GetListAsync();
 

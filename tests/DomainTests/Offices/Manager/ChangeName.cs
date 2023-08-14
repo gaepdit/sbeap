@@ -11,10 +11,10 @@ public class ChangeName
     public async Task WhenNewNameIsValid_ChangesName()
     {
         var item = new Office(Guid.Empty, TextData.ValidName);
-        var repoMock = new Mock<IOfficeRepository>();
-        repoMock.Setup(l => l.FindByNameAsync(TextData.NewValidName, It.IsAny<CancellationToken>()))
-            .ReturnsAsync((Office?)null);
-        var manager = new OfficeManager(repoMock.Object);
+        var repoMock = Substitute.For<IOfficeRepository>();
+        repoMock.FindByNameAsync(TextData.NewValidName, Arg.Any<CancellationToken>())
+            .Returns((Office?)null);
+        var manager = new OfficeManager(repoMock);
 
         await manager.ChangeNameAsync(item, TextData.NewValidName);
 
@@ -25,10 +25,10 @@ public class ChangeName
     public async Task WhenNewNameIsUnchanged_CompletesWithNoChange()
     {
         var item = new Office(Guid.Empty, TextData.ValidName);
-        var repoMock = new Mock<IOfficeRepository>();
-        repoMock.Setup(l => l.FindByNameAsync(TextData.ValidName, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(item);
-        var manager = new OfficeManager(repoMock.Object);
+        var repoMock = Substitute.For<IOfficeRepository>();
+        repoMock.FindByNameAsync(TextData.ValidName, Arg.Any<CancellationToken>())
+            .Returns(item);
+        var manager = new OfficeManager(repoMock);
 
         await manager.ChangeNameAsync(item, TextData.ValidName);
 
@@ -40,12 +40,12 @@ public class ChangeName
     {
         var item = new Office(Guid.Empty, TextData.ValidName);
         var existingItem = new Office(Guid.NewGuid(), TextData.NewValidName);
-        var repoMock = new Mock<IOfficeRepository>();
-        repoMock.Setup(l => l.FindByNameAsync(TextData.NewValidName, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(existingItem);
-        var manager = new OfficeManager(repoMock.Object);
+        var repoMock = Substitute.For<IOfficeRepository>();
+        repoMock.FindByNameAsync(TextData.NewValidName, Arg.Any<CancellationToken>())
+            .Returns(existingItem);
+        var manager = new OfficeManager(repoMock);
 
-        var action = async () => await manager.ChangeNameAsync(item, TextData.NewValidName);
+        Func<Task> action = async () => await manager.ChangeNameAsync(item, TextData.NewValidName);
 
         (await action.Should().ThrowAsync<NameAlreadyExistsException>())
             .WithMessage($"An entity with that name already exists. Name: {TextData.NewValidName}");
@@ -55,12 +55,12 @@ public class ChangeName
     public async Task WhenNewNameIsInvalid_Throws()
     {
         var item = new Office(Guid.Empty, TextData.ValidName);
-        var repoMock = new Mock<IOfficeRepository>();
-        repoMock.Setup(l => l.FindByNameAsync(TextData.NewValidName, It.IsAny<CancellationToken>()))
-            .ReturnsAsync((Office?)null);
-        var manager = new OfficeManager(repoMock.Object);
+        var repoMock = Substitute.For<IOfficeRepository>();
+        repoMock.FindByNameAsync(TextData.NewValidName, Arg.Any<CancellationToken>())
+            .Returns((Office?)null);
+        var manager = new OfficeManager(repoMock);
 
-        var action = async () => await manager.ChangeNameAsync(item, TextData.ShortName);
+        Func<Task> action = async () => await manager.ChangeNameAsync(item, TextData.ShortName);
 
         (await action.Should().ThrowAsync<ArgumentException>())
             .WithMessage($"The length must be at least the minimum length '{SimpleNamedEntity.MinNameLength}'.*");

@@ -11,12 +11,11 @@ internal class UpdateValidator
     [Test]
     public async Task ValidDto_ReturnsAsValid()
     {
-        var repoMock = new Mock<IAgencyRepository>();
-        repoMock.Setup(l => l.FindByNameAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync((Agency?)null);
+        var repoMock = Substitute.For<IAgencyRepository>();
+        repoMock.FindByNameAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns((Agency?)null);
         var model = new AgencyUpdateDto(Id: Guid.Empty, Name: TextData.ValidName, Active: true);
 
-        var validator = new AgencyUpdateValidator(repoMock.Object);
+        var validator = new AgencyUpdateValidator(repoMock);
         var result = await validator.TestValidateAsync(model);
 
         result.ShouldNotHaveAnyValidationErrors();
@@ -25,12 +24,12 @@ internal class UpdateValidator
     [Test]
     public async Task DuplicateName_ReturnsAsInvalid()
     {
-        var repoMock = new Mock<IAgencyRepository>();
-        repoMock.Setup(l => l.FindByNameAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new Agency(Guid.NewGuid(), TextData.ValidName));
+        var repoMock = Substitute.For<IAgencyRepository>();
+        repoMock.FindByNameAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Returns(new Agency(Guid.NewGuid(), TextData.ValidName));
         var model = new AgencyUpdateDto(Id: Guid.Empty, Name: TextData.ValidName, Active: true);
 
-        var validator = new AgencyUpdateValidator(repoMock.Object);
+        var validator = new AgencyUpdateValidator(repoMock);
         var result = await validator.TestValidateAsync(model);
 
         result.ShouldHaveValidationErrorFor(e => e.Name)
@@ -40,12 +39,12 @@ internal class UpdateValidator
     [Test]
     public async Task DuplicateName_ForSameId_ReturnsAsValid()
     {
-        var repoMock = new Mock<IAgencyRepository>();
-        repoMock.Setup(l => l.FindByNameAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new Agency(Guid.Empty, TextData.ValidName));
+        var repoMock = Substitute.For<IAgencyRepository>();
+        repoMock.FindByNameAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Returns(new Agency(Guid.Empty, TextData.ValidName));
         var model = new AgencyUpdateDto(Id: Guid.Empty, Name: TextData.ValidName, Active: true);
 
-        var validator = new AgencyUpdateValidator(repoMock.Object);
+        var validator = new AgencyUpdateValidator(repoMock);
         var result = await validator.TestValidateAsync(model);
 
         result.ShouldNotHaveAnyValidationErrors();
@@ -54,12 +53,11 @@ internal class UpdateValidator
     [Test]
     public async Task NameTooShort_ReturnsAsInvalid()
     {
-        var repoMock = new Mock<IAgencyRepository>();
-        repoMock.Setup(l => l.FindByNameAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync((Agency?)null);
+        var repoMock = Substitute.For<IAgencyRepository>();
+        repoMock.FindByNameAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns((Agency?)null);
         var model = new AgencyUpdateDto(Id: Guid.Empty, Name: TextData.ShortName, Active: true);
 
-        var validator = new AgencyUpdateValidator(repoMock.Object);
+        var validator = new AgencyUpdateValidator(repoMock);
         var result = await validator.TestValidateAsync(model);
 
         result.ShouldHaveValidationErrorFor(e => e.Name);

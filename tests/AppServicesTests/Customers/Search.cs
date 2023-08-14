@@ -23,16 +23,15 @@ public class Search
         var count = CustomerData.GetCustomers.Count();
         var paging = new PaginatedRequest(1, 100);
 
-        var customerRepoMock = new Mock<ICustomerRepository>();
-        customerRepoMock.Setup(l => l.GetPagedListAsync(It.IsAny<Expression<Func<Customer, bool>>>(),
-                It.IsAny<PaginatedRequest>(), CancellationToken.None))
-            .ReturnsAsync(itemList);
-        customerRepoMock.Setup(l => l.CountAsync(It.IsAny<Expression<Func<Customer, bool>>>(), CancellationToken.None))
-            .ReturnsAsync(count);
+        var customerRepoMock = Substitute.For<ICustomerRepository>();
+        customerRepoMock.GetPagedListAsync(Arg.Any<Expression<Func<Customer, bool>>>(),
+            Arg.Any<PaginatedRequest>(), Arg.Any<CancellationToken>()).Returns(itemList);
+        customerRepoMock.CountAsync(Arg.Any<Expression<Func<Customer, bool>>>(), Arg.Any<CancellationToken>())
+            .Returns(count);
 
-        var appService = new CustomerService(AppServicesTestsSetup.Mapper!, Mock.Of<IUserService>(),
-            customerRepoMock.Object, Mock.Of<ICustomerManager>(),
-            Mock.Of<IContactRepository>());
+        var appService = new CustomerService(AppServicesTestsSetup.Mapper!, Substitute.For<IUserService>(),
+            customerRepoMock, Substitute.For<ICustomerManager>(),
+            Substitute.For<IContactRepository>());
 
         // Act
         var result = await appService.SearchAsync(DefaultCustomerSearchDto, paging, CancellationToken.None);
@@ -53,16 +52,15 @@ public class Search
         const int count = 0;
         var paging = new PaginatedRequest(1, 100);
 
-        var customerRepoMock = new Mock<ICustomerRepository>();
-        customerRepoMock.Setup(l => l.GetPagedListAsync(It.IsAny<Expression<Func<Customer, bool>>>(),
-                It.IsAny<PaginatedRequest>(), CancellationToken.None))
-            .ReturnsAsync(itemList);
-        customerRepoMock.Setup(l => l.CountAsync(It.IsAny<Expression<Func<Customer, bool>>>(), CancellationToken.None))
-            .ReturnsAsync(count);
+        var customerRepoMock = Substitute.For<ICustomerRepository>();
+        customerRepoMock.GetPagedListAsync(Arg.Any<Expression<Func<Customer, bool>>>(),
+            Arg.Any<PaginatedRequest>(), Arg.Any<CancellationToken>()).Returns(itemList);
+        customerRepoMock.CountAsync(Arg.Any<Expression<Func<Customer, bool>>>(), Arg.Any<CancellationToken>())
+            .Returns(count);
 
-        var appService = new CustomerService(AppServicesTestsSetup.Mapper!, Mock.Of<IUserService>(),
-            customerRepoMock.Object, Mock.Of<ICustomerManager>(),
-            Mock.Of<IContactRepository>());
+        var appService = new CustomerService(AppServicesTestsSetup.Mapper!, Substitute.For<IUserService>(),
+            customerRepoMock, Substitute.For<ICustomerManager>(),
+            Substitute.For<IContactRepository>());
 
         // Act
         var result = await appService.SearchAsync(DefaultCustomerSearchDto, paging, CancellationToken.None);

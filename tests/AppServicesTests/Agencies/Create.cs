@@ -12,16 +12,13 @@ public class Create
     public async Task WhenResourceIsValid_ReturnsId()
     {
         var item = new Agency(Guid.NewGuid(), TextData.ValidName);
-        var repoMock = new Mock<IAgencyRepository>();
-        var managerMock = new Mock<IAgencyManager>();
-        managerMock.Setup(l =>
-                l.CreateAsync(It.IsAny<string>(), null, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(item);
-        var userServiceMock = new Mock<IUserService>();
-        userServiceMock.Setup(l => l.GetCurrentUserAsync())
-            .ReturnsAsync((ApplicationUser?)null);
-        var appService = new AgencyService(repoMock.Object, managerMock.Object,
-            AppServicesTestsSetup.Mapper!, userServiceMock.Object);
+        var repoMock = Substitute.For<IAgencyRepository>();
+        var managerMock = Substitute.For<IAgencyManager>();
+        managerMock.CreateAsync(Arg.Any<string>(), Arg.Is((string?)null), Arg.Any<CancellationToken>()).Returns(item);
+        var userServiceMock = Substitute.For<IUserService>();
+        userServiceMock.GetCurrentUserAsync().Returns((ApplicationUser?)null);
+        var appService = new AgencyService(repoMock, managerMock,
+            AppServicesTestsSetup.Mapper!, userServiceMock);
         var resource = new AgencyCreateDto(TextData.ValidName);
 
         var result = await appService.CreateAsync(resource);
