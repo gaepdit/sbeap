@@ -57,7 +57,7 @@
 
 <script src="~/lib/jquery/jquery.min.js"></script>
 <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-@if (!ViewData.ContainsKey("NoAnchors") || !((bool?)ViewData["NoAnchors"] ?? false))
+@if (!ViewData.ContainsKey("NoAnchors"))
 {
     <script src="~/lib/anchor-js/anchor.min.js"></script>
     <script src="~/js/anchorInit.js"></script>
