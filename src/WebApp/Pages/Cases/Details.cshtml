@@ -155,7 +155,7 @@
 @if (Model.Item.ActionItems.Count > 0)
 {
     <div class="row row-cols-1 row-cols-md-2 g-3" data-masonry='{"percentPosition": true }'>
-        @foreach (var item in Model.Item.ActionItems.OrderByDescending(item => item.ActionDate))
+        @foreach (var item in Model.Item.ActionItems)
         {
             <div class="col">
                 <div id="@item.Id.ToString()" class="card">
