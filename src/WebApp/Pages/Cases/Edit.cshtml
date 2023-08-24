@@ -9,7 +9,7 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<div class="p-3 border rounded-3 bg-light">
+<div class="p-3 border rounded-3 bg-light-subtle">
     <form method="post">
         <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
 
@@ -59,7 +59,7 @@
             <button type="submit" class="btn btn-primary col-6 col-sm-4 col-lg-3 me-2">Save Changes</button>
             <a asp-page="Details" asp-route-id="@Model.Item.Id.ToString()" class="btn btn-outline-secondary">Cancel</a>
         </div>
-        <div class="text-danger mt-3">* denotes a required field</div>
+        <div class="text-danger-emphasis mt-3">* denotes a required field</div>
         <input asp-for="Item.Id" type="hidden" />
     </form>
 </div>

@@ -12,7 +12,7 @@ public record StaffViewDto : IDtoHasNameProperty
     public string GivenName { get; init; } = null!;
     public string FamilyName { get; init; } = null!;
 
-    [Display(Name = "Email cannot be changed")]
+    [Display(Name = "Email (cannot be changed)")]
     public string? Email { get; init; }
 
     public string? Phone { get; init; }

@@ -53,12 +53,12 @@ else
         <a asp-page="/Admin/Users/Roles" target="_blank">user roles and capabilities</a>.
     </p>
 
-    <dl class="p-3 border rounded-3 bg-light">
+    <dl class="p-3 border rounded-3 bg-light-subtle">
         @foreach (var role in Model.Roles)
         {
             <dt>@role.DisplayName</dt>
             <dd>
-                <p class="text-muted">@role.Description</p>
+                <p class="text-body-secondary">@role.Description</p>
             </dd>
         }
     </dl>

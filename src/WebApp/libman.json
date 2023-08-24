@@ -12,7 +12,7 @@
       ]
     },
     {
-      "library": "bootstrap@5.2.2",
+      "library": "bootstrap@5.3.1",
       "destination": "wwwroot/lib/bootstrap/",
       "files": [
         "js/bootstrap.bundle.min.js",

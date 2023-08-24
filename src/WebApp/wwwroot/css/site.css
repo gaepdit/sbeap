@@ -16,6 +16,59 @@
     color: hsl(275, 73%, 23%);
 }
 
+/* Light mode theme colors */
+.text-bg-brand {
+    background-color: #f8d7da;
+    color: #000;
+}
+
+.text-bg-brand a {
+    color: #671010;
+}
+
+.text-bg-brand a:hover, .text-bg-brand a:focus {
+    color: #773030;
+}
+
+.text-bg-brand a:active {
+    color: #875050;
+}
+
+.text-bg-brand .dropdown-item:active {
+    color: #fff;
+}
+
+.text-bg-brand .nav-link:focus-visible {
+    box-shadow: 0 0 0 .25rem rgba(67, 11, 11, 0.63);
+}
+
+/* Dark mode theme colors */
+[data-bs-theme="dark"] .text-bg-brand {
+    background-color: rgb(57, 7, 7);
+    color: #fff;
+}
+
+[data-bs-theme="dark"] .text-bg-brand a {
+    color: #c9a1a1;
+}
+
+[data-bs-theme="dark"] .text-bg-brand a:hover,
+[data-bs-theme="dark"] .text-bg-brand a:focus {
+    color: #fccece;
+}
+
+[data-bs-theme="dark"] .text-bg-brand a:active {
+    color: #ffacac;
+}
+
+[data-bs-theme="dark"] .text-bg-brand .nav-link {
+    color: #fff;
+}
+
+[data-bs-theme="dark"] .text-bg-brand .nav-link:focus-visible {
+    box-shadow: 0 0 0 .25rem rgba(255, 230, 230, 0.57);
+}
+
 /* Adjust font sizing
 -------------------------------------------------- */
 html {
@@ -30,24 +83,22 @@ html {
 
 /* Fix color accessibility
 -------------------------------------------------- */
-a {
-    color: #0366d6;
-}
-
-.btn-primary {
+[data-bs-theme="light"] .btn-primary {
     color: #fff;
     background-color: #1b6ec2;
     border-color: #1861ac;
 }
 
-.btn-outline-warning, .text-warning {
+[data-bs-theme="light"] .text-warning {
     color: rgb(150, 113, 0) !important;
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-    color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+[data-bs-theme="light"] .text-danger-emphasis {
+    color: rgb(220, 53, 69) !important;
+}
+
+[data-bs-theme="light"] .bg-dark-subtle .text-danger-emphasis {
+    color: #7a010c !important;
 }
 
 /* Sticky footer
@@ -59,7 +110,7 @@ html {
 
 body {
     /* Margin bottom by footer height */
-    /*margin-bottom: 60px;*/ /* Single height for one footer section */
+    /* margin-bottom: 60px;*/ /* Single height for one footer section */
     margin-bottom: 120px; /* Double height for two footer sections */
 }
 
@@ -130,11 +181,12 @@ a[target]::after {
     content: ' \1f5d7';
 }
 
+/* Suppress external link icon */
 a[target].no-external-link::after {
     content: none;
 }
 
-/* Hover style for links with underline removed
+/* Add outline on hover for links with underline removed
 -------------------------------------------------- */
 a.text-decoration-none:hover {
     outline: 2px solid;
@@ -187,6 +239,14 @@ details.card:not([open]) summary.card-header {
     }
 }
 
+/* Bootstrap Icons
+-------------------------------------------------- */
+.bi {
+    width: 1em;
+    height: 1em;
+    fill: currentColor;
+}
+
 /* Fix for Bootstrap textarea with "floating" label
 -------------------------------------------------- */
 .form-floating > textarea.form-control {
@@ -202,7 +262,3 @@ details.card:not([open]) summary.card-header {
 .validation-summary-errors ul {
     margin-bottom: 0;
 }
-
-/* ==================================================
-Application-specific styles
-================================================== */

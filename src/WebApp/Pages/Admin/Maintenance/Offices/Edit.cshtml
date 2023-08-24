@@ -12,7 +12,7 @@
 
 <h2>@Model.OriginalName</h2>
 
-<div class="p-3 border rounded-3 bg-light">
+<div class="p-3 border rounded-3 bg-light-subtle">
     <form method="post">
         <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
         <div class="mb-3">
@@ -25,7 +25,7 @@
             <button type="submit" class="btn btn-primary col-sm-3 me-2">Save Changes</button>
             <a asp-page="Index" class="btn btn-outline-secondary col-md-2">Cancel</a>
         </div>
-        <div class="text-danger mt-3">* denotes a required field</div>
+        <div class="text-danger-emphasis mt-3">* denotes a required field</div>
         <input asp-for="Item.Id" type="hidden" />
         <input asp-for="OriginalName" type="hidden" />
     </form>

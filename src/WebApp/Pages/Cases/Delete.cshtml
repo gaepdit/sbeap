@@ -13,8 +13,8 @@
     @ViewData["Title"]
 </h1>
 
-<div class="p-3 border rounded-3 bg-dark text-light">
-    <p class="lead text-danger font-weight-medium">Are you sure you want to delete this Case?</p>
+<div class="p-3 border rounded-3 bg-dark-subtle text-dark-emphasis">
+    <p class="lead text-danger-emphasis font-weight-medium">Are you sure you want to delete this Case?</p>
 
     <div class="container small">
         <dl class="row">
@@ -38,7 +38,7 @@
     <form method="post">
         <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
 
-        <div class="mb-3 text-dark">
+        <div class="mb-3">
             @Html.EditorFor(e => e.DeleteComments, EditorTemplate.Textarea, new { Rows = 1 })
         </div>
 

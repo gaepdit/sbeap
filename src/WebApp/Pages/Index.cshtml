@@ -30,7 +30,7 @@ else
             else
             {
                 <table class="table table-borderless small m-0" aria-labelledby="open-cases">
-                    <thead class="table-light">
+                    <thead>
                     <tr>
                         <th scope="col" class="ps-3">Date Opened</th>
                         <th scope="col">Customer</th>
@@ -41,7 +41,7 @@ else
                     </tr>
                     </thead>
 
-                    <tbody>
+                    <tbody class="table-group-divider">
                     @foreach (var item in Model.OpenCases.Items)
                     {
                         <tr>
