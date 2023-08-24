@@ -56,29 +56,50 @@
 
 /* Dark mode theme colors */
 [data-bs-theme="dark"] .text-bg-brand {
-    background-color: rgb(57, 7, 7);
+    background-color: hsl(275, 73%, 23%);
     color: #fff;
 }
 
 [data-bs-theme="dark"] .text-bg-brand a {
-    color: #c9a1a1;
+    color: hsl(275, 100%, 92%);
 }
 
 [data-bs-theme="dark"] .text-bg-brand a:hover,
 [data-bs-theme="dark"] .text-bg-brand a:focus {
-    color: #fccece;
+    color: hsl(275, 100%, 85%);
 }
 
 [data-bs-theme="dark"] .text-bg-brand a:active {
-    color: #ffacac;
+    color: hsl(275, 100%, 95%);
+}
+
+[data-bs-theme="dark"] .text-bg-brand .dropdown-item {
+    color: hsl(275, 73%, 90%);
+}
+
+[data-bs-theme="dark"] .text-bg-brand .dropdown-item:focus,
+[data-bs-theme="dark"] .text-bg-brand .dropdown-item:hover {
+    color: hsl(275, 73%, 90%);
+    background-color: hsl(210, 10%, 19%);
+}
+
+[data-bs-theme="dark"] .text-bg-brand .dropdown-item.active,
+[data-bs-theme="dark"] .text-bg-brand .dropdown-item:active {
+    color: #fff;
+    background-color: rgb(13, 110, 253)
 }
 
 [data-bs-theme="dark"] .text-bg-brand .nav-link {
     color: #fff;
 }
 
+[data-bs-theme="dark"] .text-bg-brand .navbar-nav .nav-link.active,
+[data-bs-theme="dark"] .text-bg-brand .navbar-nav .nav-link.show {
+    color: #fff;
+}
+
 [data-bs-theme="dark"] .text-bg-brand .nav-link:focus-visible {
-    box-shadow: 0 0 0 .25rem rgba(255, 230, 230, 0.57);
+    box-shadow: 0 0 0 .25rem hsla(275, 10%, 100%, .57);
 }
 
 /* Adjust font sizing
