@@ -168,10 +168,7 @@ body {
 /* Skip to content link
 -------------------------------------------------- */
 .skip-nav {
-    background: transparent;
-    color: #212121;
-    text-decoration: underline;
-    left: 0;
+    left: .2rem;
     padding: 1rem 1.5rem;
     position: absolute;
     top: -4.2rem;
@@ -180,12 +177,8 @@ body {
 }
 
 .skip-nav:focus {
-    background: #fff;
-    left: 0;
     outline: 0;
-    position: absolute;
-    top: 0;
-    transition: all 0.2s ease-in-out;
+    top: .2rem;
 }
 
 /* Button with image 
