@@ -1,45 +1,57 @@
 /* Branding colors
 -------------------------------------------------- */
-.bg-brand {
-    background-color: hsl(275, 73%, 23%);
-}
-
-.bg-brand a {
-    color: hsl(275, 100%, 92%);
-}
-
-.bg-brand a:hover, .bg-brand a:focus {
-    color: hsl(275, 100%, 85%);
-}
-
-.text-brand {
-    color: hsl(275, 73%, 23%);
-}
 
 /* Light mode theme colors */
 .text-bg-brand {
-    background-color: #f8d7da;
-    color: #000;
+    background-color: hsl(275, 73%, 23%);
+    color: #fff;
 }
 
 .text-bg-brand a {
-    color: #671010;
+    color: hsl(275, 100%, 92%);
 }
 
-.text-bg-brand a:hover, .text-bg-brand a:focus {
-    color: #773030;
+.text-bg-brand a:hover,
+.text-bg-brand a:focus {
+    color: hsl(275, 100%, 85%);
 }
 
 .text-bg-brand a:active {
-    color: #875050;
+    color: hsl(275, 100%, 95%);
 }
 
+.text-bg-brand .dropdown-item {
+    color: hsl(275, 73%, 36%);
+}
+
+.text-bg-brand .dropdown-item:focus,
+.text-bg-brand .dropdown-item:hover {
+    color: hsl(275, 73%, 23%);
+    background-color: hsl(275, 17%, 98%);
+}
+
+.text-bg-brand .dropdown-item.active,
 .text-bg-brand .dropdown-item:active {
+    color: #fff;
+    background-color: rgb(13, 110, 253)
+}
+
+.text-bg-brand .nav-link {
+    color: #fff;
+}
+
+.text-bg-brand .nav-link:hover,
+.text-bg-brand .nav-link:focus {
+    color: #fff;
+}
+
+.text-bg-brand .navbar-nav .nav-link.active,
+.text-bg-brand .navbar-nav .nav-link.show {
     color: #fff;
 }
 
 .text-bg-brand .nav-link:focus-visible {
-    box-shadow: 0 0 0 .25rem rgba(67, 11, 11, 0.63);
+    box-shadow: 0 0 0 .25rem hsla(275, 10%, 100%, .57);
 }
 
 /* Dark mode theme colors */
