@@ -56,7 +56,7 @@
 
 /* Dark mode theme colors */
 [data-bs-theme="dark"] .text-bg-brand {
-    background-color: hsl(275, 73%, 23%);
+    background-color: hsl(275, 42%, 23%);
     color: #fff;
 }
 
