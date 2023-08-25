@@ -154,7 +154,7 @@
 
 @if (Model.Item.ActionItems.Count > 0)
 {
-    <div class="row row-cols-1 row-cols-md-2 g-3" data-masonry='{"percentPosition": true }'>
+    <div class="row row-cols-1 g-3">
         @foreach (var item in Model.Item.ActionItems)
         {
             <div class="col">
@@ -203,4 +203,9 @@
             </div>
         }
     </div>
+}
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
 }

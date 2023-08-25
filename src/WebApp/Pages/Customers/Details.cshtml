@@ -162,7 +162,7 @@ else
 }
 else
 {
-    <div class="row row-cols-1 row-cols-md-2 g-3" data-masonry='{"percentPosition": true }'>
+    <div class="row row-cols-1 g-3">
         @foreach (var item in Model.Item.Contacts)
         {
             <div class="col">
@@ -237,5 +237,4 @@ else
 @section Scripts
 {
     <partial name="_ValidationScriptsPartial" />
-    <script src="~/lib/masonry/masonry.pkgd.min.js"></script>
 }
