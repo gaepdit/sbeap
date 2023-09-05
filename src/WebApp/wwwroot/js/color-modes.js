@@ -12,11 +12,7 @@
 
     const getPreferredTheme = () => {
         const storedTheme = getStoredTheme()
-        if (storedTheme) {
-            return storedTheme
-        }
-
-        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        return storedTheme || 'auto';
     }
 
     const setTheme = theme => {

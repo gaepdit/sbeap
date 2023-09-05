@@ -1,9 +1,6 @@
 USE [AIRBRANCH]
 GO
 
-USE [Sbeap]
-GO
-
 select 'SBEAPACTIONLOG'            as [table_name],
        count(*)                    as [count],
        count(distinct NUMACTIONID) as [count_distinct]
@@ -64,6 +61,75 @@ select 'SBEAPTECHNICALASSIST'      as [table_name],
        count(distinct NUMACTIONID) as [count_distinct]
 from dbo.SBEAPTECHNICALASSIST
 
+---
+
+USE [Sbeap]
+GO
+
+select 'Sbeap_SBEAPACTIONLOG'            as [table_name],
+       count(*)                    as [count],
+       count(distinct NUMACTIONID) as [count_distinct]
+from dbo.SBEAPACTIONLOG
+union
+select 'Sbeap_SBEAPCASELOG'            as [table_name],
+       count(*)                  as [count],
+       count(distinct NUMCASEID) as [count_distinct]
+from dbo.SBEAPCASELOG
+union
+select 'Sbeap_SBEAPCASELOGLINK'                                  as [table_name],
+       count(*)                                            as [count],
+       count(distinct concat_ws('-', NUMCASEID, CLIENTID)) as [count_distinct]
+from dbo.SBEAPCASELOGLINK
+union
+select 'Sbeap_SBEAPCLIENTCONTACTS'           as [table_name],
+       count(*)                        as [count],
+       count(distinct CLIENTCONTACTID) as [count_distinct]
+from dbo.SBEAPCLIENTCONTACTS
+union
+select 'Sbeap_SBEAPCLIENTDATA'        as [table_name],
+       count(*)                 as [count],
+       count(distinct CLIENTID) as [count_distinct]
+from dbo.SBEAPCLIENTDATA
+union
+select 'Sbeap_SBEAPCLIENTLINK'                                         as [table_name],
+       count(*)                                                  as [count],
+       count(distinct concat_ws('-', CLIENTID, CLIENTCONTACTID)) as [count_distinct]
+from dbo.SBEAPCLIENTLINK
+union
+select 'Sbeap_SBEAPCLIENTS'           as [table_name],
+       count(*)                 as [count],
+       count(distinct CLIENTID) as [count_distinct]
+from dbo.SBEAPCLIENTS
+union
+select 'Sbeap_SBEAPCOMPLIANCEASSIST'     as [table_name],
+       count(*)                    as [count],
+       count(distinct NUMACTIONID) as [count_distinct]
+from dbo.SBEAPCOMPLIANCEASSIST
+union
+select 'Sbeap_SBEAPCONFERENCELOG'        as [table_name],
+       count(*)                    as [count],
+       count(distinct NUMACTIONID) as [count_distinct]
+from dbo.SBEAPCONFERENCELOG
+union
+select 'Sbeap_SBEAPOTHERLOG'             as [table_name],
+       count(*)                    as [count],
+       count(distinct NUMACTIONID) as [count_distinct]
+from dbo.SBEAPOTHERLOG
+union
+select 'Sbeap_SBEAPPHONELOG'             as [table_name],
+       count(*)                    as [count],
+       count(distinct NUMACTIONID) as [count_distinct]
+from dbo.SBEAPPHONELOG
+union
+select 'Sbeap_SBEAPTECHNICALASSIST'      as [table_name],
+       count(*)                    as [count],
+       count(distinct NUMACTIONID) as [count_distinct]
+from dbo.SBEAPTECHNICALASSIST
+
+---
+
+USE [Sbeap]
+GO
 
 select 'ActionItems' as [table_name], count(*) as [count] from dbo.ActionItems
 union
