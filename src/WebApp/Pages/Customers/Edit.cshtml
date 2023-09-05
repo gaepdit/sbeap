@@ -8,7 +8,7 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<div class="p-3 border rounded-3 bg-light">
+<div class="p-3 border rounded-3 bg-light-subtle">
     <form method="post">
         <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
 
@@ -36,7 +36,7 @@
 
         <div class="row">
             <div class="col-md-6 mb-3">
-                <h3 class="h5">Site Location <small class="text-muted">(optional)</small></h3>
+                <h3 class="h5">Site Location <small class="text-body-secondary">(optional)</small></h3>
 
                 <div class="mb-3">
                     @Html.EditorFor(e => e.Item.Location.Street, EditorTemplate.Input)
@@ -56,7 +56,7 @@
             <div class="col-md-6 mb-3">
                 <div class="row justify-content-between align-items-baseline g-0 mb-2">
                     <h3 class="h5 col-md mb-md-0">
-                        Site Mailing Address <small class="text-muted me-1">(optional)</small>
+                        Site Mailing Address <small class="text-body-secondary me-1">(optional)</small>
                     </h3>
                     <div class="col-md-auto d-print-none ms-md-3">
                         <button id="copy-site-location" type="button" class="btn btn-outline-info btn-sm my-1">Copy From Location</button>
@@ -83,7 +83,7 @@
             <button type="submit" class="btn btn-primary col-6 col-sm-4 col-lg-3 me-2">Save Changes</button>
             <a asp-page="Details" asp-route-id="@Model.Item.Id.ToString()" class="btn btn-outline-secondary">Cancel</a>
         </div>
-        <div class="text-danger mt-3">* denotes a required field</div>
+        <div class="text-danger-emphasis mt-3">* denotes a required field</div>
         <input asp-for="Item.Id" type="hidden" />
     </form>
 </div>

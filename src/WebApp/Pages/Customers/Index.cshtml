@@ -9,10 +9,10 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<div class="text-muted ps-2">
+<div class="text-body-secondary ps-2">
     <em>All fields are optional.</em>
 </div>
-<div class="p-3 rounded-3 bg-light">
+<div class="p-3 rounded-3 bg-light-subtle">
     <form method="get" asp-page-handler="Search" asp-fragment="SearchResults">
         <div class="form-floating mb-3">
             <input asp-for="Spec.Name" name="@nameof(Model.Spec.Name)" class="form-control" />
@@ -72,7 +72,7 @@
                     <partial name="Shared/_PaginationNavAndCount" model="Model.PaginationNav" />
                 </caption>
 
-                <thead class="table-light">
+                <thead>
                 <tr>
                     <th scope="col">
                         <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
@@ -95,7 +95,7 @@
                 </tr>
                 </thead>
 
-                <tbody>
+                <tbody class="table-group-divider">
                 @foreach (var item in Model.SearchResults.Items)
                 {
                     <tr class="@(item.IsDeleted ? "table-secondary" : "")">

@@ -9,7 +9,7 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<div class="p-3 rounded-3 bg-light">
+<div class="p-3 rounded-3 bg-light-subtle">
     <form method="get" asp-page-handler="Search" asp-fragment="SearchResults">
         <div class="row">
             <div class="col-md mb-3">
@@ -76,7 +76,7 @@
                     <partial name="Shared/_PaginationNavAndCount" model="Model.PaginationNav" />
                 </caption>
 
-                <thead class="table-light">
+                <thead>
                 <tr>
                     <th scope="col">
                         <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
@@ -100,16 +100,16 @@
                 </tr>
                 </thead>
 
-                <tbody>
+                <tbody class="table-group-divider">
                 @foreach (var item in Model.SearchResults.Items)
                 {
                     <tr class="@(item.Active ? "" : "bg-secondary bg-opacity-25")">
                         <td>
+                            @item.SortableFullName
                             @if (item.Email.ToLowerInvariant().Equals(User.Identity?.Name!.ToLowerInvariant()))
                             {
-                                <span class="badge text-bg-info">YOU</span>
+                                <span class="badge bg-info-subtle border border-info-subtle text-info-emphasis rounded-pill">YOU</span>
                             }
-                            @item.SortableFullName
                         </td>
                         <td>@item.Email</td>
                         <td>@Html.DisplayFor(m => item.OfficeName, DisplayTemplate.StringOrNone)</td>

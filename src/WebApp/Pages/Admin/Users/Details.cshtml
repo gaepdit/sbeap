@@ -16,7 +16,7 @@
     @if (Model.DisplayStaff.Email!.ToLowerInvariant().Equals(User.Identity?.Name!.ToLowerInvariant()))
     {
         <a asp-page="/Account/Index">
-            <span class="badge text-bg-info">YOU</span>
+            <span class="badge bg-info-subtle border border-info-subtle text-info-emphasis rounded-pill">YOU</span>
         </a>
     }
 </h2>
@@ -63,12 +63,12 @@ else
         <a asp-page="/Admin/Users/Roles" target="_blank">user roles and capabilities</a>.
     </p>
 
-    <dl class="p-3 border rounded-3 bg-light">
+    <dl class="p-3 border rounded-3 bg-light-subtle">
         @foreach (var role in Model.Roles)
         {
             <dt>@role.DisplayName</dt>
             <dd>
-                <p class="text-muted">@role.Description</p>
+                <p class="text-body-secondary">@role.Description</p>
             </dd>
         }
     </dl>

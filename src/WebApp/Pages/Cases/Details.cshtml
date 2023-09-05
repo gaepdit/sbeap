@@ -9,12 +9,12 @@
 
 @if (Model.Item.Customer.IsDeleted)
 {
-    <h2 class="h3 text-danger">This customer has been deleted</h2>
+    <h2 class="h3 text-danger-emphasis">This customer has been deleted</h2>
 }
 @if (Model.Item.IsDeleted)
 {
     <div class="row justify-content-between align-items-center g-0 mb-2">
-        <h2 class="h3 text-danger col-md mb-md-0">This case has been deleted</h2>
+        <h2 class="h3 text-danger-emphasis col-md mb-md-0">This case has been deleted</h2>
         <div class="col-md-auto d-print-none ms-md-3">
             @if (Model.UserCan[CaseworkOperation.ManageDeletions])
             {
@@ -25,7 +25,7 @@
 }
 <div class="row justify-content-between align-items-end g-0">
     <h1 class="col-md mb-md-0">
-        <span class="text-muted">Case opened</span> @Html.DisplayFor(e => e.Item.CaseOpenedDate) <span class="text-muted">for:</span><br>
+        <span class="text-body-secondary">Case opened</span> @Html.DisplayFor(e => e.Item.CaseOpenedDate) <span class="text-body-secondary">for:</span><br>
         @Model.Item.Customer.Name
     </h1>
     @if (!Model.Item.IsDeleted)
@@ -126,7 +126,7 @@
 
 @if (Model.UserCan[CaseworkOperation.EditActionItems])
 {
-    <div class="container bg-light border border-info rounded-1 my-3 py-2">
+    <div class="container bg-light-subtle border border-info rounded-1 my-3 py-2">
         <h3 id="new-action" class="h5">Add a new Action Item</h3>
 
         <form method="post" asp-fragment="new-action">
@@ -146,7 +146,7 @@
             </div>
 
             <button type="submit" class="btn btn-primary col-6 col-sm-4 col-lg-3 mb-1 me-2">Save Action</button>
-            <div class="text-danger">* denotes a required field</div>
+            <div class="text-danger-emphasis">* denotes a required field</div>
             <input asp-for="NewActionItem.CaseworkId" type="hidden" />
         </form>
     </div>
@@ -164,7 +164,7 @@
                             <div class="row justify-content-between align-items-start g-0 my-1">
                                 <div class="col">
                                     <h3 class="h5 card-title">@Html.DisplayFor(m => item.ActionItemTypeName)</h3>
-                                    <h4 class="h5 card-subtitle text-muted">@Html.DisplayFor(m => item.ActionDate, DisplayTemplate.DateOnlyOrNotEntered)</h4>
+                                    <h4 class="h5 card-subtitle text-body-secondary">@Html.DisplayFor(m => item.ActionDate, DisplayTemplate.DateOnlyOrNotEntered)</h4>
                                 </div>
                                 @if (Model.UserCan[CaseworkOperation.EditActionItems])
                                 {
@@ -185,7 +185,7 @@
                     </div>
                     @if (item.EnteredBy is not null || item.EnteredOn is not null)
                     {
-                        <small class="card-footer text-muted">
+                        <small class="card-footer text-body-secondary">
                             Entered
                             @if (item.EnteredBy is not null)
                             {

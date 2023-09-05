@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <partial name="_RaygunScriptsPartial" />
+    <script src="~/js/color-modes.js"></script>
 </head>
 
 <body>
@@ -20,12 +21,12 @@
         Test Site
     </div>
 </environment>
-<a class="skip-nav shadow border border-info" href="#main-content">Skip to main content</a>
+<a class="skip-nav shadow border border-2 rounded border-info bg-info-subtle text-info-emphasis" href="#main-content">Skip to main content</a>
 
 <header role="banner">
     <div class="container h3 my-2">
         <img src="~/images/epd-icon.svg" alt="Georgia EPD" class="img-logo" />
-        <a href="~/" aria-label="Home" class="nav-link text-dark d-inline-block">Small Business Environmental Assistance Program</a>
+        <a href="~/" aria-label="Home" class="nav-link d-inline-block">Small Business Environmental Assistance Program</a>
     </div>
     <partial name="_MenuPartial" />
 </header>
@@ -37,13 +38,13 @@
     </main>
 </div>
 
-<footer class="border-top footer text-muted">
-    <div class="bg-light d-print-none">
+<footer class="border-top footer text-body-secondary">
+    <div class="bg-light-subtle d-print-none">
         <div class="container">
             <a href="#main-nav">↑ Return to top</a>
         </div>
     </div>
-    <div class="bg-brand text-light">
+    <div class="text-bg-brand bg-gradient">
         <div class="container">
             &copy; @DateTime.Now.Year.ToString() State of Georgia
             <span class="d-print-none">

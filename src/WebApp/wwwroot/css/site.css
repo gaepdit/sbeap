@@ -1,19 +1,114 @@
 /* Branding colors
 -------------------------------------------------- */
-.bg-brand {
+
+/* Light mode theme colors */
+.text-bg-brand {
     background-color: hsl(275, 73%, 23%);
+    color: #fff;
 }
 
-.bg-brand a {
+.text-bg-brand a {
     color: hsl(275, 100%, 92%);
 }
 
-.bg-brand a:hover, .bg-brand a:focus {
+.text-bg-brand a:hover,
+.text-bg-brand a:focus {
     color: hsl(275, 100%, 85%);
 }
 
-.text-brand {
+.text-bg-brand a:active {
+    color: hsl(275, 100%, 95%);
+}
+
+.text-bg-brand .dropdown-item {
+    color: hsl(275, 73%, 36%);
+}
+
+.text-bg-brand .dropdown-item:focus,
+.text-bg-brand .dropdown-item:hover {
     color: hsl(275, 73%, 23%);
+    background-color: hsl(275, 17%, 98%);
+}
+
+.text-bg-brand .dropdown-item.active,
+.text-bg-brand .dropdown-item:active {
+    color: #fff;
+    background-color: rgb(13, 110, 253)
+}
+
+.text-bg-brand .nav-link {
+    color: #fff;
+}
+
+.text-bg-brand .nav-link:hover,
+.text-bg-brand .nav-link:focus {
+    color: #fff;
+}
+
+.text-bg-brand .navbar-nav .nav-link.active,
+.text-bg-brand .navbar-nav .nav-link.show {
+    color: #fff;
+}
+
+.text-bg-brand .nav-link:focus-visible {
+    box-shadow: 0 0 0 .25rem hsla(275, 10%, 100%, .57);
+}
+
+.text-bg-brand .navbar-toggler {
+    color: hsla(0, 0%, 100%, 0.7);
+    border-color: hsla(0, 0%, 100%, 0.15);
+}
+
+.text-bg-brand .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.65%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Dark mode theme colors */
+[data-bs-theme="dark"] .text-bg-brand {
+    background-color: hsl(275, 42%, 23%);
+    color: #fff;
+}
+
+[data-bs-theme="dark"] .text-bg-brand a {
+    color: hsl(275, 100%, 92%);
+}
+
+[data-bs-theme="dark"] .text-bg-brand a:hover,
+[data-bs-theme="dark"] .text-bg-brand a:focus {
+    color: hsl(275, 100%, 85%);
+}
+
+[data-bs-theme="dark"] .text-bg-brand a:active {
+    color: hsl(275, 100%, 95%);
+}
+
+[data-bs-theme="dark"] .text-bg-brand .dropdown-item {
+    color: hsl(275, 73%, 90%);
+}
+
+[data-bs-theme="dark"] .text-bg-brand .dropdown-item:focus,
+[data-bs-theme="dark"] .text-bg-brand .dropdown-item:hover {
+    color: hsl(275, 73%, 90%);
+    background-color: hsl(210, 10%, 19%);
+}
+
+[data-bs-theme="dark"] .text-bg-brand .dropdown-item.active,
+[data-bs-theme="dark"] .text-bg-brand .dropdown-item:active {
+    color: #fff;
+    background-color: rgb(13, 110, 253)
+}
+
+[data-bs-theme="dark"] .text-bg-brand .nav-link {
+    color: #fff;
+}
+
+[data-bs-theme="dark"] .text-bg-brand .navbar-nav .nav-link.active,
+[data-bs-theme="dark"] .text-bg-brand .navbar-nav .nav-link.show {
+    color: #fff;
+}
+
+[data-bs-theme="dark"] .text-bg-brand .nav-link:focus-visible {
+    box-shadow: 0 0 0 .25rem hsla(275, 10%, 100%, .57);
 }
 
 /* Adjust font sizing
@@ -30,24 +125,22 @@ html {
 
 /* Fix color accessibility
 -------------------------------------------------- */
-a {
-    color: #0366d6;
-}
-
-.btn-primary {
+[data-bs-theme="light"] .btn-primary {
     color: #fff;
     background-color: #1b6ec2;
     border-color: #1861ac;
 }
 
-.btn-outline-warning, .text-warning {
+[data-bs-theme="light"] .text-warning {
     color: rgb(150, 113, 0) !important;
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-    color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+[data-bs-theme="light"] .text-danger-emphasis {
+    color: rgb(220, 53, 69) !important;
+}
+
+[data-bs-theme="light"] .bg-dark-subtle .text-danger-emphasis {
+    color: #7a010c !important;
 }
 
 /* Sticky footer
@@ -59,7 +152,7 @@ html {
 
 body {
     /* Margin bottom by footer height */
-    /*margin-bottom: 60px;*/ /* Single height for one footer section */
+    /* margin-bottom: 60px;*/ /* Single height for one footer section */
     margin-bottom: 120px; /* Double height for two footer sections */
 }
 
@@ -84,10 +177,7 @@ body {
 /* Skip to content link
 -------------------------------------------------- */
 .skip-nav {
-    background: transparent;
-    color: #212121;
-    text-decoration: underline;
-    left: 0;
+    left: .2rem;
     padding: 1rem 1.5rem;
     position: absolute;
     top: -4.2rem;
@@ -96,12 +186,8 @@ body {
 }
 
 .skip-nav:focus {
-    background: #fff;
-    left: 0;
     outline: 0;
-    position: absolute;
-    top: 0;
-    transition: all 0.2s ease-in-out;
+    top: .2rem;
 }
 
 /* Button with image 
@@ -130,11 +216,12 @@ a[target]::after {
     content: ' \1f5d7';
 }
 
+/* Suppress external link icon */
 a[target].no-external-link::after {
     content: none;
 }
 
-/* Hover style for links with underline removed
+/* Add outline on hover for links with underline removed
 -------------------------------------------------- */
 a.text-decoration-none:hover {
     outline: 2px solid;
@@ -187,6 +274,14 @@ details.card:not([open]) summary.card-header {
     }
 }
 
+/* Bootstrap Icons
+-------------------------------------------------- */
+.bi {
+    width: 1em;
+    height: 1em;
+    fill: currentColor;
+}
+
 /* Fix for Bootstrap textarea with "floating" label
 -------------------------------------------------- */
 .form-floating > textarea.form-control {
@@ -202,7 +297,3 @@ details.card:not([open]) summary.card-header {
 .validation-summary-errors ul {
     margin-bottom: 0;
 }
-
-/* ==================================================
-Application-specific styles
-================================================== */

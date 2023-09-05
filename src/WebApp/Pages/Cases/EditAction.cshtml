@@ -20,7 +20,7 @@
     </dl>
 </div>
 
-<div class="p-3 border rounded-3 bg-light">
+<div class="p-3 border rounded-3 bg-light-subtle">
     <form method="post" asp-fragment="@Model.ActionItemUpdate.Id">
         <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
 
@@ -42,7 +42,7 @@
             <button id="SubmitButton" type="submit" class="btn btn-primary col-6 col-sm-4 col-lg-3 me-2">Save Changes</button>
             <a asp-page="Details" asp-route-id="@Model.CaseView.Id.ToString()" asp-fragment="actions" class="btn btn-outline-secondary">Cancel</a>
         </div>
-        <div class="text-danger mt-3">* denotes a required field</div>
+        <div class="text-danger-emphasis mt-3">* denotes a required field</div>
         <input asp-for="ActionItemUpdate.Id" type="hidden">
     </form>
 </div>

@@ -24,12 +24,12 @@
     </dl>
 </div>
 
-<div class="p-3 border rounded-3 bg-light">
+<div class="p-3 border rounded-3 bg-light-subtle">
     <form method="post">
         <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
 
         <div class="row mt-2">
-            <p class="form-text"><span class="text-danger">*</span> At least a name or title must be entered in order to create a contact.</p>
+            <p class="form-text"><span class="text-danger-emphasis">*</span> At least a name or title must be entered in order to create a contact.</p>
 
             <div class="col-md-6">
                 <h3 class="h5 d-none d-md-block">Personal Info</h3>
@@ -55,7 +55,7 @@
             </div>
 
             <div class="col-md-6">
-                <h3>Mailing Address <small class="text-muted me-1">(optional)</small></h3>
+                <h3>Mailing Address <small class="text-body-secondary me-1">(optional)</small></h3>
 
                 <div class="mb-3">
                     @Html.EditorFor(e => e.NewContact.Address.Street, EditorTemplate.Input)
@@ -77,7 +77,7 @@
             <button id="SubmitButton" type="submit" class="btn btn-primary col-6 col-sm-4 col-lg-3 me-2">Add New Contact</button>
             <a asp-page="Details" asp-route-id="@Model.Customer.Id.ToString()" asp-fragment="contacts" class="btn btn-outline-secondary">Cancel</a>
         </div>
-        <div class="text-danger mt-3">* denotes a required field</div>
+        <div class="text-danger-emphasis mt-3">* denotes a required field</div>
         <input asp-for="NewContact.CustomerId" type="hidden">
     </form>
 </div>
