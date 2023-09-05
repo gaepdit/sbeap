@@ -1,11 +1,8 @@
-﻿@using Microsoft.AspNetCore.Authorization
-@using Sbeap.AppServices.Permissions
-@using Sbeap.WebApp.Platform.Settings
-@inject IAuthorizationService AuthorizationService
+﻿@using Sbeap.WebApp.Platform.Settings
 @{
     var apiKey = ApplicationSettings.RaygunSettings.ApiKey;
     if (string.IsNullOrEmpty(apiKey)) return;
-    var identifier = (await AuthorizationService.AuthorizeAsync(User, nameof(Policies.ActiveUser))).Succeeded ? null : User.Identity?.Name;
+    var identifier = User.Identity?.Name;
     var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "unknown";
 }
 
@@ -25,4 +22,6 @@
         @:rg4js('setUser', {isAnonymous: false, identifier: '@identifier'});
     }
 </script>
-<environment names="Production"><script>rg4js('enablePulse', true);</script></environment>
+<environment names="Production">
+    <script>rg4js('enablePulse', true);</script>
+</environment>
