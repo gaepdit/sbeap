@@ -3,7 +3,7 @@
     var displayMessage = TempData.GetDisplayMessage();
 }
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-100">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,7 +15,7 @@
     <script src="~/js/color-modes.js"></script>
 </head>
 
-<body id="top">
+<body id="top" class="d-flex flex-column h-100">
 <header role="banner" class="sticky-top">
     <environment exclude="Production">
         <div class="banner-test-site">Test Site</div>
@@ -24,26 +24,30 @@
     <partial name="_MenuPartial" />
 </header>
 
-<div class="container">
-    <main id="main-content" role="main" class="pb-3">
+<main id="main-content" role="main" class="flex-shrink-0">
+    <div class="container">
         <partial name="_AlertPartial" for="@displayMessage" />
         @RenderBody()
-    </main>
-</div>
+    </div>
+</main>
 
-<footer class="footer bg-body-secondary">
-    <div class="bg-body-tertiary d-print-none border-bottom border-top">
+<footer class="footer mt-auto pt-3">
+    <div class="bg-body-tertiary py-2 border-bottom d-print-none">
         <div class="container">
-            <a href="#top">↑ Return to top</a>
+            <a href="#top" class="text-decoration-none">↑ Return to top</a>
         </div>
     </div>
-    <div class="container">
-        &copy; @DateTime.Now.Year.ToString() State of Georgia
-        <span class="d-print-none">
-            | <a href="https://georgia.gov/accessibility" target="_blank" rel="noopener">Accessibility</a>
-            | <a href="https://gadnr.org/ada" target="_blank" rel="noopener">DNR Accessibility Notice</a>
-            | <a href="https://georgia.gov/privacysecurity" target="_blank" rel="noopener">Privacy/Security</a>
-        </span>
+    <div class="bg-body-secondary pt-2 pb-3">
+        <div class="container">
+            <small>
+                Small Business Environmental Assistance Program <br>&copy; @DateTime.Now.Year.ToString() State of Georgia
+                <span class="d-print-none">
+                    | <a href="https://georgia.gov/accessibility" target="_blank" rel="noopener">Accessibility</a>
+                    | <a href="https://gadnr.org/ada" target="_blank" rel="noopener">DNR Accessibility Notice</a>
+                    | <a href="https://georgia.gov/privacysecurity" target="_blank" rel="noopener">Privacy/Security</a>
+                </span>
+            </small>
+        </div>
     </div>
 </footer>
 

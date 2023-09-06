@@ -145,27 +145,6 @@ html {
     color: #7a010c !important;
 }
 
-/* Sticky footer
--------------------------------------------------- */
-html {
-    position: relative;
-    min-height: 100%;
-}
-
-body {
-    /* Margin bottom by footer height */
-    /* margin-bottom: 60px;*/ /* Single height for one footer section */
-    margin-bottom: 120px; /* Double height for two footer sections */
-}
-
-.footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    white-space: nowrap;
-    line-height: 60px; /* Vertically center the text there */
-}
-
 /* Nav bar logo
 -------------------------------------------------- */
 .img-logo {
