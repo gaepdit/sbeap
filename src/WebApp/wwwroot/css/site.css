@@ -225,7 +225,6 @@ a[target].no-external-link::after {
     position: sticky;
     top: 0;
     z-index: 1020;
-    opacity: .9;
     color: #333;
     font-weight: 700;
     font-size: 16px;
@@ -253,12 +252,17 @@ details.card:not([open]) summary.card-header {
 /* Print styles
 -------------------------------------------------- */
 @media print {
+    header.sticky-top {
+        position: static;
+    }
+
     .banner-test-site {
         position: static;
         text-shadow: none;
         box-shadow: none;
         border: 1px solid;
-        margin-top: 1rem;
+        margin-bottom: 1rem;
+        background: #ffe69c;
     }
 
     .banner-test-site::after {

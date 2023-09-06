@@ -16,14 +16,13 @@
 </head>
 
 <body id="top">
-<environment exclude="Production">
-    <div class="banner-test-site">
-        Test Site
-    </div>
-</environment>
-<a class="skip-nav shadow border border-2 rounded border-info bg-info-subtle text-info-emphasis" href="#main-content">Skip to main content</a>
-
-<partial name="_MenuPartial" />
+<header role="banner" class="sticky-top">
+    <environment exclude="Production">
+        <div class="banner-test-site">Test Site</div>
+    </environment>
+    <a class="skip-nav shadow border border-2 rounded border-info bg-info-subtle text-info-emphasis" href="#main-content">Skip to main content</a>
+    <partial name="_MenuPartial" />
+</header>
 
 <div class="container">
     <main id="main-content" role="main" class="pb-3">
