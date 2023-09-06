@@ -24,128 +24,134 @@
         <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z" />
     </symbol>
 </svg>
-<nav id="main-nav" class="navbar navbar-expand-sm text-bg-brand bg-gradient border-bottom shadow-sm mb-3 d-print-none">
-    <div class="container">
-        <a class="nav-link" asp-page="/Index">Home</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav-content"
-                aria-controls="main-nav-content" aria-haspopup="menu" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span> <span class="align-middle">Menu</span>
-        </button>
 
-        <div class="navbar-collapse collapse d-sm-inline-flex" id="main-nav-content">
-            <ul class="navbar-nav flex-grow-1">
-                @if (isStaff)
+<header role="banner">
+    <nav id="main-nav" class="navbar navbar-expand-sm text-bg-brand bg-gradient border-bottom shadow-sm mb-3 d-print-none">
+        <div class="container">
+            <a asp-page="/Index" title="Small Business Environmental Assistance Program">
+                <img src="~/images/epd-icon.svg" alt="Georgia EPD" class="img-logo me-2" />
+            </a>
+            <a class="navbar-brand" asp-page="/Index" title="Small Business Environmental Assistance Program">SBEAP</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav-content"
+                    aria-controls="main-nav-content" aria-haspopup="menu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span> <span class="align-middle">Menu</span>
+            </button>
+
+            <div class="navbar-collapse collapse d-sm-inline-flex" id="main-nav-content">
+                <ul class="navbar-nav flex-grow-1">
+                    @if (isStaff)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-page="/Customers/Index">Customer Search</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-page="/Customers/Add">New Customer</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-page="/Cases/Index">Case Search</a>
+                        </li>
+                    }
+                </ul>
+
+                @if (isActive)
                 {
-                    <li class="nav-item">
-                        <a class="nav-link" asp-page="/Customers/Index">Customer Search</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-page="/Customers/Add">New Customer</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-page="/Cases/Index">Case Search</a>
-                    </li>
-                }
-            </ul>
-
-            @if (isActive)
-            {
-                <ul class="navbar-nav">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="moreDropdownMenuLink" role="button"
-                           data-bs-toggle="dropdown" aria-haspopup="menu" aria-expanded="false" title="View menu of additional options">
-                            More
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="moreDropdownMenuLink">
-                            <li>
-                                <a class="dropdown-item" asp-page="/Admin/Users/Index">SBEAP Users</a>
-                            </li>
-                            @if (canViewMaintenance)
-                            {
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="moreDropdownMenuLink" role="button"
+                               data-bs-toggle="dropdown" aria-haspopup="menu" aria-expanded="false" title="View menu of additional options">
+                                More
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="moreDropdownMenuLink">
                                 <li>
-                                    <a class="dropdown-item" asp-page="/Admin/Maintenance/Index">Site Maintenance</a>
+                                    <a class="dropdown-item" asp-page="/Admin/Users/Index">SBEAP Users</a>
                                 </li>
-                            }
+                                @if (canViewMaintenance)
+                                {
+                                    <li>
+                                        <a class="dropdown-item" asp-page="/Admin/Maintenance/Index">Site Maintenance</a>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    </ul>
+                }
+
+                <ul class="navbar-nav">
+                    @if (isLoggedIn)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="accountDropdownMenuLink" role="button"
+                               data-bs-toggle="dropdown" aria-haspopup="menu" aria-expanded="false" title="View account menu">
+                                Account
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdownMenuLink">
+                                <li>
+                                    <a class="dropdown-item" asp-page="/Account/Index">Your profile</a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <form class="form-inline py-0 px-2" asp-page="/Account/Logout" method="post">
+                                        <button type="submit" class="btn btn-outline-danger d-block w-100 px-4 py-2">Sign out</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                    else if (!hideSignin)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-page="/Account/Login">Sign in</a>
+                        </li>
+                    }
+                    <!-- Dropdown selector for color mode -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-decoration-none" href="#" id="bd-theme" role="button"
+                           aria-haspopup="menu" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" title="Toggle theme">
+                            <svg class="bi my-1 me-2 theme-icon-active">
+                                <use href="#circle-half"></use>
+                            </svg>
+                            <span class="ms-2 visually-hidden" id="bd-theme-text">Toggle theme</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme">
+                            <li>
+                                <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="light">
+                                    <svg class="bi me-2 opacity-50 theme-icon">
+                                        <use href="#sun-fill"></use>
+                                    </svg>
+                                    Light
+                                    <svg class="bi ms-auto d-none">
+                                        <use href="#check2"></use>
+                                    </svg>
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark">
+                                    <svg class="bi me-2 opacity-50 theme-icon">
+                                        <use href="#moon-stars-fill"></use>
+                                    </svg>
+                                    Dark
+                                    <svg class="bi ms-auto d-none">
+                                        <use href="#check2"></use>
+                                    </svg>
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto">
+                                    <svg class="bi me-2 opacity-50 theme-icon">
+                                        <use href="#circle-half"></use>
+                                    </svg>
+                                    Auto
+                                    <svg class="bi ms-auto d-none">
+                                        <use href="#check2"></use>
+                                    </svg>
+                                </button>
+                            </li>
                         </ul>
                     </li>
                 </ul>
-            }
-
-            <ul class="navbar-nav">
-                @if (isLoggedIn)
-                {
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="accountDropdownMenuLink" role="button"
-                           data-bs-toggle="dropdown" aria-haspopup="menu" aria-expanded="false" title="View account menu">
-                            Account
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdownMenuLink">
-                            <li>
-                                <a class="dropdown-item" asp-page="/Account/Index">Your profile</a>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li>
-                                <form class="form-inline py-0 px-2" asp-page="/Account/Logout" method="post">
-                                    <button type="submit" class="btn btn-outline-danger d-block w-100 px-4 py-2">Sign out</button>
-                                </form>
-                            </li>
-                        </ul>
-                    </li>
-                }
-                else if (!hideSignin)
-                {
-                    <li class="nav-item">
-                        <a class="nav-link" asp-page="/Account/Login">Sign in</a>
-                    </li>
-                }
-                <!-- Dropdown selector for color mode -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-decoration-none" href="#" id="bd-theme" role="button"
-                       aria-haspopup="menu" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" title="Toggle theme">
-                        <svg class="bi my-1 me-2 theme-icon-active">
-                            <use href="#circle-half"></use>
-                        </svg>
-                        <span class="ms-2 visually-hidden" id="bd-theme-text">Toggle theme</span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme">
-                        <li>
-                            <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="light">
-                                <svg class="bi me-2 opacity-50 theme-icon">
-                                    <use href="#sun-fill"></use>
-                                </svg>
-                                Light
-                                <svg class="bi ms-auto d-none">
-                                    <use href="#check2"></use>
-                                </svg>
-                            </button>
-                        </li>
-                        <li>
-                            <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark">
-                                <svg class="bi me-2 opacity-50 theme-icon">
-                                    <use href="#moon-stars-fill"></use>
-                                </svg>
-                                Dark
-                                <svg class="bi ms-auto d-none">
-                                    <use href="#check2"></use>
-                                </svg>
-                            </button>
-                        </li>
-                        <li>
-                            <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto">
-                                <svg class="bi me-2 opacity-50 theme-icon">
-                                    <use href="#circle-half"></use>
-                                </svg>
-                                Auto
-                                <svg class="bi ms-auto d-none">
-                                    <use href="#check2"></use>
-                                </svg>
-                            </button>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
+</header>

@@ -50,6 +50,7 @@
     color: #fff;
 }
 
+.text-bg-brand .navbar-brand:focus-visible,
 .text-bg-brand .nav-link:focus-visible {
     box-shadow: 0 0 0 .25rem hsla(275, 10%, 100%, .57);
 }
@@ -107,6 +108,7 @@
     color: #fff;
 }
 
+[data-bs-theme="dark"] .text-bg-brand .navbar-brand:focus-visible,
 [data-bs-theme="dark"] .text-bg-brand .nav-link:focus-visible {
     box-shadow: 0 0 0 .25rem hsla(275, 10%, 100%, .57);
 }
@@ -167,7 +169,7 @@ body {
 /* Header and nav bar
 -------------------------------------------------- */
 .img-logo {
-    height: 60px;
+    height: 40px;
 }
 
 .nav-link:hover {
