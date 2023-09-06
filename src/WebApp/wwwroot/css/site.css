@@ -231,10 +231,16 @@ a[target].no-external-link::after {
     font-family: system-ui;
     text-transform: uppercase;
     text-align: center;
-    text-shadow: 0 0 4px white;
-    background: repeating-linear-gradient(135deg, #f6da52bb, #f6da52bb 10px, #ffef80bb 10px, #ffef80bb 20px);
+    text-shadow: 0 0 4px #fff;
+    background: repeating-linear-gradient(135deg, hsl(50, 90%, 64%), hsl(50, 90%, 64%) 10px, hsl(50, 100%, 75%) 10px, hsl(50, 100%, 75%) 20px);
     box-shadow: inset 0 -3px 7px rgba(130, 106, 15, 0.37);
     padding: 1px 0;
+}
+
+[data-bs-theme="dark"] .banner-test-site {
+    color: #fff;
+    text-shadow: 0 0 6px black;
+    background: repeating-linear-gradient(135deg, hsl(50, 90%, 36%), hsl(50, 90%, 36%) 10px, hsl(50, 40%, 25%) 10px, hsl(50, 40%, 25%) 20px);
 }
 
 /* Prevent banner from covering up link target elements. 
