@@ -26,12 +26,12 @@
 </svg>
 
 <header role="banner">
-    <nav id="main-nav" class="navbar navbar-expand-sm text-bg-brand bg-gradient border-bottom shadow-sm mb-3 d-print-none">
+    <nav id="main-nav" class="navbar nav-underline navbar-expand-sm text-bg-brand bg-gradient border-bottom shadow-sm mb-3 d-print-none">
         <div class="container">
             <a asp-page="/Index" title="Small Business Environmental Assistance Program">
                 <img src="~/images/epd-icon.svg" alt="Georgia EPD" class="img-logo me-2" />
             </a>
-            <a class="navbar-brand" asp-page="/Index" title="Small Business Environmental Assistance Program">SBEAP</a>
+            <a class="navbar-brand nav-link me-0 pe-1" asp-page="/Index" title="Small Business Environmental Assistance Program">SBEAP</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav-content"
                     aria-controls="main-nav-content" aria-haspopup="menu" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span> <span class="align-middle">Menu</span>
@@ -107,9 +107,9 @@
                     }
                     <!-- Dropdown selector for color mode -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-decoration-none" href="#" id="bd-theme" role="button"
+                        <a class="nav-link dropdown-toggle" href="#" id="bd-theme" role="button"
                            aria-haspopup="menu" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" title="Toggle theme">
-                            <svg class="bi my-1 me-2 theme-icon-active">
+                            <svg class="bi me-1 theme-icon-active">
                                 <use href="#circle-half"></use>
                             </svg>
                             <span class="ms-2 visually-hidden" id="bd-theme-text">Toggle theme</span>

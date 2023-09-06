@@ -27,13 +27,13 @@
 .text-bg-brand .dropdown-item:focus,
 .text-bg-brand .dropdown-item:hover {
     color: hsl(275, 73%, 23%);
-    background-color: hsl(275, 17%, 98%);
+    background-color: hsl(275, 100%, 95%);
 }
 
 .text-bg-brand .dropdown-item.active,
 .text-bg-brand .dropdown-item:active {
-    color: #fff;
-    background-color: rgb(13, 110, 253)
+    color: hsl(275, 0%, 100%);
+    background-color: hsl(275, 50%, 50%)
 }
 
 .text-bg-brand .nav-link {
@@ -56,8 +56,8 @@
 }
 
 .text-bg-brand .navbar-toggler {
-    color: hsla(0, 0%, 100%, 0.7);
-    border-color: hsla(0, 0%, 100%, 0.15);
+    color: hsla(275, 0%, 100%, 0.7);
+    border-color: hsla(275, 0%, 100%, 0.15);
 }
 
 .text-bg-brand .navbar-toggler-icon {
@@ -166,14 +166,10 @@ body {
     line-height: 60px; /* Vertically center the text there */
 }
 
-/* Header and nav bar
+/* Nav bar logo
 -------------------------------------------------- */
 .img-logo {
     height: 40px;
-}
-
-.nav-link:hover {
-    text-decoration: underline;
 }
 
 /* Skip to content link
@@ -221,12 +217,6 @@ a[target]::after {
 /* Suppress external link icon */
 a[target].no-external-link::after {
     content: none;
-}
-
-/* Add outline on hover for links with underline removed
--------------------------------------------------- */
-a.text-decoration-none:hover {
-    outline: 2px solid;
 }
 
 /* Banner for test site
