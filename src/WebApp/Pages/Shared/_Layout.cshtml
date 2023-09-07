@@ -15,43 +15,38 @@
     <script src="~/js/color-modes.js"></script>
 </head>
 
-<body>
+<body id="top" class="d-flex flex-column vh-100">
+<a class="skip-nav shadow border border-2 rounded border-info bg-info-subtle text-info-emphasis d-print-none" href="#main-content">Skip to main content</a>
 <environment exclude="Production">
-    <div class="banner-test-site">
-        Test Site
-    </div>
+    <div class="banner-test-site">Test Site</div>
 </environment>
-<a class="skip-nav shadow border border-2 rounded border-info bg-info-subtle text-info-emphasis" href="#main-content">Skip to main content</a>
-
 <header role="banner">
-    <div class="container h3 my-2">
-        <img src="~/images/epd-icon.svg" alt="Georgia EPD" class="img-logo" />
-        <a href="~/" aria-label="Home" class="nav-link d-inline-block">Small Business Environmental Assistance Program</a>
-    </div>
     <partial name="_MenuPartial" />
 </header>
 
-<div class="container">
-    <main id="main-content" role="main" class="pb-3">
+<main id="main-content" role="main" class="flex-grow-1">
+    <div class="container">
         <partial name="_AlertPartial" for="@displayMessage" />
         @RenderBody()
-    </main>
-</div>
+    </div>
+</main>
 
-<footer class="border-top footer text-body-secondary">
-    <div class="bg-light-subtle d-print-none">
+<footer class="footer pt-3">
+    <div class="bg-body-tertiary py-2 border-bottom d-print-none">
         <div class="container">
-            <a href="#main-nav">↑ Return to top</a>
+            <a href="#top" class="text-decoration-none">↑ Return to top</a>
         </div>
     </div>
-    <div class="text-bg-brand bg-gradient">
+    <div class="bg-body-secondary pt-2 pb-3">
         <div class="container">
-            &copy; @DateTime.Now.Year.ToString() State of Georgia
-            <span class="d-print-none">
-                | <a href="https://georgia.gov/accessibility" target="_blank" rel="noopener">Accessibility</a>
-                | <a href="https://gadnr.org/ada" target="_blank" rel="noopener">DNR Accessibility Notice</a>
-                | <a href="https://georgia.gov/privacysecurity" target="_blank" rel="noopener">Privacy/Security</a>
-            </span>
+            <small>
+                Small Business Environmental Assistance Program <br>&copy; @DateTime.Now.Year.ToString() State of Georgia
+                <span class="d-print-none">
+                    | <a href="https://georgia.gov/accessibility" target="_blank" rel="noopener">Accessibility</a>
+                    | <a href="https://gadnr.org/ada" target="_blank" rel="noopener">DNR Accessibility Notice</a>
+                    | <a href="https://georgia.gov/privacysecurity" target="_blank" rel="noopener">Privacy/Security</a>
+                </span>
+            </small>
         </div>
     </div>
 </footer>

@@ -58,68 +58,66 @@
 
 @if (Model.ShowResults)
 {
-    <div id="SearchResults" class="mt-4">
-        <h3>Search Results</h3>
+    <h3 id="SearchResults" class="mt-4">Search Results</h3>
 
-        @if (Model.SearchResults.TotalCount == 0)
-        {
-            <p class="lead text-info">No search results found.</p>
-        }
-        else
-        {
-            <table class="table" aria-label="User search results">
-                <caption class="caption-top">
-                    <partial name="Shared/_PaginationNavAndCount" model="Model.PaginationNav" />
-                </caption>
+    @if (Model.SearchResults.TotalCount == 0)
+    {
+        <p class="lead text-info">No search results found.</p>
+    }
+    else
+    {
+        <table class="table" aria-label="User search results">
+            <caption class="caption-top">
+                <partial name="Shared/_PaginationNavAndCount" model="Model.PaginationNav" />
+            </caption>
 
-                <thead>
-                <tr>
-                    <th scope="col">
-                        <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
-                           asp-route-Sort="@(Model.Spec.Sort == CustomerSortBy.Name ? nameof(CustomerSortBy.NameDesc) : nameof(CustomerSortBy.Name))">
-                            @Html.DisplayNameFor(m => m.Spec.Name)
-                            @Html.DisplayFor(m => m.SortByName, DisplayTemplate.SortArrow, new { up = nameof(CustomerSortBy.Name), down = nameof(CustomerSortBy.NameDesc) })
-                        </a>
+            <thead>
+            <tr>
+                <th scope="col">
+                    <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
+                       asp-route-Sort="@(Model.Spec.Sort == CustomerSortBy.Name ? nameof(CustomerSortBy.NameDesc) : nameof(CustomerSortBy.Name))">
+                        @Html.DisplayNameFor(m => m.Spec.Name)
+                        @Html.DisplayFor(m => m.SortByName, DisplayTemplate.SortArrow, new { up = nameof(CustomerSortBy.Name), down = nameof(CustomerSortBy.NameDesc) })
+                    </a>
+                </th>
+                <th scope="col">
+                    <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
+                       asp-route-Sort="@(Model.Spec.Sort == CustomerSortBy.Description ? nameof(CustomerSortBy.DescriptionDesc) : nameof(CustomerSortBy.Description))">
+                        @Html.DisplayNameFor(m => m.Spec.Description)
+                        @Html.DisplayFor(m => m.SortByName, DisplayTemplate.SortArrow, new { up = nameof(CustomerSortBy.Description), down = nameof(CustomerSortBy.DescriptionDesc) })
+                    </a>
+                </th>
+                <th scope="col">@Html.DisplayNameFor(m => m.Spec.County)</th>
+                <th scope="col">
+                    <span class="visually-hidden">Actions</span>
+                </th>
+            </tr>
+            </thead>
+
+            <tbody class="table-group-divider">
+            @foreach (var item in Model.SearchResults.Items)
+            {
+                <tr class="@(item.IsDeleted ? "table-secondary" : "")">
+                    <th scope="row" class="fw-normal">
+                        @Html.DisplayFor(m => item.Name, DisplayTemplate.StringOrNone)
+                        @if (item.IsDeleted)
+                        {
+                            <br />
+                            <strong>DELETED</strong>
+                        }
                     </th>
-                    <th scope="col">
-                        <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
-                           asp-route-Sort="@(Model.Spec.Sort == CustomerSortBy.Description ? nameof(CustomerSortBy.DescriptionDesc) : nameof(CustomerSortBy.Description))">
-                            @Html.DisplayNameFor(m => m.Spec.Description)
-                            @Html.DisplayFor(m => m.SortByName, DisplayTemplate.SortArrow, new { up = nameof(CustomerSortBy.Description), down = nameof(CustomerSortBy.DescriptionDesc) })
-                        </a>
-                    </th>
-                    <th scope="col">@Html.DisplayNameFor(m => m.Spec.County)</th>
-                    <th scope="col">
-                        <span class="visually-hidden">Actions</span>
-                    </th>
+                    <td>@Html.DisplayFor(m => item.Description, DisplayTemplate.TruncateText, new { MaxLength = 50 })</td>
+                    <td>@Html.DisplayFor(m => item.County, DisplayTemplate.StringOrNone)</td>
+                    <td>
+                        <a asp-page="Details" class="btn btn-outline-info btn-sm" asp-route-id="@item.Id.ToString()">View</a>
+                    </td>
                 </tr>
-                </thead>
+            }
+            </tbody>
+        </table>
 
-                <tbody class="table-group-divider">
-                @foreach (var item in Model.SearchResults.Items)
-                {
-                    <tr class="@(item.IsDeleted ? "table-secondary" : "")">
-                        <th scope="row" class="fw-normal">
-                            @Html.DisplayFor(m => item.Name, DisplayTemplate.StringOrNone)
-                            @if (item.IsDeleted)
-                            {
-                                <br />
-                                <strong>DELETED</strong>
-                            }
-                        </th>
-                        <td>@Html.DisplayFor(m => item.Description, DisplayTemplate.TruncateText, new { MaxLength = 50 })</td>
-                        <td>@Html.DisplayFor(m => item.County, DisplayTemplate.StringOrNone)</td>
-                        <td>
-                            <a asp-page="Details" class="btn btn-outline-info btn-sm" asp-route-id="@item.Id.ToString()">View</a>
-                        </td>
-                    </tr>
-                }
-                </tbody>
-            </table>
-
-            <partial name="_PaginationNav" model="Model.PaginationNav" />
-        }
-    </div>
+        <partial name="_PaginationNav" model="Model.PaginationNav" />
+    }
 }
 
 @section Scripts {

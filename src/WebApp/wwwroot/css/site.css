@@ -27,13 +27,13 @@
 .text-bg-brand .dropdown-item:focus,
 .text-bg-brand .dropdown-item:hover {
     color: hsl(275, 73%, 23%);
-    background-color: hsl(275, 17%, 98%);
+    background-color: hsl(275, 100%, 95%);
 }
 
 .text-bg-brand .dropdown-item.active,
 .text-bg-brand .dropdown-item:active {
-    color: #fff;
-    background-color: rgb(13, 110, 253)
+    color: hsl(275, 0%, 100%);
+    background-color: hsl(275, 50%, 50%)
 }
 
 .text-bg-brand .nav-link {
@@ -50,13 +50,14 @@
     color: #fff;
 }
 
+.text-bg-brand .navbar-brand:focus-visible,
 .text-bg-brand .nav-link:focus-visible {
     box-shadow: 0 0 0 .25rem hsla(275, 10%, 100%, .57);
 }
 
 .text-bg-brand .navbar-toggler {
-    color: hsla(0, 0%, 100%, 0.7);
-    border-color: hsla(0, 0%, 100%, 0.15);
+    color: hsla(275, 0%, 100%, 0.7);
+    border-color: hsla(275, 0%, 100%, 0.15);
 }
 
 .text-bg-brand .navbar-toggler-icon {
@@ -107,6 +108,7 @@
     color: #fff;
 }
 
+[data-bs-theme="dark"] .text-bg-brand .navbar-brand:focus-visible,
 [data-bs-theme="dark"] .text-bg-brand .nav-link:focus-visible {
     box-shadow: 0 0 0 .25rem hsla(275, 10%, 100%, .57);
 }
@@ -143,35 +145,10 @@ html {
     color: #7a010c !important;
 }
 
-/* Sticky footer
--------------------------------------------------- */
-html {
-    position: relative;
-    min-height: 100%;
-}
-
-body {
-    /* Margin bottom by footer height */
-    /* margin-bottom: 60px;*/ /* Single height for one footer section */
-    margin-bottom: 120px; /* Double height for two footer sections */
-}
-
-.footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    white-space: nowrap;
-    line-height: 60px; /* Vertically center the text there */
-}
-
-/* Header and nav bar
+/* Nav bar logo
 -------------------------------------------------- */
 .img-logo {
-    height: 60px;
-}
-
-.nav-link:hover {
-    text-decoration: underline;
+    height: 40px;
 }
 
 /* Skip to content link
@@ -182,7 +159,7 @@ body {
     position: absolute;
     top: -4.2rem;
     transition: all 0.2s ease-in-out;
-    z-index: 100;
+    z-index: 2002;
 }
 
 .skip-nav:focus {
@@ -221,29 +198,33 @@ a[target].no-external-link::after {
     content: none;
 }
 
-/* Add outline on hover for links with underline removed
--------------------------------------------------- */
-a.text-decoration-none:hover {
-    outline: 2px solid;
-}
-
 /* Banner for test site
 -------------------------------------------------- */
 .banner-test-site {
-    position: sticky;
+    position: fixed;
+    width: 100%;
+    height: 26px;
     top: 0;
-    z-index: 1020;
-    opacity: .9;
+    z-index: 2001;
     color: #333;
     font-weight: 700;
     font-size: 16px;
     font-family: system-ui;
     text-transform: uppercase;
     text-align: center;
-    text-shadow: 0 0 4px white;
-    background: repeating-linear-gradient(135deg, #f6da52bb, #f6da52bb 10px, #ffef80bb 10px, #ffef80bb 20px);
+    text-shadow: 0 0 4px #fff;
+    background: repeating-linear-gradient(135deg, hsl(50, 90%, 64%), hsl(50, 90%, 64%) 10px, hsl(50, 100%, 75%) 10px, hsl(50, 100%, 75%) 20px);
     box-shadow: inset 0 -3px 7px rgba(130, 106, 15, 0.37);
     padding: 1px 0;
+}
+.banner-test-site ~ header {
+    padding-top: 26px;
+}
+
+[data-bs-theme="dark"] .banner-test-site {
+    color: #fff;
+    text-shadow: 0 0 6px black;
+    background: repeating-linear-gradient(135deg, hsl(50, 90%, 36%), hsl(50, 90%, 36%) 10px, hsl(50, 40%, 25%) 10px, hsl(50, 40%, 25%) 20px);
 }
 
 /* Prevent banner from covering up link target elements. 
@@ -261,12 +242,17 @@ details.card:not([open]) summary.card-header {
 /* Print styles
 -------------------------------------------------- */
 @media print {
+    header.sticky-top {
+        position: static;
+    }
+
     .banner-test-site {
         position: static;
         text-shadow: none;
         box-shadow: none;
         border: 1px solid;
-        margin-top: 1rem;
+        margin-bottom: 1rem;
+        background: #ffe69c;
     }
 
     .banner-test-site::after {
