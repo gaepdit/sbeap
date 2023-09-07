@@ -159,7 +159,7 @@ html {
     position: absolute;
     top: -4.2rem;
     transition: all 0.2s ease-in-out;
-    z-index: 100;
+    z-index: 2002;
 }
 
 .skip-nav:focus {
@@ -203,7 +203,7 @@ a[target].no-external-link::after {
 .banner-test-site {
     position: sticky;
     top: 0;
-    z-index: 1020;
+    z-index: 2001;
     color: #333;
     font-weight: 700;
     font-size: 16px;
