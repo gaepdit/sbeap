@@ -94,7 +94,7 @@
                         </div>
                     </div>
                 }
-                </div>
+            </div>
         </fieldset>
 
         <fieldset>
@@ -134,88 +134,86 @@
 
 @if (Model.ShowResults)
 {
-    <div id="SearchResults" class="mt-4">
-        <h3>Search Results</h3>
+    <h3 id="SearchResults" class="mt-4">Search Results</h3>
 
-        @if (Model.SearchResults.TotalCount == 0)
-        {
-            <p class="lead text-info">No search results found.</p>
-        }
-        else
-        {
-            <table class="table" aria-label="User search results">
-                <caption class="caption-top">
-                    <partial name="Shared/_PaginationNavAndCount" model="Model.PaginationNav" />
-                </caption>
+    @if (Model.SearchResults.TotalCount == 0)
+    {
+        <p class="lead text-info">No search results found.</p>
+    }
+    else
+    {
+        <table class="table" aria-label="User search results">
+            <caption class="caption-top">
+                <partial name="Shared/_PaginationNavAndCount" model="Model.PaginationNav" />
+            </caption>
 
-                <thead>
-                <tr>
-                    <th scope="col">
-                        <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
-                           asp-route-Sort="@(Model.Spec.Sort == CaseworkSortBy.Customer ? nameof(CaseworkSortBy.CustomerDesc) : nameof(CaseworkSortBy.Customer))">
-                            @Html.DisplayNameFor(m => m.Spec.CustomerName)
-                            @Html.DisplayFor(m => m.SortByName, DisplayTemplate.SortArrow, new { up = nameof(CaseworkSortBy.Customer), down = nameof(CaseworkSortBy.CustomerDesc) })
-                        </a>
+            <thead>
+            <tr>
+                <th scope="col">
+                    <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
+                       asp-route-Sort="@(Model.Spec.Sort == CaseworkSortBy.Customer ? nameof(CaseworkSortBy.CustomerDesc) : nameof(CaseworkSortBy.Customer))">
+                        @Html.DisplayNameFor(m => m.Spec.CustomerName)
+                        @Html.DisplayFor(m => m.SortByName, DisplayTemplate.SortArrow, new { up = nameof(CaseworkSortBy.Customer), down = nameof(CaseworkSortBy.CustomerDesc) })
+                    </a>
+                </th>
+                <th scope="col">
+                    <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
+                       asp-route-Sort="@(Model.Spec.Sort == CaseworkSortBy.OpenedDate ? nameof(CaseworkSortBy.OpenedDateDesc) : nameof(CaseworkSortBy.OpenedDate))">
+                        Date Opened
+                        @Html.DisplayFor(m => m.SortByName, DisplayTemplate.SortArrow, new { up = nameof(CaseworkSortBy.OpenedDate), down = nameof(CaseworkSortBy.OpenedDateDesc) })
+                    </a>
+                </th>
+                <th scope="col">
+                    <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
+                       asp-route-Sort="@(Model.Spec.Sort == CaseworkSortBy.ClosedDate ? nameof(CaseworkSortBy.ClosedDateDesc) : nameof(CaseworkSortBy.ClosedDate))">
+                        Date Closed
+                        @Html.DisplayFor(m => m.SortByName, DisplayTemplate.SortArrow, new { up = nameof(CaseworkSortBy.ClosedDate), down = nameof(CaseworkSortBy.ClosedDateDesc) })
+                    </a>
+                </th>
+                <th scope="col">@Html.DisplayNameFor(m => m.Spec.Description)</th>
+                <th scope="col">
+                    <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
+                       asp-route-Sort="@(Model.Spec.Sort == CaseworkSortBy.Status ? nameof(CaseworkSortBy.StatusDesc) : nameof(CaseworkSortBy.Status))">
+                        @Html.DisplayNameFor(m => m.Spec.Status)
+                        @Html.DisplayFor(m => m.SortByName, DisplayTemplate.SortArrow, new { up = nameof(CaseworkSortBy.Status), down = nameof(CaseworkSortBy.StatusDesc) })
+                    </a>
+                </th>
+                <th scope="col">
+                    <span class="visually-hidden">Actions</span>
+                </th>
+            </tr>
+            </thead>
+
+            <tbody class="table-group-divider">
+            @foreach (var item in Model.SearchResults.Items)
+            {
+                <tr class="@(item.IsDeleted ? "table-secondary" : "")">
+                    <th scope="row" class="fw-normal">
+                        @Html.DisplayFor(m => item.CustomerName, DisplayTemplate.StringOrNone)
                     </th>
-                    <th scope="col">
-                        <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
-                           asp-route-Sort="@(Model.Spec.Sort == CaseworkSortBy.OpenedDate ? nameof(CaseworkSortBy.OpenedDateDesc) : nameof(CaseworkSortBy.OpenedDate))">
-                            Date Opened
-                            @Html.DisplayFor(m => m.SortByName, DisplayTemplate.SortArrow, new { up = nameof(CaseworkSortBy.OpenedDate), down = nameof(CaseworkSortBy.OpenedDateDesc) })
-                        </a>
-                    </th>
-                    <th scope="col">
-                        <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
-                           asp-route-Sort="@(Model.Spec.Sort == CaseworkSortBy.ClosedDate ? nameof(CaseworkSortBy.ClosedDateDesc) : nameof(CaseworkSortBy.ClosedDate))">
-                            Date Closed
-                            @Html.DisplayFor(m => m.SortByName, DisplayTemplate.SortArrow, new { up = nameof(CaseworkSortBy.ClosedDate), down = nameof(CaseworkSortBy.ClosedDateDesc) })
-                        </a>
-                    </th>
-                    <th scope="col">@Html.DisplayNameFor(m => m.Spec.Description)</th>
-                    <th scope="col">
-                        <a asp-fragment="SearchResults" asp-all-route-data="Model.Spec.AsRouteValues()" asp-route-handler="search"
-                           asp-route-Sort="@(Model.Spec.Sort == CaseworkSortBy.Status ? nameof(CaseworkSortBy.StatusDesc) : nameof(CaseworkSortBy.Status))">
-                            @Html.DisplayNameFor(m => m.Spec.Status)
-                            @Html.DisplayFor(m => m.SortByName, DisplayTemplate.SortArrow, new { up = nameof(CaseworkSortBy.Status), down = nameof(CaseworkSortBy.StatusDesc) })
-                        </a>
-                    </th>
-                    <th scope="col">
-                        <span class="visually-hidden">Actions</span>
-                    </th>
+                    <td>@Html.DisplayFor(m => item.CaseOpenedDate, DisplayTemplate.DateOnly)</td>
+                    <td>@Html.DisplayFor(m => item.CaseClosedDate, DisplayTemplate.DateOnlyOrBlank)</td>
+                    <td>@Html.DisplayFor(m => item.Description, DisplayTemplate.TruncateText, new { MaxLength = 150 })</td>
+                    <td>
+                        @if (item.IsDeleted)
+                        {
+                            <strong>DELETED</strong>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(m => item.IsClosed, DisplayTemplate.BoolClosed)
+                        }
+                    </td>
+                    <td>
+                        <a asp-page="Details" class="btn btn-outline-info btn-sm" asp-route-id="@item.Id.ToString()">View</a>
+                    </td>
                 </tr>
-                </thead>
+            }
+            </tbody>
+        </table>
 
-                <tbody class="table-group-divider">
-                @foreach (var item in Model.SearchResults.Items)
-                {
-                    <tr class="@(item.IsDeleted ? "table-secondary" : "")">
-                        <th scope="row" class="fw-normal">
-                            @Html.DisplayFor(m => item.CustomerName, DisplayTemplate.StringOrNone)
-                        </th>
-                        <td>@Html.DisplayFor(m => item.CaseOpenedDate, DisplayTemplate.DateOnly)</td>
-                        <td>@Html.DisplayFor(m => item.CaseClosedDate, DisplayTemplate.DateOnlyOrBlank)</td>
-                        <td>@Html.DisplayFor(m => item.Description, DisplayTemplate.TruncateText, new { MaxLength = 150 })</td>
-                        <td>
-                            @if (item.IsDeleted)
-                            {
-                                <strong>DELETED</strong>
-                            }
-                            else
-                            {
-                                @Html.DisplayFor(m => item.IsClosed, DisplayTemplate.BoolClosed)
-                            }
-                        </td>
-                        <td>
-                            <a asp-page="Details" class="btn btn-outline-info btn-sm" asp-route-id="@item.Id.ToString()">View</a>
-                        </td>
-                    </tr>
-                }
-                </tbody>
-            </table>
-
-            <partial name="_PaginationNav" model="Model.PaginationNav" />
-        }
-    </div>
+        <partial name="_PaginationNav" model="Model.PaginationNav" />
+    }
 }
 
 @section Scripts {
