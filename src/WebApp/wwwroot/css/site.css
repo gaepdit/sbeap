@@ -201,7 +201,9 @@ a[target].no-external-link::after {
 /* Banner for test site
 -------------------------------------------------- */
 .banner-test-site {
-    position: sticky;
+    position: fixed;
+    width: 100%;
+    height: 26px;
     top: 0;
     z-index: 2001;
     color: #333;
@@ -214,6 +216,9 @@ a[target].no-external-link::after {
     background: repeating-linear-gradient(135deg, hsl(50, 90%, 64%), hsl(50, 90%, 64%) 10px, hsl(50, 100%, 75%) 10px, hsl(50, 100%, 75%) 20px);
     box-shadow: inset 0 -3px 7px rgba(130, 106, 15, 0.37);
     padding: 1px 0;
+}
+.banner-test-site ~ header {
+    padding-top: 26px;
 }
 
 [data-bs-theme="dark"] .banner-test-site {
