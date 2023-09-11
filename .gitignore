@@ -564,6 +564,3 @@ appsettings.*.json
 
 # Code coverage report from ReportGenerator
 coveragereport/
-
-# Data migration
-data-migration/1-import/SBEAP*
