@@ -1,4 +1,5 @@
 ﻿using Sbeap.Domain.Identity;
+using Sbeap.TestData.Constants;
 
 namespace Sbeap.TestData.Identity;
 
@@ -12,7 +13,7 @@ internal static partial class UserData
             GivenName = "Admin",
             FamilyName = "User1",
             Email = "admin.user@example.net",
-            Phone = "123-456-7890",
+            Phone = TextData.ValidPhoneNumber,
             Office = OfficeData.GetOffices.ElementAt(0),
         },
         new()

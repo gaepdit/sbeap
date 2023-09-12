@@ -4,7 +4,7 @@
 
 ### Home Page
 
-- `/` (Home page/user dashboard)
+* `/` (Home page/user dashboard)
 
 ### Customer Pages 
 
@@ -33,7 +33,7 @@
 Maintenance pages available to Site Admin personnel to modify lookup tables used for drop-down lists. Editable items comprise Action Item Types, Agencies, and Offices.
 
 * `/Admin/Maintenance` (List of item types)
-* `/Admin/Maintenance/[type]` (List of items of given type; can be removed from list here)
+* `/Admin/Maintenance/[type]` (List of items of given type)
 * `/Admin/Maintenance/[type]/Add` (Add new item)
 * `/Admin/Maintenance/[type]/Edit/{id}` (Edit item)
 
@@ -42,13 +42,13 @@ Maintenance pages available to Site Admin personnel to modify lookup tables used
 ### Account Pages
 
 * `/Account` (View profile)
-* `/Account/Login`
+* `/Account/Login` (Work account login form)
 * `/Account/Edit` (Edit contact info)
 
 ### User Management Pages
 
 * `/Admin/Users` (User search)
-* `/Admin/Users/Details/{id}`
+* `/Admin/Users/Details/{id}` (View user profile)
 * `/Admin/Users/Edit/{id}` (Edit contact info)
 * `/Admin/Users/EditRoles/{id}` (Edit roles)
 
@@ -58,5 +58,10 @@ Maintenance pages available to Site Admin personnel to modify lookup tables used
 * Customer search (`/Customers`)
 * Case search (`/Cases`)
 * Add Customer (`/Customers/Add`)
-* More (Drop-down to show links to User Search and Site Maintenance pages: `/Admin/Users` or `/Admin/Maintenance`)
-* Account (Drop-down to show links to Profile page or sign-out: `/Account`)
+* More (Drop-down)
+    * SBEAP Users (`/Admin/Users`)
+    * Site Maintenance (`/Admin/Maintenance`)
+* Account (Drop-down)
+    * Profile page (`/Account`)
+    * Sign out (form)
+* Toggle theme

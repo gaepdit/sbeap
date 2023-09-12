@@ -19,7 +19,7 @@ internal class CustomerViewPermissionsHandler :
         var success = requirement.Name switch
         {
             nameof(CustomerOperation.Edit) =>
-                // Staff can edit cases.
+                // Staff can edit.
                 IsStaffUser(context.User) && IsNotDeleted(resource),
 
             nameof(CustomerOperation.ManageDeletions) =>

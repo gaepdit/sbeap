@@ -14,15 +14,6 @@
       "launchBrowser": true,
       "applicationUrl": "https://localhost:7229;http://localhost:5281",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
-    "WebApp w/Raygun APM": {
-      "commandName": "Project",
-      "dotnetRunMessages": true,
-      "launchBrowser": true,
-      "applicationUrl": "https://localhost:7229;http://localhost:5281",
-      "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "CORECLR_ENABLE_PROFILING": "1",
         "CORECLR_PROFILER": "{e2338988-38cc-48cd-a6b6-b441c31f34f1}",
