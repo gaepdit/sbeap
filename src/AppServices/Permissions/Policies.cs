@@ -30,18 +30,17 @@ public static class Policies
     private static AuthorizationPolicyBuilder ActiveUserPolicyBuilder =>
         AuthenticatedUserPolicyBuilder.AddRequirements(new ActiveUserRequirement());
 
-    // Policies
-    public static AuthorizationPolicy ActiveUser =>
-        ActiveUserPolicyBuilder.Build();
+    // Basic policies
+    public static AuthorizationPolicy ActiveUser => ActiveUserPolicyBuilder.Build();
 
+    public static AuthorizationPolicy LoggedInUser => AuthenticatedUserPolicyBuilder.Build();
+
+    // Role-based policies
     public static AuthorizationPolicy AdministrationView =>
         ActiveUserPolicyBuilder.AddRequirements(new AdministrationViewRequirement()).Build();
 
     public static AuthorizationPolicy AdminUser =>
         ActiveUserPolicyBuilder.AddRequirements(new AdminUserRequirement()).Build();
-
-    public static AuthorizationPolicy LoggedInUser =>
-        AuthenticatedUserPolicyBuilder.Build();
 
     public static AuthorizationPolicy SiteMaintainer =>
         ActiveUserPolicyBuilder.AddRequirements(new SiteMaintainerRequirement()).Build();

@@ -4,7 +4,7 @@ using Sbeap.AppServices.Offices.Validators;
 using Sbeap.Domain.Entities.Offices;
 using Sbeap.TestData.Constants;
 
-namespace AppServicesTests.Offices;
+namespace AppServicesTests.Offices.Validators;
 
 public class CreateValidator
 {
