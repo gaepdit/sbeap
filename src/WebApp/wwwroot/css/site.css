@@ -1,63 +1,62 @@
 /* Branding colors
 -------------------------------------------------- */
+/* Change the base-hue variable to set all branding colors. */
+
+:root {
+    --base-hue: 275deg;
+}
 
 /* Light mode theme colors */
 .text-bg-brand {
-    background-color: hsl(275, 73%, 23%);
-    color: #fff;
+    background-color: hsl(var(--base-hue), 73%, 23%);
+    color: hsl(var(--base-hue), 0%, 100%);
 }
 
 .text-bg-brand a {
-    color: hsl(275, 100%, 92%);
+    color: hsl(var(--base-hue), 100%, 92%);
 }
 
 .text-bg-brand a:hover,
 .text-bg-brand a:focus {
-    color: hsl(275, 100%, 85%);
+    color: hsl(var(--base-hue), 100%, 85%);
 }
 
 .text-bg-brand a:active {
-    color: hsl(275, 100%, 95%);
+    color: hsl(var(--base-hue), 100%, 95%);
 }
 
 .text-bg-brand .dropdown-item {
-    color: hsl(275, 73%, 36%);
+    color: hsl(var(--base-hue), 73%, 36%);
 }
 
 .text-bg-brand .dropdown-item:focus,
 .text-bg-brand .dropdown-item:hover {
-    color: hsl(275, 73%, 23%);
-    background-color: hsl(275, 100%, 95%);
+    color: hsl(var(--base-hue), 73%, 23%);
+    background-color: hsl(var(--base-hue), 100%, 95%);
 }
 
 .text-bg-brand .dropdown-item.active,
 .text-bg-brand .dropdown-item:active {
-    color: hsl(275, 0%, 100%);
-    background-color: hsl(275, 50%, 50%)
+    color: hsl(var(--base-hue), 0%, 100%);
+    background-color: hsl(var(--base-hue), 50%, 50%)
 }
 
-.text-bg-brand .nav-link {
-    color: #fff;
-}
-
+.text-bg-brand .nav-link,
 .text-bg-brand .nav-link:hover,
-.text-bg-brand .nav-link:focus {
-    color: #fff;
-}
-
+.text-bg-brand .nav-link:focus,
 .text-bg-brand .navbar-nav .nav-link.active,
 .text-bg-brand .navbar-nav .nav-link.show {
-    color: #fff;
+    color: hsl(var(--base-hue), 0%, 100%);
 }
 
 .text-bg-brand .navbar-brand:focus-visible,
 .text-bg-brand .nav-link:focus-visible {
-    box-shadow: 0 0 0 .25rem hsla(275, 10%, 100%, .57);
+    box-shadow: 0 0 0 .25rem hsla(var(--base-hue), 0%, 100%, .57);
 }
 
 .text-bg-brand .navbar-toggler {
-    color: hsla(275, 0%, 100%, 0.7);
-    border-color: hsla(275, 0%, 100%, 0.15);
+    color: hsla(var(--base-hue), 0%, 100%, 0.7);
+    border-color: hsla(var(--base-hue), 0%, 100%, 0.15);
 }
 
 .text-bg-brand .navbar-toggler-icon {
@@ -66,51 +65,51 @@
 
 /* Dark mode theme colors */
 [data-bs-theme="dark"] .text-bg-brand {
-    background-color: hsl(275, 42%, 23%);
-    color: #fff;
+    background-color: hsl(var(--base-hue), 42%, 23%);
+    color: hsl(var(--base-hue), 0%, 100%);
 }
 
 [data-bs-theme="dark"] .text-bg-brand a {
-    color: hsl(275, 100%, 92%);
+    color: hsl(var(--base-hue), 100%, 92%);
 }
 
 [data-bs-theme="dark"] .text-bg-brand a:hover,
 [data-bs-theme="dark"] .text-bg-brand a:focus {
-    color: hsl(275, 100%, 85%);
+    color: hsl(var(--base-hue), 100%, 85%);
 }
 
 [data-bs-theme="dark"] .text-bg-brand a:active {
-    color: hsl(275, 100%, 95%);
+    color: hsl(var(--base-hue), 100%, 95%);
 }
 
 [data-bs-theme="dark"] .text-bg-brand .dropdown-item {
-    color: hsl(275, 73%, 90%);
+    color: hsl(var(--base-hue), 73%, 90%);
 }
 
 [data-bs-theme="dark"] .text-bg-brand .dropdown-item:focus,
 [data-bs-theme="dark"] .text-bg-brand .dropdown-item:hover {
-    color: hsl(275, 73%, 90%);
-    background-color: hsl(210, 10%, 19%);
+    color: hsl(var(--base-hue), 73%, 90%);
+    background-color: hsl(216, 10%, 19%);
 }
 
 [data-bs-theme="dark"] .text-bg-brand .dropdown-item.active,
 [data-bs-theme="dark"] .text-bg-brand .dropdown-item:active {
-    color: #fff;
-    background-color: rgb(13, 110, 253)
+    color: hsl(0, 0%, 100%);
+    background-color: hsl(216, 98%, 52%)
 }
 
 [data-bs-theme="dark"] .text-bg-brand .nav-link {
-    color: #fff;
+    color: hsl(0, 0%, 100%);
 }
 
 [data-bs-theme="dark"] .text-bg-brand .navbar-nav .nav-link.active,
 [data-bs-theme="dark"] .text-bg-brand .navbar-nav .nav-link.show {
-    color: #fff;
+    color: hsl(0, 0%, 100%);
 }
 
 [data-bs-theme="dark"] .text-bg-brand .navbar-brand:focus-visible,
 [data-bs-theme="dark"] .text-bg-brand .nav-link:focus-visible {
-    box-shadow: 0 0 0 .25rem hsla(275, 10%, 100%, .57);
+    box-shadow: 0 0 0 .25rem hsla(var(--base-hue), 10%, 100%, .57);
 }
 
 /* Adjust font sizing
@@ -128,21 +127,21 @@ html {
 /* Fix color accessibility
 -------------------------------------------------- */
 [data-bs-theme="light"] .btn-primary {
-    color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+    color: hsl(0, 0%, 100%);
+    background-color: hsl(210, 76%, 43%);
+    border-color: hsl(210, 76%, 38%);
 }
 
 [data-bs-theme="light"] .text-warning {
-    color: rgb(150, 113, 0) !important;
+    color: hsl(45, 100%, 29%) !important;
 }
 
 [data-bs-theme="light"] .text-danger-emphasis {
-    color: rgb(220, 53, 69) !important;
+    color: hsl(355, 70%, 54%) !important;
 }
 
 [data-bs-theme="light"] .bg-dark-subtle .text-danger-emphasis {
-    color: #7a010c !important;
+    color: hsl(355, 98%, 24%) !important;
 }
 
 /* Nav bar logo
@@ -206,15 +205,15 @@ a[target].no-external-link::after {
     height: 26px;
     top: 0;
     z-index: 2001;
-    color: #333;
+    color: hsl(0, 0%, 20%);
     font-weight: 700;
     font-size: 16px;
     font-family: system-ui;
     text-transform: uppercase;
     text-align: center;
-    text-shadow: 0 0 4px #fff;
+    text-shadow: 0 0 4px hsl(0, 0%, 100%);
     background: repeating-linear-gradient(135deg, hsl(50, 90%, 64%), hsl(50, 90%, 64%) 10px, hsl(50, 100%, 75%) 10px, hsl(50, 100%, 75%) 20px);
-    box-shadow: inset 0 -3px 7px rgba(130, 106, 15, 0.37);
+    box-shadow: inset 0 -3px 7px hsla(47, 79%, 28%, 0.37);
     padding: 1px 0;
 }
 .banner-test-site ~ header {
@@ -222,8 +221,8 @@ a[target].no-external-link::after {
 }
 
 [data-bs-theme="dark"] .banner-test-site {
-    color: #fff;
-    text-shadow: 0 0 6px black;
+    color: hsl(0, 0%, 100%);
+    text-shadow: 0 0 6px hsl(0, 0%, 0%);
     background: repeating-linear-gradient(135deg, hsl(50, 90%, 36%), hsl(50, 90%, 36%) 10px, hsl(50, 40%, 25%) 10px, hsl(50, 40%, 25%) 20px);
 }
 
@@ -252,7 +251,7 @@ details.card:not([open]) summary.card-header {
         box-shadow: none;
         border: 1px solid;
         margin-bottom: 1rem;
-        background: #ffe69c;
+        background: hsl(45, 100%, 81%);
     }
 
     .banner-test-site::after {

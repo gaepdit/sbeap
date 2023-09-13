@@ -35,7 +35,7 @@ Users in the Admin role have all the capabilities of the "SBEAP Staff" role. Plu
 
 Users in the User Account Admin role can:
 
-* Create and manage user accounts and assign roles.
+* Manage user accounts and assign roles.
 
 ### Site Maintenance
 
