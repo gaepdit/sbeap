@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
+using Sbeap.Domain.Entities;
 using Sbeap.Domain.Entities.Agencies;
-using Sbeap.Domain.Entities.EntityBase;
 
 namespace Sbeap.AppServices.Agencies.Validators;
 
@@ -15,7 +15,7 @@ public class AgencyCreateValidator : AbstractValidator<AgencyCreateDto>
         RuleFor(e => e.Name)
             .Cascade(CascadeMode.Stop)
             .NotEmpty()
-            .Length(SimpleNamedEntity.MinNameLength, SimpleNamedEntity.MaxNameLength)
+            .Length(SbeapStandardNamedEntity.MinimumNameLength, SbeapStandardNamedEntity.MaximumNameLength)
             .MustAsync(async (_, name, token) => await NotDuplicateName(name, token))
             .WithMessage("The name entered already exists.");
     }

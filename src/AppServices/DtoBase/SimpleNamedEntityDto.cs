@@ -1,24 +1,21 @@
-﻿using Sbeap.Domain.Entities.EntityBase;
+﻿using GaEpd.AppLibrary.Domain.Entities;
+using Sbeap.Domain.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace Sbeap.AppServices.DtoBase;
-
-public interface IDtoHasNameProperty
-{
-    string Name { get; }
-}
 
 public abstract record SimpleNamedEntityViewDto
 (
     Guid Id,
     string Name,
     bool Active
-) : IDtoHasNameProperty;
+) : INamedEntity;
 
 public abstract record SimpleNamedEntityCreateDto
 (
     [Required(AllowEmptyStrings = false)]
-    [StringLength(SimpleNamedEntity.MaxNameLength, MinimumLength = SimpleNamedEntity.MinNameLength)]
+    [StringLength(SbeapStandardNamedEntity.MaximumNameLength,
+        MinimumLength = SbeapStandardNamedEntity.MinimumNameLength)]
     string Name
 );
 
@@ -26,7 +23,8 @@ public abstract record SimpleNamedEntityUpdateDto
 (
     Guid Id,
     [Required(AllowEmptyStrings = false)]
-    [StringLength(SimpleNamedEntity.MaxNameLength, MinimumLength = SimpleNamedEntity.MinNameLength)]
+    [StringLength(SbeapStandardNamedEntity.MaximumNameLength,
+        MinimumLength = SbeapStandardNamedEntity.MinimumNameLength)]
     string Name,
     bool Active
 );

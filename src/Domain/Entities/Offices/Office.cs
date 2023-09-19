@@ -1,10 +1,10 @@
-﻿using Sbeap.Domain.Entities.EntityBase;
-using Sbeap.Domain.Identity;
+﻿using Sbeap.Domain.Identity;
 
 namespace Sbeap.Domain.Entities.Offices;
 
-public class Office : SimpleNamedEntity
+public class Office : SbeapStandardNamedEntity
 {
+    public Office() { }
     public Office(Guid id, string name) : base(id, name) { }
 
     [UsedImplicitly]
