@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using Sbeap.Domain.Entities.Agencies;
 
 namespace Sbeap.EfRepository.Repositories;

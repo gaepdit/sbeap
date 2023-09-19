@@ -4,5 +4,5 @@ namespace Sbeap.EfRepository.Repositories;
 
 public sealed class ActionItemRepository : BaseRepository<ActionItem, Guid>, IActionItemRepository
 {
-    public ActionItemRepository(AppDbContext context) : base(context) { }
+    public ActionItemRepository(DbContext context) : base(context) { }
 }

@@ -5,7 +5,7 @@ namespace Sbeap.EfRepository.Repositories;
 
 public sealed class OfficeRepository : NamedEntityRepository<Office>, IOfficeRepository
 {
-    public OfficeRepository(AppDbContext context) : base(context) { }
+    public OfficeRepository(DbContext context) : base(context) { }
 
     public async Task<List<ApplicationUser>> GetActiveStaffMembersListAsync(
         Guid id, CancellationToken token = default) =>

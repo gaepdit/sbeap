@@ -1,11 +1,10 @@
-using Microsoft.EntityFrameworkCore;
 using Sbeap.Domain.Entities.Cases;
 
 namespace Sbeap.EfRepository.Repositories;
 
 public sealed class CaseworkRepository : BaseRepository<Casework, Guid>, ICaseworkRepository
 {
-    public CaseworkRepository(AppDbContext context) : base(context) { }
+    public CaseworkRepository(DbContext context) : base(context) { }
 
     public async Task<Casework?> FindIncludeAllAsync(Guid id, CancellationToken token = default) =>
         await Context.Set<Casework>()

@@ -52,13 +52,13 @@ else
         <tbody>
         @foreach (var item in Model.Items)
         {
-            <tr class="@(item.Id == Model.HighlightId ? "list-group-item-warning" : !item.Active ? "bg-secondary bg-opacity-25" : "")">
+            <tr class="@(item.Active ? "" : "table-secondary")">
                 <td>
                     @if (item.Id == Model.HighlightId)
                     {
                         @:👉 
                     }
-                    @Html.DisplayFor(m => item.Name, "StringOrNone")
+                    @Html.DisplayFor(m => item.Name, DisplayTemplate.StringOrNone)
                 </td>
                 <td>
                     @Html.DisplayFor(m => item.Active, DisplayTemplate.BoolActive)
