@@ -1,5 +1,4 @@
-﻿using Sbeap.Domain.Entities.Contacts;
-using Sbeap.EfRepository.Contexts;
+using Sbeap.Domain.Entities.Contacts;
 
 namespace Sbeap.EfRepository.Repositories;
 

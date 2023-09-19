@@ -1,6 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Sbeap.Domain.Entities.Agencies;
-using Sbeap.EfRepository.Contexts;
 
 namespace Sbeap.EfRepository.Repositories;
 
@@ -9,6 +8,6 @@ public sealed class AgencyRepository : BaseRepository<Agency, Guid>, IAgencyRepo
     public AgencyRepository(AppDbContext context) : base(context) { }
 
     public async Task<Agency?> FindByNameAsync(string name, CancellationToken token = default) =>
-        await Context.Agencies.AsNoTracking()
+        await Context.Set<Agency>().AsNoTracking()
             .SingleOrDefaultAsync(e => string.Equals(e.Name.ToUpper(), name.ToUpper()), token);
 }

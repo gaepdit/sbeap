@@ -1,6 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Sbeap.Domain.Entities.Customers;
-using Sbeap.EfRepository.Contexts;
 
 namespace Sbeap.EfRepository.Repositories;
 

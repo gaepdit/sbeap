@@ -7,6 +7,6 @@ public sealed class LocalAgencyRepository : BaseRepository<Agency, Guid>, IAgenc
 {
     public LocalAgencyRepository() : base(AgencyData.GetAgencies) { }
 
-    public Task<Agency?> FindByNameAsync(string name, CancellationToken token = default) =>
-        Task.FromResult(Items.SingleOrDefault(e => string.Equals(e.Name.ToUpper(), name.ToUpper())));
+    public async Task<Agency?> FindByNameAsync(string name, CancellationToken token = default) =>
+        await FindAsync(e => string.Equals(e.Name.ToUpper(), name.ToUpper()), token);
 }
