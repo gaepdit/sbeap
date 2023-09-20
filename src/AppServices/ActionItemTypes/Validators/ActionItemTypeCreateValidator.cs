@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
+using Sbeap.Domain.Entities;
 using Sbeap.Domain.Entities.ActionItemTypes;
-using Sbeap.Domain.Entities.EntityBase;
 
 namespace Sbeap.AppServices.ActionItemTypes.Validators;
 
@@ -15,7 +15,7 @@ public class ActionItemTypeCreateValidator : AbstractValidator<ActionItemTypeCre
         RuleFor(e => e.Name)
             .Cascade(CascadeMode.Stop)
             .NotEmpty()
-            .Length(SimpleNamedEntity.MinNameLength, SimpleNamedEntity.MaxNameLength)
+            .Length(SbeapStandardNamedEntity.MinimumNameLength, SbeapStandardNamedEntity.MaximumNameLength)
             .MustAsync(async (_, name, token) => await NotDuplicateName(name, token))
             .WithMessage("The name entered already exists.");
     }

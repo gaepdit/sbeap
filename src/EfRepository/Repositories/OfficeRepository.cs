@@ -1,17 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
 using Sbeap.Domain.Entities.Offices;
 using Sbeap.Domain.Identity;
-using Sbeap.EfRepository.Contexts;
 
 namespace Sbeap.EfRepository.Repositories;
 
-public sealed class OfficeRepository : BaseRepository<Office, Guid>, IOfficeRepository
+public sealed class OfficeRepository : NamedEntityRepository<Office>, IOfficeRepository
 {
-    public OfficeRepository(AppDbContext context) : base(context) { }
-
-    public async Task<Office?> FindByNameAsync(string name, CancellationToken token = default) =>
-        await Context.Offices.AsNoTracking()
-            .SingleOrDefaultAsync(e => string.Equals(e.Name.ToUpper(), name.ToUpper()), token);
+    public OfficeRepository(DbContext context) : base(context) { }
 
     public async Task<List<ApplicationUser>> GetActiveStaffMembersListAsync(
         Guid id, CancellationToken token = default) =>

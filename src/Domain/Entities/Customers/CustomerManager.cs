@@ -3,7 +3,6 @@ using Sbeap.Domain.ValueObjects;
 
 namespace Sbeap.Domain.Entities.Customers;
 
-/// <inheritdoc />
 public class CustomerManager : ICustomerManager
 {
     private readonly IContactRepository _contactRepository;

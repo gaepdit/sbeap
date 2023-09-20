@@ -13,8 +13,8 @@ public static class AuthorizationPolicies
         // Authorization policies
         services.AddAuthorization(opts =>
         {
-            opts.AddPolicy(nameof(Policies.AdministrationView), Policies.AdministrationView);
             opts.AddPolicy(nameof(Policies.ActiveUser), Policies.ActiveUser);
+            opts.AddPolicy(nameof(Policies.AdministrationView), Policies.AdministrationView);
             opts.AddPolicy(nameof(Policies.AdminUser), Policies.AdminUser);
             opts.AddPolicy(nameof(Policies.LoggedInUser), Policies.LoggedInUser);
             opts.AddPolicy(nameof(Policies.SiteMaintainer), Policies.SiteMaintainer);

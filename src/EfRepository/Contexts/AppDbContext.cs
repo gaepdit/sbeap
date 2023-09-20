@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Sbeap.Domain.Entities.ActionItems;
 using Sbeap.Domain.Entities.ActionItemTypes;
@@ -33,7 +32,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
         // See https://learn.microsoft.com/en-us/ef/core/querying/related-data/eager#model-configuration-for-auto-including-navigations
         builder.Entity<ApplicationUser>().Navigation(user => user.Office).AutoInclude();
         builder.Entity<Casework>().Navigation(casework => casework.Customer).AutoInclude();
-        builder.Entity<Contact>().Navigation(user => user.Customer).AutoInclude();
+        builder.Entity<Contact>().Navigation(contact => contact.Customer).AutoInclude();
 
         // Let's save enums in the database as strings.
         // See https://stackoverflow.com/a/55260541/212978

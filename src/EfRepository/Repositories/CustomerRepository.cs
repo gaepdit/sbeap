@@ -1,12 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
 using Sbeap.Domain.Entities.Customers;
-using Sbeap.EfRepository.Contexts;
 
 namespace Sbeap.EfRepository.Repositories;
 
 public sealed class CustomerRepository : BaseRepository<Customer, Guid>, ICustomerRepository
 {
-    public CustomerRepository(AppDbContext context) : base(context) { }
+    public CustomerRepository(DbContext context) : base(context) { }
 
     public async Task<Customer?> FindIncludeAllAsync(
         Guid id, bool includeDeletedCases, CancellationToken token = default) =>
