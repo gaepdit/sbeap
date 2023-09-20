@@ -4,14 +4,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Sbeap.AppServices.DtoBase;
 
-public abstract record SimpleNamedEntityViewDto
+public abstract record StandardNamedEntityViewDto
 (
     Guid Id,
     string Name,
     bool Active
 ) : INamedEntity;
 
-public abstract record SimpleNamedEntityCreateDto
+public abstract record StandardNamedEntityCreateDto
 (
     [Required(AllowEmptyStrings = false)]
     [StringLength(AppConstants.MaximumNameLength,
@@ -19,7 +19,7 @@ public abstract record SimpleNamedEntityCreateDto
     string Name
 );
 
-public abstract record SimpleNamedEntityUpdateDto
+public abstract record StandardNamedEntityUpdateDto
 (
     Guid Id,
     [Required(AllowEmptyStrings = false)]

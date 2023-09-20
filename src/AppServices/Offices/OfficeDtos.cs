@@ -2,8 +2,8 @@
 
 namespace Sbeap.AppServices.Offices;
 
-public record OfficeViewDto(Guid Id, string Name, bool Active) : SimpleNamedEntityViewDto(Id, Name, Active);
+public record OfficeViewDto(Guid Id, string Name, bool Active) : StandardNamedEntityViewDto(Id, Name, Active);
 
-public record OfficeCreateDto(string Name) : SimpleNamedEntityCreateDto(Name);
+public record OfficeCreateDto(string Name) : StandardNamedEntityCreateDto(Name);
 
-public record OfficeUpdateDto(Guid Id, string Name, bool Active) : SimpleNamedEntityUpdateDto(Id, Name, Active);
+public record OfficeUpdateDto(Guid Id, string Name, bool Active) : StandardNamedEntityUpdateDto(Id, Name, Active);

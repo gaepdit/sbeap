@@ -21,7 +21,7 @@ public class AgencyUpdateValidator : AbstractValidator<AgencyUpdateDto>
             .WithMessage("The name entered already exists.");
     }
 
-    private async Task<bool> NotDuplicateName(SimpleNamedEntityUpdateDto item, CancellationToken token = default)
+    private async Task<bool> NotDuplicateName(StandardNamedEntityUpdateDto item, CancellationToken token = default)
     {
         var existing = await _repository.FindByNameAsync(item.Name, token);
         return existing is null || existing.Id == item.Id;
