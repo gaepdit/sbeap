@@ -1,4 +1,4 @@
-﻿@page "~/Customers/EditContact/{id:guid?}"
+@page "~/Customers/EditContact/{id:guid?}"
 @using GaEpd.AppLibrary.Extensions
 @using Sbeap.Domain.ValueObjects
 @using Sbeap.WebApp.Pages.Shared.DisplayTemplates
@@ -48,7 +48,7 @@
                     @Html.EditorFor(e => e.ContactUpdate.Email, EditorTemplate.Input)
                 </div>
                 <div class="mb-3">
-                    @Html.EditorFor(e => e.ContactUpdate.Notes, EditorTemplate.Textarea)
+                    @Html.EditorFor(e => e.ContactUpdate.Notes, EditorTemplate.Textarea, new { Rows = 5 })
                 </div>
             </div>
 
@@ -72,7 +72,7 @@
         </div>
 
         <div class="mt-3 mb-1">
-            <button asp-page-handler="SaveContact" id="SubmitButton" type="submit" class="btn btn-primary col-6 col-sm-4 col-lg-3 me-2">Save Changes</button>
+            <button asp-page-handler="SaveContact" asp-fragment="@Model.ContactUpdate.Id" id="SubmitButton" type="submit" class="btn btn-primary col-6 col-sm-4 col-lg-3 me-2">Save Changes</button>
             <a asp-page="Details" asp-route-id="@Model.CustomerView.Id.ToString()" asp-fragment="contacts" class="btn btn-outline-secondary">Cancel</a>
         </div>
         <div class="text-danger-emphasis mt-3">* denotes a required field</div>
@@ -90,19 +90,19 @@
 
         @if (Model.ContactUpdate.PhoneNumbers.Count != 0 && !Model.ContactUpdate.PhoneNumbers.All(e => string.IsNullOrWhiteSpace(e.Number)))
         {
-            foreach (var item in Model.ContactUpdate.PhoneNumbers)
+            foreach (var number in Model.ContactUpdate.PhoneNumbers)
             {
                 <div class="mb-3">
                     <button asp-page-handler="DeletePhoneNumber" asp-fragment="phone-numbers"
-                            name="phoneNumberId" value="@item.Id.ToString()"
+                            name="phoneNumberId" value="@number.Id.ToString()"
                             class="btn btn-sm btn-outline-danger lh-1 align-bottom px-1 py-1"
                             title="Delete phone number">
                         🗙 <span class="visually-hidden">Delete</span>
                     </button>
-                    @item.Number
-                    @if (item.Type != null)
+                    @number.Number
+                    @if (number.Type != null)
                     {
-                        <em>(@item.Type.Value.GetDisplayName())</em>
+                        <em>(@number.Type.Value.GetDisplayName())</em>
                     }
                 </div>
             }

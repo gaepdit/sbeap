@@ -21,9 +21,7 @@ public class EditModel : PageModel
     private readonly IValidator<CustomerUpdateDto> _validator;
     private readonly IAuthorizationService _authorization;
 
-    public EditModel(
-        ICustomerService service,
-        IValidator<CustomerUpdateDto> validator,
+    public EditModel(ICustomerService service, IValidator<CustomerUpdateDto> validator,
         IAuthorizationService authorization)
     {
         _service = service;
@@ -45,16 +43,17 @@ public class EditModel : PageModel
         if (id is null) return RedirectToPage("Index");
         var item = await _service.FindForUpdateAsync(id.Value);
         if (item is null) return NotFound();
+        if (!await UserCanEditAsync(item)) return Forbid();
 
         Item = item;
-
-        if (!await UserCanEditAsync()) return Forbid();
         return Page();
     }
 
     public async Task<IActionResult> OnPostAsync()
     {
-        if (!await UserCanEditAsync()) return Forbid();
+        var original = await _service.FindForUpdateAsync(Item.Id);
+        if (original is null) return BadRequest();
+        if (!await UserCanEditAsync(original)) return BadRequest();
 
         await _validator.ApplyValidationAsync(Item, ModelState);
         if (!ModelState.IsValid) return Page();
@@ -65,6 +64,6 @@ public class EditModel : PageModel
         return RedirectToPage("Details", new { Item.Id });
     }
 
-    private async Task<bool> UserCanEditAsync() =>
-        (await _authorization.AuthorizeAsync(User, Item, CustomerOperation.Edit)).Succeeded;
+    private async Task<bool> UserCanEditAsync(CustomerUpdateDto item) =>
+        (await _authorization.AuthorizeAsync(User, item, CustomerOperation.Edit)).Succeeded;
 }

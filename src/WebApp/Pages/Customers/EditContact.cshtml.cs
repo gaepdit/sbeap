@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -22,11 +22,8 @@ public class EditContactModel : PageModel
     private readonly IValidator<PhoneNumberCreate> _phoneValidator;
     private readonly IAuthorizationService _authorization;
 
-    public EditContactModel(
-        ICustomerService service,
-        IValidator<ContactUpdateDto> validator,
-        IValidator<PhoneNumberCreate> phoneValidator,
-        IAuthorizationService authorization)
+    public EditContactModel(ICustomerService service, IValidator<ContactUpdateDto> validator,
+        IValidator<PhoneNumberCreate> phoneValidator, IAuthorizationService authorization)
     {
         _service = service;
         _validator = validator;
@@ -52,7 +49,7 @@ public class EditContactModel : PageModel
 
     // Messaging
     public Handlers Handler { get; private set; } = Handlers.None;
-    public DisplayMessage? PhoneNumberMessage { get; private set; }
+    public DisplayMessage? PhoneNumberMessage { get; set; }
 
     public enum Handlers
     {
@@ -64,6 +61,7 @@ public class EditContactModel : PageModel
     // Methods
     public async Task<IActionResult> OnGetAsync(Guid? id)
     {
+        // id is Contact ID
         if (id is null) return RedirectToPage("Index");
 
         var contact = await _service.FindContactForUpdateAsync(id.Value);
@@ -74,22 +72,28 @@ public class EditContactModel : PageModel
         if (customer is null) return NotFound();
         CustomerView = customer;
 
-        foreach (var operation in CustomerOperation.AllOperations) await SetPermissionAsync(operation);
+        await SetPermissionAsync(contact);
 
-        if (UserCan[CustomerOperation.Edit]) return Page();
-        if (!UserCan[CustomerOperation.ManageDeletions]) return NotFound();
+        if (UserCan[CustomerOperation.Edit])
+        {
+            PhoneNumberMessage = TempData.Get<DisplayMessage>(nameof(PhoneNumberMessage));
+            return Page();
+        }
+
+        if ((ContactUpdate.IsDeleted || ContactUpdate.CustomerIsDeleted) && !UserCan[CustomerOperation.ManageDeletions])
+            return NotFound();
 
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Info, "Cannot edit a deleted customer or contact.");
         return RedirectToPage("Details", new { id = ContactUpdate.CustomerId });
     }
 
-    public async Task<IActionResult> OnPostSaveContactAsync(Guid? id)
+    public async Task<IActionResult> OnPostSaveContactAsync()
     {
-        if (id is null || id != ContactUpdate.Id) return RedirectToPage("Index");
-        if (!await RefreshExistingData(id.Value)) return BadRequest();
+        var originalContact = await RefreshExistingData(ContactUpdate.Id);
+        if (originalContact is null) return BadRequest();
 
-        foreach (var operation in CustomerOperation.AllOperations) await SetPermissionAsync(operation);
-        if (!UserCan[CustomerOperation.Edit]) return Forbid();
+        await SetPermissionAsync(originalContact);
+        if (!UserCan[CustomerOperation.Edit]) return BadRequest();
 
         Handler = Handlers.EditContact;
 
@@ -100,13 +104,16 @@ public class EditContactModel : PageModel
 
         HighlightId = ContactUpdate.Id;
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Contact successfully updated.");
-        return RedirectToPage("Details", null, new { id = ContactUpdate.CustomerId }, id.ToString());
+        return RedirectToPage("Details", null, new { id = ContactUpdate.CustomerId });
     }
 
-    public async Task<IActionResult> OnPostAddPhoneNumberAsync(Guid? id)
+    public async Task<IActionResult> OnPostAddPhoneNumberAsync()
     {
-        if (id is null || id != ContactUpdate.Id) return RedirectToPage("Index");
-        if (!await RefreshExistingData(id.Value)) return BadRequest();
+        var originalContact = await RefreshExistingData(ContactUpdate.Id);
+        if (originalContact is null) return BadRequest();
+
+        await SetPermissionAsync(originalContact);
+        if (!UserCan[CustomerOperation.Edit]) return BadRequest();
 
         Handler = Handlers.PhoneNumber;
 
@@ -116,47 +123,59 @@ public class EditContactModel : PageModel
 
         if (!ModelState.IsValid) return Page();
 
-        var result = await _service.AddPhoneNumberAsync(id.Value, NewPhoneNumber);
+        var result = await _service.AddPhoneNumberAsync(ContactUpdate.Id, NewPhoneNumber);
         ContactUpdate.PhoneNumbers.Add(result);
         ModelState.Remove("NewPhoneNumber.Number");
         ModelState.Remove("NewPhoneNumber.Type");
         NewPhoneNumber = new PhoneNumberCreate();
 
-        PhoneNumberMessage = new DisplayMessage(DisplayMessage.AlertContext.Success, "New phone number added.");
-        return Page();
+        TempData.Set(nameof(PhoneNumberMessage),
+            new DisplayMessage(DisplayMessage.AlertContext.Success, "New phone number added."));
+        return RedirectToPage("EditContact", null, new { id = ContactUpdate.Id });
     }
 
-    public async Task<IActionResult> OnPostDeletePhoneNumberAsync(Guid? id, int? phoneNumberId)
+    public async Task<IActionResult> OnPostDeletePhoneNumberAsync(int? phoneNumberId)
     {
-        if (id is null || id != ContactUpdate.Id || phoneNumberId is null) return RedirectToPage("Index");
-        if (!await RefreshExistingData(id.Value)) return BadRequest();
+        if (phoneNumberId is null) return BadRequest();
+
+        var originalContact = await RefreshExistingData(ContactUpdate.Id);
+        if (originalContact is null) return BadRequest();
+
+        await SetPermissionAsync(originalContact);
+        if (!UserCan[CustomerOperation.Edit]) return BadRequest();
 
         Handler = Handlers.PhoneNumber;
 
-        await _service.DeletePhoneNumberAsync(id.Value, phoneNumberId.Value);
+        await _service.DeletePhoneNumberAsync(ContactUpdate.Id, phoneNumberId.Value);
         ContactUpdate.PhoneNumbers.RemoveAll(p => p.Id == phoneNumberId);
 
-        PhoneNumberMessage = new DisplayMessage(DisplayMessage.AlertContext.Success, "Phone number deleted.");
-        return Page();
+        TempData.Set(nameof(PhoneNumberMessage),
+            new DisplayMessage(DisplayMessage.AlertContext.Success, "Phone number deleted."));
+        return RedirectToPage("EditContact", null, new { id = ContactUpdate.Id });
     }
 
-    private async Task SetPermissionAsync(IAuthorizationRequirement operation) =>
-        UserCan[operation] = (await _authorization.AuthorizeAsync(User, ContactUpdate, operation)).Succeeded;
+    private async Task SetPermissionAsync(ContactUpdateDto item)
+    {
+        foreach (var operation in CustomerOperation.AllOperations)
+            UserCan[operation] = (await _authorization.AuthorizeAsync(User, item, operation)).Succeeded;
+    }
 
-    private async Task<bool> RefreshExistingData(Guid id)
+    private async Task<ContactUpdateDto?> RefreshExistingData(Guid id)
     {
         var originalContact = await _service.FindContactForUpdateAsync(id);
-        if (originalContact is null) return false;
+        if (originalContact is null) return null;
+
+        var customer = await _service.FindBasicInfoAsync(originalContact.CustomerId);
+        if (customer is null) return null;
+
         ContactUpdate.IsDeleted = originalContact.IsDeleted;
         ContactUpdate.CustomerIsDeleted = originalContact.CustomerIsDeleted;
         ContactUpdate.CustomerId = originalContact.CustomerId;
         ContactUpdate.PhoneNumbers.Clear();
         ContactUpdate.PhoneNumbers.AddRange(originalContact.PhoneNumbers);
 
-        var customer = await _service.FindBasicInfoAsync(originalContact.CustomerId);
-        if (customer is null) return false;
-
         CustomerView = customer;
-        return true;
+
+        return originalContact;
     }
 }
