@@ -172,7 +172,7 @@
                                         <a asp-page="EditAction" asp-route-id="@Model.Item.Id.ToString()" asp-route-actionId="@item.Id.ToString()" class="btn btn-sm btn-outline-primary">Edit</a>
                                         @if (Model.UserCan[CaseworkOperation.ManageDeletions])
                                         {
-                                            <a asp-page="DeleteAction" asp-route-id="@Model.Item.Id.ToString()" asp-route-actionId="@item.Id.ToString()" class="btn btn-sm btn-outline-danger ms-1">Delete</a>
+                                            <a asp-page="DeleteAction" asp-route-caseId="@Model.Item.Id.ToString()" asp-route-actionId="@item.Id.ToString()" class="btn btn-sm btn-outline-danger ms-1">Delete</a>
                                         }
                                     </div>
                                 }

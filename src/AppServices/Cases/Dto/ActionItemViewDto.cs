@@ -6,6 +6,7 @@ namespace Sbeap.AppServices.Cases.Dto;
 public record ActionItemViewDto
 {
     public Guid Id { get; [UsedImplicitly] init; }
+    public Guid CaseWorkId { get; init; }
 
     [Display(Name = "Action Type")]
     public string ActionItemTypeName { get; init; } = string.Empty;
