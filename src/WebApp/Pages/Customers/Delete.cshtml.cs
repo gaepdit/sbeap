@@ -18,9 +18,7 @@ public class DeleteModel : PageModel
     private readonly ICustomerService _service;
     private readonly IAuthorizationService _authorization;
 
-    public DeleteModel(
-        ICustomerService service,
-        IAuthorizationService authorization)
+    public DeleteModel(ICustomerService service, IAuthorizationService authorization)
     {
         _service = service;
         _authorization = authorization;
@@ -42,38 +40,42 @@ public class DeleteModel : PageModel
         if (id is null) return RedirectToPage("Index");
         var item = await _service.FindAsync(id.Value);
         if (item is null) return NotFound();
+        if (!await UserCanManageDeletionsAsync(item)) return Forbid();
+
+        if (item.IsDeleted)
+        {
+            TempData.SetDisplayMessage(DisplayMessage.AlertContext.Info, "Customer is already deleted.");
+            return RedirectToPage("Details", new { id });
+        }
 
         Id = id.Value;
         Item = item;
-
-        if (!await UserCanManageDeletionsAsync()) return Forbid();
-        if (!Item.IsDeleted) return Page();
-
-        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Info, "Customer is already deleted.");
-        return RedirectToPage("Details", new { Id });
+        return Page();
     }
 
     public async Task<IActionResult> OnPostAsync()
     {
         var item = await _service.FindAsync(Id);
-        if (item is null) return NotFound();
+        if (item is null) return BadRequest();
+        if (!await UserCanManageDeletionsAsync(item)) return BadRequest();
 
-        Item = item;
-        if (!await UserCanManageDeletionsAsync()) return Forbid();
-
-        if (Item.IsDeleted)
+        if (item.IsDeleted)
         {
             TempData.SetDisplayMessage(DisplayMessage.AlertContext.Info, "Customer is already deleted.");
             return RedirectToPage("Details", new { Id });
         }
 
-        if (!ModelState.IsValid) return Page();
+        if (!ModelState.IsValid)
+        {
+            Item = item;
+            return Page();
+        }
 
         await _service.DeleteAsync(Id, DeleteComments);
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Customer successfully deleted.");
         return RedirectToPage("Details", new { Id });
     }
 
-    private async Task<bool> UserCanManageDeletionsAsync() =>
-        (await _authorization.AuthorizeAsync(User, Item, CustomerOperation.ManageDeletions)).Succeeded;
+    private async Task<bool> UserCanManageDeletionsAsync(CustomerViewDto item) =>
+        (await _authorization.AuthorizeAsync(User, item, CustomerOperation.ManageDeletions)).Succeeded;
 }
