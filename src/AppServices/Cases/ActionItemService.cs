@@ -49,11 +49,11 @@ public sealed class ActionItemService : IActionItemService
         return item.Id;
     }
 
-    public async Task<ActionItemViewDto?> FindAsync(Guid actionId, CancellationToken token = default) =>
-        _mapper.Map<ActionItemViewDto>(await _actionItems.FindAsync(e => e.Id == actionId && !e.IsDeleted, token));
+    public async Task<ActionItemViewDto?> FindAsync(Guid id, CancellationToken token = default) =>
+        _mapper.Map<ActionItemViewDto>(await _actionItems.FindAsync(e => e.Id == id && !e.IsDeleted, token));
 
     public async Task<ActionItemUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default) =>
-        _mapper.Map<ActionItemUpdateDto>(await _actionItems.FindAsync(id, token));
+        _mapper.Map<ActionItemUpdateDto>(await _actionItems.FindAsync(e => e.Id == id && !e.IsDeleted, token));
 
     public async Task UpdateAsync(ActionItemUpdateDto resource, CancellationToken token = default)
     {

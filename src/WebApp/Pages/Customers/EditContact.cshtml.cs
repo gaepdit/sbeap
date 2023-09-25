@@ -80,7 +80,7 @@ public class EditContactModel : PageModel
             return Page();
         }
 
-        if ((ContactUpdate.IsDeleted || ContactUpdate.CustomerIsDeleted) && !UserCan[CustomerOperation.ManageDeletions])
+        if (!UserCan[CustomerOperation.ManageDeletions])
             return NotFound();
 
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Info, "Cannot edit a deleted customer or contact.");
@@ -104,7 +104,7 @@ public class EditContactModel : PageModel
 
         HighlightId = ContactUpdate.Id;
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Contact successfully updated.");
-        return RedirectToPage("Details", null, new { id = ContactUpdate.CustomerId });
+        return RedirectToPage("Details", new { id = ContactUpdate.CustomerId });
     }
 
     public async Task<IActionResult> OnPostAddPhoneNumberAsync()

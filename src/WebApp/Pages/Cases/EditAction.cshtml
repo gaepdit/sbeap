@@ -1,4 +1,4 @@
-﻿@page "~/Cases/Details/{id:guid?}/EditAction/{actionId:guid?}"
+﻿@page "~/Cases/Details/{caseId:guid?}/EditAction/{actionId:guid?}"
 @using Sbeap.WebApp.Pages.Shared.DisplayTemplates
 @using Sbeap.WebApp.Pages.Shared.EditorTemplates
 @model EditActionModel
@@ -21,20 +21,20 @@
 </div>
 
 <div class="p-3 border rounded-3 bg-light-subtle">
-    <form method="post" asp-fragment="@Model.ActionItemUpdate.Id">
+    <form method="post" asp-fragment="@Model.Item.Id">
         <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
 
         <div class="row mt-2">
             <div class="col-md-6 col-lg-8 mb-3">
-                @Html.EditorFor(e => e.ActionItemUpdate.ActionItemTypeId, EditorTemplate.Select, new { Items = Model.ActionItemTypeSelectList })
+                @Html.EditorFor(e => e.Item.ActionItemTypeId, EditorTemplate.Select, new { Items = Model.ActionItemTypeSelectList })
             </div>
             <div class="col-md-6 col-lg-4 mb-3">
-                @Html.EditorFor(e => e.ActionItemUpdate.ActionDate, EditorTemplate.InputDateOnly)
+                @Html.EditorFor(e => e.Item.ActionDate, EditorTemplate.InputDateOnly)
             </div>
         </div>
         <div class="row">
             <div class="mb-3">
-                @Html.EditorFor(e => e.ActionItemUpdate.Notes, EditorTemplate.Textarea, new { Rows = 3 })
+                @Html.EditorFor(e => e.Item.Notes, EditorTemplate.Textarea, new { Rows = 3 })
             </div>
         </div>
 
@@ -43,7 +43,7 @@
             <a asp-page="Details" asp-route-id="@Model.CaseView.Id.ToString()" asp-fragment="actions" class="btn btn-outline-secondary">Cancel</a>
         </div>
         <div class="text-danger-emphasis mt-3">* denotes a required field</div>
-        <input asp-for="ActionItemUpdate.Id" type="hidden">
+        <input asp-for="Item.Id" type="hidden">
     </form>
 </div>
 
