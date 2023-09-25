@@ -44,7 +44,7 @@ public class DetailsModel : PageModel
         var item = await _customers.FindAsync(id.Value, await ShowDeletedCasesAsync());
         if (item is null) return NotFound();
 
-        await SetPermissionAsync(item);
+        await SetPermissionsAsync(item);
         if (item.IsDeleted && !UserCan[CustomerOperation.ManageDeletions])
             return NotFound();
 
@@ -63,7 +63,7 @@ public class DetailsModel : PageModel
         if (item is null) return NotFound();
         if (item.IsDeleted) return BadRequest();
 
-        await SetPermissionAsync(item);
+        await SetPermissionsAsync(item);
         if (!UserCan[CustomerOperation.Edit]) return Forbid();
 
         if (!ModelState.IsValid)
@@ -77,7 +77,7 @@ public class DetailsModel : PageModel
         return RedirectToPage("../Cases/Details", new { id = caseId });
     }
 
-    private async Task SetPermissionAsync(CustomerViewDto item)
+    private async Task SetPermissionsAsync(CustomerViewDto item)
     {
         foreach (var operation in CustomerOperation.AllOperations)
             UserCan[operation] = (await _authorization.AuthorizeAsync(User, item, operation)).Succeeded;

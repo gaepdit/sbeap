@@ -72,7 +72,7 @@ public class EditContactModel : PageModel
         if (customer is null) return NotFound();
         CustomerView = customer;
 
-        await SetPermissionAsync(contact);
+        await SetPermissionsAsync(contact);
 
         if (UserCan[CustomerOperation.Edit])
         {
@@ -92,7 +92,7 @@ public class EditContactModel : PageModel
         var originalContact = await RefreshExistingData(ContactUpdate.Id);
         if (originalContact is null) return BadRequest();
 
-        await SetPermissionAsync(originalContact);
+        await SetPermissionsAsync(originalContact);
         if (!UserCan[CustomerOperation.Edit]) return BadRequest();
 
         Handler = Handlers.EditContact;
@@ -112,7 +112,7 @@ public class EditContactModel : PageModel
         var originalContact = await RefreshExistingData(ContactUpdate.Id);
         if (originalContact is null) return BadRequest();
 
-        await SetPermissionAsync(originalContact);
+        await SetPermissionsAsync(originalContact);
         if (!UserCan[CustomerOperation.Edit]) return BadRequest();
 
         Handler = Handlers.PhoneNumber;
@@ -141,7 +141,7 @@ public class EditContactModel : PageModel
         var originalContact = await RefreshExistingData(ContactUpdate.Id);
         if (originalContact is null) return BadRequest();
 
-        await SetPermissionAsync(originalContact);
+        await SetPermissionsAsync(originalContact);
         if (!UserCan[CustomerOperation.Edit]) return BadRequest();
 
         Handler = Handlers.PhoneNumber;
@@ -154,7 +154,7 @@ public class EditContactModel : PageModel
         return RedirectToPage("EditContact", null, new { id = ContactUpdate.Id });
     }
 
-    private async Task SetPermissionAsync(ContactUpdateDto item)
+    private async Task SetPermissionsAsync(ContactUpdateDto item)
     {
         foreach (var operation in CustomerOperation.AllOperations)
             UserCan[operation] = (await _authorization.AuthorizeAsync(User, item, operation)).Succeeded;

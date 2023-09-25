@@ -51,7 +51,7 @@ public class DetailsModel : PageModel
         var item = await _cases.FindAsync(id.Value);
         if (item is null) return NotFound();
 
-        await SetPermissionAsync(item);
+        await SetPermissionsAsync(item);
         if (item.IsDeleted && !UserCan[CaseworkOperation.ManageDeletions])
             return NotFound();
 
@@ -71,7 +71,7 @@ public class DetailsModel : PageModel
         if (item is null) return NotFound();
         if (item.IsDeleted) return BadRequest();
 
-        await SetPermissionAsync(item);
+        await SetPermissionsAsync(item);
         if (!UserCan[CaseworkOperation.EditActionItems]) return Forbid();
 
         if (!ModelState.IsValid)
@@ -89,7 +89,7 @@ public class DetailsModel : PageModel
     private async Task PopulateSelectListsAsync() =>
         ActionItemTypeSelectList = (await _actionItemTypes.GetListItemsAsync()).ToSelectList();
 
-    private async Task SetPermissionAsync(CaseworkViewDto item)
+    private async Task SetPermissionsAsync(CaseworkViewDto item)
     {
         foreach (var operation in CaseworkOperation.AllOperations)
             UserCan[operation] = (await _authorization.AuthorizeAsync(User, item, operation)).Succeeded;

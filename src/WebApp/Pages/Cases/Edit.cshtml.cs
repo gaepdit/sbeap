@@ -47,7 +47,7 @@ public class EditModel : PageModel
         var item = await _service.FindForUpdateAsync(id.Value);
         if (item is null) return NotFound();
 
-        await SetPermissionAsync(item);
+        await SetPermissionsAsync(item);
 
         if (UserCan[CaseworkOperation.Edit])
         {
@@ -64,7 +64,7 @@ public class EditModel : PageModel
     {
         var originalItem = await _service.FindForUpdateAsync(Item.Id);
         if (originalItem is null) return BadRequest();
-        await SetPermissionAsync(originalItem);
+        await SetPermissionsAsync(originalItem);
         if (!UserCan[CaseworkOperation.Edit]) return BadRequest();
 
         await _validator.ApplyValidationAsync(Item, ModelState);
@@ -83,7 +83,7 @@ public class EditModel : PageModel
     private async Task PopulateSelectListsAsync() =>
         AgencySelectList = (await _agencyService.GetListItemsAsync()).ToSelectList();
 
-    private async Task SetPermissionAsync(CaseworkUpdateDto item)
+    private async Task SetPermissionsAsync(CaseworkUpdateDto item)
     {
         foreach (var operation in CaseworkOperation.AllOperations)
             UserCan[operation] = (await _authorization.AuthorizeAsync(User, item, operation)).Succeeded;

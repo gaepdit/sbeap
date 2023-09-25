@@ -57,7 +57,7 @@ public class EditActionModel : PageModel
         if (actionItem is null || actionItem.CaseWorkId != caseId) return NotFound();
         Item = actionItem;
 
-        await SetPermissionAsync(actionItem);
+        await SetPermissionsAsync(actionItem);
 
         if (UserCan[CaseworkOperation.EditActionItems])
         {
@@ -77,7 +77,7 @@ public class EditActionModel : PageModel
         var originalActionItem = await _service.FindForUpdateAsync(Item.Id);
         if (originalActionItem is null) return BadRequest();
 
-        await SetPermissionAsync(originalActionItem);
+        await SetPermissionsAsync(originalActionItem);
         if (!UserCan[CaseworkOperation.EditActionItems]) return BadRequest();
 
         if (!ModelState.IsValid)
@@ -96,7 +96,7 @@ public class EditActionModel : PageModel
     private async Task PopulateSelectListsAsync() =>
         ActionItemTypeSelectList = (await _actionItemTypes.GetListItemsAsync()).ToSelectList();
 
-    private async Task SetPermissionAsync(ActionItemUpdateDto item)
+    private async Task SetPermissionsAsync(ActionItemUpdateDto item)
     {
         foreach (var operation in CaseworkOperation.AllOperations)
             UserCan[operation] = (await _authorization.AuthorizeAsync(User, item, operation)).Succeeded;
