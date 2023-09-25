@@ -22,10 +22,7 @@ public class DetailsModel : PageModel
     private readonly IActionItemTypeService _actionItemTypes;
     private readonly IAuthorizationService _authorization;
 
-    public DetailsModel(
-        ICaseworkService cases,
-        IActionItemService actionItems,
-        IActionItemTypeService actionItemTypes,
+    public DetailsModel(ICaseworkService cases, IActionItemService actionItems, IActionItemTypeService actionItemTypes,
         IAuthorizationService authorization)
     {
         _cases = cases;
@@ -54,11 +51,11 @@ public class DetailsModel : PageModel
         var item = await _cases.FindAsync(id.Value);
         if (item is null) return NotFound();
 
+        await SetPermissionAsync(item);
+        if (item.IsDeleted && !UserCan[CaseworkOperation.ManageDeletions])
+            return NotFound();
+
         Item = item;
-
-        foreach (var operation in CaseworkOperation.AllOperations) await SetPermissionAsync(operation);
-        if (item.IsDeleted && !UserCan[CaseworkOperation.ManageDeletions]) return Forbid();
-
         NewActionItem = new ActionItemCreateDto(id.Value);
         await PopulateSelectListsAsync();
         return Page();
@@ -74,13 +71,12 @@ public class DetailsModel : PageModel
         if (item is null) return NotFound();
         if (item.IsDeleted) return BadRequest();
 
-        Item = item;
-
-        foreach (var operation in CaseworkOperation.AllOperations) await SetPermissionAsync(operation);
+        await SetPermissionAsync(item);
         if (!UserCan[CaseworkOperation.EditActionItems]) return Forbid();
 
         if (!ModelState.IsValid)
         {
+            Item = item;
             await PopulateSelectListsAsync();
             return Page();
         }
@@ -93,6 +89,9 @@ public class DetailsModel : PageModel
     private async Task PopulateSelectListsAsync() =>
         ActionItemTypeSelectList = (await _actionItemTypes.GetListItemsAsync()).ToSelectList();
 
-    private async Task SetPermissionAsync(IAuthorizationRequirement operation) =>
-        UserCan[operation] = (await _authorization.AuthorizeAsync(User, Item, operation)).Succeeded;
+    private async Task SetPermissionAsync(CaseworkViewDto item)
+    {
+        foreach (var operation in CaseworkOperation.AllOperations)
+            UserCan[operation] = (await _authorization.AuthorizeAsync(User, item, operation)).Succeeded;
+    }
 }
