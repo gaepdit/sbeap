@@ -56,6 +56,8 @@ public class EditModel : PageModel
             return Page();
         }
 
+        if (!UserCan[CaseworkOperation.ManageDeletions]) return NotFound();
+
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Info, "Cannot edit a deleted case.");
         return RedirectToPage("Details", new { id });
     }

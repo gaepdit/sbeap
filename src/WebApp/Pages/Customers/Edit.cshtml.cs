@@ -33,6 +33,8 @@ public class EditModel : PageModel
     [BindProperty]
     public CustomerUpdateDto Item { get; set; } = default!;
 
+    public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
+
     // Select lists
     public SelectList StatesSelectList => new(Data.States);
     public SelectList CountiesSelectList => new(Data.Counties);
@@ -43,17 +45,27 @@ public class EditModel : PageModel
         if (id is null) return RedirectToPage("Index");
         var item = await _service.FindForUpdateAsync(id.Value);
         if (item is null) return NotFound();
-        if (!await UserCanEditAsync(item)) return Forbid();
 
-        Item = item;
-        return Page();
+        await SetPermissionsAsync(item);
+
+        if (UserCan[CustomerOperation.Edit])
+        {
+            Item = item;
+            return Page();
+        }
+
+        if (!UserCan[CustomerOperation.ManageDeletions]) return NotFound();
+
+        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Info, "Cannot edit a deleted customer.");
+        return RedirectToPage("Details", new { id });
     }
 
     public async Task<IActionResult> OnPostAsync()
     {
-        var original = await _service.FindForUpdateAsync(Item.Id);
-        if (original is null) return BadRequest();
-        if (!await UserCanEditAsync(original)) return BadRequest();
+        var originalItem = await _service.FindForUpdateAsync(Item.Id);
+        if (originalItem is null) return BadRequest();
+        await SetPermissionsAsync(originalItem);
+        if (!UserCan[CustomerOperation.Edit]) return BadRequest();
 
         await _validator.ApplyValidationAsync(Item, ModelState);
         if (!ModelState.IsValid) return Page();
@@ -64,6 +76,9 @@ public class EditModel : PageModel
         return RedirectToPage("Details", new { Item.Id });
     }
 
-    private async Task<bool> UserCanEditAsync(CustomerUpdateDto item) =>
-        (await _authorization.AuthorizeAsync(User, item, CustomerOperation.Edit)).Succeeded;
+    private async Task SetPermissionsAsync(CustomerUpdateDto item)
+    {
+        foreach (var operation in CustomerOperation.AllOperations)
+            UserCan[operation] = (await _authorization.AuthorizeAsync(User, item, operation)).Succeeded;
+    }
 }
