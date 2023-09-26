@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Sbeap.AppServices.Customers.Dto;
-using Sbeap.Domain.Identity;
-using System.Security.Principal;
+using Sbeap.AppServices.Permissions.Helpers;
 
 namespace Sbeap.AppServices.Customers.Permissions;
 
@@ -20,11 +19,11 @@ internal class CustomerUpdatePermissionsHandler :
         {
             nameof(CustomerOperation.Edit) =>
                 // Customers can only be edited if they are not deleted.
-                IsStaffUser(context.User) && IsNotDeleted(resource),
+                context.User.IsStaff() && IsNotDeleted(resource),
 
             nameof(CustomerOperation.ManageDeletions) =>
                 // Only an Admin User can delete or restore.
-                IsAdminUser(context.User),
+                context.User.IsAdmin(),
 
             _ => false,
         };
@@ -33,7 +32,5 @@ internal class CustomerUpdatePermissionsHandler :
         return Task.FromResult(0);
     }
 
-    private static bool IsAdminUser(IPrincipal user) => user.IsInRole(RoleName.Admin);
-    private static bool IsStaffUser(IPrincipal user) => user.IsInRole(RoleName.Staff) || user.IsInRole(RoleName.Admin);
     private static bool IsNotDeleted(CustomerUpdateDto resource) => !resource.IsDeleted;
 }
