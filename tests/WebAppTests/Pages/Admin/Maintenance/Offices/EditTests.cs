@@ -13,17 +13,17 @@ namespace WebAppTests.Pages.Admin.Maintenance.Offices;
 
 public class EditTests
 {
-    private static readonly OfficeUpdateDto ItemTest = new(Guid.Empty, TextData.ValidName, true);
+    private static readonly OfficeUpdateDto ItemTest = new(TextData.ValidName, true);
 
     [Test]
     public async Task OnGet_ReturnsWithItem()
     {
         var serviceMock = Substitute.For<IOfficeService>();
-        serviceMock.FindForUpdateAsync(ItemTest.Id, Arg.Any<CancellationToken>()).Returns(ItemTest);
+        serviceMock.FindForUpdateAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(ItemTest);
         var page = new EditModel(serviceMock, Substitute.For<IValidator<OfficeUpdateDto>>())
             { TempData = WebAppTestsSetup.PageTempData() };
 
-        await page.OnGetAsync(ItemTest.Id);
+        await page.OnGetAsync(Guid.Empty);
 
         using (new AssertionScope())
         {
@@ -67,10 +67,10 @@ public class EditTests
     {
         var serviceMock = Substitute.For<IOfficeService>();
         var validatorMock = Substitute.For<IValidator<OfficeUpdateDto>>();
-        validatorMock.ValidateAsync(Arg.Any<OfficeUpdateDto>(), Arg.Any<CancellationToken>())
+        validatorMock.ValidateAsync(Arg.Any<IValidationContext>(), Arg.Any<CancellationToken>())
             .Returns(new ValidationResult());
         var page = new EditModel(serviceMock, validatorMock)
-            { Item = ItemTest, TempData = WebAppTestsSetup.PageTempData() };
+            { Id = Guid.Empty, Item = ItemTest, TempData = WebAppTestsSetup.PageTempData() };
         var expectedMessage =
             new DisplayMessage(DisplayMessage.AlertContext.Success, $"“{ItemTest.Name}” successfully updated.");
 
@@ -78,7 +78,7 @@ public class EditTests
 
         using (new AssertionScope())
         {
-            page.HighlightId.Should().Be(ItemTest.Id);
+            page.HighlightId.Should().Be(page.Id);
             page.TempData.GetDisplayMessage().Should().BeEquivalentTo(expectedMessage);
             result.Should().BeOfType<RedirectToPageResult>();
             ((RedirectToPageResult)result).PageName.Should().Be("Index");
@@ -91,10 +91,10 @@ public class EditTests
         var serviceMock = Substitute.For<IOfficeService>();
         var validatorMock = Substitute.For<IValidator<OfficeUpdateDto>>();
         var validationFailures = new List<ValidationFailure> { new("property", "message") };
-        validatorMock.ValidateAsync(Arg.Any<OfficeUpdateDto>(), Arg.Any<CancellationToken>())
+        validatorMock.ValidateAsync(Arg.Any<IValidationContext>(), Arg.Any<CancellationToken>())
             .Returns(new ValidationResult(validationFailures));
         var page = new EditModel(serviceMock, validatorMock)
-            { Item = ItemTest, TempData = WebAppTestsSetup.PageTempData() };
+            { Id = Guid.Empty, Item = ItemTest, TempData = WebAppTestsSetup.PageTempData() };
 
         var result = await page.OnPostAsync();
 

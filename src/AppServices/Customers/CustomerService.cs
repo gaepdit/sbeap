@@ -83,9 +83,9 @@ public sealed class CustomerService : ICustomerService
     public async Task<CustomerUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default) =>
         _mapper.Map<CustomerUpdateDto>(await _customers.FindAsync(id, token));
 
-    public async Task UpdateAsync(CustomerUpdateDto resource, CancellationToken token = default)
+    public async Task UpdateAsync(Guid id, CustomerUpdateDto resource, CancellationToken token = default)
     {
-        var item = await _customers.GetAsync(resource.Id, token);
+        var item = await _customers.GetAsync(id, token);
         item.SetUpdater((await _users.GetCurrentUserAsync())?.Id);
 
         item.Name = resource.Name;
@@ -154,9 +154,9 @@ public sealed class CustomerService : ICustomerService
     public async Task<ContactUpdateDto?> FindContactForUpdateAsync(Guid contactId, CancellationToken token = default) =>
         _mapper.Map<ContactUpdateDto>(await _contacts.FindAsync(e => e.Id == contactId && !e.IsDeleted, token));
 
-    public async Task UpdateContactAsync(ContactUpdateDto resource, CancellationToken token = default)
+    public async Task UpdateContactAsync(Guid contactId, ContactUpdateDto resource, CancellationToken token = default)
     {
-        var item = await _contacts.GetAsync(resource.Id, token);
+        var item = await _contacts.GetAsync(contactId, token);
         item.SetUpdater((await _users.GetCurrentUserAsync())?.Id);
 
         item.Honorific = resource.Honorific;

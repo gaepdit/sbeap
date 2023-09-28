@@ -48,9 +48,9 @@ public sealed class AgencyService : IAgencyService
         return _mapper.Map<AgencyUpdateDto>(item);
     }
 
-    public async Task UpdateAsync(AgencyUpdateDto resource, CancellationToken token = default)
+    public async Task UpdateAsync(Guid id, AgencyUpdateDto resource, CancellationToken token = default)
     {
-        var item = await _repository.GetAsync(resource.Id, token);
+        var item = await _repository.GetAsync(id, token);
         item.SetUpdater((await _users.GetCurrentUserAsync())?.Id);
 
         if (item.Name != resource.Name.Trim())

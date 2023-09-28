@@ -1,4 +1,5 @@
-﻿using FluentValidation.TestHelper;
+﻿using FluentValidation;
+using FluentValidation.TestHelper;
 using Sbeap.AppServices.Offices;
 using Sbeap.AppServices.Offices.Validators;
 using Sbeap.Domain.Entities.Offices;
@@ -8,15 +9,17 @@ namespace AppServicesTests.Offices.Validators;
 
 public class UpdateValidator
 {
+    private static ValidationContext<OfficeUpdateDto> GetContext(OfficeUpdateDto model) =>
+        new(model) { RootContextData = { ["Id"] = Guid.Empty } };
+
     [Test]
     public async Task ValidDto_ReturnsAsValid()
     {
         var repoMock = Substitute.For<IOfficeRepository>();
         repoMock.FindByNameAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns((Office?)null);
-        var model = new OfficeUpdateDto(Id: Guid.Empty, Name: TextData.ValidName, Active: true);
+        var model = new OfficeUpdateDto(Name: TextData.ValidName, Active: true);
 
-        var validator = new OfficeUpdateValidator(repoMock);
-        var result = await validator.TestValidateAsync(model);
+        var result = await new OfficeUpdateValidator(repoMock).TestValidateAsync(GetContext(model));
 
         result.ShouldNotHaveAnyValidationErrors();
     }
@@ -27,10 +30,9 @@ public class UpdateValidator
         var repoMock = Substitute.For<IOfficeRepository>();
         repoMock.FindByNameAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
             .Returns(new Office(Guid.NewGuid(), TextData.ValidName));
-        var model = new OfficeUpdateDto(Id: Guid.Empty, Name: TextData.ValidName, Active: true);
+        var model = new OfficeUpdateDto(Name: TextData.ValidName, Active: true);
 
-        var validator = new OfficeUpdateValidator(repoMock);
-        var result = await validator.TestValidateAsync(model);
+        var result = await new OfficeUpdateValidator(repoMock).TestValidateAsync(GetContext(model));
 
         result.ShouldHaveValidationErrorFor(e => e.Name)
             .WithErrorMessage("The name entered already exists.");
@@ -42,10 +44,9 @@ public class UpdateValidator
         var repoMock = Substitute.For<IOfficeRepository>();
         repoMock.FindByNameAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
             .Returns(new Office(Guid.Empty, TextData.ValidName));
-        var model = new OfficeUpdateDto(Id: Guid.Empty, Name: TextData.ValidName, Active: true);
+        var model = new OfficeUpdateDto(Name: TextData.ValidName, Active: true);
 
-        var validator = new OfficeUpdateValidator(repoMock);
-        var result = await validator.TestValidateAsync(model);
+        var result = await new OfficeUpdateValidator(repoMock).TestValidateAsync(GetContext(model));
 
         result.ShouldNotHaveAnyValidationErrors();
     }
@@ -55,10 +56,9 @@ public class UpdateValidator
     {
         var repoMock = Substitute.For<IOfficeRepository>();
         repoMock.FindByNameAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns((Office?)null);
-        var model = new OfficeUpdateDto(Id: Guid.Empty, Name: TextData.ShortName, Active: true);
+        var model = new OfficeUpdateDto(Name: TextData.ShortName, Active: true);
 
-        var validator = new OfficeUpdateValidator(repoMock);
-        var result = await validator.TestValidateAsync(model);
+        var result = await new OfficeUpdateValidator(repoMock).TestValidateAsync(GetContext(model));
 
         result.ShouldHaveValidationErrorFor(e => e.Name);
     }

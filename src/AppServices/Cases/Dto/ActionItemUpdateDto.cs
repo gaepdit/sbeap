@@ -12,8 +12,6 @@ public record ActionItemUpdateDto
 
     // Entity update properties
 
-    public Guid Id { get; [UsedImplicitly] init; }
-
     [Required]
     [Display(Name = "Action Type")]
     public Guid? ActionItemTypeId { get; [UsedImplicitly] init; }

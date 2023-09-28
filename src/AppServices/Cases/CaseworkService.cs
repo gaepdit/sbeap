@@ -80,9 +80,9 @@ public sealed class CaseworkService : ICaseworkService
     public async Task<CaseworkUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default) =>
         _mapper.Map<CaseworkUpdateDto>(await _cases.FindAsync(id, token));
 
-    public async Task UpdateAsync(CaseworkUpdateDto resource, CancellationToken token = default)
+    public async Task UpdateAsync(Guid id, CaseworkUpdateDto resource, CancellationToken token = default)
     {
-        var item = await _cases.GetAsync(resource.Id, token);
+        var item = await _cases.GetAsync(id, token);
         item.SetUpdater((await _users.GetCurrentUserAsync())?.Id);
 
         item.CaseOpenedDate = resource.CaseOpenedDate;

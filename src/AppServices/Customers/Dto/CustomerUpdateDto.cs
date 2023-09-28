@@ -10,8 +10,6 @@ public record CustomerUpdateDto
 
     // Entity update properties
 
-    public Guid Id { get; [UsedImplicitly] init; }
-
     [Required]
     public string Name { get; init; } = string.Empty;
 

@@ -32,6 +32,10 @@ public class EditModel : PageModel
     }
 
     // Properties
+
+    [FromRoute]
+    public Guid Id { get; set; }
+
     [BindProperty]
     public StaffUpdateDto UpdateStaff { get; set; } = default!;
 
@@ -44,9 +48,12 @@ public class EditModel : PageModel
     public async Task<IActionResult> OnGetAsync(string? id)
     {
         if (id is null) return RedirectToPage("Index");
+        if (!Guid.TryParse(id, out var guid)) return NotFound();
+
         var staff = await _staffService.FindAsync(id);
         if (staff is null) return NotFound();
 
+        Id = guid;
         DisplayStaff = staff;
         UpdateStaff = DisplayStaff.AsUpdateDto();
 
@@ -60,7 +67,7 @@ public class EditModel : PageModel
 
         if (!ModelState.IsValid)
         {
-            var staff = await _staffService.FindAsync(UpdateStaff.Id);
+            var staff = await _staffService.FindAsync(Id.ToString());
             if (staff is null) return BadRequest();
 
             DisplayStaff = staff;
@@ -69,11 +76,11 @@ public class EditModel : PageModel
             return Page();
         }
 
-        var result = await _staffService.UpdateAsync(UpdateStaff);
+        var result = await _staffService.UpdateAsync(Id.ToString(), UpdateStaff);
         if (!result.Succeeded) return BadRequest();
 
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Successfully updated.");
-        return RedirectToPage("Details", new { id = UpdateStaff.Id });
+        return RedirectToPage("Details", new { Id });
     }
 
     private async Task PopulateSelectListsAsync() =>

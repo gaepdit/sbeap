@@ -8,5 +8,5 @@ public interface IOfficeService : IDisposable
     Task<IReadOnlyList<ListItem>> GetActiveListItemsAsync(CancellationToken token = default);
     Task<Guid> CreateAsync(OfficeCreateDto resource, CancellationToken token = default);
     Task<OfficeUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default);
-    Task UpdateAsync(OfficeUpdateDto resource, CancellationToken token = default);
+    Task UpdateAsync(Guid id, OfficeUpdateDto resource, CancellationToken token = default);
 }

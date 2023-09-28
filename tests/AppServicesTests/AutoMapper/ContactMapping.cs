@@ -50,7 +50,6 @@ public class ContactMapping
 
         using (new AssertionScope())
         {
-            result.Id.Should().Be(item.Id);
             result.Honorific.Should().Be(item.Honorific);
             result.GivenName.Should().Be(item.GivenName);
             result.FamilyName.Should().Be(item.FamilyName);

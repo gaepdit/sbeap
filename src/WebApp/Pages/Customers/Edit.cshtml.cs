@@ -30,6 +30,10 @@ public class EditModel : PageModel
     }
 
     // Properties
+
+    [FromRoute]
+    public Guid Id { get; set; }
+
     [BindProperty]
     public CustomerUpdateDto Item { get; set; } = default!;
 
@@ -50,6 +54,7 @@ public class EditModel : PageModel
 
         if (UserCan[CustomerOperation.Edit])
         {
+            Id = id.Value;
             Item = item;
             return Page();
         }
@@ -62,7 +67,7 @@ public class EditModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        var originalItem = await _service.FindForUpdateAsync(Item.Id);
+        var originalItem = await _service.FindForUpdateAsync(Id);
         if (originalItem is null) return BadRequest();
         await SetPermissionsAsync(originalItem);
         if (!UserCan[CustomerOperation.Edit]) return BadRequest();
@@ -70,10 +75,10 @@ public class EditModel : PageModel
         await _validator.ApplyValidationAsync(Item, ModelState);
         if (!ModelState.IsValid) return Page();
 
-        await _service.UpdateAsync(Item);
+        await _service.UpdateAsync(Id, Item);
 
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Customer successfully updated.");
-        return RedirectToPage("Details", new { Item.Id });
+        return RedirectToPage("Details", new { Id });
     }
 
     private async Task SetPermissionsAsync(CustomerUpdateDto item)

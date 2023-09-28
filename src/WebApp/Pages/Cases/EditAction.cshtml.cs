@@ -32,8 +32,12 @@ public class EditActionModel : PageModel
     }
 
     // Properties
+
+    [FromRoute]
+    public Guid ActionId { get; set; }
+
     [BindProperty]
-    public ActionItemUpdateDto Item { get; set; } = default!;
+    public ActionItemUpdateDto ActionItemUpdate { get; set; } = default!;
 
     [TempData]
     public Guid HighlightId { get; set; }
@@ -51,21 +55,22 @@ public class EditActionModel : PageModel
 
         var caseView = await _cases.FindBasicInfoAsync(caseId.Value);
         if (caseView is null) return NotFound();
-        CaseView = caseView;
 
         var actionItem = await _service.FindForUpdateAsync(actionId.Value);
         if (actionItem is null || actionItem.CaseWorkId != caseId) return NotFound();
-        Item = actionItem;
 
         await SetPermissionsAsync(actionItem);
 
         if (UserCan[CaseworkOperation.EditActionItems])
         {
+            CaseView = caseView;
+            ActionId = actionId.Value;
+            ActionItemUpdate = actionItem;
             await PopulateSelectListsAsync();
             return Page();
         }
 
-        if (!UserCan[CaseworkOperation.ManageDeletions] || Item.IsDeleted)
+        if (!UserCan[CaseworkOperation.ManageDeletions] || ActionItemUpdate.IsDeleted)
             return NotFound();
 
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Info, "Cannot edit a deleted case.");
@@ -74,7 +79,7 @@ public class EditActionModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        var originalActionItem = await _service.FindForUpdateAsync(Item.Id);
+        var originalActionItem = await _service.FindForUpdateAsync(ActionId);
         if (originalActionItem is null) return BadRequest();
 
         await SetPermissionsAsync(originalActionItem);
@@ -86,9 +91,9 @@ public class EditActionModel : PageModel
             return Page();
         }
 
-        await _service.UpdateAsync(Item);
+        await _service.UpdateAsync(ActionId, ActionItemUpdate);
 
-        HighlightId = Item.Id;
+        HighlightId = ActionId;
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Action Item successfully updated.");
         return RedirectToPage("Details", new { id = originalActionItem.CaseWorkId });
     }

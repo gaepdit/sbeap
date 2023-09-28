@@ -11,8 +11,6 @@ public record CaseworkUpdateDto
 
     // Entity update properties
 
-    public Guid Id { get; [UsedImplicitly] init; }
-
     [Display(Name = "Date Opened")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:O}", ApplyFormatInEditMode = true)]

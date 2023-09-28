@@ -47,9 +47,9 @@ public sealed class ActionItemTypeService : IActionItemTypeService
         return _mapper.Map<ActionItemTypeUpdateDto>(item);
     }
 
-    public async Task UpdateAsync(ActionItemTypeUpdateDto resource, CancellationToken token = default)
+    public async Task UpdateAsync(Guid id, ActionItemTypeUpdateDto resource, CancellationToken token = default)
     {
-        var item = await _repository.GetAsync(resource.Id, token);
+        var item = await _repository.GetAsync(id, token);
         item.SetUpdater((await _users.GetCurrentUserAsync())?.Id);
 
         if (item.Name != resource.Name.Trim())

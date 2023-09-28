@@ -55,9 +55,9 @@ public sealed class ActionItemService : IActionItemService
     public async Task<ActionItemUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default) =>
         _mapper.Map<ActionItemUpdateDto>(await _actionItems.FindAsync(e => e.Id == id && !e.IsDeleted, token));
 
-    public async Task UpdateAsync(ActionItemUpdateDto resource, CancellationToken token = default)
+    public async Task UpdateAsync(Guid id, ActionItemUpdateDto resource, CancellationToken token = default)
     {
-        var item = await _actionItems.GetAsync(resource.Id, token);
+        var item = await _actionItems.GetAsync(id, token);
         item.SetUpdater((await _users.GetCurrentUserAsync())?.Id);
 
         item.ActionItemType = await _actionItemTypes.GetAsync(resource.ActionItemTypeId!.Value, token);
