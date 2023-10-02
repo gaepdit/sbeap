@@ -14,5 +14,5 @@ public interface IStaffService : IDisposable
     Task<IList<string>> GetRolesAsync(string id);
     Task<IList<AppRole>> GetAppRolesAsync(string id);
     Task<IdentityResult> UpdateRolesAsync(string id, Dictionary<string, bool> roles);
-    Task<IdentityResult> UpdateAsync(StaffUpdateDto resource);
+    Task<IdentityResult> UpdateAsync(string id, StaffUpdateDto resource);
 }

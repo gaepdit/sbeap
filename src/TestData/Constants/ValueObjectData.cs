@@ -49,7 +49,7 @@ public static class ValueObjectData
         Street2 = null,
         City = "Alt-ville",
         PostalCode = "98765",
-        State = "GA",
+        State = "Georgia",
     };
 
     public static IncompleteAddress IncompleteAddress => new()
@@ -58,6 +58,6 @@ public static class ValueObjectData
         Street2 = null,
         City = null,
         PostalCode = null,
-        State = "GA",
+        State = "Georgia",
     };
 }

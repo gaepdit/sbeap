@@ -47,9 +47,9 @@ public sealed class OfficeService : IOfficeService
         return _mapper.Map<OfficeUpdateDto>(item);
     }
 
-    public async Task UpdateAsync(OfficeUpdateDto resource, CancellationToken token = default)
+    public async Task UpdateAsync(Guid id, OfficeUpdateDto resource, CancellationToken token = default)
     {
-        var item = await _repository.GetAsync(resource.Id, token);
+        var item = await _repository.GetAsync(id, token);
         item.SetUpdater((await _users.GetCurrentUserAsync())?.Id);
 
         if (item.Name != resource.Name.Trim())

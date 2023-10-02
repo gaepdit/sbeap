@@ -15,7 +15,7 @@ public interface ICaseworkService : IDisposable
     // Casework write
     Task<Guid> CreateAsync(CaseworkCreateDto resource, CancellationToken token = default);
     Task<CaseworkUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default);
-    Task UpdateAsync(CaseworkUpdateDto resource, CancellationToken token = default);
+    Task UpdateAsync(Guid id, CaseworkUpdateDto resource, CancellationToken token = default);
     Task DeleteAsync(Guid id, string? deleteComments, CancellationToken token = default);
     Task RestoreAsync(Guid id, CancellationToken token = default);
 }

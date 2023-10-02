@@ -26,11 +26,7 @@ public class EditTests
         Active = true,
     };
 
-    private static readonly StaffUpdateDto StaffUpdateTest = new()
-    {
-        Id = Guid.Empty.ToString(),
-        Active = true,
-    };
+    private static readonly StaffUpdateDto StaffUpdateTest = new() { Active = true };
 
     [Test]
     public async Task OnGet_PopulatesThePageModel()
@@ -63,7 +59,7 @@ public class EditTests
 
         var staffServiceMock = Substitute.For<IStaffService>();
         staffServiceMock.GetCurrentUserAsync().Returns(StaffViewTest);
-        staffServiceMock.UpdateAsync(Arg.Any<StaffUpdateDto>()).Returns(IdentityResult.Success);
+        staffServiceMock.UpdateAsync(Arg.Any<string>(), Arg.Any<StaffUpdateDto>()).Returns(IdentityResult.Success);
         var validatorMock = Substitute.For<IValidator<StaffUpdateDto>>();
         validatorMock.ValidateAsync(Arg.Any<StaffUpdateDto>(), Arg.Any<CancellationToken>())
             .Returns(new ValidationResult());
@@ -86,7 +82,7 @@ public class EditTests
     {
         var staffServiceMock = Substitute.For<IStaffService>();
         staffServiceMock.GetCurrentUserAsync().Returns(StaffViewTest);
-        staffServiceMock.UpdateAsync(Arg.Any<StaffUpdateDto>()).Returns(IdentityResult.Failed());
+        staffServiceMock.UpdateAsync(Arg.Any<string>(), Arg.Any<StaffUpdateDto>()).Returns(IdentityResult.Failed());
         var validatorMock = Substitute.For<IValidator<StaffUpdateDto>>();
         validatorMock.ValidateAsync(Arg.Any<StaffUpdateDto>(), Arg.Any<CancellationToken>())
             .Returns(new ValidationResult());

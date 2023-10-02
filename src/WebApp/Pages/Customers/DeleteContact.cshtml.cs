@@ -16,9 +16,7 @@ public class DeleteContactModel : PageModel
     private readonly ICustomerService _service;
     private readonly IAuthorizationService _authorization;
 
-    public DeleteContactModel(
-        ICustomerService service,
-        IAuthorizationService authorization)
+    public DeleteContactModel(ICustomerService service, IAuthorizationService authorization)
     {
         _service = service;
         _authorization = authorization;
@@ -35,39 +33,33 @@ public class DeleteContactModel : PageModel
     public async Task<IActionResult> OnGetAsync(Guid? id)
     {
         if (id is null) return RedirectToPage("Index");
+        if (!await UserCanManageDeletionsAsync()) return NotFound();
 
         var contact = await _service.FindContactAsync(id.Value);
         if (contact is null) return NotFound();
-        ContactView = contact;
 
         var customer = await _service.FindBasicInfoAsync(contact.CustomerId);
-        if (customer is null) return NotFound();
+        if (customer is null || customer.IsDeleted) return NotFound();
+
+        ContactView = contact;
         CustomerView = customer;
-
-        if (CustomerView.IsDeleted || !await UserCanManageDeletionsAsync())
-            return NotFound();
-
         ContactId = id.Value;
         return Page();
     }
 
-    public async Task<IActionResult> OnPostAsync(Guid? id)
+    public async Task<IActionResult> OnPostAsync()
     {
-        if (id is null || id != ContactId) return RedirectToPage("Index");
+        if (!await UserCanManageDeletionsAsync() || !ModelState.IsValid) return BadRequest();
 
-        var originalContact = await _service.FindContactAsync(id.Value);
+        var originalContact = await _service.FindContactAsync(ContactId);
         if (originalContact is null) return BadRequest();
 
         var customer = await _service.FindBasicInfoAsync(originalContact.CustomerId);
-        if (customer is null) return BadRequest();
-        CustomerView = customer;
-
-        if (CustomerView.IsDeleted || !await UserCanManageDeletionsAsync() || !ModelState.IsValid)
-            return BadRequest();
+        if (customer is null || customer.IsDeleted) return BadRequest();
 
         await _service.DeleteContactAsync(ContactId);
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Contact successfully deleted.");
-        return RedirectToPage("Details", new { CustomerView.Id });
+        return RedirectToPage("Details", new { customer.Id });
     }
 
     private async Task<bool> UserCanManageDeletionsAsync() =>

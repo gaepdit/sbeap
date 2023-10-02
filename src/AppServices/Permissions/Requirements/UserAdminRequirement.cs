@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Sbeap.Domain.Identity;
+using Sbeap.AppServices.Permissions.Helpers;
 
 namespace Sbeap.AppServices.Permissions.Requirements;
 
-internal class UserAdministratorRequirement :
-    AuthorizationHandler<UserAdministratorRequirement>, IAuthorizationRequirement
+internal class UserAdminRequirement :
+    AuthorizationHandler<UserAdminRequirement>, IAuthorizationRequirement
 {
     protected override Task HandleRequirementAsync(
         AuthorizationHandlerContext context,
-        UserAdministratorRequirement requirement)
+        UserAdminRequirement requirement)
     {
-        if (context.User.IsInRole(RoleName.UserAdmin))
+        if (context.User.IsUserAdmin())
             context.Succeed(requirement);
 
         return Task.FromResult(0);

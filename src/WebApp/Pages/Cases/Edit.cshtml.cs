@@ -22,10 +22,7 @@ public class EditModel : PageModel
     private readonly IValidator<CaseworkUpdateDto> _validator;
     private readonly IAuthorizationService _authorization;
 
-    public EditModel(
-        ICaseworkService service,
-        IAgencyService agencyService,
-        IValidator<CaseworkUpdateDto> validator,
+    public EditModel(ICaseworkService service, IAgencyService agencyService, IValidator<CaseworkUpdateDto> validator,
         IAuthorizationService authorization)
     {
         _service = service;
@@ -35,6 +32,10 @@ public class EditModel : PageModel
     }
 
     // Properties
+
+    [FromRoute]
+    public Guid Id { get; set; }
+
     [BindProperty]
     public CaseworkUpdateDto Item { get; set; } = default!;
 
@@ -50,24 +51,28 @@ public class EditModel : PageModel
         var item = await _service.FindForUpdateAsync(id.Value);
         if (item is null) return NotFound();
 
-        Item = item;
+        await SetPermissionsAsync(item);
 
-        foreach (var operation in CaseworkOperation.AllOperations) await SetPermissionAsync(operation);
-
-        if (UserCan[CaseworkOperation.Edit] && Item is { IsDeleted: false, CustomerIsDeleted: false })
+        if (UserCan[CaseworkOperation.Edit])
         {
+            Id = id.Value;
+            Item = item;
             await PopulateSelectListsAsync();
             return Page();
         }
 
-        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Info, "Cannot edit a deleted customer or case.");
+        if (!UserCan[CaseworkOperation.ManageDeletions]) return NotFound();
+
+        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Info, "Cannot edit a deleted case.");
         return RedirectToPage("Details", new { id });
     }
 
     public async Task<IActionResult> OnPostAsync()
     {
-        foreach (var operation in CaseworkOperation.AllOperations) await SetPermissionAsync(operation);
-        if (!UserCan[CaseworkOperation.Edit]) return Forbid();
+        var originalItem = await _service.FindForUpdateAsync(Id);
+        if (originalItem is null) return BadRequest();
+        await SetPermissionsAsync(originalItem);
+        if (!UserCan[CaseworkOperation.Edit]) return BadRequest();
 
         await _validator.ApplyValidationAsync(Item, ModelState);
         if (!ModelState.IsValid)
@@ -76,15 +81,18 @@ public class EditModel : PageModel
             return Page();
         }
 
-        await _service.UpdateAsync(Item);
+        await _service.UpdateAsync(Id, Item);
 
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Case successfully updated.");
-        return RedirectToPage("Details", new { Item.Id });
+        return RedirectToPage("Details", new { Id });
     }
 
     private async Task PopulateSelectListsAsync() =>
         AgencySelectList = (await _agencyService.GetListItemsAsync()).ToSelectList();
 
-    private async Task SetPermissionAsync(IAuthorizationRequirement operation) =>
-        UserCan[operation] = (await _authorization.AuthorizeAsync(User, Item, operation)).Succeeded;
+    private async Task SetPermissionsAsync(CaseworkUpdateDto item)
+    {
+        foreach (var operation in CaseworkOperation.AllOperations)
+            UserCan[operation] = (await _authorization.AuthorizeAsync(User, item, operation)).Succeeded;
+    }
 }

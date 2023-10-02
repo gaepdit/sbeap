@@ -49,5 +49,5 @@ public static class Policies
         ActiveUserPolicyBuilder.AddRequirements(new StaffUserRequirement()).Build();
 
     public static AuthorizationPolicy UserAdministrator =>
-        ActiveUserPolicyBuilder.AddRequirements(new UserAdministratorRequirement()).Build();
+        ActiveUserPolicyBuilder.AddRequirements(new UserAdminRequirement()).Build();
 }

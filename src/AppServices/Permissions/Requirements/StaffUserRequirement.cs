@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Sbeap.Domain.Identity;
+using Sbeap.AppServices.Permissions.Helpers;
 
 namespace Sbeap.AppServices.Permissions.Requirements;
 
@@ -10,7 +10,7 @@ internal class StaffUserRequirement :
         AuthorizationHandlerContext context,
         StaffUserRequirement requirement)
     {
-        if (context.User.IsInRole(RoleName.Staff) || context.User.IsInRole(RoleName.Admin))
+        if (context.User.IsStaff())
             context.Succeed(requirement);
 
         return Task.FromResult(0);

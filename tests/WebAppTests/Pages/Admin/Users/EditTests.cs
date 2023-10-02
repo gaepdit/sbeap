@@ -29,11 +29,7 @@ public class EditTests
         Active = true,
     };
 
-    private static readonly StaffUpdateDto StaffUpdateTest = new()
-    {
-        Id = Guid.Empty.ToString(),
-        Active = true,
-    };
+    private static readonly StaffUpdateDto StaffUpdateTest = new() { Active = true };
 
     [Test]
     public async Task OnGet_PopulatesThePageModel()
@@ -94,7 +90,7 @@ public class EditTests
             new DisplayMessage(DisplayMessage.AlertContext.Success, "Successfully updated.");
 
         var staffServiceMock = Substitute.For<IStaffService>();
-        staffServiceMock.UpdateAsync(Arg.Any<StaffUpdateDto>()).Returns(IdentityResult.Success);
+        staffServiceMock.UpdateAsync(Arg.Any<string>(), Arg.Any<StaffUpdateDto>()).Returns(IdentityResult.Success);
         var validatorMock = Substitute.For<IValidator<StaffUpdateDto>>();
         validatorMock.ValidateAsync(Arg.Any<StaffUpdateDto>(), Arg.Any<CancellationToken>())
             .Returns(new ValidationResult());
@@ -108,7 +104,7 @@ public class EditTests
             page.ModelState.IsValid.Should().BeTrue();
             result.Should().BeOfType<RedirectToPageResult>();
             ((RedirectToPageResult)result).PageName.Should().Be("Details");
-            ((RedirectToPageResult)result).RouteValues!["id"].Should().Be(Guid.Empty.ToString());
+            ((RedirectToPageResult)result).RouteValues!["id"].Should().Be(Guid.Empty);
             page.TempData.GetDisplayMessage().Should().BeEquivalentTo(expectedMessage);
         }
     }
@@ -117,7 +113,7 @@ public class EditTests
     public async Task OnPost_GivenUpdateFailure_ReturnsBadRequest()
     {
         var staffServiceMock = Substitute.For<IStaffService>();
-        staffServiceMock.UpdateAsync(Arg.Any<StaffUpdateDto>()).Returns(IdentityResult.Failed());
+        staffServiceMock.UpdateAsync(Arg.Any<string>(), Arg.Any<StaffUpdateDto>()).Returns(IdentityResult.Failed());
         var validatorMock = Substitute.For<IValidator<StaffUpdateDto>>();
         validatorMock.ValidateAsync(Arg.Any<StaffUpdateDto>(), Arg.Any<CancellationToken>())
             .Returns(new ValidationResult());

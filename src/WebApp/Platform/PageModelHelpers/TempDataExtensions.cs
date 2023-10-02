@@ -6,12 +6,12 @@ namespace Sbeap.WebApp.Platform.PageModelHelpers;
 
 public static class TempDataExtensions
 {
-    private static void Set<T>(this ITempDataDictionary tempData, string key, T value) where T : class
+    internal static void Set<T>(this ITempDataDictionary tempData, string key, T value) where T : class
     {
         tempData[key] = JsonSerializer.Serialize(value);
     }
 
-    private static T? Get<T>(this ITempDataDictionary tempData, string key) where T : class
+    internal static T? Get<T>(this ITempDataDictionary tempData, string key) where T : class
     {
         tempData.TryGetValue(key, out var o);
         return o is null ? null : JsonSerializer.Deserialize<T>((string)o);

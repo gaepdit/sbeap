@@ -21,9 +21,7 @@ public class EditModel : PageModel
     private readonly IValidator<CustomerUpdateDto> _validator;
     private readonly IAuthorizationService _authorization;
 
-    public EditModel(
-        ICustomerService service,
-        IValidator<CustomerUpdateDto> validator,
+    public EditModel(ICustomerService service, IValidator<CustomerUpdateDto> validator,
         IAuthorizationService authorization)
     {
         _service = service;
@@ -32,8 +30,14 @@ public class EditModel : PageModel
     }
 
     // Properties
+
+    [FromRoute]
+    public Guid Id { get; set; }
+
     [BindProperty]
     public CustomerUpdateDto Item { get; set; } = default!;
+
+    public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
 
     // Select lists
     public SelectList StatesSelectList => new(Data.States);
@@ -46,25 +50,40 @@ public class EditModel : PageModel
         var item = await _service.FindForUpdateAsync(id.Value);
         if (item is null) return NotFound();
 
-        Item = item;
+        await SetPermissionsAsync(item);
 
-        if (!await UserCanEditAsync()) return Forbid();
-        return Page();
+        if (UserCan[CustomerOperation.Edit])
+        {
+            Id = id.Value;
+            Item = item;
+            return Page();
+        }
+
+        if (!UserCan[CustomerOperation.ManageDeletions]) return NotFound();
+
+        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Info, "Cannot edit a deleted customer.");
+        return RedirectToPage("Details", new { id });
     }
 
     public async Task<IActionResult> OnPostAsync()
     {
-        if (!await UserCanEditAsync()) return Forbid();
+        var originalItem = await _service.FindForUpdateAsync(Id);
+        if (originalItem is null) return BadRequest();
+        await SetPermissionsAsync(originalItem);
+        if (!UserCan[CustomerOperation.Edit]) return BadRequest();
 
         await _validator.ApplyValidationAsync(Item, ModelState);
         if (!ModelState.IsValid) return Page();
 
-        await _service.UpdateAsync(Item);
+        await _service.UpdateAsync(Id, Item);
 
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Customer successfully updated.");
-        return RedirectToPage("Details", new { Item.Id });
+        return RedirectToPage("Details", new { Id });
     }
 
-    private async Task<bool> UserCanEditAsync() =>
-        (await _authorization.AuthorizeAsync(User, Item, CustomerOperation.Edit)).Succeeded;
+    private async Task SetPermissionsAsync(CustomerUpdateDto item)
+    {
+        foreach (var operation in CustomerOperation.AllOperations)
+            UserCan[operation] = (await _authorization.AuthorizeAsync(User, item, operation)).Succeeded;
+    }
 }

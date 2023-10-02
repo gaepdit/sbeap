@@ -35,6 +35,24 @@ internal static class ActionItemData
             EnteredOn = DateTimeOffset.Now.AddDays(-2),
             Notes = "Deleted Action Item",
         },
+        new(new Guid("51000000-0000-0000-0000-000000000004"),
+            CaseworkData.GetCases.ElementAt(1),
+            ActionItemTypeData.GetActionItemTypes.ElementAt(3))
+        {
+            ActionDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-2)),
+            EnteredBy = UserData.GetUsers.ElementAt(1),
+            EnteredOn = DateTimeOffset.Now.AddDays(-1),
+            Notes = "Action Item for open case",
+        },
+        new(new Guid("51000000-0000-0000-0000-000000000005"),
+            CaseworkData.GetCases.ElementAt(3),
+            ActionItemTypeData.GetActionItemTypes.ElementAt(3))
+        {
+            ActionDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-2)),
+            EnteredBy = UserData.GetUsers.ElementAt(1),
+            EnteredOn = DateTimeOffset.Now.AddDays(-1),
+            Notes = "Action Item for deleted case",
+        },
     };
 
     private static IEnumerable<ActionItem>? _actionItems;

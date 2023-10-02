@@ -22,10 +22,7 @@ public class EditActionModel : PageModel
     private readonly IActionItemTypeService _actionItemTypes;
     private readonly IAuthorizationService _authorization;
 
-    public EditActionModel(
-        IActionItemService service,
-        ICaseworkService cases,
-        IActionItemTypeService actionItemTypes,
+    public EditActionModel(IActionItemService service, ICaseworkService cases, IActionItemTypeService actionItemTypes,
         IAuthorizationService authorization)
     {
         _service = service;
@@ -35,6 +32,10 @@ public class EditActionModel : PageModel
     }
 
     // Properties
+
+    [FromRoute]
+    public Guid ActionId { get; set; }
+
     [BindProperty]
     public ActionItemUpdateDto ActionItemUpdate { get; set; } = default!;
 
@@ -48,43 +49,41 @@ public class EditActionModel : PageModel
     public SelectList ActionItemTypeSelectList { get; private set; } = default!;
 
     // Methods
-    public async Task<IActionResult> OnGetAsync(Guid? id, Guid? actionId)
+    public async Task<IActionResult> OnGetAsync(Guid? caseId, Guid? actionId)
     {
-        if (id is null || actionId is null) return RedirectToPage("../Index");
+        if (caseId is null || actionId is null) return RedirectToPage("../Index");
 
-        var casework = await _cases.FindBasicInfoAsync(id.Value);
-        if (casework is null) return NotFound();
-        CaseView = casework;
+        var caseView = await _cases.FindBasicInfoAsync(caseId.Value);
+        if (caseView is null) return NotFound();
 
-        var action = await _service.FindForUpdateAsync(actionId.Value);
-        if (action is null) return NotFound();
-        ActionItemUpdate = action;
+        var actionItem = await _service.FindForUpdateAsync(actionId.Value);
+        if (actionItem is null || actionItem.CaseWorkId != caseId) return NotFound();
 
-        foreach (var operation in CaseworkOperation.AllOperations) await SetPermissionAsync(operation);
+        await SetPermissionsAsync(actionItem);
 
         if (UserCan[CaseworkOperation.EditActionItems])
         {
+            CaseView = caseView;
+            ActionId = actionId.Value;
+            ActionItemUpdate = actionItem;
             await PopulateSelectListsAsync();
             return Page();
         }
 
-        if (!UserCan[CaseworkOperation.ManageDeletions]) return NotFound();
-        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Info, "Cannot edit a deleted case or action item.");
-        return RedirectToPage("Details", new { id });
+        if (!UserCan[CaseworkOperation.ManageDeletions] || ActionItemUpdate.IsDeleted)
+            return NotFound();
+
+        TempData.SetDisplayMessage(DisplayMessage.AlertContext.Info, "Cannot edit a deleted case.");
+        return RedirectToPage("Details", new { id = caseId });
     }
 
-    public async Task<IActionResult> OnPostAsync(Guid? id)
+    public async Task<IActionResult> OnPostAsync()
     {
-        if (id is null) return RedirectToPage("../Index");
+        var originalActionItem = await _service.FindForUpdateAsync(ActionId);
+        if (originalActionItem is null) return BadRequest();
 
-        foreach (var operation in CaseworkOperation.AllOperations) await SetPermissionAsync(operation);
-        if (!UserCan[CaseworkOperation.EditActionItems]) return Forbid();
-
-        var casework = await _cases.FindBasicInfoAsync(id.Value);
-        if (casework is null) return BadRequest();
-
-        CaseView = casework;
-        if (CaseView.IsDeleted) return BadRequest();
+        await SetPermissionsAsync(originalActionItem);
+        if (!UserCan[CaseworkOperation.EditActionItems]) return BadRequest();
 
         if (!ModelState.IsValid)
         {
@@ -92,16 +91,19 @@ public class EditActionModel : PageModel
             return Page();
         }
 
-        await _service.UpdateAsync(ActionItemUpdate);
+        await _service.UpdateAsync(ActionId, ActionItemUpdate);
 
-        HighlightId = ActionItemUpdate.Id;
+        HighlightId = ActionId;
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Action Item successfully updated.");
-        return RedirectToPage("Details", new { id });
+        return RedirectToPage("Details", new { id = originalActionItem.CaseWorkId });
     }
 
     private async Task PopulateSelectListsAsync() =>
         ActionItemTypeSelectList = (await _actionItemTypes.GetListItemsAsync()).ToSelectList();
 
-    private async Task SetPermissionAsync(IAuthorizationRequirement operation) =>
-        UserCan[operation] = (await _authorization.AuthorizeAsync(User, ActionItemUpdate, operation)).Succeeded;
+    private async Task SetPermissionsAsync(ActionItemUpdateDto item)
+    {
+        foreach (var operation in CaseworkOperation.AllOperations)
+            UserCan[operation] = (await _authorization.AuthorizeAsync(User, item, operation)).Succeeded;
+    }
 }

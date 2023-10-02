@@ -1,4 +1,5 @@
-﻿using FluentValidation.TestHelper;
+﻿using FluentValidation;
+using FluentValidation.TestHelper;
 using Sbeap.AppServices.ActionItemTypes;
 using Sbeap.AppServices.ActionItemTypes.Validators;
 using Sbeap.Domain.Entities.ActionItemTypes;
@@ -8,15 +9,17 @@ namespace AppServicesTests.ActionItemTypes;
 
 internal class UpdateValidator
 {
+    private static ValidationContext<ActionItemTypeUpdateDto> GetContext(ActionItemTypeUpdateDto model) =>
+        new(model) { RootContextData = { ["Id"] = Guid.Empty } };
+
     [Test]
     public async Task ValidDto_ReturnsAsValid()
     {
         var repoMock = Substitute.For<IActionItemTypeRepository>();
         repoMock.FindByNameAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns((ActionItemType?)null);
-        var model = new ActionItemTypeUpdateDto(Id: Guid.Empty, Name: TextData.ValidName, Active: true);
+        var model = new ActionItemTypeUpdateDto(Name: TextData.ValidName, Active: true);
 
-        var validator = new ActionItemTypeUpdateValidator(repoMock);
-        var result = await validator.TestValidateAsync(model);
+        var result = await new ActionItemTypeUpdateValidator(repoMock).TestValidateAsync(GetContext(model));
 
         result.ShouldNotHaveAnyValidationErrors();
     }
@@ -27,10 +30,9 @@ internal class UpdateValidator
         var repoMock = Substitute.For<IActionItemTypeRepository>();
         repoMock.FindByNameAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
             .Returns(new ActionItemType(Guid.NewGuid(), TextData.ValidName));
-        var model = new ActionItemTypeUpdateDto(Id: Guid.Empty, Name: TextData.ValidName, Active: true);
+        var model = new ActionItemTypeUpdateDto(Name: TextData.ValidName, Active: true);
 
-        var validator = new ActionItemTypeUpdateValidator(repoMock);
-        var result = await validator.TestValidateAsync(model);
+        var result = await new ActionItemTypeUpdateValidator(repoMock).TestValidateAsync(GetContext(model));
 
         result.ShouldHaveValidationErrorFor(e => e.Name)
             .WithErrorMessage("The name entered already exists.");
@@ -42,10 +44,9 @@ internal class UpdateValidator
         var repoMock = Substitute.For<IActionItemTypeRepository>();
         repoMock.FindByNameAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
             .Returns(new ActionItemType(Guid.Empty, TextData.ValidName));
-        var model = new ActionItemTypeUpdateDto(Id: Guid.Empty, Name: TextData.ValidName, Active: true);
+        var model = new ActionItemTypeUpdateDto(Name: TextData.ValidName, Active: true);
 
-        var validator = new ActionItemTypeUpdateValidator(repoMock);
-        var result = await validator.TestValidateAsync(model);
+        var result = await new ActionItemTypeUpdateValidator(repoMock).TestValidateAsync(GetContext(model));
 
         result.ShouldNotHaveAnyValidationErrors();
     }
@@ -55,10 +56,9 @@ internal class UpdateValidator
     {
         var repoMock = Substitute.For<IActionItemTypeRepository>();
         repoMock.FindByNameAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns((ActionItemType?)null);
-        var model = new ActionItemTypeUpdateDto(Id: Guid.Empty, Name: TextData.ShortName, Active: true);
+        var model = new ActionItemTypeUpdateDto(Name: TextData.ShortName, Active: true);
 
-        var validator = new ActionItemTypeUpdateValidator(repoMock);
-        var result = await validator.TestValidateAsync(model);
+        var result = await new ActionItemTypeUpdateValidator(repoMock).TestValidateAsync(GetContext(model));
 
         result.ShouldHaveValidationErrorFor(e => e.Name);
     }

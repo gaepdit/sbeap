@@ -9,7 +9,7 @@ namespace Sbeap.AppServices.Customers.Dto;
 public record ContactViewDto
 {
     public Guid Id { get; init; }
-    public Guid CustomerId { get; set; }
+    public Guid CustomerId { get; init; }
 
     [UsedImplicitly]
     public string Honorific { get; init; } = string.Empty;

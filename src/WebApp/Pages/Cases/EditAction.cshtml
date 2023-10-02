@@ -1,4 +1,4 @@
-﻿@page "~/Cases/Details/{id:guid?}/EditAction/{actionId:guid?}"
+﻿@page "~/Cases/Details/{caseId:guid?}/EditAction/{actionId:guid?}"
 @using Sbeap.WebApp.Pages.Shared.DisplayTemplates
 @using Sbeap.WebApp.Pages.Shared.EditorTemplates
 @model EditActionModel
@@ -21,7 +21,7 @@
 </div>
 
 <div class="p-3 border rounded-3 bg-light-subtle">
-    <form method="post" asp-fragment="@Model.ActionItemUpdate.Id">
+    <form method="post" asp-fragment="@Model.ActionId">
         <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
 
         <div class="row mt-2">
@@ -43,7 +43,6 @@
             <a asp-page="Details" asp-route-id="@Model.CaseView.Id.ToString()" asp-fragment="actions" class="btn btn-outline-secondary">Cancel</a>
         </div>
         <div class="text-danger-emphasis mt-3">* denotes a required field</div>
-        <input asp-for="ActionItemUpdate.Id" type="hidden">
     </form>
 </div>
 

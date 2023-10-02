@@ -7,7 +7,6 @@ using Sbeap.AppServices.Customers;
 using Sbeap.AppServices.Customers.Dto;
 using Sbeap.AppServices.Customers.Permissions;
 using Sbeap.AppServices.Permissions;
-using Sbeap.AppServices.Staff;
 using Sbeap.WebApp.Models;
 using Sbeap.WebApp.Platform.PageModelHelpers;
 
@@ -19,18 +18,12 @@ public class DetailsModel : PageModel
     // Constructor
     private readonly ICustomerService _customers;
     private readonly ICaseworkService _cases;
-    private readonly IStaffService _staff;
     private readonly IAuthorizationService _authorization;
 
-    public DetailsModel(
-        ICustomerService customers,
-        ICaseworkService cases,
-        IStaffService staff,
-        IAuthorizationService authorization)
+    public DetailsModel(ICustomerService customers, ICaseworkService cases, IAuthorizationService authorization)
     {
         _customers = customers;
         _cases = cases;
-        _staff = staff;
         _authorization = authorization;
     }
 
@@ -47,17 +40,15 @@ public class DetailsModel : PageModel
     // Methods
     public async Task<IActionResult> OnGetAsync(Guid? id)
     {
-        if (await _staff.GetCurrentUserAsync() is not { Active: true }) return Forbid();
-
         if (id is null) return RedirectToPage("../Index");
         var item = await _customers.FindAsync(id.Value, await ShowDeletedCasesAsync());
         if (item is null) return NotFound();
 
+        await SetPermissionsAsync(item);
+        if (item.IsDeleted && !UserCan[CustomerOperation.ManageDeletions])
+            return NotFound();
+
         Item = item;
-
-        foreach (var operation in CustomerOperation.AllOperations) await SetPermissionAsync(operation);
-        if (Item.IsDeleted && !UserCan[CustomerOperation.ManageDeletions]) return Forbid();
-
         NewCase = new CaseworkCreateDto(id.Value);
         return Page();
     }
@@ -70,21 +61,27 @@ public class DetailsModel : PageModel
         if (id is null) return RedirectToPage("../Index");
         var item = await _customers.FindAsync(id.Value);
         if (item is null) return NotFound();
+        if (item.IsDeleted) return BadRequest();
 
-        Item = item;
-
-        foreach (var operation in CustomerOperation.AllOperations) await SetPermissionAsync(operation);
+        await SetPermissionsAsync(item);
         if (!UserCan[CustomerOperation.Edit]) return Forbid();
 
-        if (!ModelState.IsValid) return Page();
+        if (!ModelState.IsValid)
+        {
+            Item = item;
+            return Page();
+        }
 
         var caseId = await _cases.CreateAsync(NewCase);
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "New Case successfully added.");
         return RedirectToPage("../Cases/Details", new { id = caseId });
     }
 
-    private async Task SetPermissionAsync(IAuthorizationRequirement operation) =>
-        UserCan[operation] = (await _authorization.AuthorizeAsync(User, Item, operation)).Succeeded;
+    private async Task SetPermissionsAsync(CustomerViewDto item)
+    {
+        foreach (var operation in CustomerOperation.AllOperations)
+            UserCan[operation] = (await _authorization.AuthorizeAsync(User, item, operation)).Succeeded;
+    }
 
     private async Task<bool> ShowDeletedCasesAsync() =>
         (await _authorization.AuthorizeAsync(User, nameof(Policies.AdminUser))).Succeeded;

@@ -30,6 +30,8 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
 
         // Some properties should always be included.
         // See https://learn.microsoft.com/en-us/ef/core/querying/related-data/eager#model-configuration-for-auto-including-navigations
+        builder.Entity<ActionItem>().Navigation(item => item.ActionItemType).AutoInclude();
+        builder.Entity<ActionItem>().Navigation(item => item.Casework).AutoInclude();
         builder.Entity<ApplicationUser>().Navigation(user => user.Office).AutoInclude();
         builder.Entity<Casework>().Navigation(casework => casework.Customer).AutoInclude();
         builder.Entity<Contact>().Navigation(contact => contact.Customer).AutoInclude();

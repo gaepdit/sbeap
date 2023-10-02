@@ -13,8 +13,6 @@ public record ContactUpdateDto
 
     // Entity update properties
 
-    public Guid Id { get; [UsedImplicitly] init; }
-
     public string? Honorific { get; init; }
 
     [Display(Name = "First name")]

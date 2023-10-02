@@ -25,6 +25,10 @@ public class EditModel : PageModel
     }
 
     // Properties
+
+    [FromRoute]
+    public Guid Id { get; set; }
+
     [BindProperty]
     public OfficeUpdateDto Item { get; set; } = default!;
 
@@ -43,6 +47,7 @@ public class EditModel : PageModel
         var item = await _service.FindForUpdateAsync(id.Value);
         if (item is null) return NotFound();
 
+        Id = id.Value;
         Item = item;
         OriginalName = Item.Name;
         return Page();
@@ -50,12 +55,12 @@ public class EditModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        await _validator.ApplyValidationAsync(Item, ModelState);
+        await _validator.ApplyValidationAsync(Item, ModelState, Id);
         if (!ModelState.IsValid) return Page();
 
-        await _service.UpdateAsync(Item);
+        await _service.UpdateAsync(Id, Item);
 
-        HighlightId = Item.Id;
+        HighlightId = Id;
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, $"“{Item.Name}” successfully updated.");
         return RedirectToPage("Index");
     }

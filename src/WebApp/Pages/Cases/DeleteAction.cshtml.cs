@@ -17,10 +17,7 @@ public class DeleteActionModel : PageModel
     private readonly ICaseworkService _cases;
     private readonly IAuthorizationService _authorization;
 
-    public DeleteActionModel(
-        IActionItemService service,
-        ICaseworkService cases,
-        IAuthorizationService authorization)
+    public DeleteActionModel(IActionItemService service, ICaseworkService cases, IAuthorizationService authorization)
     {
         _service = service;
         _cases = cases;
@@ -28,6 +25,7 @@ public class DeleteActionModel : PageModel
     }
 
     // Properties
+
     [BindProperty]
     public Guid ActionItemId { get; set; }
 
@@ -35,39 +33,36 @@ public class DeleteActionModel : PageModel
     public CaseworkSearchResultDto CaseView { get; private set; } = default!;
 
     // Methods
-    public async Task<IActionResult> OnGetAsync(Guid? id, Guid? actionId)
+    public async Task<IActionResult> OnGetAsync(Guid? caseId, Guid? actionId)
     {
-        if (id is null || actionId is null) return RedirectToPage("Index");
+        if (caseId is null || actionId is null) return RedirectToPage("Index");
+        if (!await UserCanManageDeletionsAsync()) return NotFound();
 
-        var casework = await _cases.FindBasicInfoAsync(id.Value);
-        if (casework is null) return NotFound();
-        CaseView = casework;
-
-        if (CaseView.IsDeleted || !await UserCanManageDeletionsAsync())
-            return NotFound();
+        var caseView = await _cases.FindBasicInfoAsync(caseId.Value);
+        if (caseView is null || caseView.IsDeleted) return NotFound();
 
         var actionItem = await _service.FindAsync(actionId.Value);
-        if (actionItem is null) return NotFound();
-        ActionItemView = actionItem;
+        if (actionItem is null || actionItem.CaseWorkId != caseId) return NotFound();
 
+        CaseView = caseView;
+        ActionItemView = actionItem;
         ActionItemId = actionId.Value;
         return Page();
     }
 
-    public async Task<IActionResult> OnPostAsync(Guid? id)
+    public async Task<IActionResult> OnPostAsync()
     {
-        if (id is null) return RedirectToPage("../Index");
+        if (!await UserCanManageDeletionsAsync() || !ModelState.IsValid) return BadRequest();
 
-        var casework = await _cases.FindBasicInfoAsync(id.Value);
-        if (casework is null) return BadRequest();
-        CaseView = casework;
+        var originalActionItem = await _service.FindAsync(ActionItemId);
+        if (originalActionItem is null) return BadRequest();
 
-        if (CaseView.IsDeleted || !await UserCanManageDeletionsAsync() || !ModelState.IsValid)
-            return BadRequest();
+        var caseView = await _cases.FindBasicInfoAsync(originalActionItem.CaseWorkId);
+        if (caseView is null || caseView.IsDeleted) return BadRequest();
 
         await _service.DeleteAsync(ActionItemId);
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Action Item successfully deleted.");
-        return RedirectToPage("Details", new { id });
+        return RedirectToPage("Details", new { caseView.Id });
     }
 
     private async Task<bool> UserCanManageDeletionsAsync() =>

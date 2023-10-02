@@ -8,10 +8,9 @@ public record ActionItemUpdateDto
 
     public bool IsDeleted { get; [UsedImplicitly] init; }
     public bool CaseworkIsDeleted { get; [UsedImplicitly] init; }
+    public Guid CaseWorkId { get; [UsedImplicitly] init; }
 
     // Entity update properties
-
-    public Guid Id { get; [UsedImplicitly] init; }
 
     [Required]
     [Display(Name = "Action Type")]

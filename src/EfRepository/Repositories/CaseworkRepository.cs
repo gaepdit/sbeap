@@ -14,7 +14,6 @@ public sealed class CaseworkRepository : BaseRepository<Casework, Guid, AppDbCon
                 .OrderByDescending(i => i.ActionDate)
                 .ThenByDescending(i => i.EnteredOn)
             )
-            .Include(e => e.ActionItems).ThenInclude(e => e.ActionItemType)
             .Include(e => e.ActionItems).ThenInclude(e => e.EnteredBy)
             .Include(e => e.ReferralAgency)
             .SingleOrDefaultAsync(e => e.Id.Equals(id), token);

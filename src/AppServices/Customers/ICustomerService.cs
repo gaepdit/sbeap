@@ -16,7 +16,7 @@ public interface ICustomerService : IDisposable
     // Customer write
     Task<Guid> CreateAsync(CustomerCreateDto resource, CancellationToken token = default);
     Task<CustomerUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default);
-    Task UpdateAsync(CustomerUpdateDto resource, CancellationToken token = default);
+    Task UpdateAsync(Guid id, CustomerUpdateDto resource, CancellationToken token = default);
     Task DeleteAsync(Guid id, string? deleteComments, CancellationToken token = default);
     Task RestoreAsync(Guid id, CancellationToken token = default);
 
@@ -24,10 +24,12 @@ public interface ICustomerService : IDisposable
     Task<Guid> AddContactAsync(ContactCreateDto resource, CancellationToken token = default);
     Task<ContactViewDto?> FindContactAsync(Guid contactId, CancellationToken token = default);
     Task<ContactUpdateDto?> FindContactForUpdateAsync(Guid contactId, CancellationToken token = default);
-    Task UpdateContactAsync(ContactUpdateDto resource, CancellationToken token = default);
+    Task UpdateContactAsync(Guid contactId, ContactUpdateDto resource, CancellationToken token = default);
     Task DeleteContactAsync(Guid contactId, CancellationToken token = default);
 
     // Contact phone numbers
-    Task<PhoneNumber> AddPhoneNumberAsync(Guid contactId, PhoneNumberCreate resource, CancellationToken token = default);
+    Task<PhoneNumber> AddPhoneNumberAsync(Guid contactId, PhoneNumberCreate resource,
+        CancellationToken token = default);
+
     Task DeletePhoneNumberAsync(Guid contactId, int phoneNumberId, CancellationToken token = default);
 }
