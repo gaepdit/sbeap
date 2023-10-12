@@ -9,13 +9,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="LigerShark.WebOptimizer.Core" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
-        <PackageReference Include="Microsoft.Identity.Web" />
-        <PackageReference Include="Microsoft.Web.LibraryManager.Build" />
-        <PackageReference Include="Mindscape.Raygun4Net.AspNetCore" />
-        <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" />
+        <PackageReference Include="LigerShark.WebOptimizer.Core"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer"/>
+        <PackageReference Include="Microsoft.Identity.Web"/>
+        <PackageReference Include="Microsoft.Web.LibraryManager.Build"/>
+        <PackageReference Include="Mindscape.Raygun4Net.AspNetCore"/>
+        <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders"/>
         <PackageReference Include="SonarAnalyzer.CSharp">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
@@ -23,32 +23,36 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\LocalRepository\LocalRepository.csproj" />
-        <ProjectReference Include="..\EfRepository\EfRepository.csproj" />
+        <ProjectReference Include="..\LocalRepository\LocalRepository.csproj"/>
+        <ProjectReference Include="..\EfRepository\EfRepository.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <Content Update="appsettings.Development.json" CopyToPublishDirectory="Never">
+        <Content Update="appsettings.Development.json">
             <DependentUpon>appsettings.json</DependentUpon>
+            <CopyToPublishDirectory>Never</CopyToPublishDirectory>
         </Content>
+        <Content Update="libman.json">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+            <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+            <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        </Content>
+        <None Update="Properties\PublishProfiles\*.pubxml">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+            <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+            <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        </None>
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="Properties\PublishProfiles\Development-Server.pubxml">
-        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-        <CopyToPublishDirectory>Never</CopyToPublishDirectory>
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      </None>
-      <None Update="Properties\PublishProfiles\Staging-Server.pubxml">
-        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-        <CopyToPublishDirectory>Never</CopyToPublishDirectory>
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      </None>
-      <None Update="Properties\PublishProfiles\Production-Server.pubxml">
-        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-        <CopyToPublishDirectory>Never</CopyToPublishDirectory>
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      </None>
+        <MsDeploySkipRules Include="SkipAppSettings">
+            <ObjectName>filePath</ObjectName>
+            <AbsolutePath>appsettings.*.json</AbsolutePath>
+        </MsDeploySkipRules>
+        <MsDeploySkipRules Include="SkipWebConfig">
+            <ObjectName>filePath</ObjectName>
+            <AbsolutePath>web.config</AbsolutePath>
+        </MsDeploySkipRules>
     </ItemGroup>
 
 </Project>
