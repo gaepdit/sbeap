@@ -88,7 +88,7 @@
             </div>
         }
 
-        @if (Model.ContactUpdate.PhoneNumbers.Count != 0 && !Model.ContactUpdate.PhoneNumbers.All(e => string.IsNullOrWhiteSpace(e.Number)))
+        @if (Model.ContactUpdate.PhoneNumbers.Count != 0 && !Model.ContactUpdate.PhoneNumbers.TrueForAll(e => string.IsNullOrWhiteSpace(e.Number)))
         {
             foreach (var number in Model.ContactUpdate.PhoneNumbers)
             {
