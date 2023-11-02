@@ -32,7 +32,7 @@ public sealed class ActionItemTypeService : IActionItemTypeService
 
     public async Task<IReadOnlyList<ListItem>> GetListItemsAsync(CancellationToken token = default) =>
         (await _repository.GetListAsync(e => e.Active, token)).OrderBy(e => e.Name)
-        .Select(e => new ListItem(e.Id, e.NameWithActivity)).ToList();
+        .Select(e => new ListItem(e.Id, e.Name)).ToList();
 
     public async Task<Guid> CreateAsync(ActionItemTypeCreateDto resource, CancellationToken token = default)
     {

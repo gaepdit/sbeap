@@ -1,6 +1,6 @@
 /* Branding colors
 -------------------------------------------------- */
-/* Change the base-hue variable to set all branding colors. */
+
 
 :root {
     --base-hue: 275deg;
@@ -216,6 +216,7 @@ a[target].no-external-link::after {
     box-shadow: inset 0 -3px 7px hsla(47, 79%, 28%, 0.37);
     padding: 1px 0;
 }
+
 .banner-test-site ~ header {
     padding-top: 26px;
 }
@@ -236,27 +237,6 @@ a[target].no-external-link::after {
 -------------------------------------------------- */
 details.card:not([open]) summary.card-header {
     border-bottom: none;
-}
-
-/* Print styles
--------------------------------------------------- */
-@media print {
-    header.sticky-top {
-        position: static;
-    }
-
-    .banner-test-site {
-        position: static;
-        text-shadow: none;
-        box-shadow: none;
-        border: 1px solid;
-        margin-bottom: 1rem;
-        background: hsl(45, 100%, 81%);
-    }
-
-    .banner-test-site::after {
-        content: "— Not for public distribution";
-    }
 }
 
 /* Bootstrap Icons
@@ -281,4 +261,25 @@ details.card:not([open]) summary.card-header {
 
 .validation-summary-errors ul {
     margin-bottom: 0;
+}
+
+/* Print styles
+-------------------------------------------------- */
+@media print {
+    header.sticky-top {
+        position: static;
+    }
+
+    .banner-test-site {
+        position: static;
+        text-shadow: none;
+        box-shadow: none;
+        border: 1px solid;
+        margin-bottom: 1rem;
+        background: hsl(45, 100%, 81%);
+    }
+
+    .banner-test-site::after {
+        content: "— Not for public distribution";
+    }
 }
