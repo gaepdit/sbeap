@@ -30,10 +30,11 @@ public sealed class AgencyService : IAgencyService
         return _mapper.Map<IReadOnlyList<AgencyViewDto>>(list);
     }
 
-    public async Task<IReadOnlyList<ListItem>> GetListItemsAsync(
-        bool activeOnly = true, CancellationToken token = default) =>
-        (await _repository.GetListAsync(e => !activeOnly || e.Active, token)).OrderBy(e => e.Name)
-        .Select(e => new ListItem(e.Id, e.Name)).ToList();
+    public async Task<IReadOnlyList<ListItem>> GetListItemsAsync(bool includeInactive = false,
+        CancellationToken token = default) =>
+        (await _repository.GetListAsync(e => includeInactive || e.Active, token))
+        .OrderBy(e => e.Name)
+        .Select(e => new ListItem(e.Id, e.NameWithActivity)).ToList();
 
     public async Task<Guid> CreateAsync(AgencyCreateDto resource, CancellationToken token = default)
     {
