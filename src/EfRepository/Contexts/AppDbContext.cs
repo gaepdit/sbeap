@@ -1,5 +1,7 @@
+using GaEpd.AppLibrary.Domain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Sbeap.Domain;
 using Sbeap.Domain.Entities.ActionItems;
 using Sbeap.Domain.Entities.ActionItemTypes;
 using Sbeap.Domain.Entities.Agencies;
@@ -40,6 +42,16 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
         // See https://stackoverflow.com/a/55260541/212978
         builder.Entity<Contact>().OwnsMany(contact => contact.PhoneNumbers,
             navigationBuilder => navigationBuilder.Property(phoneNumber => phoneNumber.Type).HasConversion<string>());
+
+        // Set max length of Name property for StandardNamedEntity
+        foreach (var entityType in builder.Model.GetEntityTypes()
+                     .Where(type => typeof(StandardNamedEntity).IsAssignableFrom(type.ClrType))
+                     .Select(type => type.ClrType))
+        {
+            builder.Entity(entityType).Property<string>(nameof(StandardNamedEntity.Name))
+                .HasMaxLength(AppConstants.MaximumNameLength);
+        }
+
 
         // ## The following configurations are Sqlite only. ##
         if (Database.ProviderName != "Microsoft.EntityFrameworkCore.Sqlite") return;
