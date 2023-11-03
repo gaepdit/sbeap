@@ -7,6 +7,7 @@ public class SicCode : IEntity<string>
     [Key, MaxLength(4)]
     public string Id { get; set; } = null!;
 
+    [MaxLength(60)]
     public string Description { get; set; } = null!;
     public bool Active { get; set; } = true;
 
