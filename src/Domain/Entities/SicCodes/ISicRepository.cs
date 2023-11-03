@@ -1,7 +1,15 @@
-namespace Sbeap.Domain.Entities.SicCodes;
+﻿namespace Sbeap.Domain.Entities.SicCodes;
 
 public interface ISicRepository : IDisposable, IAsyncDisposable
 {
+    /// <summary>
+    /// Determines whether the <see cref="SicCode"/> with the given <paramref name="id"/> exists.
+    /// </summary>
+    /// <param name="id">The Id of the SicCode.</param>
+    /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
+    /// <returns>True if the SicCode exists; otherwise, false.</returns>
+    Task<bool> ExistsAsync(string id, CancellationToken token = default);
+
     /// <summary>
     /// Returns the <see cref="SicCode"/> with the given <paramref name="id"/>.
     /// </summary>

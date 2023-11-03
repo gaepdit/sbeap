@@ -8,6 +8,9 @@ public sealed class SicRepository : ISicRepository
     private readonly AppDbContext _context;
     public SicRepository(AppDbContext context) => _context = context;
 
+    public Task<bool> ExistsAsync(string id, CancellationToken token = default) =>
+        _context.Set<SicCode>().AnyAsync(e => e.Id == id, token);
+
     public async Task<SicCode> GetAsync(string id, CancellationToken token = default) =>
         await _context.Set<SicCode>().SingleOrDefaultAsync(sic => sic.Id.Equals(id), token)
         ?? throw new EntityNotFoundException(typeof(SicCode), id);
