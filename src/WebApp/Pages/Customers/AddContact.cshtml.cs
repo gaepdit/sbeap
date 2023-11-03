@@ -40,7 +40,7 @@ public class AddContactModel : PageModel
     public CustomerSearchResultDto Customer { get; private set; } = default!;
 
     // Select lists
-    public SelectList StatesSelectList => new(Data.States);
+    public SelectList StatesSelectList => new(StateData.States);
 
     // Methods
     public async Task<IActionResult> OnGetAsync(Guid? id)

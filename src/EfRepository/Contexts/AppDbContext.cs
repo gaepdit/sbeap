@@ -9,6 +9,7 @@ using Sbeap.Domain.Entities.Cases;
 using Sbeap.Domain.Entities.Contacts;
 using Sbeap.Domain.Entities.Customers;
 using Sbeap.Domain.Entities.Offices;
+using Sbeap.Domain.Entities.SicCodes;
 using Sbeap.Domain.Identity;
 
 namespace Sbeap.EfRepository.Contexts;
@@ -25,6 +26,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Contact> Contacts => Set<Contact>();
     public DbSet<Customer> Customers => Set<Customer>();
     public DbSet<Office> Offices => Set<Office>();
+    public DbSet<SicCode> SicCodes => Set<SicCode>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -37,6 +39,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
         builder.Entity<ApplicationUser>().Navigation(user => user.Office).AutoInclude();
         builder.Entity<Casework>().Navigation(casework => casework.Customer).AutoInclude();
         builder.Entity<Contact>().Navigation(contact => contact.Customer).AutoInclude();
+        builder.Entity<Customer>().Navigation(customer => customer.SicCode).AutoInclude();
 
         // Let's save enums in the database as strings.
         // See https://stackoverflow.com/a/55260541/212978

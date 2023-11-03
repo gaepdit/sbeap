@@ -5,6 +5,7 @@ using Sbeap.AppServices.Customers.Dto;
 using Sbeap.AppServices.UserServices;
 using Sbeap.Domain.Entities.Contacts;
 using Sbeap.Domain.Entities.Customers;
+using Sbeap.Domain.Entities.SicCodes;
 using Sbeap.TestData;
 using System.Collections.ObjectModel;
 using System.Linq.Expressions;
@@ -30,8 +31,8 @@ public class Search
             .Returns(count);
 
         var appService = new CustomerService(AppServicesTestsSetup.Mapper!, Substitute.For<IUserService>(),
-            customerRepoMock, Substitute.For<ICustomerManager>(),
-            Substitute.For<IContactRepository>());
+            customerRepoMock, Substitute.For<ICustomerManager>(), Substitute.For<IContactRepository>(),
+            Substitute.For<ISicRepository>());
 
         // Act
         var result = await appService.SearchAsync(DefaultCustomerSearchDto, paging, CancellationToken.None);
@@ -59,8 +60,8 @@ public class Search
             .Returns(count);
 
         var appService = new CustomerService(AppServicesTestsSetup.Mapper!, Substitute.For<IUserService>(),
-            customerRepoMock, Substitute.For<ICustomerManager>(),
-            Substitute.For<IContactRepository>());
+            customerRepoMock, Substitute.For<ICustomerManager>(), Substitute.For<IContactRepository>(),
+            Substitute.For<ISicRepository>());
 
         // Act
         var result = await appService.SearchAsync(DefaultCustomerSearchDto, paging, CancellationToken.None);

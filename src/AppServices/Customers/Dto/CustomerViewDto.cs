@@ -9,8 +9,12 @@ public record CustomerViewDto
 {
     public Guid Id { get; init; }
     public string Name { get; init; } = string.Empty;
-    public string Description { get; init; } = string.Empty;
     public string? County { get; init; }
+    public string Description { get; init; } = string.Empty;
+
+    [Display(Name = "SIC Code")]
+    public string? SicCodeDisplay { get; init; }
+
     public string? Website { get; init; }
 
     [Display(Name = "Site Location")]

@@ -23,14 +23,17 @@
                     @Html.EditorFor(e => e.Item.County, EditorTemplate.SelectOptional, new { Items = Model.CountiesSelectList })
                 </div>
                 <div class="col-md-12 col-lg-4 mb-3">
-                    <div class="form-floating mb-3">
-                        @Html.EditorFor(e => e.Item.Website, EditorTemplate.Input)
-                    </div>
+                    @Html.EditorFor(e => e.Item.Website, EditorTemplate.Input)
                 </div>
             </div>
 
-            <div class="form-floating mb-3">
-                @Html.EditorFor(e => e.Item.Description, EditorTemplate.Textarea, new { Rows = 3 })
+            <div class="row">
+                <div class="col-lg-8 mb-3">
+                    @Html.EditorFor(e => e.Item.Description, EditorTemplate.Textarea, new { Rows = 3 })
+                </div>
+                <div class="col-lg-4 mb-3">
+                    @Html.EditorFor(e => e.Item.SicCodeId, EditorTemplate.SelectOptional, new { Items = Model.SicSelectList })
+                </div>
             </div>
         </div>
 

@@ -13,7 +13,7 @@ public class EditPostTests
     private readonly CaseworkUpdateDto _dto = new();
 
     [SetUp]
-    public void Setup()
+    public void SetUp()
     {
         _agencyService = Substitute.For<IAgencyService>();
         _agencyService.GetListItemsAsync().Returns(new List<ListItem>());
@@ -21,7 +21,7 @@ public class EditPostTests
     }
 
     [TearDown]
-    public void Teardown()
+    public void TearDown()
     {
         _agencyService.Dispose();
     }

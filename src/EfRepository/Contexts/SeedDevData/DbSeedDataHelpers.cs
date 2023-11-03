@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Sbeap.Domain.Data;
 using Sbeap.Domain.Identity;
 using Sbeap.TestData;
 using Sbeap.TestData.Identity;
@@ -9,6 +10,7 @@ public static class DbSeedDataHelpers
 {
     public static void SeedAllData(AppDbContext context)
     {
+        SeedSicData(context);
         SeedIdentityData(context);
         SeedActionItemTypeData(context);
         SeedAgencyData(context);
@@ -64,6 +66,13 @@ public static class DbSeedDataHelpers
     {
         if (context.Offices.Any()) return;
         context.Offices.AddRange(OfficeData.GetOffices);
+        context.SaveChanges();
+    }
+
+    private static void SeedSicData(AppDbContext context)
+    {
+        if (context.SicCodes.Any()) return;
+        context.SicCodes.AddRange(SicCodeData.GetSicCodes);
         context.SaveChanges();
     }
 

@@ -7,12 +7,6 @@ namespace LocalRepositoryTests;
 
 public static class RepositoryHelper
 {
-    public static LocalAgencyRepository GetAgencyRepository()
-    {
-        ClearAllStaticData();
-        return new LocalAgencyRepository();
-    }
-
     public static LocalCaseworkRepository GetCaseworkRepository()
     {
         ClearAllStaticData();
@@ -36,12 +30,6 @@ public static class RepositoryHelper
     {
         ClearAllStaticData();
         return new LocalUserStore();
-    }
-
-    public static LocalActionItemTypeRepository GetActionItemTypeRepository()
-    {
-        ClearAllStaticData();
-        return new LocalActionItemTypeRepository();
     }
 
     private static void ClearAllStaticData()
