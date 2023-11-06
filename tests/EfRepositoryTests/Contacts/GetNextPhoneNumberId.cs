@@ -10,7 +10,7 @@ public class GetNextPhoneNumberId
     public void SetUp() => _repository = RepositoryHelper.CreateRepositoryHelper().GetContactRepository();
 
     [TearDown]
-    public void TearDown() => _repository.Dispose();
+    public async Task TearDown() => await _repository.DisposeAsync();
 
     [Test]
     public void GivenEF_ReturnsZero()
