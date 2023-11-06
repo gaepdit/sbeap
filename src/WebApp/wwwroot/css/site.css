@@ -1,12 +1,16 @@
 /* Branding colors
 -------------------------------------------------- */
 
-
 :root {
     --base-hue: 275deg;
 }
 
+.table > :not(caption) > .bg-secondary-subtle > * {
+    background-color: var(--bs-secondary-bg-subtle) !important;
+}
+
 /* Light mode theme colors */
+
 .text-bg-brand {
     background-color: hsl(var(--base-hue), 73%, 23%);
     color: hsl(var(--base-hue), 0%, 100%);
@@ -64,6 +68,11 @@
 }
 
 /* Dark mode theme colors */
+
+[data-bs-theme="dark"] {
+    --bs-body-bg: #25292d;
+}
+
 [data-bs-theme="dark"] .text-bg-brand {
     background-color: hsl(var(--base-hue), 42%, 23%);
     color: hsl(var(--base-hue), 0%, 100%);

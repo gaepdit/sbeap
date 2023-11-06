@@ -97,7 +97,7 @@
             <tbody class="table-group-divider">
             @foreach (var item in Model.SearchResults.Items)
             {
-                <tr class="@(item.IsDeleted ? "table-secondary" : "")">
+                <tr class="@(item.IsDeleted ? "bg-secondary-subtle" : "")">
                     <th scope="row" class="fw-normal">
                         @Html.DisplayFor(m => item.Name, DisplayTemplate.StringOrNone)
                         @if (item.IsDeleted)

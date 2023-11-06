@@ -94,7 +94,7 @@ else
         <tbody class="table-group-divider">
         @foreach (var item in Model.Item.Cases)
         {
-            <tr class="@(item.IsDeleted ? "table-secondary" : "")">
+            <tr class="@(item.IsDeleted ? "bg-secondary-subtle" : "")">
                 <th scope="row" class="fw-normal">
                     @if (item.IsDeleted)
                     {
