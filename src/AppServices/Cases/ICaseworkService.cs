@@ -3,7 +3,7 @@ using Sbeap.AppServices.Cases.Dto;
 
 namespace Sbeap.AppServices.Cases;
 
-public interface ICaseworkService : IDisposable
+public interface ICaseworkService : IDisposable, IAsyncDisposable
 {
     // Casework read
     Task<IPaginatedResult<CaseworkSearchResultDto>> SearchAsync(

@@ -2,7 +2,7 @@
 
 namespace Sbeap.AppServices.Offices;
 
-public interface IOfficeService : IDisposable
+public interface IOfficeService : IDisposable, IAsyncDisposable
 {
     Task<IReadOnlyList<OfficeViewDto>> GetListAsync(CancellationToken token = default);
     Task<IReadOnlyList<ListItem>> GetActiveListItemsAsync(CancellationToken token = default);

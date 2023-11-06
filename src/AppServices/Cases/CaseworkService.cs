@@ -18,13 +18,8 @@ public sealed class CaseworkService : ICaseworkService
     private readonly ICustomerRepository _customers;
     private readonly IAgencyRepository _agencies;
 
-    public CaseworkService(
-        IMapper mapper,
-        IUserService users,
-        ICaseworkRepository cases,
-        ICaseworkManager manager,
-        ICustomerRepository customers,
-        IAgencyRepository agencies)
+    public CaseworkService(IMapper mapper, IUserService users, ICaseworkRepository cases, ICaseworkManager manager,
+        ICustomerRepository customers, IAgencyRepository agencies)
     {
         _mapper = mapper;
         _users = users;
@@ -117,5 +112,12 @@ public sealed class CaseworkService : ICaseworkService
         _cases.Dispose();
         _customers.Dispose();
         _agencies.Dispose();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await _cases.DisposeAsync();
+        await _customers.DisposeAsync();
+        await _agencies.DisposeAsync();
     }
 }

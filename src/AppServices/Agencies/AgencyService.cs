@@ -12,11 +12,7 @@ public sealed class AgencyService : IAgencyService
     private readonly IMapper _mapper;
     private readonly IUserService _users;
 
-    public AgencyService(
-        IAgencyRepository repository,
-        IAgencyManager manager,
-        IMapper mapper,
-        IUserService users)
+    public AgencyService(IAgencyRepository repository, IAgencyManager manager, IMapper mapper, IUserService users)
     {
         _repository = repository;
         _manager = manager;
@@ -62,4 +58,5 @@ public sealed class AgencyService : IAgencyService
     }
 
     public void Dispose() => _repository.Dispose();
+    public ValueTask DisposeAsync() => _repository.DisposeAsync();
 }

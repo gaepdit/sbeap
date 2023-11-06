@@ -2,7 +2,7 @@
 
 namespace Sbeap.AppServices.Cases;
 
-public interface IActionItemService : IDisposable
+public interface IActionItemService : IDisposable, IAsyncDisposable
 {
     Task<Guid> CreateAsync(ActionItemCreateDto resource, CancellationToken token = default);
     Task<ActionItemViewDto?> FindAsync(Guid id, CancellationToken token = default);

@@ -4,7 +4,7 @@ using Sbeap.Domain.ValueObjects;
 
 namespace Sbeap.AppServices.Customers;
 
-public interface ICustomerService : IDisposable
+public interface ICustomerService : IDisposable, IAsyncDisposable
 {
     // Customer read
     Task<IPaginatedResult<CustomerSearchResultDto>> SearchAsync(

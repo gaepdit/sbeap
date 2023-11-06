@@ -5,7 +5,7 @@ using Sbeap.Domain.Identity;
 
 namespace Sbeap.AppServices.Staff;
 
-public interface IStaffService : IDisposable
+public interface IStaffService : IDisposable, IAsyncDisposable
 {
     Task<StaffViewDto> GetCurrentUserAsync();
     Task<StaffViewDto?> FindAsync(string id);

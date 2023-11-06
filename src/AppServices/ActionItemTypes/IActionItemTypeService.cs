@@ -2,7 +2,7 @@
 
 namespace Sbeap.AppServices.ActionItemTypes;
 
-public interface IActionItemTypeService : IDisposable
+public interface IActionItemTypeService : IDisposable, IAsyncDisposable
 {
     Task<IReadOnlyList<ActionItemTypeViewDto>> GetListAsync(CancellationToken token = default);
     Task<IReadOnlyList<ListItem>> GetListItemsAsync(CancellationToken token = default);
