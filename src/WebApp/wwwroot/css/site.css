@@ -202,7 +202,7 @@ a[target]::after {
 }
 
 /* Suppress external link icon */
-a[target].no-external-link::after {
+footer a[target]::after, a[target].no-external-link::after {
     content: none;
 }
 
@@ -270,6 +270,22 @@ details.card:not([open]) summary.card-header {
 
 .validation-summary-errors ul {
     margin-bottom: 0;
+}
+
+/* Footer links
+-------------------------------------------------- */
+footer a {
+    text-decoration: none;
+    padding: .25rem;
+    border-radius: 8px;
+}
+
+footer a:hover {
+    background: hsla(0, 0%, 0%, 0.04);
+}
+
+[data-bs-theme="dark"] footer a:hover {
+    background: hsla(0, 0%, 100%, 0.04);
 }
 
 /* Print styles
