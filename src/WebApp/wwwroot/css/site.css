@@ -288,6 +288,27 @@ footer a:hover {
     background: hsla(0, 0%, 100%, 0.04);
 }
 
+/* Status badge
+-------------------------------------------------- */
+.status-badge {
+    vertical-align: top;
+    color-scheme:normal;
+}
+
+.status-badge-dark {
+    /*display: none;*/
+}
+
+[data-bs-theme="dark"] .status-badge-dark {
+    display: inline;
+    /*color-scheme: only dark; !* https://github.com/twbs/bootstrap/issues/38750#issuecomment-1687672406 *!*/
+}
+
+[data-bs-theme="dark"] .status-badge-light {
+    /*display: none;*/
+    /*color-scheme: only light; !* https://github.com/twbs/bootstrap/issues/38750#issuecomment-1687672406 *!*/
+}
+
 /* Print styles
 -------------------------------------------------- */
 @media print {
