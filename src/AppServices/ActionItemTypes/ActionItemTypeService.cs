@@ -12,10 +12,7 @@ public sealed class ActionItemTypeService : IActionItemTypeService
     private readonly IMapper _mapper;
     private readonly IUserService _users;
 
-    public ActionItemTypeService(
-        IActionItemTypeRepository repository,
-        IActionItemTypeManager manager,
-        IMapper mapper,
+    public ActionItemTypeService(IActionItemTypeRepository repository, IActionItemTypeManager manager, IMapper mapper,
         IUserService users)
     {
         _repository = repository;
@@ -60,4 +57,5 @@ public sealed class ActionItemTypeService : IActionItemTypeService
     }
 
     public void Dispose() => _repository.Dispose();
+    public ValueTask DisposeAsync() => _repository.DisposeAsync();
 }

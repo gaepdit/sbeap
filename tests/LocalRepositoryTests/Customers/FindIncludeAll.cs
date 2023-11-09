@@ -10,7 +10,7 @@ public class FindIncludeAll
     public void SetUp() => _repository = RepositoryHelper.GetCustomerRepository();
 
     [TearDown]
-    public void TearDown() => _repository.Dispose();
+    public async Task TearDown() => await _repository.DisposeAsync();
 
     [Test]
     public async Task WhenItemExists_ReturnsItem()

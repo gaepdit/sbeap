@@ -9,7 +9,6 @@ namespace WebAppTests.Pages.Cases;
 [TestFixture]
 public class EditGetTests
 {
-    private ICaseworkService _caseworkService = null!;
     private IAgencyService _agencyService = null!;
     private IValidator<CaseworkUpdateDto> _validator = null!;
     private readonly CaseworkUpdateDto _dto = new();
@@ -17,7 +16,6 @@ public class EditGetTests
     [SetUp]
     public void Setup()
     {
-        _caseworkService = Substitute.For<ICaseworkService>();
         _agencyService = Substitute.For<IAgencyService>();
         _validator = Substitute.For<IValidator<CaseworkUpdateDto>>();
     }
@@ -25,23 +23,23 @@ public class EditGetTests
     [TearDown]
     public void Teardown()
     {
-        _caseworkService.Dispose();
         _agencyService.Dispose();
     }
 
-    private EditModel CreatePageModel(IAuthorizationService authorizationService) =>
-        new(_caseworkService, _agencyService, _validator, authorizationService)
+    private EditModel CreatePageModel(ICaseworkService caseworkService, IAuthorizationService authorizationService) =>
+        new(caseworkService, _agencyService, _validator, authorizationService)
             { TempData = WebAppTestsSetup.PageTempData() };
 
     [Test]
     public async Task OnGet_WhenIdIsValid_ShouldReturnPage()
     {
         var guid = Guid.NewGuid();
-        _caseworkService.FindForUpdateAsync(guid).Returns(_dto);
+        var caseworkService = Substitute.For<ICaseworkService>();
+        caseworkService.FindForUpdateAsync(guid).Returns(_dto);
         var authorizationService = Substitute.For<IAuthorizationService>();
         authorizationService.AuthorizeAsync(Arg.Any<ClaimsPrincipal>(), _dto, Arg.Any<IAuthorizationRequirement[]>())
             .Returns(AuthorizationResult.Success());
-        var page = CreatePageModel(authorizationService);
+        var page = CreatePageModel(caseworkService, authorizationService);
 
         var result = await page.OnGetAsync(guid);
 
@@ -55,7 +53,8 @@ public class EditGetTests
     [Test]
     public async Task OnGet_GivenNullId_ReturnsNotFound()
     {
-        var page = CreatePageModel(Substitute.For<IAuthorizationService>());
+        var caseworkService = Substitute.For<ICaseworkService>();
+        var page = CreatePageModel(caseworkService, Substitute.For<IAuthorizationService>());
         var result = await page.OnGetAsync(null);
 
         using var scope = new AssertionScope();
@@ -67,9 +66,10 @@ public class EditGetTests
     public async Task OnGet_GivenInvalidId_ReturnsNotFound()
     {
         var guid = Guid.NewGuid();
-        _caseworkService.FindForUpdateAsync(guid, Arg.Any<CancellationToken>())
+        var caseworkService = Substitute.For<ICaseworkService>();
+        caseworkService.FindForUpdateAsync(guid, Arg.Any<CancellationToken>())
             .Returns((CaseworkUpdateDto?)null);
-        var page = CreatePageModel(Substitute.For<IAuthorizationService>());
+        var page = CreatePageModel(caseworkService, Substitute.For<IAuthorizationService>());
 
         var result = await page.OnGetAsync(guid);
 
@@ -80,12 +80,13 @@ public class EditGetTests
     public async Task OnGet_WhenUserHasNoPermissions_ShouldReturnNotFound()
     {
         var guid = Guid.NewGuid();
-        _caseworkService.FindForUpdateAsync(guid).Returns(_dto);
+        var caseworkService = Substitute.For<ICaseworkService>();
+        caseworkService.FindForUpdateAsync(guid).Returns(_dto);
         var authorizationService = Substitute.For<IAuthorizationService>();
         authorizationService.AuthorizeAsync(Arg.Any<ClaimsPrincipal>(), _dto,
                 Arg.Any<IAuthorizationRequirement[]>())
             .Returns(AuthorizationResult.Failed());
-        var page = CreatePageModel(authorizationService);
+        var page = CreatePageModel(caseworkService, authorizationService);
 
         var result = await page.OnGetAsync(guid);
 
@@ -96,7 +97,8 @@ public class EditGetTests
     public async Task OnGet_WhenUserHasManageDeletionsPermissionButNotEdit_ShouldRedirectWithMessage()
     {
         var guid = Guid.NewGuid();
-        _caseworkService.FindForUpdateAsync(guid).Returns(_dto);
+        var caseworkService = Substitute.For<ICaseworkService>();
+        caseworkService.FindForUpdateAsync(guid).Returns(_dto);
         var authorizationService = Substitute.For<IAuthorizationService>();
         authorizationService.AuthorizeAsync(Arg.Any<ClaimsPrincipal>(), _dto,
                 Arg.Is<IAuthorizationRequirement[]>(x => x.Contains(CaseworkOperation.ManageDeletions)))
@@ -104,7 +106,7 @@ public class EditGetTests
         authorizationService.AuthorizeAsync(Arg.Any<ClaimsPrincipal>(), _dto,
                 Arg.Is<IAuthorizationRequirement[]>(x => !x.Contains(CaseworkOperation.ManageDeletions)))
             .Returns(AuthorizationResult.Failed());
-        var page = CreatePageModel(authorizationService);
+        var page = CreatePageModel(caseworkService, authorizationService);
         var expectedMessage =
             new DisplayMessage(DisplayMessage.AlertContext.Info, "Cannot edit a deleted case.");
 

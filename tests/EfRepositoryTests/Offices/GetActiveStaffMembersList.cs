@@ -12,7 +12,7 @@ public class GetActiveStaffMembersList
     public void SetUp() => _repository = RepositoryHelper.CreateRepositoryHelper().GetOfficeRepository();
 
     [TearDown]
-    public void TearDown() => _repository.Dispose();
+    public async Task TearDown() => await _repository.DisposeAsync();
 
     [Test]
     public async Task WhenStaffExist_ReturnsList()

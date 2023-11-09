@@ -70,8 +70,8 @@ public sealed class RepositoryHelper : IDisposable
     /// Create an instance of a <c>RepositoryHelper</c> and a <c>Repository</c> like this:
     /// </para>
     /// <code>
-    /// using var repositoryHelper = RepositoryHelper.CreateRepositoryHelper();
-    /// using var repository = repositoryHelper.GetOfficeRepository();
+    /// await using var repositoryHelper = RepositoryHelper.CreateRepositoryHelper();
+    /// await using var repository = repositoryHelper.GetOfficeRepository();
     /// </code>
     /// </example>
     /// <returns>A <see cref="RepositoryHelper"/> with an empty Sqlite database.</returns>
@@ -92,8 +92,8 @@ public sealed class RepositoryHelper : IDisposable
     /// Create an instance of a <c>RepositoryHelper</c> and a <c>Repository</c> like this:
     /// </para>
     /// <code>
-    /// using var repositoryHelper = RepositoryHelper.CreateSqlServerRepositoryHelper(this);
-    /// using var repository = repositoryHelper.GetOfficeRepository();
+    /// await using var repositoryHelper = RepositoryHelper.CreateSqlServerRepositoryHelper(this);
+    /// await using var repository = repositoryHelper.GetOfficeRepository();
     /// </code>
     /// </example>
     /// <param name="callingClass">

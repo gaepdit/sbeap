@@ -16,13 +16,8 @@ public sealed class ActionItemService : IActionItemService
     private readonly IActionItemRepository _actionItems;
     private readonly IActionItemTypeRepository _actionItemTypes;
 
-    public ActionItemService(
-        IMapper mapper,
-        IUserService users,
-        ICaseworkRepository cases,
-        ICaseworkManager manager,
-        IActionItemRepository actionItems,
-        IActionItemTypeRepository actionItemTypes)
+    public ActionItemService(IMapper mapper, IUserService users, ICaseworkRepository cases, ICaseworkManager manager,
+        IActionItemRepository actionItems, IActionItemTypeRepository actionItemTypes)
     {
         _mapper = mapper;
         _users = users;
@@ -79,5 +74,12 @@ public sealed class ActionItemService : IActionItemService
         _cases.Dispose();
         _actionItems.Dispose();
         _actionItemTypes.Dispose();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await _cases.DisposeAsync();
+        await _actionItems.DisposeAsync();
+        await _actionItemTypes.DisposeAsync();
     }
 }

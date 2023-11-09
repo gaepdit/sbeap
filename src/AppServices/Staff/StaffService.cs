@@ -16,10 +16,7 @@ public sealed class StaffService : IStaffService
     private readonly IMapper _mapper;
     private readonly IOfficeRepository _officeRepository;
 
-    public StaffService(
-        IUserService userService,
-        UserManager<ApplicationUser> userManager,
-        IMapper mapper,
+    public StaffService(IUserService userService, UserManager<ApplicationUser> userManager, IMapper mapper,
         IOfficeRepository officeRepository)
     {
         _userService = userService;
@@ -110,4 +107,10 @@ public sealed class StaffService : IStaffService
     }
 
     public void Dispose() => _officeRepository.Dispose();
+
+    public async ValueTask DisposeAsync()
+    {
+        _userManager.Dispose();
+        await _officeRepository.DisposeAsync();
+    }
 }

@@ -18,9 +18,8 @@ public sealed class CustomerService : ICustomerService
     private readonly ICustomerManager _manager;
     private readonly IContactRepository _contacts;
 
-    public CustomerService(
-        IMapper mapper, IUserService users, ICustomerRepository customers,
-        ICustomerManager manager, IContactRepository contacts)
+    public CustomerService(IMapper mapper, IUserService users, ICustomerRepository customers, ICustomerManager manager,
+        IContactRepository contacts)
     {
         _mapper = mapper;
         _users = users;
@@ -198,5 +197,11 @@ public sealed class CustomerService : ICustomerService
     {
         _customers.Dispose();
         _contacts.Dispose();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await _customers.DisposeAsync();
+        await _contacts.DisposeAsync();
     }
 }

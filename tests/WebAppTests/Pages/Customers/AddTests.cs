@@ -7,31 +7,18 @@ namespace WebAppTests.Pages.Customers;
 [TestFixture]
 public class AddTests
 {
-    private ICustomerService _customerService = null!;
-
-    [SetUp]
-    public void Setup()
-    {
-        _customerService = Substitute.For<ICustomerService>();
-    }
-
-    [TearDown]
-    public void Teardown()
-    {
-        _customerService.Dispose();
-    }
-
     [Test]
     public async Task OnPostAsync_WhenModelStateIsValid_RedirectsToDetailsPage()
     {
         // Arrange
         var customerDto = new CustomerCreateDto();
         var customerId = Guid.NewGuid();
-        _customerService.CreateAsync(customerDto).Returns(customerId);
+        var customerService = Substitute.For<ICustomerService>();
+        customerService.CreateAsync(customerDto).Returns(customerId);
         var validator = Substitute.For<IValidator<CustomerCreateDto>>();
         validator.ValidateAsync(Arg.Any<CustomerCreateDto>(), Arg.Any<CancellationToken>())
             .Returns(new ValidationResult());
-        var page = new AddModel(_customerService, validator)
+        var page = new AddModel(customerService, validator)
         {
             Item = customerDto,
             TempData = WebAppTestsSetup.PageTempData(),
@@ -56,7 +43,8 @@ public class AddTests
         var validator = Substitute.For<IValidator<CustomerCreateDto>>();
         validator.ValidateAsync(Arg.Any<CustomerCreateDto>(), Arg.Any<CancellationToken>())
             .Returns(new ValidationResult(validationFailures));
-        var page = new AddModel(_customerService, validator) { Item = customerDto };
+        var customerService = Substitute.For<ICustomerService>();
+        var page = new AddModel(customerService, validator) { Item = customerDto };
         page.ModelState.AddModelError("", "some error");
 
         // Act

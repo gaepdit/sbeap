@@ -2,7 +2,7 @@
 
 namespace Sbeap.AppServices.Agencies;
 
-public interface IAgencyService : IDisposable
+public interface IAgencyService : IDisposable, IAsyncDisposable
 {
     Task<IReadOnlyList<AgencyViewDto>> GetListAsync(CancellationToken token = default);
     Task<IReadOnlyList<ListItem>> GetListItemsAsync(bool includeInactive = false, CancellationToken token = default);

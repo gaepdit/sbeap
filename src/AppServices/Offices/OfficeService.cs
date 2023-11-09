@@ -12,11 +12,7 @@ public sealed class OfficeService : IOfficeService
     private readonly IMapper _mapper;
     private readonly IUserService _users;
 
-    public OfficeService(
-        IOfficeRepository repository,
-        IOfficeManager manager,
-        IMapper mapper,
-        IUserService users)
+    public OfficeService(IOfficeRepository repository, IOfficeManager manager, IMapper mapper, IUserService users)
     {
         _repository = repository;
         _manager = manager;
@@ -60,4 +56,5 @@ public sealed class OfficeService : IOfficeService
     }
 
     public void Dispose() => _repository.Dispose();
+    public async ValueTask DisposeAsync() => await _repository.DisposeAsync();
 }
