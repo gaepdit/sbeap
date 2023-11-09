@@ -8,7 +8,6 @@ namespace WebAppTests.Pages.Cases;
 [TestFixture]
 public class EditPostTests
 {
-    private ICaseworkService _caseworkService = null!;
     private IAgencyService _agencyService = null!;
     private IValidator<CaseworkUpdateDto> _validator = null!;
     private readonly CaseworkUpdateDto _dto = new();
@@ -16,7 +15,6 @@ public class EditPostTests
     [SetUp]
     public void Setup()
     {
-        _caseworkService = Substitute.For<ICaseworkService>();
         _agencyService = Substitute.For<IAgencyService>();
         _agencyService.GetListItemsAsync().Returns(new List<ListItem>());
         _validator = Substitute.For<IValidator<CaseworkUpdateDto>>();
@@ -25,14 +23,14 @@ public class EditPostTests
     [TearDown]
     public void Teardown()
     {
-        _caseworkService.Dispose();
         _agencyService.Dispose();
     }
 
     [Test]
     public async Task OnPost_GivenEverythingWorks_ShouldReturnRedirectWithMessage()
     {
-        _caseworkService.FindForUpdateAsync(Arg.Any<Guid>()).Returns(_dto);
+        var caseworkService = Substitute.For<ICaseworkService>();
+        caseworkService.FindForUpdateAsync(Arg.Any<Guid>()).Returns(_dto);
         var validator = Substitute.For<IValidator<CaseworkUpdateDto>>();
         validator.ValidateAsync(Arg.Any<CaseworkUpdateDto>(), Arg.Any<CancellationToken>())
             .Returns(new ValidationResult());
@@ -41,7 +39,7 @@ public class EditPostTests
                 Arg.Any<IAuthorizationRequirement[]>())
             .Returns(AuthorizationResult.Success());
         var guid = Guid.NewGuid();
-        var page = new EditModel(_caseworkService, _agencyService, validator, authorizationService)
+        var page = new EditModel(caseworkService, _agencyService, validator, authorizationService)
         {
             TempData = WebAppTestsSetup.PageTempData(),
             Id = guid,
@@ -79,12 +77,13 @@ public class EditPostTests
     public async Task OnPost_WhenUserDoesNotHaveEditPermission_ShouldReturnBadRequest()
     {
         var guid = Guid.NewGuid();
-        _caseworkService.FindForUpdateAsync(guid).Returns(_dto);
+        var caseworkService = Substitute.For<ICaseworkService>();
+        caseworkService.FindForUpdateAsync(guid).Returns(_dto);
         var authorizationService = Substitute.For<IAuthorizationService>();
         authorizationService.AuthorizeAsync(Arg.Any<ClaimsPrincipal>(), _dto,
                 Arg.Any<IAuthorizationRequirement[]>())
             .Returns(AuthorizationResult.Failed());
-        var page = new EditModel(_caseworkService, _agencyService, _validator, authorizationService)
+        var page = new EditModel(caseworkService, _agencyService, _validator, authorizationService)
             { TempData = WebAppTestsSetup.PageTempData() };
 
         var result = await page.OnPostAsync();
@@ -95,7 +94,8 @@ public class EditPostTests
     [Test]
     public async Task OnPost_GivenInvalidModel_ShouldReturnPageWithModelErrors()
     {
-        _caseworkService.FindForUpdateAsync(Arg.Any<Guid>()).Returns(_dto);
+        var caseworkService = Substitute.For<ICaseworkService>();
+        caseworkService.FindForUpdateAsync(Arg.Any<Guid>()).Returns(_dto);
         var validationFailures = new List<ValidationFailure> { new("property", "message") };
         _validator.ValidateAsync(Arg.Any<CaseworkUpdateDto>(), Arg.Any<CancellationToken>())
             .Returns(new ValidationResult(validationFailures));
@@ -103,7 +103,7 @@ public class EditPostTests
         authorizationService.AuthorizeAsync(Arg.Any<ClaimsPrincipal>(), _dto,
                 Arg.Any<IAuthorizationRequirement[]>())
             .Returns(AuthorizationResult.Success());
-        var page = new EditModel(_caseworkService, _agencyService, _validator, authorizationService)
+        var page = new EditModel(caseworkService, _agencyService, _validator, authorizationService)
             { TempData = WebAppTestsSetup.PageTempData() };
 
         var result = await page.OnPostAsync();
