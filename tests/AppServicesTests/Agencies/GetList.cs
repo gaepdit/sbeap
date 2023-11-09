@@ -1,4 +1,5 @@
-﻿using Sbeap.AppServices.Agencies;
+﻿using Microsoft.Extensions.Caching.Memory;
+using Sbeap.AppServices.Agencies;
 using Sbeap.AppServices.UserServices;
 using Sbeap.Domain.Entities.Agencies;
 using Sbeap.TestData.Constants;
@@ -12,13 +13,10 @@ public class GetList
     {
         var agency = new Agency(Guid.Empty, TextData.ValidName);
         var itemList = new List<Agency> { agency };
-
         var repoMock = Substitute.For<IAgencyRepository>();
         repoMock.GetListAsync(Arg.Any<CancellationToken>()).Returns(itemList);
-        var managerMock = Substitute.For<IAgencyManager>();
-        var userServiceMock = Substitute.For<IUserService>();
-        var appService = new AgencyService(repoMock, managerMock,
-            AppServicesTestsSetup.Mapper!, userServiceMock);
+        var appService = new AgencyService(repoMock, Substitute.For<IAgencyManager>(), AppServicesTestsSetup.Mapper!,
+            Substitute.For<IUserService>(), new MemoryCache(new MemoryCacheOptions()));
 
         var result = await appService.GetListAsync();
 
@@ -30,10 +28,8 @@ public class GetList
     {
         var repoMock = Substitute.For<IAgencyRepository>();
         repoMock.GetListAsync(Arg.Any<CancellationToken>()).Returns(new List<Agency>());
-        var managerMock = Substitute.For<IAgencyManager>();
-        var userServiceMock = Substitute.For<IUserService>();
-        var appService = new AgencyService(repoMock, managerMock,
-            AppServicesTestsSetup.Mapper!, userServiceMock);
+        var appService = new AgencyService(repoMock, Substitute.For<IAgencyManager>(), AppServicesTestsSetup.Mapper!,
+            Substitute.For<IUserService>(), new MemoryCache(new MemoryCacheOptions()));
 
         var result = await appService.GetListAsync();
 
