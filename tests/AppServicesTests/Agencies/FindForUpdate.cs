@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Caching.Memory;
 using Sbeap.AppServices.Agencies;
 using Sbeap.AppServices.UserServices;
 using Sbeap.Domain.Entities.Agencies;
@@ -14,10 +15,8 @@ public class FindForUpdate
         var agency = new Agency(Guid.Empty, TextData.ValidName);
         var repoMock = Substitute.For<IAgencyRepository>();
         repoMock.FindAsync(agency.Id, Arg.Any<CancellationToken>()).Returns(agency);
-        var managerMock = Substitute.For<IAgencyManager>();
-        var userServiceMock = Substitute.For<IUserService>();
-        var appService = new AgencyService(repoMock, managerMock,
-            AppServicesTestsSetup.Mapper!, userServiceMock);
+        var appService = new AgencyService(repoMock, Substitute.For<IAgencyManager>(), AppServicesTestsSetup.Mapper!,
+            Substitute.For<IUserService>(), new MemoryCache(new MemoryCacheOptions()));
 
         var result = await appService.FindForUpdateAsync(Guid.Empty);
 
@@ -30,11 +29,8 @@ public class FindForUpdate
         var id = Guid.Empty;
         var repoMock = Substitute.For<IAgencyRepository>();
         repoMock.FindAsync(id, Arg.Any<CancellationToken>()).Returns((Agency?)null);
-        var managerMock = Substitute.For<IAgencyManager>();
-        var mapperMock = Substitute.For<IMapper>();
-        var userServiceMock = Substitute.For<IUserService>();
-        var appService = new AgencyService(repoMock, managerMock,
-            mapperMock, userServiceMock);
+        var appService = new AgencyService(repoMock, Substitute.For<IAgencyManager>(), Substitute.For<IMapper>(),
+            Substitute.For<IUserService>(), new MemoryCache(new MemoryCacheOptions()));
 
         var result = await appService.FindForUpdateAsync(Guid.Empty);
 

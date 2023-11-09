@@ -1,4 +1,5 @@
-﻿using Sbeap.AppServices.Offices;
+﻿using Microsoft.Extensions.Caching.Memory;
+using Sbeap.AppServices.Offices;
 using Sbeap.AppServices.UserServices;
 using Sbeap.Domain.Entities.Offices;
 using Sbeap.TestData.Constants;
@@ -12,13 +13,10 @@ public class GetList
     {
         var office = new Office(Guid.Empty, TextData.ValidName);
         var itemList = new List<Office> { office };
-
         var repoMock = Substitute.For<IOfficeRepository>();
         repoMock.GetListAsync(Arg.Any<CancellationToken>()).Returns(itemList);
-        var managerMock = Substitute.For<IOfficeManager>();
-        var userServiceMock = Substitute.For<IUserService>();
-        var appService = new OfficeService(repoMock, managerMock,
-            AppServicesTestsSetup.Mapper!, userServiceMock);
+        var appService = new OfficeService(repoMock, Substitute.For<IOfficeManager>(), AppServicesTestsSetup.Mapper!,
+            Substitute.For<IUserService>(), new MemoryCache(new MemoryCacheOptions()));
 
         var result = await appService.GetListAsync();
 
@@ -30,10 +28,8 @@ public class GetList
     {
         var repoMock = Substitute.For<IOfficeRepository>();
         repoMock.GetListAsync(Arg.Any<CancellationToken>()).Returns(new List<Office>());
-        var managerMock = Substitute.For<IOfficeManager>();
-        var userServiceMock = Substitute.For<IUserService>();
-        var appService = new OfficeService(repoMock, managerMock,
-            AppServicesTestsSetup.Mapper!, userServiceMock);
+        var appService = new OfficeService(repoMock, Substitute.For<IOfficeManager>(), AppServicesTestsSetup.Mapper!,
+            Substitute.For<IUserService>(), new MemoryCache(new MemoryCacheOptions()));
 
         var result = await appService.GetListAsync();
 

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Caching.Memory;
 using Sbeap.AppServices.Offices;
 using Sbeap.AppServices.UserServices;
 using Sbeap.Domain.Entities.Offices;
@@ -14,10 +15,8 @@ public class FindForUpdate
         var office = new Office(Guid.Empty, TextData.ValidName);
         var repoMock = Substitute.For<IOfficeRepository>();
         repoMock.FindAsync(office.Id, Arg.Any<CancellationToken>()).Returns(office);
-        var managerMock = Substitute.For<IOfficeManager>();
-        var userServiceMock = Substitute.For<IUserService>();
-        var appService = new OfficeService(repoMock, managerMock,
-            AppServicesTestsSetup.Mapper!, userServiceMock);
+        var appService = new OfficeService(repoMock, Substitute.For<IOfficeManager>(), AppServicesTestsSetup.Mapper!,
+            Substitute.For<IUserService>(), new MemoryCache(new MemoryCacheOptions()));
 
         var result = await appService.FindForUpdateAsync(Guid.Empty);
 
@@ -30,11 +29,8 @@ public class FindForUpdate
         var id = Guid.Empty;
         var repoMock = Substitute.For<IOfficeRepository>();
         repoMock.FindAsync(id, Arg.Any<CancellationToken>()).Returns((Office?)null);
-        var managerMock = Substitute.For<IOfficeManager>();
-        var mapperMock = Substitute.For<IMapper>();
-        var userServiceMock = Substitute.For<IUserService>();
-        var appService = new OfficeService(repoMock, managerMock,
-            mapperMock, userServiceMock);
+        var appService = new OfficeService(repoMock, Substitute.For<IOfficeManager>(), Substitute.For<IMapper>(),
+            Substitute.For<IUserService>(), new MemoryCache(new MemoryCacheOptions()));
 
         var result = await appService.FindForUpdateAsync(Guid.Empty);
 

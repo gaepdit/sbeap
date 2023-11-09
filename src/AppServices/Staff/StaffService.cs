@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using GaEpd.AppLibrary.Domain.Repositories;
 using GaEpd.AppLibrary.Pagination;
 using Microsoft.AspNetCore.Identity;
@@ -16,7 +16,8 @@ public sealed class StaffService : IStaffService
     private readonly IMapper _mapper;
     private readonly IOfficeRepository _officeRepository;
 
-    public StaffService(IUserService userService, UserManager<ApplicationUser> userManager, IMapper mapper,
+    public StaffService(
+        IUserService userService, UserManager<ApplicationUser> userManager, IMapper mapper,
         IOfficeRepository officeRepository)
     {
         _userService = userService;
@@ -34,7 +35,7 @@ public sealed class StaffService : IStaffService
 
     public async Task<StaffViewDto?> FindAsync(string id)
     {
-        var user = await _userManager.FindByIdAsync(id);
+        var user = await _userService.FindUserAsync(id);
         return _mapper.Map<StaffViewDto?>(user);
     }
 
@@ -60,7 +61,7 @@ public sealed class StaffService : IStaffService
 
     public async Task<IList<string>> GetRolesAsync(string id)
     {
-        var user = await _userManager.FindByIdAsync(id);
+        var user = await _userService.FindUserAsync(id);
         if (user is null) return new List<string>();
         return await _userManager.GetRolesAsync(user);
     }
