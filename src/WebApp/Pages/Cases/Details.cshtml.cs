@@ -67,6 +67,8 @@ public class DetailsModel : PageModel
     public async Task<IActionResult> OnPostAsync(Guid? id)
     {
         if (id is null) return RedirectToPage("../Index");
+        if (NewActionItem.CaseworkId != id) return BadRequest();
+        
         var item = await _cases.FindAsync(id.Value);
         if (item is null) return NotFound();
         if (item.IsDeleted) return BadRequest();

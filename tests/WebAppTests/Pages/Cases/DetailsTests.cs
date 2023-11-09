@@ -8,8 +8,6 @@ namespace WebAppTests.Pages.Cases
     [TestFixture]
     public class DetailsTests
     {
-        private DetailsModel _page = null!;
-        private ICaseworkService _caseworkService = null!;
         private IActionItemService _actionItemService = null!;
         private IActionItemTypeService _actionItemTypeService = null!;
         private IAuthorizationService _authorizationService = null!;
@@ -17,26 +15,26 @@ namespace WebAppTests.Pages.Cases
         [SetUp]
         public void Setup()
         {
-            _caseworkService = Substitute.For<ICaseworkService>();
             _actionItemService = Substitute.For<IActionItemService>();
             _actionItemTypeService = Substitute.For<IActionItemTypeService>();
             _authorizationService = Substitute.For<IAuthorizationService>();
-            _page = new DetailsModel(_caseworkService, _actionItemService, _actionItemTypeService,
-                _authorizationService);
         }
 
         [TearDown]
         public void Teardown()
         {
-            _caseworkService.Dispose();
             _actionItemService.Dispose();
             _actionItemTypeService.Dispose();
         }
 
+        private DetailsModel BuildPageModel(ICaseworkService caseworkService) =>
+            new(caseworkService, _actionItemService, _actionItemTypeService, _authorizationService);
+
         [Test]
         public async Task OnGetAsync_NullId_ReturnsRedirectToPageResult()
         {
-            var result = await _page.OnGetAsync(null);
+            var page = BuildPageModel(Substitute.For<ICaseworkService>());
+            var result = await page.OnGetAsync(null);
             result.Should().BeOfType<RedirectToPageResult>();
         }
 
@@ -44,16 +42,19 @@ namespace WebAppTests.Pages.Cases
         public async Task OnGetAsync_CaseNotFound_ReturnsNotFoundResult()
         {
             var id = Guid.NewGuid();
-            _caseworkService.FindAsync(id).Returns((CaseworkViewDto?)null);
+            var caseworkService = Substitute.For<ICaseworkService>();
+            caseworkService.FindAsync(id).Returns((CaseworkViewDto?)null);
+            var page = BuildPageModel(caseworkService);
 
-            var result = await _page.OnGetAsync(id);
+            var result = await page.OnGetAsync(id);
             result.Should().BeOfType<NotFoundResult>();
         }
 
         [Test]
         public async Task OnPostAsync_NullId_ReturnsRedirectToPageResult()
         {
-            var result = await _page.OnPostAsync(null);
+            var page = BuildPageModel(Substitute.For<ICaseworkService>());
+            var result = await page.OnPostAsync(null);
             result.Should().BeOfType<RedirectToPageResult>();
         }
 
@@ -61,10 +62,28 @@ namespace WebAppTests.Pages.Cases
         public async Task OnPostAsync_CaseNotFound_ReturnsNotFoundResult()
         {
             var id = Guid.NewGuid();
-            _caseworkService.FindAsync(id).Returns((CaseworkViewDto?)null);
+            var caseworkService = Substitute.For<ICaseworkService>();
+            caseworkService.FindAsync(id).Returns((CaseworkViewDto?)null);
+            var page = BuildPageModel(caseworkService);
+            page.NewActionItem = new ActionItemCreateDto(id);
 
-            var result = await _page.OnPostAsync(id);
+            var result = await page.OnPostAsync(id);
+
             result.Should().BeOfType<NotFoundResult>();
+        }
+
+        [Test]
+        public async Task OnPostAsync_MismatchedId_ReturnsBadRequest()
+        {
+            var id = Guid.NewGuid();
+            var caseworkService = Substitute.For<ICaseworkService>();
+            caseworkService.FindAsync(id).Returns((CaseworkViewDto?)null);
+            var page = BuildPageModel(caseworkService);
+            page.NewActionItem = new ActionItemCreateDto(Guid.NewGuid());
+
+            var result = await page.OnPostAsync(id);
+
+            result.Should().BeOfType<BadRequestResult>();
         }
     }
 }

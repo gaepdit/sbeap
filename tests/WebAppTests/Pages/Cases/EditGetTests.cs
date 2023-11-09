@@ -26,7 +26,7 @@ public class EditGetTests
         _agencyService.Dispose();
     }
 
-    private EditModel CreatePageModel(ICaseworkService caseworkService, IAuthorizationService authorizationService) =>
+    private EditModel BuildPageModel(ICaseworkService caseworkService, IAuthorizationService authorizationService) =>
         new(caseworkService, _agencyService, _validator, authorizationService)
             { TempData = WebAppTestsSetup.PageTempData() };
 
@@ -39,7 +39,7 @@ public class EditGetTests
         var authorizationService = Substitute.For<IAuthorizationService>();
         authorizationService.AuthorizeAsync(Arg.Any<ClaimsPrincipal>(), _dto, Arg.Any<IAuthorizationRequirement[]>())
             .Returns(AuthorizationResult.Success());
-        var page = CreatePageModel(caseworkService, authorizationService);
+        var page = BuildPageModel(caseworkService, authorizationService);
 
         var result = await page.OnGetAsync(guid);
 
@@ -54,7 +54,7 @@ public class EditGetTests
     public async Task OnGet_GivenNullId_ReturnsNotFound()
     {
         var caseworkService = Substitute.For<ICaseworkService>();
-        var page = CreatePageModel(caseworkService, Substitute.For<IAuthorizationService>());
+        var page = BuildPageModel(caseworkService, Substitute.For<IAuthorizationService>());
         var result = await page.OnGetAsync(null);
 
         using var scope = new AssertionScope();
@@ -69,7 +69,7 @@ public class EditGetTests
         var caseworkService = Substitute.For<ICaseworkService>();
         caseworkService.FindForUpdateAsync(guid, Arg.Any<CancellationToken>())
             .Returns((CaseworkUpdateDto?)null);
-        var page = CreatePageModel(caseworkService, Substitute.For<IAuthorizationService>());
+        var page = BuildPageModel(caseworkService, Substitute.For<IAuthorizationService>());
 
         var result = await page.OnGetAsync(guid);
 
@@ -86,7 +86,7 @@ public class EditGetTests
         authorizationService.AuthorizeAsync(Arg.Any<ClaimsPrincipal>(), _dto,
                 Arg.Any<IAuthorizationRequirement[]>())
             .Returns(AuthorizationResult.Failed());
-        var page = CreatePageModel(caseworkService, authorizationService);
+        var page = BuildPageModel(caseworkService, authorizationService);
 
         var result = await page.OnGetAsync(guid);
 
@@ -106,7 +106,7 @@ public class EditGetTests
         authorizationService.AuthorizeAsync(Arg.Any<ClaimsPrincipal>(), _dto,
                 Arg.Is<IAuthorizationRequirement[]>(x => !x.Contains(CaseworkOperation.ManageDeletions)))
             .Returns(AuthorizationResult.Failed());
-        var page = CreatePageModel(caseworkService, authorizationService);
+        var page = BuildPageModel(caseworkService, authorizationService);
         var expectedMessage =
             new DisplayMessage(DisplayMessage.AlertContext.Info, "Cannot edit a deleted case.");
 
