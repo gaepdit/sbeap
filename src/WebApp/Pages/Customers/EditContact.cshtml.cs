@@ -49,7 +49,7 @@ public class EditContactModel : PageModel
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
 
     // Select lists
-    public SelectList StatesSelectList => new(Data.States);
+    public SelectList StatesSelectList => new(StateData.States);
 
     // Messaging
     public Handlers Handler { get; private set; } = Handlers.None;

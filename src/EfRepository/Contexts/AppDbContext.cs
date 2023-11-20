@@ -1,5 +1,7 @@
+using GaEpd.AppLibrary.Domain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Sbeap.Domain;
 using Sbeap.Domain.Entities.ActionItems;
 using Sbeap.Domain.Entities.ActionItemTypes;
 using Sbeap.Domain.Entities.Agencies;
@@ -7,6 +9,7 @@ using Sbeap.Domain.Entities.Cases;
 using Sbeap.Domain.Entities.Contacts;
 using Sbeap.Domain.Entities.Customers;
 using Sbeap.Domain.Entities.Offices;
+using Sbeap.Domain.Entities.SicCodes;
 using Sbeap.Domain.Identity;
 
 namespace Sbeap.EfRepository.Contexts;
@@ -23,6 +26,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Contact> Contacts => Set<Contact>();
     public DbSet<Customer> Customers => Set<Customer>();
     public DbSet<Office> Offices => Set<Office>();
+    public DbSet<SicCode> SicCodes => Set<SicCode>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -35,11 +39,22 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
         builder.Entity<ApplicationUser>().Navigation(user => user.Office).AutoInclude();
         builder.Entity<Casework>().Navigation(casework => casework.Customer).AutoInclude();
         builder.Entity<Contact>().Navigation(contact => contact.Customer).AutoInclude();
+        builder.Entity<Customer>().Navigation(customer => customer.SicCode).AutoInclude();
 
         // Let's save enums in the database as strings.
         // See https://stackoverflow.com/a/55260541/212978
         builder.Entity<Contact>().OwnsMany(contact => contact.PhoneNumbers,
             navigationBuilder => navigationBuilder.Property(phoneNumber => phoneNumber.Type).HasConversion<string>());
+
+        // Set max length of Name property for StandardNamedEntity
+        foreach (var entityType in builder.Model.GetEntityTypes()
+                     .Where(type => typeof(StandardNamedEntity).IsAssignableFrom(type.ClrType))
+                     .Select(type => type.ClrType))
+        {
+            builder.Entity(entityType).Property<string>(nameof(StandardNamedEntity.Name))
+                .HasMaxLength(AppConstants.MaximumNameLength);
+        }
+
 
         // ## The following configurations are Sqlite only. ##
         if (Database.ProviderName != "Microsoft.EntityFrameworkCore.Sqlite") return;

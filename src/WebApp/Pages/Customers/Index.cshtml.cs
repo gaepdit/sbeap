@@ -1,4 +1,5 @@
 ﻿using GaEpd.AppLibrary.Extensions;
+using GaEpd.AppLibrary.ListItems;
 using GaEpd.AppLibrary.Pagination;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Sbeap.AppServices.Customers;
 using Sbeap.AppServices.Customers.Dto;
 using Sbeap.AppServices.Permissions;
+using Sbeap.AppServices.SicCodes;
 using Sbeap.Domain.Data;
 using Sbeap.WebApp.Models;
 using Sbeap.WebApp.Platform.Constants;
@@ -18,13 +20,13 @@ public class IndexModel : PageModel
 {
     // Constructor
     private readonly ICustomerService _service;
+    private readonly ISicService _sicService;
     private readonly IAuthorizationService _authorization;
 
-    public IndexModel(
-        ICustomerService service,
-        IAuthorizationService authorization)
+    public IndexModel(ICustomerService service, ISicService sicService, IAuthorizationService authorization)
     {
         _service = service;
+        _sicService = sicService;
         _authorization = authorization;
     }
 
@@ -37,12 +39,14 @@ public class IndexModel : PageModel
     public PaginationNavModel PaginationNav => new(SearchResults, Spec.AsRouteValues());
 
     // Select lists
-    public SelectList CountiesSelectList => new(Data.Counties);
+    public SelectList CountiesSelectList => new(CountyData.Counties);
+    public SelectList SicSelectList { get; private set; } = default!;
 
     // Methods
     public async Task<IActionResult> OnGetAsync()
     {
         ShowDeletionSearchOptions = await UserCanManageDeletionsAsync();
+        await PopulateSelectListsAsync();
         return Page();
     }
 
@@ -57,8 +61,12 @@ public class IndexModel : PageModel
         SearchResults = await _service.SearchAsync(Spec, paging);
 
         ShowResults = true;
+        await PopulateSelectListsAsync();
         return Page();
     }
+
+    private async Task PopulateSelectListsAsync() =>
+        SicSelectList = (await _sicService.GetActiveListItemsAsync()).ToSelectList();
 
     private async Task<bool> UserCanManageDeletionsAsync() =>
         (await _authorization.AuthorizeAsync(User, nameof(Policies.AdminUser))).Succeeded;

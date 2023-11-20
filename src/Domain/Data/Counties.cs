@@ -1,9 +1,10 @@
 ﻿// ReSharper disable StringLiteralTypo
+
 namespace Sbeap.Domain.Data;
 
-public static partial class Data
+public static class CountyData
 {
-    public static IEnumerable<string> Counties => new List<string>
+    public static IEnumerable<string> Counties { get; } = new List<string>
     {
         "Appling",
         "Atkinson",

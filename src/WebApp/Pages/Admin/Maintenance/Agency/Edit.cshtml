@@ -1,4 +1,5 @@
 ﻿@page "{id:Guid?}"
+@using Sbeap.Domain
 @using Sbeap.WebApp.Pages.Shared.EditorTemplates
 @model EditModel
 
@@ -16,7 +17,7 @@
     <form method="post">
         <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
         <div class="mb-3">
-            @Html.EditorFor(e => e.Item.Name, EditorTemplate.Input)
+            @Html.EditorFor(e => e.Item.Name, EditorTemplate.Input, new { MaxLength = AppConstants.MaximumNameLength })
         </div>
         <div class="mb-3">
             @Html.EditorFor(e => e.Item.Active, EditorTemplate.Checkbox)

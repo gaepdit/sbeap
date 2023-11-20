@@ -22,7 +22,7 @@ public abstract class StandardNamedEntityCreateValidator<TEntity, TDto, TReposit
             .Cascade(CascadeMode.Stop)
             .NotEmpty()
             .Length(AppConstants.MinimumNameLength, AppConstants.MaximumNameLength)
-            .MustAsync(async (_, name, token) => await NotDuplicateName(name, token))
+            .MustAsync(async (name, token) => await NotDuplicateName(name, token))
             .WithMessage("The name entered already exists.");
     }
 

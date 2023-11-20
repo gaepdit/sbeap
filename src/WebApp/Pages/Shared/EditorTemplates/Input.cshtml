@@ -1,7 +1,9 @@
 ﻿@model string
-
+@{
+    var maxLength = (int?)ViewData["MaxLength"];
+}
 <div class="form-floating">
-    <input asp-for="@__model" class="form-control" />
+    <input asp-for="@__model" class="form-control" maxlength="@maxLength" />
     <label asp-for="@__model" class="form-label"></label>
     <span asp-validation-for="@__model" class="invalid-feedback"></span>
 </div>

@@ -1,4 +1,4 @@
-﻿using Sbeap.Domain.ValueObjects;
+using Sbeap.Domain.ValueObjects;
 
 namespace Sbeap.TestData.Constants;
 
@@ -49,15 +49,6 @@ public static class ValueObjectData
         Street2 = null,
         City = "Alt-ville",
         PostalCode = "98765",
-        State = "Georgia",
-    };
-
-    public static IncompleteAddress IncompleteAddress => new()
-    {
-        Street = "789 Third St.",
-        Street2 = null,
-        City = null,
-        PostalCode = null,
         State = "Georgia",
     };
 }

@@ -13,7 +13,7 @@ namespace WebAppTests.Pages.Cases
         private IAuthorizationService _authorizationService = null!;
 
         [SetUp]
-        public void Setup()
+        public void SetUp()
         {
             _actionItemService = Substitute.For<IActionItemService>();
             _actionItemTypeService = Substitute.For<IActionItemTypeService>();
@@ -21,7 +21,7 @@ namespace WebAppTests.Pages.Cases
         }
 
         [TearDown]
-        public void Teardown()
+        public void TearDown()
         {
             _actionItemService.Dispose();
             _actionItemTypeService.Dispose();

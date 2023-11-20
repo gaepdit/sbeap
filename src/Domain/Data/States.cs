@@ -1,8 +1,8 @@
 ﻿namespace Sbeap.Domain.Data;
 
-public static partial class Data
+public static class StateData
 {
-    public static IEnumerable<string> States => new List<string>
+    public static IEnumerable<string> States { get; } = new List<string>
     {
         "Alabama",
         "Alaska",

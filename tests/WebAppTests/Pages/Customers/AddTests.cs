@@ -1,5 +1,6 @@
 ﻿using Sbeap.AppServices.Customers;
 using Sbeap.AppServices.Customers.Dto;
+using Sbeap.AppServices.SicCodes;
 using Sbeap.WebApp.Pages.Customers;
 
 namespace WebAppTests.Pages.Customers;
@@ -18,7 +19,7 @@ public class AddTests
         var validator = Substitute.For<IValidator<CustomerCreateDto>>();
         validator.ValidateAsync(Arg.Any<CustomerCreateDto>(), Arg.Any<CancellationToken>())
             .Returns(new ValidationResult());
-        var page = new AddModel(customerService, validator)
+        var page = new AddModel(customerService, Substitute.For<ISicService>(), validator)
         {
             Item = customerDto,
             TempData = WebAppTestsSetup.PageTempData(),
@@ -39,12 +40,16 @@ public class AddTests
     {
         // Arrange
         var customerDto = new CustomerCreateDto();
+
         var validationFailures = new List<ValidationFailure> { new("property", "message") };
         var validator = Substitute.For<IValidator<CustomerCreateDto>>();
         validator.ValidateAsync(Arg.Any<CustomerCreateDto>(), Arg.Any<CancellationToken>())
             .Returns(new ValidationResult(validationFailures));
-        var customerService = Substitute.For<ICustomerService>();
-        var page = new AddModel(customerService, validator) { Item = customerDto };
+
+        var sicService = Substitute.For<ISicService>();
+        sicService.GetActiveListItemsAsync().Returns(new List<ListItem<string>>());
+
+        var page = new AddModel(Substitute.For<ICustomerService>(), sicService, validator) { Item = customerDto };
         page.ModelState.AddModelError("", "some error");
 
         // Act

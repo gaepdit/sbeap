@@ -1,4 +1,5 @@
-﻿using Sbeap.Domain.Entities.Customers;
+using Sbeap.Domain.Data;
+using Sbeap.Domain.Entities.Customers;
 using Sbeap.Domain.ValueObjects;
 using Sbeap.TestData.Constants;
 
@@ -15,6 +16,7 @@ internal static class CustomerData
             Location = ValueObjectData.LessCompleteAddress,
             MailingAddress = ValueObjectData.CompleteAddress,
             Description = TextData.Paragraph,
+            SicCode = SicCodeData.GetSicCodes.ElementAt(0),
             Website = TextData.ValidUrl,
         },
         new(new Guid("40000000-0000-0000-0000-000000000002"))
@@ -33,6 +35,7 @@ internal static class CustomerData
             Location = ValueObjectData.AlternateCompleteAddress,
             MailingAddress = IncompleteAddress.EmptyAddress,
             Description = TextData.ShortMultiline,
+            SicCode = SicCodeData.GetSicCodes.ElementAt(1),
             Website = null,
             DeleteComments = TextData.ShortMultiline,
         },

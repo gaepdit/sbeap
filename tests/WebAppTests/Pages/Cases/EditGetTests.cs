@@ -14,14 +14,14 @@ public class EditGetTests
     private readonly CaseworkUpdateDto _dto = new();
 
     [SetUp]
-    public void Setup()
+    public void SetUp()
     {
         _agencyService = Substitute.For<IAgencyService>();
         _validator = Substitute.For<IValidator<CaseworkUpdateDto>>();
     }
 
     [TearDown]
-    public void Teardown()
+    public void TearDown()
     {
         _agencyService.Dispose();
     }

@@ -5,6 +5,7 @@ using Sbeap.AppServices.Staff.Dto;
 using Sbeap.AppServices.UserServices;
 using Sbeap.Domain.Entities.Contacts;
 using Sbeap.Domain.Entities.Customers;
+using Sbeap.Domain.Entities.SicCodes;
 using Sbeap.Domain.Identity;
 using Sbeap.Domain.ValueObjects;
 
@@ -17,15 +18,18 @@ public sealed class CustomerService : ICustomerService
     private readonly ICustomerRepository _customers;
     private readonly ICustomerManager _manager;
     private readonly IContactRepository _contacts;
+    private readonly ISicRepository _sic;
 
-    public CustomerService(IMapper mapper, IUserService users, ICustomerRepository customers, ICustomerManager manager,
-        IContactRepository contacts)
+    public CustomerService(
+        IMapper mapper, IUserService users, ICustomerRepository customers,
+        ICustomerManager manager, IContactRepository contacts, ISicRepository sic)
     {
         _mapper = mapper;
         _users = users;
         _customers = customers;
         _manager = manager;
         _contacts = contacts;
+        _sic = sic;
     }
 
     // Customer read
@@ -67,6 +71,7 @@ public sealed class CustomerService : ICustomerService
         var customer = _manager.Create(resource.Name, user?.Id);
 
         customer.Description = resource.Description;
+        customer.SicCode = resource.SicCodeId is null ? null : await _sic.GetAsync(resource.SicCodeId, token);
         customer.County = resource.County;
         customer.Website = resource.Website;
         customer.Location = resource.Location;
@@ -89,6 +94,7 @@ public sealed class CustomerService : ICustomerService
 
         item.Name = resource.Name;
         item.Description = resource.Description;
+        item.SicCode = resource.SicCodeId is null ? null : await _sic.GetAsync(resource.SicCodeId, token);
         item.County = resource.County;
         item.Location = resource.Location;
         item.MailingAddress = resource.MailingAddress;

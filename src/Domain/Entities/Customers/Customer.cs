@@ -1,5 +1,6 @@
 ﻿using Sbeap.Domain.Entities.Cases;
 using Sbeap.Domain.Entities.Contacts;
+using Sbeap.Domain.Entities.SicCodes;
 using Sbeap.Domain.ValueObjects;
 
 namespace Sbeap.Domain.Entities.Customers;
@@ -23,6 +24,7 @@ public class Customer : AuditableSoftDeleteEntity
     public string Name { get; set; } = string.Empty;
 
     public string? Description { get; set; }
+    public SicCode? SicCode { get; set; }
     public string? County { get; set; }
 
     [MaxLength(2000)] // https://stackoverflow.com/q/417142/212978

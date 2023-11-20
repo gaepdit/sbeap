@@ -4,6 +4,7 @@ using Sbeap.AppServices.Agencies;
 using Sbeap.AppServices.Cases;
 using Sbeap.AppServices.Customers;
 using Sbeap.AppServices.Offices;
+using Sbeap.AppServices.SicCodes;
 using Sbeap.Domain.Entities.ActionItemTypes;
 using Sbeap.Domain.Entities.Agencies;
 using Sbeap.Domain.Entities.Cases;
@@ -39,5 +40,8 @@ public static class AppServices
         // Offices
         services.AddScoped<IOfficeManager, OfficeManager>();
         services.AddScoped<IOfficeService, OfficeService>();
+
+        // SIC Codes
+        services.AddScoped<ISicService, SicService>();
     }
 }

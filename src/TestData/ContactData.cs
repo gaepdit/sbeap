@@ -52,7 +52,7 @@ internal static class ContactData
             Title = TextData.Phrase,
             Email = TextData.ValidEmail,
             Notes = TextData.Paragraph,
-            Address = ValueObjectData.IncompleteAddress,
+            Address = ValueObjectData.LessCompleteAddress,
             PhoneNumbers = { ValueObjectData.ValidPhoneNumber(seedPhoneIds * 94) },
         },
         new(new Guid("41000000-0000-0000-0000-000000000004"),
@@ -66,7 +66,7 @@ internal static class ContactData
             Title = TextData.Phrase,
             Email = TextData.ValidEmail,
             Notes = TextData.Paragraph,
-            Address = ValueObjectData.IncompleteAddress,
+            Address = ValueObjectData.LessCompleteAddress,
             PhoneNumbers = { ValueObjectData.ValidPhoneNumber(seedPhoneIds * 95) },
         },
     };

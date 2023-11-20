@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using GaEpd.AppLibrary.ListItems;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -7,6 +8,7 @@ using Sbeap.AppServices.Customers;
 using Sbeap.AppServices.Customers.Dto;
 using Sbeap.AppServices.Customers.Permissions;
 using Sbeap.AppServices.Permissions;
+using Sbeap.AppServices.SicCodes;
 using Sbeap.Domain.Data;
 using Sbeap.WebApp.Models;
 using Sbeap.WebApp.Platform.PageModelHelpers;
@@ -18,13 +20,15 @@ public class EditModel : PageModel
 {
     // Constructor
     private readonly ICustomerService _service;
+    private readonly ISicService _sicService;
     private readonly IValidator<CustomerUpdateDto> _validator;
     private readonly IAuthorizationService _authorization;
 
-    public EditModel(ICustomerService service, IValidator<CustomerUpdateDto> validator,
+    public EditModel(ICustomerService service, ISicService sicService, IValidator<CustomerUpdateDto> validator,
         IAuthorizationService authorization)
     {
         _service = service;
+        _sicService = sicService;
         _validator = validator;
         _authorization = authorization;
     }
@@ -40,8 +44,9 @@ public class EditModel : PageModel
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
 
     // Select lists
-    public SelectList StatesSelectList => new(Data.States);
-    public SelectList CountiesSelectList => new(Data.Counties);
+    public SelectList StatesSelectList => new(StateData.States);
+    public SelectList CountiesSelectList => new(CountyData.Counties);
+    public SelectList SicSelectList { get; private set; } = default!;
 
     // Methods
     public async Task<IActionResult> OnGetAsync(Guid? id)
@@ -56,6 +61,7 @@ public class EditModel : PageModel
         {
             Id = id.Value;
             Item = item;
+            await PopulateSelectListsAsync();
             return Page();
         }
 
@@ -73,13 +79,20 @@ public class EditModel : PageModel
         if (!UserCan[CustomerOperation.Edit]) return BadRequest();
 
         await _validator.ApplyValidationAsync(Item, ModelState);
-        if (!ModelState.IsValid) return Page();
+        if (!ModelState.IsValid)
+        {
+            await PopulateSelectListsAsync();
+            return Page();
+        }
 
         await _service.UpdateAsync(Id, Item);
 
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Customer successfully updated.");
         return RedirectToPage("Details", new { Id });
     }
+
+    private async Task PopulateSelectListsAsync() =>
+        SicSelectList = (await _sicService.GetActiveListItemsAsync()).ToSelectList();
 
     private async Task SetPermissionsAsync(CustomerUpdateDto item)
     {

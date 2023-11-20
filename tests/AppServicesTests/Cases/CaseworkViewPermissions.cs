@@ -10,7 +10,7 @@ namespace AppServicesTests.Cases;
 public class CaseworkViewPermissions
 {
     private readonly CaseworkOperation[] _requirements = { CaseworkOperation.ManageDeletions };
-    private static CustomerSearchResultDto EmptyCustomer => new(Guid.Empty, string.Empty, string.Empty, null, false);
+    private static CustomerSearchResultDto EmptyCustomer => new();
     private static CaseworkViewDto EmptyCaseworkView => new() { Customer = EmptyCustomer };
 
     [Test]

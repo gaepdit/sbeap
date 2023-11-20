@@ -1,12 +1,13 @@
 ﻿using FluentValidation;
 using Sbeap.AppServices.Customers.Dto;
 using Sbeap.Domain.Entities.Customers;
+using Sbeap.Domain.Entities.SicCodes;
 
 namespace Sbeap.AppServices.Customers.Validators;
 
 public class CustomerCreateValidator : AbstractValidator<CustomerCreateDto>
 {
-    public CustomerCreateValidator()
+    public CustomerCreateValidator(ISicRepository sic)
     {
         RuleFor(e => e.Name)
             .Cascade(CascadeMode.Stop)
@@ -17,6 +18,10 @@ public class CustomerCreateValidator : AbstractValidator<CustomerCreateDto>
             .Must(uri => Uri.TryCreate(uri, UriKind.Absolute, out _))
             .WithMessage("The Website must be a valid web address.")
             .When(x => !string.IsNullOrEmpty(x.Website));
+
+        RuleFor(e => e.SicCodeId)
+            .MustAsync(async (id, token) => id is null || await sic.ExistsAsync(id, token))
+            .WithMessage(e => $"The SIC Code entered does not exist.");
 
         // Embedded Contact
         RuleFor(e => e.Contact)

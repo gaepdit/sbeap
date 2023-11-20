@@ -6,6 +6,7 @@ using Sbeap.Domain.Entities.Cases;
 using Sbeap.Domain.Entities.Contacts;
 using Sbeap.Domain.Entities.Customers;
 using Sbeap.Domain.Entities.Offices;
+using Sbeap.Domain.Entities.SicCodes;
 using Sbeap.EfRepository.Contexts;
 using Sbeap.EfRepository.Repositories;
 using Sbeap.LocalRepository.Repositories;
@@ -28,6 +29,7 @@ public static class DataStores
             services.AddSingleton<IContactRepository, LocalContactRepository>();
             services.AddSingleton<ICustomerRepository, LocalCustomerRepository>();
             services.AddSingleton<IOfficeRepository, LocalOfficeRepository>();
+            services.AddSingleton<ISicRepository, LocalSicRepository>();
         }
         else
         {
@@ -56,6 +58,7 @@ public static class DataStores
             services.AddScoped<IContactRepository, ContactRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IOfficeRepository, OfficeRepository>();
+            services.AddScoped<ISicRepository, SicRepository>();
         }
     }
 }

@@ -9,6 +9,10 @@ public record CustomerSearchDto
     public CustomerSortBy Sort { get; init; } = CustomerSortBy.Name;
     public string? Name { get; init; }
     public string? Description { get; init; }
+
+    [Display(Name = "SIC Code")]
+    public string? SicCode { get; init; }
+
     public string? City { get; init; }
     public string? County { get; init; }
 
@@ -21,6 +25,7 @@ public record CustomerSearchDto
         { nameof(Sort), Sort.ToString() },
         { nameof(Name), Name },
         { nameof(Description), Description },
+        { nameof(SicCode), SicCode },
         { nameof(City), City },
         { nameof(County), County },
         { nameof(DeletedStatus), DeletedStatus?.ToString() },
@@ -30,6 +35,7 @@ public record CustomerSearchDto
     {
         Name = Name?.Trim(),
         Description = Description?.Trim(),
+        SicCode = SicCode?.Trim(),
         City = City?.Trim(),
         County = County?.Trim(),
     };

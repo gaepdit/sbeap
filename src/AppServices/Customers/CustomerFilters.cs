@@ -11,6 +11,7 @@ public static class CustomerFilters
         PredicateBuilder.True<Customer>()
             .ContainsName(spec.Name)
             .ContainsDescription(spec.Description)
+            .HasSicCode(spec.SicCode)
             .InCity(spec.City)
             .InCounty(spec.County)
             .ByDeletedStatus(spec.DeletedStatus);
@@ -24,6 +25,11 @@ public static class CustomerFilters
         string? input) => string.IsNullOrWhiteSpace(input)
         ? predicate
         : predicate.And(e => e.Description != null && e.Description.Contains(input));
+
+    private static Expression<Func<Customer, bool>> HasSicCode(this Expression<Func<Customer, bool>> predicate,
+        string? input) => string.IsNullOrWhiteSpace(input)
+        ? predicate
+        : predicate.And(e => e.SicCode != null && e.SicCode.Id == input);
 
     private static Expression<Func<Customer, bool>> InCity(this Expression<Func<Customer, bool>> predicate,
         string? input) => string.IsNullOrWhiteSpace(input)

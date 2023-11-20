@@ -147,4 +147,4 @@ Instructions for adding a new Entity Framework database migration:
 
 3. Run the following command with an appropriate migration name:
 
-   `dotnet ef migrations add NAME_OF_MIGRATION`
+   `dotnet ef migrations add NAME_OF_MIGRATION --msbuildprojectextensionspath ..\..\.artifacts\EfRepository\obj\`
