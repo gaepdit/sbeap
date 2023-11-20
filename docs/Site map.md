@@ -56,8 +56,8 @@ Maintenance pages available to Site Admin personnel to modify lookup tables used
 
 * Home (`/`)
 * Customer search (`/Customers`)
-* Case search (`/Cases`)
 * Add Customer (`/Customers/Add`)
+* Case search (`/Cases`)
 * More (Drop-down)
     * SBEAP Users (`/Admin/Users`)
     * Site Maintenance (`/Admin/Maintenance`)
