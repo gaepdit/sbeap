@@ -3,11 +3,8 @@ using Sbeap.Domain.ValueObjects;
 
 namespace Sbeap.Domain.Entities.Customers;
 
-public class CustomerManager : ICustomerManager
+public class CustomerManager(IContactRepository contactRepository) : ICustomerManager
 {
-    private readonly IContactRepository _contactRepository;
-    public CustomerManager(IContactRepository contactRepository) => _contactRepository = contactRepository;
-
     public Customer Create(string name, string? createdById)
     {
         var item = new Customer(Guid.NewGuid()) { Name = name };
@@ -25,7 +22,7 @@ public class CustomerManager : ICustomerManager
     public PhoneNumber CreatePhoneNumber(string number, PhoneType type) =>
         new()
         {
-            Id = _contactRepository.GetNextPhoneNumberId(),
+            Id = contactRepository.GetNextPhoneNumberId(),
             Number = number,
             Type = type,
         };
