@@ -14,10 +14,8 @@ using Sbeap.Domain.Identity;
 
 namespace Sbeap.EfRepository.Contexts;
 
-public class AppDbContext : IdentityDbContext<ApplicationUser>
+public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<ApplicationUser>(options)
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
-
     // Add domain entities here.
     public DbSet<ActionItem> ActionItems => Set<ActionItem>();
     public DbSet<ActionItemType> ActionItemTypes => Set<ActionItemType>();
