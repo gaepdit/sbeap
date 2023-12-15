@@ -7,79 +7,68 @@ using Sbeap.Domain.Entities.Cases;
 
 namespace Sbeap.AppServices.Cases;
 
-public sealed class ActionItemService : IActionItemService
+public sealed class ActionItemService(
+    IMapper mapper,
+    IUserService users,
+    ICaseworkRepository cases,
+    ICaseworkManager manager,
+    IActionItemRepository actionItems,
+    IActionItemTypeRepository actionItemTypes)
+    : IActionItemService
 {
-    private readonly IMapper _mapper;
-    private readonly IUserService _users;
-    private readonly ICaseworkRepository _cases;
-    private readonly ICaseworkManager _manager;
-    private readonly IActionItemRepository _actionItems;
-    private readonly IActionItemTypeRepository _actionItemTypes;
-
-    public ActionItemService(IMapper mapper, IUserService users, ICaseworkRepository cases, ICaseworkManager manager,
-        IActionItemRepository actionItems, IActionItemTypeRepository actionItemTypes)
-    {
-        _mapper = mapper;
-        _users = users;
-        _cases = cases;
-        _manager = manager;
-        _actionItems = actionItems;
-        _actionItemTypes = actionItemTypes;
-    }
-
     public async Task<Guid> CreateAsync(ActionItemCreateDto resource, CancellationToken token = default)
     {
-        var casework = await _cases.GetAsync(resource.CaseworkId, token);
-        var actionItemType = await _actionItemTypes.GetAsync(resource.ActionItemTypeId!.Value, token);
+        var casework = await cases.GetAsync(resource.CaseworkId, token);
+        var actionItemType = await actionItemTypes.GetAsync(resource.ActionItemTypeId!.Value, token);
 
-        var currentUser = await _users.GetCurrentUserAsync();
-        var item = _manager.CreateActionItem(casework, actionItemType, currentUser?.Id);
+        var currentUser = await users.GetCurrentUserAsync();
+        var item = manager.CreateActionItem(casework, actionItemType, currentUser?.Id);
 
         item.ActionDate = resource.ActionDate;
         item.Notes = resource.Notes;
         item.EnteredOn = DateTimeOffset.Now;
         item.EnteredBy = currentUser;
 
-        await _actionItems.InsertAsync(item, token: token);
+        await actionItems.InsertAsync(item, token: token);
         return item.Id;
     }
 
     public async Task<ActionItemViewDto?> FindAsync(Guid id, CancellationToken token = default) =>
-        _mapper.Map<ActionItemViewDto>(await _actionItems.FindAsync(e => e.Id == id && !e.IsDeleted, token));
+        mapper.Map<ActionItemViewDto>(await actionItems.FindAsync(e => e.Id == id && !e.IsDeleted, token));
 
     public async Task<ActionItemUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default) =>
-        _mapper.Map<ActionItemUpdateDto>(await _actionItems.FindAsync(e => e.Id == id && !e.IsDeleted, token));
+        mapper.Map<ActionItemUpdateDto>(await actionItems.FindAsync(e => e.Id == id && !e.IsDeleted, token));
 
     public async Task UpdateAsync(Guid id, ActionItemUpdateDto resource, CancellationToken token = default)
     {
-        var item = await _actionItems.GetAsync(id, token);
-        item.SetUpdater((await _users.GetCurrentUserAsync())?.Id);
+        var item = await actionItems.GetAsync(id, token);
+        item.SetUpdater((await users.GetCurrentUserAsync())?.Id);
 
-        item.ActionItemType = await _actionItemTypes.GetAsync(resource.ActionItemTypeId!.Value, token);
+        item.ActionItemType = await actionItemTypes.GetAsync(resource.ActionItemTypeId!.Value, token);
         item.ActionDate = resource.ActionDate;
         item.Notes = resource.Notes;
 
-        await _actionItems.UpdateAsync(item, token: token);
+        await actionItems.UpdateAsync(item, token: token);
     }
 
     public async Task DeleteAsync(Guid actionItemId, CancellationToken token = default)
     {
-        var item = await _actionItems.GetAsync(actionItemId, token);
-        item.SetDeleted((await _users.GetCurrentUserAsync())?.Id);
-        await _actionItems.UpdateAsync(item, token: token);
+        var item = await actionItems.GetAsync(actionItemId, token);
+        item.SetDeleted((await users.GetCurrentUserAsync())?.Id);
+        await actionItems.UpdateAsync(item, token: token);
     }
 
     public void Dispose()
     {
-        _cases.Dispose();
-        _actionItems.Dispose();
-        _actionItemTypes.Dispose();
+        cases.Dispose();
+        actionItems.Dispose();
+        actionItemTypes.Dispose();
     }
 
     public async ValueTask DisposeAsync()
     {
-        await _cases.DisposeAsync();
-        await _actionItems.DisposeAsync();
-        await _actionItemTypes.DisposeAsync();
+        await cases.DisposeAsync();
+        await actionItems.DisposeAsync();
+        await actionItemTypes.DisposeAsync();
     }
 }

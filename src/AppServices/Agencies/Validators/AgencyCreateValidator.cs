@@ -3,7 +3,5 @@ using Sbeap.Domain.Entities.Agencies;
 
 namespace Sbeap.AppServices.Agencies.Validators;
 
-public class AgencyCreateValidator : StandardNamedEntityCreateValidator<Agency, AgencyCreateDto, IAgencyRepository>
-{
-    public AgencyCreateValidator(IAgencyRepository repository) : base(repository) { }
-}
+public class AgencyCreateValidator(IAgencyRepository repository) :
+    StandardNamedEntityCreateValidator<Agency, AgencyCreateDto, IAgencyRepository>(repository);

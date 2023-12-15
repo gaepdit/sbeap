@@ -3,8 +3,5 @@ using Sbeap.Domain.Entities.ActionItemTypes;
 
 namespace Sbeap.AppServices.ActionItemTypes.Validators;
 
-public class ActionItemTypeCreateValidator :
-    StandardNamedEntityCreateValidator<ActionItemType, ActionItemTypeCreateDto, IActionItemTypeRepository>
-{
-    public ActionItemTypeCreateValidator(IActionItemTypeRepository repository) : base(repository) { }
-}
+public class ActionItemTypeCreateValidator(IActionItemTypeRepository repository) :
+    StandardNamedEntityCreateValidator<ActionItemType, ActionItemTypeCreateDto, IActionItemTypeRepository>(repository);
