@@ -29,14 +29,8 @@ public class MigratorHostedService : IHostedService
 
         var migrationConnectionString = _configuration.GetConnectionString("MigrationConnection");
         var migrationOptions = new DbContextOptionsBuilder<AppDbContext>()
-            .UseSqlServer(migrationConnectionString, builder =>
-            {
-                // DateOnly and TimeOnly entity properties require the following package: 
-                // ErikEJ.EntityFrameworkCore.SqlServer.DateOnlyTimeOnly
-                // FUTURE: This will no longer be necessary after upgrading to .NET 8.
-                builder.UseDateOnlyTimeOnly();
-                builder.MigrationsAssembly("EfRepository");
-            }).Options;
+            .UseSqlServer(migrationConnectionString, builder => builder.MigrationsAssembly("EfRepository"))
+            .Options;
 
         await using var migrationContext = new AppDbContext(migrationOptions);
 
