@@ -6,14 +6,11 @@ using System.Security.Claims;
 
 namespace Sbeap.WebApp.Platform.Services;
 
-public class ClaimsTransformation : IClaimsTransformation
+public class ClaimsTransformation(UserManager<ApplicationUser> userManager) : IClaimsTransformation
 {
-    private readonly UserManager<ApplicationUser> _userManager;
-    public ClaimsTransformation(UserManager<ApplicationUser> userManager) => _userManager = userManager;
-
     public async Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
     {
-        var userIsActive = (await _userManager.GetUserAsync(principal))?.Active ?? false;
+        var userIsActive = (await userManager.GetUserAsync(principal))?.Active ?? false;
 
         if (principal.HasClaim(nameof(Policies.ActiveUser), userIsActive.ToString()))
             return principal;
@@ -21,7 +18,8 @@ public class ClaimsTransformation : IClaimsTransformation
         foreach (var identity in principal.Identities)
             identity.TryRemoveClaim(identity.FindFirst(nameof(Policies.ActiveUser)));
 
-        (principal.Identity as ClaimsIdentity)!.AddClaim(new Claim(nameof(Policies.ActiveUser), userIsActive.ToString()));
+        (principal.Identity as ClaimsIdentity)!
+            .AddClaim(new Claim(nameof(Policies.ActiveUser), userIsActive.ToString()));
 
         return principal;
     }

@@ -1,17 +1,11 @@
 ﻿namespace Sbeap.WebApp.Models;
 
-public class DisplayMessage
+public class DisplayMessage(DisplayMessage.AlertContext context, string message)
 {
-    // ReSharper disable once MemberCanBePrivate.Global
     // Context must be public so it works with deserialization in TempDataExtensions class
-    public AlertContext Context { get; }
-    public string Message { get; }
+    public AlertContext Context => context;
 
-    public DisplayMessage(AlertContext context, string message)
-    {
-        Context = context;
-        Message = message;
-    }
+    public string Message => message;
 
     public string AlertClass => Context switch
     {
