@@ -4,10 +4,8 @@ using Sbeap.TestData;
 
 namespace Sbeap.LocalRepository.Repositories;
 
-public sealed class LocalOfficeRepository : NamedEntityRepository<Office>, IOfficeRepository
+public sealed class LocalOfficeRepository() : NamedEntityRepository<Office>(OfficeData.GetOffices), IOfficeRepository
 {
-    public LocalOfficeRepository() : base(OfficeData.GetOffices) { }
-
     public async Task<List<ApplicationUser>> GetActiveStaffMembersListAsync(
         Guid id, CancellationToken token = default) =>
         (await GetAsync(id, token)).StaffMembers

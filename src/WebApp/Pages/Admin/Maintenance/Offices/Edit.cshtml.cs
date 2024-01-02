@@ -10,20 +10,9 @@ using Sbeap.WebApp.Platform.PageModelHelpers;
 namespace Sbeap.WebApp.Pages.Admin.Maintenance.Offices;
 
 [Authorize(Policy = nameof(Policies.SiteMaintainer))]
-public class EditModel : PageModel
+public class EditModel(IOfficeService service, IValidator<OfficeUpdateDto> validator)
+    : PageModel
 {
-    // Constructor
-    private readonly IOfficeService _service;
-    private readonly IValidator<OfficeUpdateDto> _validator;
-
-    public EditModel(
-        IOfficeService service,
-        IValidator<OfficeUpdateDto> validator)
-    {
-        _service = service;
-        _validator = validator;
-    }
-
     // Properties
 
     [FromRoute]
@@ -44,7 +33,7 @@ public class EditModel : PageModel
     public async Task<IActionResult> OnGetAsync(Guid? id)
     {
         if (id is null) return RedirectToPage("Index");
-        var item = await _service.FindForUpdateAsync(id.Value);
+        var item = await service.FindForUpdateAsync(id.Value);
         if (item is null) return NotFound();
 
         Id = id.Value;
@@ -55,10 +44,10 @@ public class EditModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        await _validator.ApplyValidationAsync(Item, ModelState, Id);
+        await validator.ApplyValidationAsync(Item, ModelState, Id);
         if (!ModelState.IsValid) return Page();
 
-        await _service.UpdateAsync(Id, Item);
+        await service.UpdateAsync(Id, Item);
 
         HighlightId = Id;
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, $"“{Item.Name}” successfully updated.");

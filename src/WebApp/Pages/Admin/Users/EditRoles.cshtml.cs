@@ -11,12 +11,8 @@ using Sbeap.WebApp.Platform.PageModelHelpers;
 namespace Sbeap.WebApp.Pages.Admin.Users;
 
 [Authorize(Policy = nameof(Policies.UserAdministrator))]
-public class EditRolesModel : PageModel
+public class EditRolesModel(IStaffService staffService) : PageModel
 {
-    // Constructor
-    private readonly IStaffService _staffService;
-    public EditRolesModel(IStaffService staffService) => _staffService = staffService;
-
     // Properties
     [BindProperty]
     public string UserId { get; set; } = string.Empty;
@@ -31,7 +27,7 @@ public class EditRolesModel : PageModel
     public async Task<IActionResult> OnGetAsync(string? id)
     {
         if (id is null) return RedirectToPage("Index");
-        var staff = await _staffService.FindAsync(id);
+        var staff = await staffService.FindAsync(id);
         if (staff is null) return NotFound();
 
         DisplayStaff = staff;
@@ -43,7 +39,7 @@ public class EditRolesModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        var result = await _staffService.UpdateRolesAsync(UserId,
+        var result = await staffService.UpdateRolesAsync(UserId,
             RoleSettings.ToDictionary(r => r.Name, r => r.IsSelected));
 
         if (result.Succeeded)
@@ -55,7 +51,7 @@ public class EditRolesModel : PageModel
         foreach (var err in result.Errors)
             ModelState.AddModelError(string.Empty, string.Concat(err.Code, ": ", err.Description));
 
-        var staff = await _staffService.FindAsync(UserId);
+        var staff = await staffService.FindAsync(UserId);
         if (staff is null) return BadRequest();
 
         DisplayStaff = staff;
@@ -65,7 +61,7 @@ public class EditRolesModel : PageModel
 
     private async Task PopulateRoleSettingsAsync()
     {
-        var roles = await _staffService.GetRolesAsync(DisplayStaff.Id);
+        var roles = await staffService.GetRolesAsync(DisplayStaff.Id);
 
         RoleSettings.AddRange(AppRole.AllRoles.Select(r => new RoleSetting
         {

@@ -14,23 +14,9 @@ using Sbeap.WebApp.Platform.PageModelHelpers;
 namespace Sbeap.WebApp.Pages.Admin.Users;
 
 [Authorize(Policy = nameof(Policies.UserAdministrator))]
-public class EditModel : PageModel
+public class EditModel(IStaffService staffService, IOfficeService officeService, IValidator<StaffUpdateDto> validator)
+    : PageModel
 {
-    // Constructor
-    private readonly IStaffService _staffService;
-    private readonly IOfficeService _officeService;
-    private readonly IValidator<StaffUpdateDto> _validator;
-
-    public EditModel(
-        IStaffService staffService,
-        IOfficeService officeService,
-        IValidator<StaffUpdateDto> validator)
-    {
-        _staffService = staffService;
-        _officeService = officeService;
-        _validator = validator;
-    }
-
     // Properties
 
     [FromRoute]
@@ -50,7 +36,7 @@ public class EditModel : PageModel
         if (id is null) return RedirectToPage("Index");
         if (!Guid.TryParse(id, out var guid)) return NotFound();
 
-        var staff = await _staffService.FindAsync(id);
+        var staff = await staffService.FindAsync(id);
         if (staff is null) return NotFound();
 
         Id = guid;
@@ -63,11 +49,11 @@ public class EditModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        await _validator.ApplyValidationAsync(UpdateStaff, ModelState);
+        await validator.ApplyValidationAsync(UpdateStaff, ModelState);
 
         if (!ModelState.IsValid)
         {
-            var staff = await _staffService.FindAsync(Id.ToString());
+            var staff = await staffService.FindAsync(Id.ToString());
             if (staff is null) return BadRequest();
 
             DisplayStaff = staff;
@@ -76,7 +62,7 @@ public class EditModel : PageModel
             return Page();
         }
 
-        var result = await _staffService.UpdateAsync(Id.ToString(), UpdateStaff);
+        var result = await staffService.UpdateAsync(Id.ToString(), UpdateStaff);
         if (!result.Succeeded) return BadRequest();
 
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Successfully updated.");
@@ -84,5 +70,5 @@ public class EditModel : PageModel
     }
 
     private async Task PopulateSelectListsAsync() =>
-        OfficeItems = (await _officeService.GetActiveListItemsAsync()).ToSelectList();
+        OfficeItems = (await officeService.GetActiveListItemsAsync()).ToSelectList();
 }

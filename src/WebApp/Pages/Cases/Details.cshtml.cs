@@ -14,23 +14,13 @@ using Sbeap.WebApp.Platform.PageModelHelpers;
 namespace Sbeap.WebApp.Pages.Cases;
 
 [Authorize(Policy = nameof(Policies.StaffUser))]
-public class DetailsModel : PageModel
+public class DetailsModel(
+    ICaseworkService cases,
+    IActionItemService actionItems,
+    IActionItemTypeService actionItemTypes,
+    IAuthorizationService authorization)
+    : PageModel
 {
-    // Constructor
-    private readonly ICaseworkService _cases;
-    private readonly IActionItemService _actionItems;
-    private readonly IActionItemTypeService _actionItemTypes;
-    private readonly IAuthorizationService _authorization;
-
-    public DetailsModel(ICaseworkService cases, IActionItemService actionItems, IActionItemTypeService actionItemTypes,
-        IAuthorizationService authorization)
-    {
-        _cases = cases;
-        _actionItems = actionItems;
-        _actionItemTypes = actionItemTypes;
-        _authorization = authorization;
-    }
-
     // Properties
     public CaseworkViewDto Item { get; private set; } = default!;
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
@@ -48,7 +38,7 @@ public class DetailsModel : PageModel
     public async Task<IActionResult> OnGetAsync(Guid? id)
     {
         if (id is null) return RedirectToPage("../Index");
-        var item = await _cases.FindAsync(id.Value);
+        var item = await cases.FindAsync(id.Value);
         if (item is null) return NotFound();
 
         await SetPermissionsAsync(item);
@@ -68,8 +58,8 @@ public class DetailsModel : PageModel
     {
         if (id is null) return RedirectToPage("../Index");
         if (NewActionItem.CaseworkId != id) return BadRequest();
-        
-        var item = await _cases.FindAsync(id.Value);
+
+        var item = await cases.FindAsync(id.Value);
         if (item is null) return NotFound();
         if (item.IsDeleted) return BadRequest();
 
@@ -83,17 +73,17 @@ public class DetailsModel : PageModel
             return Page();
         }
 
-        HighlightId = await _actionItems.CreateAsync(NewActionItem);
+        HighlightId = await actionItems.CreateAsync(NewActionItem);
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "New Action successfully added.");
         return RedirectToPage("Details", new { id });
     }
 
     private async Task PopulateSelectListsAsync() =>
-        ActionItemTypeSelectList = (await _actionItemTypes.GetListItemsAsync()).ToSelectList();
+        ActionItemTypeSelectList = (await actionItemTypes.GetListItemsAsync()).ToSelectList();
 
     private async Task SetPermissionsAsync(CaseworkViewDto item)
     {
         foreach (var operation in CaseworkOperation.AllOperations)
-            UserCan[operation] = (await _authorization.AuthorizeAsync(User, item, operation)).Succeeded;
+            UserCan[operation] = (await authorization.AuthorizeAsync(User, item, operation)).Succeeded;
     }
 }

@@ -9,26 +9,15 @@ using Sbeap.Domain.Entities.Customers;
 
 namespace Sbeap.AppServices.Cases;
 
-public sealed class CaseworkService : ICaseworkService
+public sealed class CaseworkService(
+    IMapper mapper,
+    IUserService users,
+    ICaseworkRepository cases,
+    ICaseworkManager manager,
+    ICustomerRepository customers,
+    IAgencyRepository agencies)
+    : ICaseworkService
 {
-    private readonly IMapper _mapper;
-    private readonly IUserService _users;
-    private readonly ICaseworkRepository _cases;
-    private readonly ICaseworkManager _manager;
-    private readonly ICustomerRepository _customers;
-    private readonly IAgencyRepository _agencies;
-
-    public CaseworkService(IMapper mapper, IUserService users, ICaseworkRepository cases, ICaseworkManager manager,
-        ICustomerRepository customers, IAgencyRepository agencies)
-    {
-        _mapper = mapper;
-        _users = users;
-        _cases = cases;
-        _manager = manager;
-        _customers = customers;
-        _agencies = agencies;
-    }
-
     // Casework read
 
     public async Task<IPaginatedResult<CaseworkSearchResultDto>> SearchAsync(
@@ -36,10 +25,10 @@ public sealed class CaseworkService : ICaseworkService
     {
         var predicate = CaseworkFilters.CaseworkSearchPredicate(spec);
 
-        var count = await _cases.CountAsync(predicate, token);
+        var count = await cases.CountAsync(predicate, token);
 
         var list = count > 0
-            ? _mapper.Map<List<CaseworkSearchResultDto>>(await _cases.GetPagedListAsync(predicate, paging, token))
+            ? mapper.Map<List<CaseworkSearchResultDto>>(await cases.GetPagedListAsync(predicate, paging, token))
             : new List<CaseworkSearchResultDto>();
 
         return new PaginatedResult<CaseworkSearchResultDto>(list, count, paging);
@@ -47,38 +36,38 @@ public sealed class CaseworkService : ICaseworkService
 
     public async Task<CaseworkViewDto?> FindAsync(Guid id, CancellationToken token = default)
     {
-        var casework = await _cases.FindIncludeAllAsync(id, token);
+        var casework = await cases.FindIncludeAllAsync(id, token);
         if (casework is null) return null;
 
-        var view = _mapper.Map<CaseworkViewDto>(casework);
+        var view = mapper.Map<CaseworkViewDto>(casework);
         return casework is { IsDeleted: true, DeletedById: not null }
-            ? view with { DeletedBy = _mapper.Map<StaffViewDto>(await _users.FindUserAsync(casework.DeletedById)) }
+            ? view with { DeletedBy = mapper.Map<StaffViewDto>(await users.FindUserAsync(casework.DeletedById)) }
             : view;
     }
 
     public async Task<CaseworkSearchResultDto?> FindBasicInfoAsync(Guid id, CancellationToken token = default) =>
-        _mapper.Map<CaseworkSearchResultDto>(await _cases.FindAsync(id, token));
+        mapper.Map<CaseworkSearchResultDto>(await cases.FindAsync(id, token));
 
     // Casework write
 
     public async Task<Guid> CreateAsync(CaseworkCreateDto resource, CancellationToken token = default)
     {
-        var customer = await _customers.GetAsync(resource.CustomerId, token);
-        var item = _manager.Create(customer, resource.CaseOpenedDate, (await _users.GetCurrentUserAsync())?.Id);
+        var customer = await customers.GetAsync(resource.CustomerId, token);
+        var item = manager.Create(customer, resource.CaseOpenedDate, (await users.GetCurrentUserAsync())?.Id);
 
         item.Description = resource.Description ?? string.Empty;
 
-        await _cases.InsertAsync(item, token: token);
+        await cases.InsertAsync(item, token: token);
         return item.Id;
     }
 
     public async Task<CaseworkUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default) =>
-        _mapper.Map<CaseworkUpdateDto>(await _cases.FindAsync(id, token));
+        mapper.Map<CaseworkUpdateDto>(await cases.FindAsync(id, token));
 
     public async Task UpdateAsync(Guid id, CaseworkUpdateDto resource, CancellationToken token = default)
     {
-        var item = await _cases.GetAsync(id, token);
-        item.SetUpdater((await _users.GetCurrentUserAsync())?.Id);
+        var item = await cases.GetAsync(id, token);
+        item.SetUpdater((await users.GetCurrentUserAsync())?.Id);
 
         item.CaseOpenedDate = resource.CaseOpenedDate;
         item.Description = resource.Description;
@@ -87,37 +76,37 @@ public sealed class CaseworkService : ICaseworkService
         item.ReferralDate = resource.ReferralDate;
         item.ReferralNotes = resource.ReferralNotes;
         if (resource.ReferralAgencyId is not null)
-            item.ReferralAgency = await _agencies.GetAsync(resource.ReferralAgencyId.Value, token);
+            item.ReferralAgency = await agencies.GetAsync(resource.ReferralAgencyId.Value, token);
 
-        await _cases.UpdateAsync(item, token: token);
+        await cases.UpdateAsync(item, token: token);
     }
 
     public async Task DeleteAsync(Guid id, string? deleteComments, CancellationToken token = default)
     {
-        var item = await _cases.GetAsync(id, token);
-        item.SetDeleted((await _users.GetCurrentUserAsync())?.Id);
+        var item = await cases.GetAsync(id, token);
+        item.SetDeleted((await users.GetCurrentUserAsync())?.Id);
         item.DeleteComments = deleteComments;
-        await _cases.UpdateAsync(item, token: token);
+        await cases.UpdateAsync(item, token: token);
     }
 
     public async Task RestoreAsync(Guid id, CancellationToken token = default)
     {
-        var item = await _cases.GetAsync(id, token);
+        var item = await cases.GetAsync(id, token);
         item.SetNotDeleted();
-        await _cases.UpdateAsync(item, token: token);
+        await cases.UpdateAsync(item, token: token);
     }
 
     public void Dispose()
     {
-        _cases.Dispose();
-        _customers.Dispose();
-        _agencies.Dispose();
+        cases.Dispose();
+        customers.Dispose();
+        agencies.Dispose();
     }
 
     public async ValueTask DisposeAsync()
     {
-        await _cases.DisposeAsync();
-        await _customers.DisposeAsync();
-        await _agencies.DisposeAsync();
+        await cases.DisposeAsync();
+        await customers.DisposeAsync();
+        await agencies.DisposeAsync();
     }
 }

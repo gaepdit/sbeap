@@ -16,20 +16,9 @@ using Sbeap.WebApp.Platform.Constants;
 namespace Sbeap.WebApp.Pages.Admin.Users;
 
 [Authorize(Policy = nameof(Policies.ActiveUser))]
-public class IndexModel : PageModel
+public class IndexModel(IOfficeService officeService, IStaffService staffService)
+    : PageModel
 {
-    // Constructor
-    private readonly IOfficeService _officeService;
-    private readonly IStaffService _staffService;
-
-    public IndexModel(
-        IOfficeService officeService,
-        IStaffService staffService)
-    {
-        _officeService = officeService;
-        _staffService = staffService;
-    }
-
     // Properties
     public StaffSearchDto Spec { get; set; } = default!;
     public bool ShowResults { get; private set; }
@@ -49,14 +38,14 @@ public class IndexModel : PageModel
         Spec = spec.TrimAll();
         await PopulateSelectListsAsync();
         var paging = new PaginatedRequest(p, GlobalConstants.PageSize, Spec.Sort.GetDescription());
-        SearchResults = await _staffService.SearchAsync(Spec, paging);
+        SearchResults = await staffService.SearchAsync(Spec, paging);
         ShowResults = true;
         return Page();
     }
 
     private async Task PopulateSelectListsAsync()
     {
-        OfficeItems = (await _officeService.GetActiveListItemsAsync()).ToSelectList();
+        OfficeItems = (await officeService.GetActiveListItemsAsync()).ToSelectList();
         RoleItems = AppRole.AllRoles
             .Select(r => new ListItem<string>(r.Key, r.Value.DisplayName))
             .ToSelectList();

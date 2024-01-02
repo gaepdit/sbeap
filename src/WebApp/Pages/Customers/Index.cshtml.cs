@@ -16,20 +16,9 @@ using Sbeap.WebApp.Platform.Constants;
 namespace Sbeap.WebApp.Pages.Customers;
 
 [Authorize(Policy = nameof(Policies.StaffUser))]
-public class IndexModel : PageModel
+public class IndexModel(ICustomerService service, ISicService sicService, IAuthorizationService authorization)
+    : PageModel
 {
-    // Constructor
-    private readonly ICustomerService _service;
-    private readonly ISicService _sicService;
-    private readonly IAuthorizationService _authorization;
-
-    public IndexModel(ICustomerService service, ISicService sicService, IAuthorizationService authorization)
-    {
-        _service = service;
-        _sicService = sicService;
-        _authorization = authorization;
-    }
-
     // Properties
     public CustomerSearchDto Spec { get; set; } = default!;
     public bool ShowResults { get; private set; }
@@ -58,7 +47,7 @@ public class IndexModel : PageModel
         if (!ShowDeletionSearchOptions) Spec = Spec with { DeletedStatus = null };
 
         var paging = new PaginatedRequest(p, GlobalConstants.PageSize, Spec.Sort.GetDescription());
-        SearchResults = await _service.SearchAsync(Spec, paging);
+        SearchResults = await service.SearchAsync(Spec, paging);
 
         ShowResults = true;
         await PopulateSelectListsAsync();
@@ -66,8 +55,8 @@ public class IndexModel : PageModel
     }
 
     private async Task PopulateSelectListsAsync() =>
-        SicSelectList = (await _sicService.GetActiveListItemsAsync()).ToSelectList();
+        SicSelectList = (await sicService.GetActiveListItemsAsync()).ToSelectList();
 
     private async Task<bool> UserCanManageDeletionsAsync() =>
-        (await _authorization.AuthorizeAsync(User, nameof(Policies.AdminUser))).Succeeded;
+        (await authorization.AuthorizeAsync(User, nameof(Policies.AdminUser))).Succeeded;
 }

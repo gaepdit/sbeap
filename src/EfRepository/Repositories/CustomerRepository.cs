@@ -2,10 +2,9 @@ using Sbeap.Domain.Entities.Customers;
 
 namespace Sbeap.EfRepository.Repositories;
 
-public sealed class CustomerRepository : BaseRepository<Customer, Guid, AppDbContext>, ICustomerRepository
+public sealed class CustomerRepository(AppDbContext context)
+    : BaseRepository<Customer, Guid, AppDbContext>(context), ICustomerRepository
 {
-    public CustomerRepository(AppDbContext context) : base(context) { }
-
     public async Task<Customer?> FindIncludeAllAsync(
         Guid id, bool includeDeletedCases, CancellationToken token = default) =>
         await Context.Set<Customer>()

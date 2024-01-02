@@ -4,22 +4,15 @@ using Sbeap.TestData;
 
 namespace Sbeap.LocalRepository.Repositories;
 
-public sealed class LocalCaseworkRepository : BaseRepository<Casework, Guid>, ICaseworkRepository
+public sealed class LocalCaseworkRepository(IActionItemRepository actionItemRepository)
+    : BaseRepository<Casework, Guid>(CaseworkData.GetCases), ICaseworkRepository
 {
-    private readonly IActionItemRepository _actionItemRepository;
-
-    public LocalCaseworkRepository(IActionItemRepository actionItemRepository)
-        : base(CaseworkData.GetCases)
-    {
-        _actionItemRepository = actionItemRepository;
-    }
-
     public async Task<Casework?> FindIncludeAllAsync(Guid id, CancellationToken token = default)
     {
         var result = await FindAsync(id, token);
         if (result is null) return result;
 
-        result.ActionItems = (await _actionItemRepository
+        result.ActionItems = (await actionItemRepository
                 .GetListAsync(e => e.Casework.Id == id && !e.IsDeleted, token))
             .OrderByDescending(i => i.ActionDate)
             .ThenByDescending(i => i.EnteredOn)

@@ -3,7 +3,5 @@ using Sbeap.TestData;
 
 namespace Sbeap.LocalRepository.Repositories;
 
-public sealed class LocalActionItemTypeRepository : NamedEntityRepository<ActionItemType>, IActionItemTypeRepository
-{
-    public LocalActionItemTypeRepository() : base(ActionItemTypeData.GetActionItemTypes) { }
-}
+public sealed class LocalActionItemTypeRepository()
+    : NamedEntityRepository<ActionItemType>(ActionItemTypeData.GetActionItemTypes), IActionItemTypeRepository;

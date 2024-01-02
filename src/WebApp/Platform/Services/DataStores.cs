@@ -36,13 +36,9 @@ public static class DataStores
             var connectionString = configuration.GetConnectionString("DefaultConnection");
 
             if (string.IsNullOrEmpty(connectionString))
-            {
-                services.AddDbContext<AppDbContext>(opts => opts.UseInMemoryDatabase("TEMP_DB"));
-            }
+                services.AddDbContext<AppDbContext>(builder => builder.UseInMemoryDatabase("TEMP_DB"));
             else
-            {
-                services.AddDbContext<AppDbContext>(opts => opts.UseSqlServer(connectionString));
-            }
+                services.AddDbContext<AppDbContext>(builder => builder.UseSqlServer(connectionString));
 
             services.AddScoped<IActionItemRepository, ActionItemRepository>();
             services.AddScoped<IActionItemTypeRepository, ActionItemTypeRepository>();

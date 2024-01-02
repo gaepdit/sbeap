@@ -11,27 +11,15 @@ using Sbeap.Domain.ValueObjects;
 
 namespace Sbeap.AppServices.Customers;
 
-public sealed class CustomerService : ICustomerService
+public sealed class CustomerService(
+    IMapper mapper,
+    IUserService users,
+    ICustomerRepository customers,
+    ICustomerManager manager,
+    IContactRepository contacts,
+    ISicRepository sic)
+    : ICustomerService
 {
-    private readonly IMapper _mapper;
-    private readonly IUserService _users;
-    private readonly ICustomerRepository _customers;
-    private readonly ICustomerManager _manager;
-    private readonly IContactRepository _contacts;
-    private readonly ISicRepository _sic;
-
-    public CustomerService(
-        IMapper mapper, IUserService users, ICustomerRepository customers,
-        ICustomerManager manager, IContactRepository contacts, ISicRepository sic)
-    {
-        _mapper = mapper;
-        _users = users;
-        _customers = customers;
-        _manager = manager;
-        _contacts = contacts;
-        _sic = sic;
-    }
-
     // Customer read
 
     public async Task<IPaginatedResult<CustomerSearchResultDto>> SearchAsync(
@@ -39,10 +27,10 @@ public sealed class CustomerService : ICustomerService
     {
         var predicate = CustomerFilters.CustomerSearchPredicate(spec);
 
-        var count = await _customers.CountAsync(predicate, token);
+        var count = await customers.CountAsync(predicate, token);
 
         var list = count > 0
-            ? _mapper.Map<List<CustomerSearchResultDto>>(await _customers.GetPagedListAsync(predicate, paging, token))
+            ? mapper.Map<List<CustomerSearchResultDto>>(await customers.GetPagedListAsync(predicate, paging, token))
             : new List<CustomerSearchResultDto>();
 
         return new PaginatedResult<CustomerSearchResultDto>(list, count, paging);
@@ -51,79 +39,79 @@ public sealed class CustomerService : ICustomerService
     public async Task<CustomerViewDto?> FindAsync(
         Guid id, bool includeDeletedCases = false, CancellationToken token = default)
     {
-        var customer = await _customers.FindIncludeAllAsync(id, includeDeletedCases, token);
+        var customer = await customers.FindIncludeAllAsync(id, includeDeletedCases, token);
         if (customer is null) return null;
 
-        var view = _mapper.Map<CustomerViewDto>(customer);
+        var view = mapper.Map<CustomerViewDto>(customer);
         return customer is { IsDeleted: true, DeletedById: not null }
-            ? view with { DeletedBy = _mapper.Map<StaffViewDto>(await _users.FindUserAsync(customer.DeletedById)) }
+            ? view with { DeletedBy = mapper.Map<StaffViewDto>(await users.FindUserAsync(customer.DeletedById)) }
             : view;
     }
 
     public async Task<CustomerSearchResultDto?> FindBasicInfoAsync(Guid id, CancellationToken token = default) =>
-        _mapper.Map<CustomerSearchResultDto>(await _customers.FindAsync(id, token));
+        mapper.Map<CustomerSearchResultDto>(await customers.FindAsync(id, token));
 
     // Customer write
 
     public async Task<Guid> CreateAsync(CustomerCreateDto resource, CancellationToken token = default)
     {
-        var user = await _users.GetCurrentUserAsync();
-        var customer = _manager.Create(resource.Name, user?.Id);
+        var user = await users.GetCurrentUserAsync();
+        var customer = manager.Create(resource.Name, user?.Id);
 
         customer.Description = resource.Description;
-        customer.SicCode = resource.SicCodeId is null ? null : await _sic.GetAsync(resource.SicCodeId, token);
+        customer.SicCode = resource.SicCodeId is null ? null : await sic.GetAsync(resource.SicCodeId, token);
         customer.County = resource.County;
         customer.Website = resource.Website;
         customer.Location = resource.Location;
         customer.MailingAddress = resource.MailingAddress;
 
-        await _customers.InsertAsync(customer, autoSave: false, token: token);
+        await customers.InsertAsync(customer, autoSave: false, token: token);
         await CreateContactAsync(customer, resource.Contact, user, token);
 
-        await _customers.SaveChangesAsync(token);
+        await customers.SaveChangesAsync(token);
         return customer.Id;
     }
 
     public async Task<CustomerUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default) =>
-        _mapper.Map<CustomerUpdateDto>(await _customers.FindAsync(id, token));
+        mapper.Map<CustomerUpdateDto>(await customers.FindAsync(id, token));
 
     public async Task UpdateAsync(Guid id, CustomerUpdateDto resource, CancellationToken token = default)
     {
-        var item = await _customers.GetAsync(id, token);
-        item.SetUpdater((await _users.GetCurrentUserAsync())?.Id);
+        var item = await customers.GetAsync(id, token);
+        item.SetUpdater((await users.GetCurrentUserAsync())?.Id);
 
         item.Name = resource.Name;
         item.Description = resource.Description;
-        item.SicCode = resource.SicCodeId is null ? null : await _sic.GetAsync(resource.SicCodeId, token);
+        item.SicCode = resource.SicCodeId is null ? null : await sic.GetAsync(resource.SicCodeId, token);
         item.County = resource.County;
         item.Location = resource.Location;
         item.MailingAddress = resource.MailingAddress;
 
-        await _customers.UpdateAsync(item, token: token);
+        await customers.UpdateAsync(item, token: token);
     }
 
     public async Task DeleteAsync(Guid id, string? deleteComments, CancellationToken token = default)
     {
-        var item = await _customers.GetAsync(id, token);
-        item.SetDeleted((await _users.GetCurrentUserAsync())?.Id);
+        var item = await customers.GetAsync(id, token);
+        item.SetDeleted((await users.GetCurrentUserAsync())?.Id);
         item.DeleteComments = deleteComments;
-        await _customers.UpdateAsync(item, token: token);
+        await customers.UpdateAsync(item, token: token);
     }
 
     public async Task RestoreAsync(Guid id, CancellationToken token = default)
     {
-        var item = await _customers.GetAsync(id, token);
+        var item = await customers.GetAsync(id, token);
         item.SetNotDeleted();
-        await _customers.UpdateAsync(item, token: token);
+        await customers.UpdateAsync(item, token: token);
     }
 
     // Contacts
 
     public async Task<Guid> AddContactAsync(ContactCreateDto resource, CancellationToken token = default)
     {
-        var customer = await _customers.GetAsync(resource.CustomerId, token);
-        var id = await CreateContactAsync(customer, resource, await _users.GetCurrentUserAsync(), token);
-        await _contacts.SaveChangesAsync(token);
+        var customer = await customers.GetAsync(resource.CustomerId, token);
+        var id = await CreateContactAsync(customer, resource, await users.GetCurrentUserAsync(), token);
+        await contacts.SaveChangesAsync(token);
         return id;
     }
 
@@ -132,7 +120,7 @@ public sealed class CustomerService : ICustomerService
     {
         if (resource.IsEmpty) return Guid.Empty;
 
-        var contact = _manager.CreateContact(customer, user?.Id);
+        var contact = manager.CreateContact(customer, user?.Id);
 
         contact.Honorific = resource.Honorific;
         contact.GivenName = resource.GivenName;
@@ -146,23 +134,23 @@ public sealed class CustomerService : ICustomerService
         if (!resource.PhoneNumber.IsIncomplete)
         {
             contact.PhoneNumbers.Add(
-                _manager.CreatePhoneNumber(resource.PhoneNumber.Number, resource.PhoneNumber.Type.Value));
+                manager.CreatePhoneNumber(resource.PhoneNumber.Number, resource.PhoneNumber.Type.Value));
         }
 
-        await _contacts.InsertAsync(contact, autoSave: false, token: token);
+        await contacts.InsertAsync(contact, autoSave: false, token: token);
         return contact.Id;
     }
 
     public async Task<ContactViewDto?> FindContactAsync(Guid contactId, CancellationToken token = default) =>
-        _mapper.Map<ContactViewDto>(await _contacts.FindAsync(e => e.Id == contactId && !e.IsDeleted, token));
+        mapper.Map<ContactViewDto>(await contacts.FindAsync(e => e.Id == contactId && !e.IsDeleted, token));
 
     public async Task<ContactUpdateDto?> FindContactForUpdateAsync(Guid contactId, CancellationToken token = default) =>
-        _mapper.Map<ContactUpdateDto>(await _contacts.FindAsync(e => e.Id == contactId && !e.IsDeleted, token));
+        mapper.Map<ContactUpdateDto>(await contacts.FindAsync(e => e.Id == contactId && !e.IsDeleted, token));
 
     public async Task UpdateContactAsync(Guid contactId, ContactUpdateDto resource, CancellationToken token = default)
     {
-        var item = await _contacts.GetAsync(contactId, token);
-        item.SetUpdater((await _users.GetCurrentUserAsync())?.Id);
+        var item = await contacts.GetAsync(contactId, token);
+        item.SetUpdater((await users.GetCurrentUserAsync())?.Id);
 
         item.Honorific = resource.Honorific;
         item.GivenName = resource.GivenName;
@@ -172,42 +160,42 @@ public sealed class CustomerService : ICustomerService
         item.Notes = resource.Notes;
         item.Address = resource.Address;
 
-        await _contacts.UpdateAsync(item, token: token);
+        await contacts.UpdateAsync(item, token: token);
     }
 
     public async Task DeleteContactAsync(Guid contactId, CancellationToken token = default)
     {
-        var item = await _contacts.GetAsync(contactId, token);
-        item.SetDeleted((await _users.GetCurrentUserAsync())?.Id);
-        await _contacts.UpdateAsync(item, token: token);
+        var item = await contacts.GetAsync(contactId, token);
+        item.SetDeleted((await users.GetCurrentUserAsync())?.Id);
+        await contacts.UpdateAsync(item, token: token);
     }
 
     public async Task<PhoneNumber> AddPhoneNumberAsync(Guid contactId, PhoneNumberCreate resource,
         CancellationToken token = default)
     {
-        var contact = await _contacts.GetAsync(contactId, token);
-        var phoneNumber = _manager.CreatePhoneNumber(resource.Number!, resource.Type!.Value);
+        var contact = await contacts.GetAsync(contactId, token);
+        var phoneNumber = manager.CreatePhoneNumber(resource.Number!, resource.Type!.Value);
         contact.PhoneNumbers.Add(phoneNumber);
-        await _contacts.UpdateAsync(contact, token: token);
+        await contacts.UpdateAsync(contact, token: token);
         return phoneNumber;
     }
 
     public async Task DeletePhoneNumberAsync(Guid contactId, int phoneNumberId, CancellationToken token = default)
     {
-        var contact = await _contacts.GetAsync(contactId, token);
+        var contact = await contacts.GetAsync(contactId, token);
         contact.PhoneNumbers.RemoveAll(p => p.Id == phoneNumberId);
-        await _contacts.UpdateAsync(contact, token: token);
+        await contacts.UpdateAsync(contact, token: token);
     }
 
     public void Dispose()
     {
-        _customers.Dispose();
-        _contacts.Dispose();
+        customers.Dispose();
+        contacts.Dispose();
     }
 
     public async ValueTask DisposeAsync()
     {
-        await _customers.DisposeAsync();
-        await _contacts.DisposeAsync();
+        await customers.DisposeAsync();
+        await contacts.DisposeAsync();
     }
 }

@@ -1,3 +1,3 @@
 ﻿namespace Sbeap.Domain.Entities.ActionItemTypes;
 
-public interface IActionItemTypeRepository : INamedEntityRepository<ActionItemType> { }
+public interface IActionItemTypeRepository : INamedEntityRepository<ActionItemType>;

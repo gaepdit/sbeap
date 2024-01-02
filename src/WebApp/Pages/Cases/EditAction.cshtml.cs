@@ -14,23 +14,13 @@ using Sbeap.WebApp.Platform.PageModelHelpers;
 namespace Sbeap.WebApp.Pages.Cases;
 
 [Authorize(Policy = nameof(Policies.StaffUser))]
-public class EditActionModel : PageModel
+public class EditActionModel(
+    IActionItemService service,
+    ICaseworkService cases,
+    IActionItemTypeService actionItemTypes,
+    IAuthorizationService authorization)
+    : PageModel
 {
-    // Constructor
-    private readonly IActionItemService _service;
-    private readonly ICaseworkService _cases;
-    private readonly IActionItemTypeService _actionItemTypes;
-    private readonly IAuthorizationService _authorization;
-
-    public EditActionModel(IActionItemService service, ICaseworkService cases, IActionItemTypeService actionItemTypes,
-        IAuthorizationService authorization)
-    {
-        _service = service;
-        _cases = cases;
-        _authorization = authorization;
-        _actionItemTypes = actionItemTypes;
-    }
-
     // Properties
 
     [FromRoute]
@@ -53,10 +43,10 @@ public class EditActionModel : PageModel
     {
         if (caseId is null || actionId is null) return RedirectToPage("../Index");
 
-        var caseView = await _cases.FindBasicInfoAsync(caseId.Value);
+        var caseView = await cases.FindBasicInfoAsync(caseId.Value);
         if (caseView is null) return NotFound();
 
-        var actionItem = await _service.FindForUpdateAsync(actionId.Value);
+        var actionItem = await service.FindForUpdateAsync(actionId.Value);
         if (actionItem is null || actionItem.CaseWorkId != caseId) return NotFound();
 
         await SetPermissionsAsync(actionItem);
@@ -79,7 +69,7 @@ public class EditActionModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        var originalActionItem = await _service.FindForUpdateAsync(ActionId);
+        var originalActionItem = await service.FindForUpdateAsync(ActionId);
         if (originalActionItem is null) return BadRequest();
 
         await SetPermissionsAsync(originalActionItem);
@@ -91,7 +81,7 @@ public class EditActionModel : PageModel
             return Page();
         }
 
-        await _service.UpdateAsync(ActionId, ActionItemUpdate);
+        await service.UpdateAsync(ActionId, ActionItemUpdate);
 
         HighlightId = ActionId;
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Action Item successfully updated.");
@@ -99,11 +89,11 @@ public class EditActionModel : PageModel
     }
 
     private async Task PopulateSelectListsAsync() =>
-        ActionItemTypeSelectList = (await _actionItemTypes.GetListItemsAsync()).ToSelectList();
+        ActionItemTypeSelectList = (await actionItemTypes.GetListItemsAsync()).ToSelectList();
 
     private async Task SetPermissionsAsync(ActionItemUpdateDto item)
     {
         foreach (var operation in CaseworkOperation.AllOperations)
-            UserCan[operation] = (await _authorization.AuthorizeAsync(User, item, operation)).Succeeded;
+            UserCan[operation] = (await authorization.AuthorizeAsync(User, item, operation)).Succeeded;
     }
 }

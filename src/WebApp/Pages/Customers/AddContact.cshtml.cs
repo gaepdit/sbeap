@@ -13,23 +13,12 @@ using Sbeap.WebApp.Platform.PageModelHelpers;
 namespace Sbeap.WebApp.Pages.Customers;
 
 [Authorize(Policy = nameof(Policies.StaffUser))]
-public class AddContactModel : PageModel
+public class AddContactModel(
+    ICustomerService service,
+    IValidator<ContactCreateDto> validator,
+    IAuthorizationService authorization)
+    : PageModel
 {
-    // Constructor
-    private readonly ICustomerService _service;
-    private readonly IValidator<ContactCreateDto> _validator;
-    private readonly IAuthorizationService _authorization;
-
-    public AddContactModel(
-        ICustomerService service,
-        IValidator<ContactCreateDto> validator,
-        IAuthorizationService authorization)
-    {
-        _service = service;
-        _validator = validator;
-        _authorization = authorization;
-    }
-
     // Properties
     [BindProperty]
     public ContactCreateDto NewContact { get; set; } = default!;
@@ -46,7 +35,7 @@ public class AddContactModel : PageModel
     public async Task<IActionResult> OnGetAsync(Guid? id)
     {
         if (id is null) return RedirectToPage("../Index");
-        var customer = await _service.FindBasicInfoAsync(id.Value);
+        var customer = await service.FindBasicInfoAsync(id.Value);
         if (customer is null) return NotFound();
 
         Customer = customer;
@@ -63,20 +52,20 @@ public class AddContactModel : PageModel
         if (id is null) return RedirectToPage("../Index");
         if (NewContact.CustomerId != id) return BadRequest();
 
-        var customer = await _service.FindBasicInfoAsync(id.Value);
+        var customer = await service.FindBasicInfoAsync(id.Value);
         if (customer is null) return NotFound();
 
         Customer = customer;
         if (Customer.IsDeleted) return Forbid();
 
-        await _validator.ApplyValidationAsync(NewContact, ModelState);
+        await validator.ApplyValidationAsync(NewContact, ModelState);
         if (!ModelState.IsValid) return Page();
 
-        HighlightId = await _service.AddContactAsync(NewContact);
+        HighlightId = await service.AddContactAsync(NewContact);
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "New Contact successfully added.");
         return RedirectToPage("Details", null, new { id }, "contacts");
     }
 
     private async Task<bool> UserCanManageDeletionsAsync() =>
-        (await _authorization.AuthorizeAsync(User, nameof(Policies.AdminUser))).Succeeded;
+        (await authorization.AuthorizeAsync(User, nameof(Policies.AdminUser))).Succeeded;
 }

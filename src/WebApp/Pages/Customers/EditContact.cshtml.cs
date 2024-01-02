@@ -14,23 +14,13 @@ using Sbeap.WebApp.Platform.PageModelHelpers;
 namespace Sbeap.WebApp.Pages.Customers;
 
 [Authorize(Policy = nameof(Policies.StaffUser))]
-public class EditContactModel : PageModel
+public class EditContactModel(
+    ICustomerService service,
+    IValidator<ContactUpdateDto> validator,
+    IValidator<PhoneNumberCreate> phoneValidator,
+    IAuthorizationService authorization)
+    : PageModel
 {
-    // Constructor
-    private readonly ICustomerService _service;
-    private readonly IValidator<ContactUpdateDto> _validator;
-    private readonly IValidator<PhoneNumberCreate> _phoneValidator;
-    private readonly IAuthorizationService _authorization;
-
-    public EditContactModel(ICustomerService service, IValidator<ContactUpdateDto> validator,
-        IValidator<PhoneNumberCreate> phoneValidator, IAuthorizationService authorization)
-    {
-        _service = service;
-        _validator = validator;
-        _phoneValidator = phoneValidator;
-        _authorization = authorization;
-    }
-
     // Properties
 
     [FromRoute]
@@ -68,10 +58,10 @@ public class EditContactModel : PageModel
         // id is Contact ID
         if (id is null) return RedirectToPage("Index");
 
-        var contact = await _service.FindContactForUpdateAsync(id.Value);
+        var contact = await service.FindContactForUpdateAsync(id.Value);
         if (contact is null) return NotFound();
 
-        var customer = await _service.FindBasicInfoAsync(contact.CustomerId);
+        var customer = await service.FindBasicInfoAsync(contact.CustomerId);
         if (customer is null) return NotFound();
 
         await SetPermissionsAsync(contact);
@@ -102,10 +92,10 @@ public class EditContactModel : PageModel
 
         Handler = Handlers.EditContact;
 
-        await _validator.ApplyValidationAsync(ContactUpdate, ModelState);
+        await validator.ApplyValidationAsync(ContactUpdate, ModelState);
         if (!ModelState.IsValid) return Page();
 
-        await _service.UpdateContactAsync(Id, ContactUpdate);
+        await service.UpdateContactAsync(Id, ContactUpdate);
 
         HighlightId = Id;
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Contact successfully updated.");
@@ -122,13 +112,13 @@ public class EditContactModel : PageModel
 
         Handler = Handlers.PhoneNumber;
 
-        await _phoneValidator.ApplyValidationAsync(NewPhoneNumber, ModelState);
+        await phoneValidator.ApplyValidationAsync(NewPhoneNumber, ModelState);
         if (ContactUpdate.PhoneNumbers.Exists(p => p.Number == NewPhoneNumber.Number))
             ModelState.AddModelError(nameof(NewPhoneNumber.Number), "Phone number already exists.");
 
         if (!ModelState.IsValid) return Page();
 
-        var result = await _service.AddPhoneNumberAsync(Id, NewPhoneNumber);
+        var result = await service.AddPhoneNumberAsync(Id, NewPhoneNumber);
         ContactUpdate.PhoneNumbers.Add(result);
         ModelState.Remove("NewPhoneNumber.Number");
         ModelState.Remove("NewPhoneNumber.Type");
@@ -151,7 +141,7 @@ public class EditContactModel : PageModel
 
         Handler = Handlers.PhoneNumber;
 
-        await _service.DeletePhoneNumberAsync(Id, phoneNumberId.Value);
+        await service.DeletePhoneNumberAsync(Id, phoneNumberId.Value);
         ContactUpdate.PhoneNumbers.RemoveAll(p => p.Id == phoneNumberId);
 
         TempData.Set(nameof(PhoneNumberMessage),
@@ -162,15 +152,15 @@ public class EditContactModel : PageModel
     private async Task SetPermissionsAsync(ContactUpdateDto item)
     {
         foreach (var operation in CustomerOperation.AllOperations)
-            UserCan[operation] = (await _authorization.AuthorizeAsync(User, item, operation)).Succeeded;
+            UserCan[operation] = (await authorization.AuthorizeAsync(User, item, operation)).Succeeded;
     }
 
     private async Task<ContactUpdateDto?> RefreshExistingData(Guid id)
     {
-        var originalContact = await _service.FindContactForUpdateAsync(id);
+        var originalContact = await service.FindContactForUpdateAsync(id);
         if (originalContact is null) return null;
 
-        var customer = await _service.FindBasicInfoAsync(originalContact.CustomerId);
+        var customer = await service.FindBasicInfoAsync(originalContact.CustomerId);
         if (customer is null) return null;
 
         ContactUpdate.IsDeleted = originalContact.IsDeleted;

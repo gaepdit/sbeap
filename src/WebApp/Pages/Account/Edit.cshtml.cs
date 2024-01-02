@@ -14,22 +14,10 @@ using Sbeap.WebApp.Platform.PageModelHelpers;
 namespace Sbeap.WebApp.Pages.Account;
 
 [Authorize(Policy = nameof(Policies.ActiveUser))]
-public class EditModel : PageModel
+public class EditModel(IStaffService staffService, IOfficeService officeService, IValidator<StaffUpdateDto> validator)
+    : PageModel
 {
     // Constructor
-    private readonly IStaffService _staffService;
-    private readonly IOfficeService _officeService;
-    private readonly IValidator<StaffUpdateDto> _validator;
-
-    public EditModel(
-        IStaffService staffService,
-        IOfficeService officeService,
-        IValidator<StaffUpdateDto> validator)
-    {
-        _staffService = staffService;
-        _officeService = officeService;
-        _validator = validator;
-    }
 
     // Properties
     [BindProperty]
@@ -43,7 +31,7 @@ public class EditModel : PageModel
     // Methods
     public async Task<IActionResult> OnGetAsync()
     {
-        var staff = await _staffService.GetCurrentUserAsync();
+        var staff = await staffService.GetCurrentUserAsync();
         if (!staff.Active) return Forbid();
 
         DisplayStaff = staff;
@@ -55,7 +43,7 @@ public class EditModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        var staff = await _staffService.GetCurrentUserAsync();
+        var staff = await staffService.GetCurrentUserAsync();
 
         // Inactive staff cannot do anything here.
         if (!staff.Active) return Forbid();
@@ -63,7 +51,7 @@ public class EditModel : PageModel
         // User cannot deactivate self.
         UpdateStaff.Active = true;
 
-        await _validator.ApplyValidationAsync(UpdateStaff, ModelState);
+        await validator.ApplyValidationAsync(UpdateStaff, ModelState);
 
         if (!ModelState.IsValid)
         {
@@ -72,7 +60,7 @@ public class EditModel : PageModel
             return Page();
         }
 
-        var result = await _staffService.UpdateAsync(staff.Id, UpdateStaff);
+        var result = await staffService.UpdateAsync(staff.Id, UpdateStaff);
         if (!result.Succeeded) return BadRequest();
 
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Successfully updated profile.");
@@ -80,5 +68,5 @@ public class EditModel : PageModel
     }
 
     private async Task PopulateSelectListsAsync() =>
-        OfficeItems = (await _officeService.GetActiveListItemsAsync()).ToSelectList();
+        OfficeItems = (await officeService.GetActiveListItemsAsync()).ToSelectList();
 }
