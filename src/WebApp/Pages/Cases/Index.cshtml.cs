@@ -15,23 +15,9 @@ using Sbeap.WebApp.Platform.Constants;
 namespace Sbeap.WebApp.Pages.Cases;
 
 [Authorize(Policy = nameof(Policies.StaffUser))]
-public class IndexModel : PageModel
+public class IndexModel(ICaseworkService service, IAgencyService agencyService, IAuthorizationService authorization)
+    : PageModel
 {
-    // Constructor
-    private readonly ICaseworkService _service;
-    private readonly IAgencyService _agencyService;
-    private readonly IAuthorizationService _authorization;
-
-    public IndexModel(
-        ICaseworkService service,
-        IAgencyService agencyService,
-        IAuthorizationService authorization)
-    {
-        _service = service;
-        _agencyService = agencyService;
-        _authorization = authorization;
-    }
-
     // Properties
     public CaseworkSearchDto Spec { get; set; } = default!;
     public bool ShowResults { get; private set; }
@@ -59,7 +45,7 @@ public class IndexModel : PageModel
         if (!ShowDeletionSearchOptions) Spec = Spec with { DeletedStatus = null, CustomerDeletedStatus = null };
 
         var paging = new PaginatedRequest(p, GlobalConstants.PageSize, Spec.Sort.GetDescription());
-        SearchResults = await _service.SearchAsync(Spec, paging);
+        SearchResults = await service.SearchAsync(Spec, paging);
 
         ShowResults = true;
         await PopulateSelectListsAsync();
@@ -67,8 +53,8 @@ public class IndexModel : PageModel
     }
 
     private async Task PopulateSelectListsAsync() =>
-        AgencySelectList = (await _agencyService.GetListItemsAsync(true)).ToSelectList();
+        AgencySelectList = (await agencyService.GetListItemsAsync(true)).ToSelectList();
 
     private async Task<bool> UserCanManageDeletionsAsync() =>
-        (await _authorization.AuthorizeAsync(User, nameof(Policies.AdminUser))).Succeeded;
+        (await authorization.AuthorizeAsync(User, nameof(Policies.AdminUser))).Succeeded;
 }

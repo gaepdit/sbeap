@@ -15,22 +15,13 @@ using Sbeap.WebApp.Platform.PageModelHelpers;
 namespace Sbeap.WebApp.Pages.Cases;
 
 [Authorize(Policy = nameof(Policies.StaffUser))]
-public class EditModel : PageModel
+public class EditModel(
+    ICaseworkService service,
+    IAgencyService agencyService,
+    IValidator<CaseworkUpdateDto> validator,
+    IAuthorizationService authorization)
+    : PageModel
 {
-    private readonly ICaseworkService _service;
-    private readonly IAgencyService _agencyService;
-    private readonly IValidator<CaseworkUpdateDto> _validator;
-    private readonly IAuthorizationService _authorization;
-
-    public EditModel(ICaseworkService service, IAgencyService agencyService, IValidator<CaseworkUpdateDto> validator,
-        IAuthorizationService authorization)
-    {
-        _service = service;
-        _agencyService = agencyService;
-        _validator = validator;
-        _authorization = authorization;
-    }
-
     // Properties
 
     [FromRoute]
@@ -48,7 +39,7 @@ public class EditModel : PageModel
     public async Task<IActionResult> OnGetAsync(Guid? id)
     {
         if (id is null) return RedirectToPage("Index");
-        var item = await _service.FindForUpdateAsync(id.Value);
+        var item = await service.FindForUpdateAsync(id.Value);
         if (item is null) return NotFound();
 
         await SetPermissionsAsync(item);
@@ -69,30 +60,30 @@ public class EditModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        var originalItem = await _service.FindForUpdateAsync(Id);
+        var originalItem = await service.FindForUpdateAsync(Id);
         if (originalItem is null) return BadRequest();
         await SetPermissionsAsync(originalItem);
         if (!UserCan[CaseworkOperation.Edit]) return BadRequest();
 
-        await _validator.ApplyValidationAsync(Item, ModelState);
+        await validator.ApplyValidationAsync(Item, ModelState);
         if (!ModelState.IsValid)
         {
             await PopulateSelectListsAsync();
             return Page();
         }
 
-        await _service.UpdateAsync(Id, Item);
+        await service.UpdateAsync(Id, Item);
 
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Case successfully updated.");
         return RedirectToPage("Details", new { Id });
     }
 
     private async Task PopulateSelectListsAsync() =>
-        AgencySelectList = (await _agencyService.GetListItemsAsync()).ToSelectList();
+        AgencySelectList = (await agencyService.GetListItemsAsync()).ToSelectList();
 
     private async Task SetPermissionsAsync(CaseworkUpdateDto item)
     {
         foreach (var operation in CaseworkOperation.AllOperations)
-            UserCan[operation] = (await _authorization.AuthorizeAsync(User, item, operation)).Succeeded;
+            UserCan[operation] = (await authorization.AuthorizeAsync(User, item, operation)).Succeeded;
     }
 }

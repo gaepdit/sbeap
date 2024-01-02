@@ -10,18 +10,9 @@ using Sbeap.WebApp.Platform.PageModelHelpers;
 namespace Sbeap.WebApp.Pages.Customers;
 
 [Authorize(Policy = nameof(Policies.AdminUser))]
-public class DeleteContactModel : PageModel
+public class DeleteContactModel(ICustomerService service, IAuthorizationService authorization)
+    : PageModel
 {
-    // Constructor
-    private readonly ICustomerService _service;
-    private readonly IAuthorizationService _authorization;
-
-    public DeleteContactModel(ICustomerService service, IAuthorizationService authorization)
-    {
-        _service = service;
-        _authorization = authorization;
-    }
-
     // Properties
     [BindProperty]
     public Guid ContactId { get; set; }
@@ -35,10 +26,10 @@ public class DeleteContactModel : PageModel
         if (id is null) return RedirectToPage("Index");
         if (!await UserCanManageDeletionsAsync()) return NotFound();
 
-        var contact = await _service.FindContactAsync(id.Value);
+        var contact = await service.FindContactAsync(id.Value);
         if (contact is null) return NotFound();
 
-        var customer = await _service.FindBasicInfoAsync(contact.CustomerId);
+        var customer = await service.FindBasicInfoAsync(contact.CustomerId);
         if (customer is null || customer.IsDeleted) return NotFound();
 
         ContactView = contact;
@@ -51,17 +42,17 @@ public class DeleteContactModel : PageModel
     {
         if (!await UserCanManageDeletionsAsync() || !ModelState.IsValid) return BadRequest();
 
-        var originalContact = await _service.FindContactAsync(ContactId);
+        var originalContact = await service.FindContactAsync(ContactId);
         if (originalContact is null) return BadRequest();
 
-        var customer = await _service.FindBasicInfoAsync(originalContact.CustomerId);
+        var customer = await service.FindBasicInfoAsync(originalContact.CustomerId);
         if (customer is null || customer.IsDeleted) return BadRequest();
 
-        await _service.DeleteContactAsync(ContactId);
+        await service.DeleteContactAsync(ContactId);
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Contact successfully deleted.");
         return RedirectToPage("Details", new { customer.Id });
     }
 
     private async Task<bool> UserCanManageDeletionsAsync() =>
-        (await _authorization.AuthorizeAsync(User, nameof(Policies.AdminUser))).Succeeded;
+        (await authorization.AuthorizeAsync(User, nameof(Policies.AdminUser))).Succeeded;
 }

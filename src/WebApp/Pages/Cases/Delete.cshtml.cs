@@ -12,18 +12,9 @@ using System.ComponentModel.DataAnnotations;
 namespace Sbeap.WebApp.Pages.Cases;
 
 [Authorize(Policy = nameof(Policies.AdminUser))]
-public class DeleteModel : PageModel
+public class DeleteModel(ICaseworkService service, IAuthorizationService authorization)
+    : PageModel
 {
-    // Constructor
-    private readonly ICaseworkService _service;
-    private readonly IAuthorizationService _authorization;
-
-    public DeleteModel(ICaseworkService service, IAuthorizationService authorization)
-    {
-        _service = service;
-        _authorization = authorization;
-    }
-
     // Properties
     [BindProperty]
     public Guid Id { get; set; }
@@ -38,7 +29,7 @@ public class DeleteModel : PageModel
     public async Task<IActionResult> OnGetAsync(Guid? id)
     {
         if (id is null) return RedirectToPage("Index");
-        var item = await _service.FindAsync(id.Value);
+        var item = await service.FindAsync(id.Value);
         if (item is null) return NotFound();
         if (!await UserCanManageDeletionsAsync(item)) return Forbid();
 
@@ -55,10 +46,10 @@ public class DeleteModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        var item = await _service.FindAsync(Id);
+        var item = await service.FindAsync(Id);
         if (item is null) return BadRequest();
         if (!await UserCanManageDeletionsAsync(item)) return BadRequest();
-        
+
         if (item.IsDeleted)
         {
             TempData.SetDisplayMessage(DisplayMessage.AlertContext.Info, "Case is already deleted.");
@@ -71,11 +62,11 @@ public class DeleteModel : PageModel
             return Page();
         }
 
-        await _service.DeleteAsync(Id, DeleteComments);
+        await service.DeleteAsync(Id, DeleteComments);
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Success, "Case successfully deleted.");
         return RedirectToPage("Details", new { Id });
     }
 
     private async Task<bool> UserCanManageDeletionsAsync(CaseworkViewDto item) =>
-        (await _authorization.AuthorizeAsync(User, item, CaseworkOperation.ManageDeletions)).Succeeded;
+        (await authorization.AuthorizeAsync(User, item, CaseworkOperation.ManageDeletions)).Succeeded;
 }
