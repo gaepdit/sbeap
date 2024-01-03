@@ -10,7 +10,7 @@ public sealed class SicRepository(AppDbContext context) : ISicRepository
 
     public async Task<SicCode> GetAsync(string id, CancellationToken token = default) =>
         await context.Set<SicCode>().SingleOrDefaultAsync(sic => sic.Id.Equals(id), token)
-        ?? throw new EntityNotFoundException(typeof(SicCode), id);
+        ?? throw new EntityNotFoundException<SicCode>(id);
 
     public async Task<IReadOnlyCollection<SicCode>> GetListAsync(CancellationToken token = default) =>
         await context.Set<SicCode>().AsNoTracking().Where(sic => sic.Active).OrderBy(sic => sic.Id).ToListAsync(token);

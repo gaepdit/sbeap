@@ -21,7 +21,7 @@ public class CustomerCreateValidator : AbstractValidator<CustomerCreateDto>
 
         RuleFor(e => e.SicCodeId)
             .MustAsync(async (id, token) => id is null || await sic.ExistsAsync(id, token))
-            .WithMessage(e => $"The SIC Code entered does not exist.");
+            .WithMessage(_ => "The SIC Code entered does not exist.");
 
         // Embedded Contact
         RuleFor(e => e.Contact)

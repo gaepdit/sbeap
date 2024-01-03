@@ -35,7 +35,7 @@ public class GetActiveStaffMembersList
     {
         var id = Guid.Empty;
         var action = async () => await _repository.GetActiveStaffMembersListAsync(id);
-        (await action.Should().ThrowAsync<EntityNotFoundException>())
+        (await action.Should().ThrowAsync<EntityNotFoundException<Office>>())
             .WithMessage($"Entity not found. Entity type: {typeof(Office).FullName}, id: {id}");
     }
 }
