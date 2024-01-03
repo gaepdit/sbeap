@@ -7,7 +7,7 @@ using Sbeap.Domain.Entities.ActionItemTypes;
 namespace Sbeap.AppServices.ActionItemTypes;
 
 public sealed class ActionItemTypeService(IActionItemTypeRepository repository, IActionItemTypeManager manager,
-        IMapperBase mapper, IUserService users, IMemoryCache cache) : IActionItemTypeService
+        IMapper mapper, IUserService users, IMemoryCache cache) : IActionItemTypeService
 {
     private static readonly TimeSpan ActionItemTypeListExpiration = TimeSpan.FromDays(7);
     private const string ActionItemTypeListCacheKey = nameof(ActionItemTypeListCacheKey);

@@ -8,7 +8,7 @@ namespace Sbeap.AppServices.DtoBase;
 
 [SuppressMessage("", "S2436")]
 public abstract class StandardNamedEntityCreateValidator<TEntity, TDto, TRepository> : AbstractValidator<TDto>
-    where TEntity : IEntity<Guid>, INamedEntity
+    where TEntity : IEntity, INamedEntity
     where TDto : INamedEntity
     where TRepository : INamedEntityRepository<TEntity>
 {

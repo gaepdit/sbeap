@@ -6,7 +6,7 @@ using Sbeap.Domain.Entities.Agencies;
 
 namespace Sbeap.AppServices.Agencies;
 
-public sealed class AgencyService(IAgencyRepository repository, IAgencyManager manager, IMapperBase mapper,
+public sealed class AgencyService(IAgencyRepository repository, IAgencyManager manager, IMapper mapper,
         IUserService users, IMemoryCache cache) : IAgencyService
 {
     private static readonly TimeSpan AgencyListExpiration = TimeSpan.FromDays(7);

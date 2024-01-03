@@ -15,7 +15,7 @@ public interface ISicRepository : IDisposable, IAsyncDisposable
     /// </summary>
     /// <param name="id">The Id of the SicCode.</param>
     /// <param name="token"><see cref="T:System.Threading.CancellationToken"/></param>
-    /// <exception cref="EntityNotFoundException">Thrown if no entity exists with the given Id.</exception>
+    /// <exception cref="EntityNotFoundException{SicCode}">Thrown if no entity exists with the given Id.</exception>
     /// <returns>An SicCode.</returns>
     Task<SicCode> GetAsync(string id, CancellationToken token = default);
 

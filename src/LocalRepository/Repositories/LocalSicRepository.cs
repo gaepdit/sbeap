@@ -12,7 +12,7 @@ public sealed class LocalSicRepository : ISicRepository
     public Task<SicCode> GetAsync(string id, CancellationToken token = default) =>
         SicCodeData.GetSicCodes.Any(sic => sic.Id.Equals(id))
             ? Task.FromResult(SicCodeData.GetSicCodes.Single(sic => sic.Id.Equals(id)))
-            : throw new EntityNotFoundException(typeof(SicCode), id);
+            : throw new EntityNotFoundException<SicCode>(id);
 
     public Task<IReadOnlyCollection<SicCode>> GetListAsync(CancellationToken token = default) =>
         Task.FromResult(SicCodeData.GetSicCodes
