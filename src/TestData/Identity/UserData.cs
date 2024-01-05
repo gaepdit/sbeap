@@ -1,9 +1,9 @@
-﻿using Sbeap.Domain.Identity;
+using Sbeap.Domain.Identity;
 using Sbeap.TestData.Constants;
 
 namespace Sbeap.TestData.Identity;
 
-internal static partial class UserData
+internal static class UserData
 {
     private static IEnumerable<ApplicationUser> UserSeedItems => new List<ApplicationUser>
     {

@@ -83,7 +83,7 @@ public static class DbSeedDataHelpers
         if (!context.Users.Any()) context.Users.AddRange(users);
 
         // Seed Roles
-        var roles = UserData.GetRoles.ToList();
+        var roles = RoleData.GetRoles.ToList();
         if (!context.Roles.Any()) context.Roles.AddRange(roles);
 
         // Seed User Roles

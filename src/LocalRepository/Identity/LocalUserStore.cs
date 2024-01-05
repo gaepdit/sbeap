@@ -23,15 +23,15 @@ public sealed class LocalUserStore :
         UserStore = UserData.GetUsers.ToList();
 
         // Seed Roles
-        Roles = UserData.GetRoles.ToList();
+        Roles = RoleData.GetRoles.ToList();
 
         // Seed User Roles
         UserRoles = new List<IdentityUserRole<string>>();
 
         // -- admin
+        var adminUserId = UserStore.Single(e => e.GivenName == "Admin").Id;
         UserRoles.AddRange(Roles
-            .Select(role => new IdentityUserRole<string>
-                { RoleId = role.Id, UserId = UserStore.Single(e => e.GivenName == "Admin").Id })
+            .Select(role => new IdentityUserRole<string> { RoleId = role.Id, UserId = adminUserId })
             .ToList());
 
         // -- staff

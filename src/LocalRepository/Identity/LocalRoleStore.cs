@@ -8,7 +8,7 @@ namespace Sbeap.LocalRepository.Identity;
 /// </summary>
 public sealed class LocalRoleStore : IRoleStore<IdentityRole>
 {
-    internal IEnumerable<IdentityRole> Roles { get; } = UserData.GetRoles;
+    internal IEnumerable<IdentityRole> Roles { get; } = RoleData.GetRoles;
 
     public Task<IdentityResult> CreateAsync(IdentityRole role, CancellationToken cancellationToken) =>
         Task.FromResult(new IdentityResult()); // Intentionally left unimplemented.
