@@ -3,13 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Sbeap.AppServices.Customers;
 using Sbeap.AppServices.Customers.Dto;
-using Sbeap.AppServices.Permissions;
+using Sbeap.AppServices.Customers.Permissions;
 using Sbeap.WebApp.Models;
 using Sbeap.WebApp.Platform.PageModelHelpers;
 
 namespace Sbeap.WebApp.Pages.Customers;
 
-[Authorize(Policy = nameof(Policies.AdminUser))]
 public class DeleteContactModel(ICustomerService service, IAuthorizationService authorization)
     : PageModel
 {
@@ -17,17 +16,17 @@ public class DeleteContactModel(ICustomerService service, IAuthorizationService 
     [BindProperty]
     public Guid ContactId { get; set; }
 
-    public ContactViewDto ContactView { get; private set; } = default!;
+    public ContactUpdateDto ContactView { get; private set; } = default!;
     public CustomerSearchResultDto CustomerView { get; private set; } = default!;
 
     // Methods
     public async Task<IActionResult> OnGetAsync(Guid? id)
     {
         if (id is null) return RedirectToPage("Index");
-        if (!await UserCanManageDeletionsAsync()) return NotFound();
 
-        var contact = await service.FindContactAsync(id.Value);
+        var contact = await service.FindContactForUpdateAsync(id.Value);
         if (contact is null) return NotFound();
+        if (!await UserCanDeleteContactsAsync(contact)) return Forbid();
 
         var customer = await service.FindBasicInfoAsync(contact.CustomerId);
         if (customer is null || customer.IsDeleted) return NotFound();
@@ -40,10 +39,10 @@ public class DeleteContactModel(ICustomerService service, IAuthorizationService 
 
     public async Task<IActionResult> OnPostAsync()
     {
-        if (!await UserCanManageDeletionsAsync() || !ModelState.IsValid) return BadRequest();
+        if (!ModelState.IsValid) return BadRequest();
 
-        var originalContact = await service.FindContactAsync(ContactId);
-        if (originalContact is null) return BadRequest();
+        var originalContact = await service.FindContactForUpdateAsync(ContactId);
+        if (originalContact is null || !await UserCanDeleteContactsAsync(originalContact)) return BadRequest();
 
         var customer = await service.FindBasicInfoAsync(originalContact.CustomerId);
         if (customer is null || customer.IsDeleted) return BadRequest();
@@ -53,6 +52,6 @@ public class DeleteContactModel(ICustomerService service, IAuthorizationService 
         return RedirectToPage("Details", new { customer.Id });
     }
 
-    private async Task<bool> UserCanManageDeletionsAsync() =>
-        (await authorization.AuthorizeAsync(User, nameof(Policies.AdminUser))).Succeeded;
+    private async Task<bool> UserCanDeleteContactsAsync(ContactUpdateDto item) =>
+        (await authorization.AuthorizeAsync(User, item, CustomerOperation.Edit)).Succeeded;
 }

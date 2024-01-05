@@ -31,7 +31,7 @@ public record ContactViewDto
     public IncompleteAddress Address { get; init; } = default!;
 
     [Display(Name = "Phone Numbers")]
-    public ICollection<PhoneNumber> PhoneNumbers { get; } = new List<PhoneNumber>();
+    public ICollection<PhoneNumber> PhoneNumbers { get; } = [];
 
     public StaffViewDto? EnteredBy { get; init; }
 
@@ -39,6 +39,7 @@ public record ContactViewDto
     public DateTimeOffset? EnteredOn { get; init; }
 
     // Read-only properties
+
     [JsonIgnore]
     public string Name => new[] { Honorific, GivenName, FamilyName }.ConcatWithSeparator();
 }

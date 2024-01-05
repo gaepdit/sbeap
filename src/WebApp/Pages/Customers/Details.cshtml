@@ -190,10 +190,7 @@ else
                                 {
                                     <div class="col-auto d-print-none ms-2">
                                         <a asp-page="EditContact" asp-route-id="@item.Id.ToString()" class="btn btn-sm btn-outline-primary">Edit</a>
-                                        @if (Model.UserCan[CustomerOperation.ManageDeletions])
-                                        {
-                                            <a asp-page="DeleteContact" asp-route-id="@item.Id.ToString()" class="btn btn-sm btn-outline-danger ms-1">Delete</a>
-                                        }
+                                        <a asp-page="DeleteContact" asp-route-id="@item.Id.ToString()" class="btn btn-sm btn-outline-danger ms-1">Delete</a>
                                     </div>
                                 }
                             </div>

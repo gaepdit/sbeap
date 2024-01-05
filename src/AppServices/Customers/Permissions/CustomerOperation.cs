@@ -11,7 +11,7 @@ public class CustomerOperation :
         AllOperations.Add(this);
     }
 
-    public static List<CustomerOperation> AllOperations { get; } = new();
+    public static List<CustomerOperation> AllOperations { get; } = [];
 
     public static readonly CustomerOperation Edit = new(nameof(Edit));
     public static readonly CustomerOperation ManageDeletions = new(nameof(ManageDeletions));

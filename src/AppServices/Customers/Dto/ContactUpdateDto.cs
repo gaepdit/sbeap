@@ -1,5 +1,7 @@
-﻿using Sbeap.Domain.ValueObjects;
+﻿using GaEpd.AppLibrary.Extensions;
+using Sbeap.Domain.ValueObjects;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Sbeap.AppServices.Customers.Dto;
 
@@ -34,5 +36,10 @@ public record ContactUpdateDto
     public IncompleteAddress Address { get; init; } = default!;
 
     [UsedImplicitly]
-    public List<PhoneNumber> PhoneNumbers { get; } = new();
+    public List<PhoneNumber> PhoneNumbers { get; } = [];
+
+    // Read-only properties
+
+    [JsonIgnore]
+    public string Name => new[] { Honorific, GivenName, FamilyName }.ConcatWithSeparator();
 }
