@@ -6,7 +6,7 @@
 
 * `/` (Home page/user dashboard)
 
-### Customer Pages 
+### Customer Pages
 
 * `/Customers` (Customer search)
 * `/Customers/Add` (Add new Customer with Contact)
@@ -25,12 +25,13 @@
 * `/Cases/Edit/{id}` (Edit Case details)
 * `/Cases/Delete/{id}` (Delete Case)
 * `/Cases/Restore/{id}` (Restore Case)
-* `/Cases/Details/{id}/EditAction/{actionId}` (Edit Action Item)
-* `/Cases/Details/{id}/DeleteAction/{actionId}` (Delete Action Item)
+* `/Cases/EditAction/{actionId}` (Edit Action Item)
+* `/Cases/DeleteAction/{actionId}` (Delete Action Item)
 
-### Maintenance Pages 
+### Maintenance Pages
 
-Maintenance pages available to Site Admin personnel to modify lookup tables used for drop-down lists. Editable items comprise Action Item Types, Agencies, and Offices.
+Maintenance pages available to Site Admin personnel to modify lookup tables used for drop-down lists. Editable items
+comprise Action Item Types, Agencies, and Offices.
 
 * `/Admin/Maintenance` (List of item types)
 * `/Admin/Maintenance/[type]` (List of items of given type)

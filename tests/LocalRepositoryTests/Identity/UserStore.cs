@@ -45,7 +45,7 @@ public class UserStore
     [Test]
     public async Task Update_WhenItemIsValid_UpdatesItem()
     {
-        var store = RepositoryHelper.GetLocalUserStore();
+        using var store = RepositoryHelper.GetLocalUserStore();
         var user = store.UserStore.First();
         user.Phone = "1";
         user.Office = new Office(Guid.NewGuid(), "abc");

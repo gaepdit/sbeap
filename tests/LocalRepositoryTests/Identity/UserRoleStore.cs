@@ -102,13 +102,13 @@ public class UserRoleStore
     [Test]
     public async Task GetUsersInRole_IfSome_ReturnsListOfUsers()
     {
-        using var store = new LocalUserStore();
+        using var store = RepositoryHelper.GetLocalUserStore();
         var result = await store.GetUsersInRoleAsync(RoleName.UserAdmin, CancellationToken.None);
 
         using (new AssertionScope())
         {
             result.Should().HaveCount(1);
-            result[0].Should().BeEquivalentTo(_store.UserStore.First());
+            result[0].Should().BeEquivalentTo(store.UserStore.First());
         }
     }
 

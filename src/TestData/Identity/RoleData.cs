@@ -3,7 +3,7 @@ using Sbeap.Domain.Identity;
 
 namespace Sbeap.TestData.Identity;
 
-internal static partial class UserData
+internal static class RoleData
 {
     private static IEnumerable<IdentityRole>? _roles;
 
