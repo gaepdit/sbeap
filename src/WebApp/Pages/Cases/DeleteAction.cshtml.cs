@@ -21,16 +21,17 @@ public class DeleteActionModel(IActionItemService service, ICaseworkService case
     public CaseworkViewDto CaseView { get; private set; } = default!;
 
     // Methods
-    public async Task<IActionResult> OnGetAsync(Guid? caseId, Guid? actionId)
+    public async Task<IActionResult> OnGetAsync(Guid? actionId)
     {
-        if (caseId is null || actionId is null) return RedirectToPage("Index");
-
-        var caseView = await cases.FindAsync(caseId.Value);
-        if (caseView is null) return NotFound();
-        if (!await UserCanDeleteActionItemsAsync(caseView)) return Forbid();
+        if (actionId is null) return RedirectToPage("Index");
 
         var actionItem = await service.FindAsync(actionId.Value);
-        if (actionItem is null || actionItem.CaseWorkId != caseId) return NotFound();
+        if (actionItem is null) return NotFound();
+
+        var caseView = await cases.FindAsync(actionItem.CaseWorkId);
+        if (caseView is null) return NotFound();
+
+        if (!await UserCanDeleteActionItemsAsync(caseView)) return Forbid();
 
         CaseView = caseView;
         ActionItemView = actionItem;

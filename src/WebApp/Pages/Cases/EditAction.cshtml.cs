@@ -39,15 +39,15 @@ public class EditActionModel(
     public SelectList ActionItemTypeSelectList { get; private set; } = default!;
 
     // Methods
-    public async Task<IActionResult> OnGetAsync(Guid? caseId, Guid? actionId)
+    public async Task<IActionResult> OnGetAsync(Guid? actionId)
     {
-        if (caseId is null || actionId is null) return RedirectToPage("../Index");
-
-        var caseView = await cases.FindBasicInfoAsync(caseId.Value);
-        if (caseView is null) return NotFound();
+        if (actionId is null) return RedirectToPage("../Index");
 
         var actionItem = await service.FindForUpdateAsync(actionId.Value);
-        if (actionItem is null || actionItem.CaseWorkId != caseId) return NotFound();
+        if (actionItem is null) return NotFound();
+
+        var caseView = await cases.FindBasicInfoAsync(actionItem.CaseWorkId);
+        if (caseView is null) return NotFound();
 
         await SetPermissionsAsync(actionItem);
 
@@ -64,7 +64,7 @@ public class EditActionModel(
             return NotFound();
 
         TempData.SetDisplayMessage(DisplayMessage.AlertContext.Info, "Cannot edit a deleted case.");
-        return RedirectToPage("Details", new { id = caseId });
+        return RedirectToPage("Details", new { id = actionItem.CaseWorkId });
     }
 
     public async Task<IActionResult> OnPostAsync()
