@@ -31,10 +31,7 @@ public class EditModel(IStaffService staffService, IOfficeService officeService,
     // Methods
     public async Task<IActionResult> OnGetAsync()
     {
-        var staff = await staffService.GetCurrentUserAsync();
-        if (!staff.Active) return Forbid();
-
-        DisplayStaff = staff;
+        DisplayStaff = await staffService.GetCurrentUserAsync();
         UpdateStaff = DisplayStaff.AsUpdateDto();
 
         await PopulateSelectListsAsync();
@@ -44,9 +41,6 @@ public class EditModel(IStaffService staffService, IOfficeService officeService,
     public async Task<IActionResult> OnPostAsync()
     {
         var staff = await staffService.GetCurrentUserAsync();
-
-        // Inactive staff cannot do anything here.
-        if (!staff.Active) return Forbid();
 
         // User cannot deactivate self.
         UpdateStaff.Active = true;
