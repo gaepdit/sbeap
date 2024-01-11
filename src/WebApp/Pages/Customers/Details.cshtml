@@ -217,13 +217,11 @@ else
                             Entered
                             @if (item.EnteredBy is not null)
                             {
-                                @:by
-                                @item.EnteredBy.Name
+                                <text>by @item.EnteredBy.Name</text>
                             }
                             @if (item.EnteredOn is not null)
                             {
-                                @:on
-                                @Html.DisplayFor(m => item.EnteredOn.Value, DisplayTemplate.ShortDate)
+                                <text> on @Html.DisplayFor(m => item.EnteredOn.Value, DisplayTemplate.ShortDate)</text>
                             }
                         </small>
                     }

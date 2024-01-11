@@ -12,15 +12,12 @@ namespace Sbeap.WebApp.Pages.Cases;
 public class DeleteActionModel(IActionItemService service, ICaseworkService cases, IAuthorizationService authorization)
     : PageModel
 {
-    // Properties
-
     [BindProperty]
     public Guid ActionItemId { get; set; }
 
     public ActionItemViewDto ActionItemView { get; private set; } = default!;
     public CaseworkViewDto CaseView { get; private set; } = default!;
 
-    // Methods
     public async Task<IActionResult> OnGetAsync(Guid? actionId)
     {
         if (actionId is null) return RedirectToPage("Index");
@@ -47,7 +44,7 @@ public class DeleteActionModel(IActionItemService service, ICaseworkService case
         if (originalActionItem is null) return BadRequest();
 
         var caseView = await cases.FindAsync(originalActionItem.CaseWorkId);
-        if (caseView is null || caseView.IsDeleted || !await UserCanDeleteActionItemsAsync(caseView))
+        if (caseView is null || !await UserCanDeleteActionItemsAsync(caseView))
             return BadRequest();
 
         await service.DeleteAsync(ActionItemId);
