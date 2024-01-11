@@ -21,7 +21,6 @@ public class DetailsModel(
     IAuthorizationService authorization)
     : PageModel
 {
-    // Properties
     public CaseworkViewDto Item { get; private set; } = default!;
     public Dictionary<IAuthorizationRequirement, bool> UserCan { get; set; } = new();
 
@@ -31,10 +30,8 @@ public class DetailsModel(
     [TempData]
     public Guid HighlightId { get; set; }
 
-    // Select lists
     public SelectList ActionItemTypeSelectList { get; private set; } = default!;
 
-    // Methods
     public async Task<IActionResult> OnGetAsync(Guid? id)
     {
         if (id is null) return RedirectToPage("../Index");
@@ -42,8 +39,7 @@ public class DetailsModel(
         if (item is null) return NotFound();
 
         await SetPermissionsAsync(item);
-        if (item.IsDeleted && !UserCan[CaseworkOperation.ManageDeletions])
-            return NotFound();
+        if (item.IsDeleted && !UserCan[CaseworkOperation.ManageDeletions]) return NotFound();
 
         Item = item;
         NewActionItem = new ActionItemCreateDto(id.Value);
@@ -60,11 +56,10 @@ public class DetailsModel(
         if (NewActionItem.CaseworkId != id) return BadRequest();
 
         var item = await cases.FindAsync(id.Value);
-        if (item is null) return NotFound();
-        if (item.IsDeleted) return BadRequest();
+        if (item is null || item.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync(item);
-        if (!UserCan[CaseworkOperation.EditActionItems]) return Forbid();
+        if (!UserCan[CaseworkOperation.EditActionItems]) return BadRequest();
 
         if (!ModelState.IsValid)
         {
@@ -79,7 +74,7 @@ public class DetailsModel(
     }
 
     private async Task PopulateSelectListsAsync() =>
-        ActionItemTypeSelectList = (await actionItemTypes.GetListItemsAsync()).ToSelectList();
+        ActionItemTypeSelectList = (await actionItemTypes.GetActiveListItemsAsync()).ToSelectList();
 
     private async Task SetPermissionsAsync(CaseworkViewDto item)
     {

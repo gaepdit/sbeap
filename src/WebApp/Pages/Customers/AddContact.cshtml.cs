@@ -53,7 +53,7 @@ public class AddContactModel(
         if (NewContact.CustomerId != id) return BadRequest();
 
         var customer = await service.FindBasicInfoAsync(id.Value);
-        if (customer is null) return NotFound();
+        if (customer is null) return BadRequest();
 
         Customer = customer;
         if (Customer.IsDeleted) return Forbid();

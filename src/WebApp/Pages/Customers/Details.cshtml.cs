@@ -51,8 +51,7 @@ public class DetailsModel(ICustomerService customers, ICaseworkService cases, IA
         if (NewCase.CustomerId != id) return BadRequest();
 
         var item = await customers.FindAsync(id.Value);
-        if (item is null) return NotFound();
-        if (item.IsDeleted) return BadRequest();
+        if (item is null || item.IsDeleted) return BadRequest();
 
         await SetPermissionsAsync(item);
         if (!UserCan[CustomerOperation.Edit]) return Forbid();

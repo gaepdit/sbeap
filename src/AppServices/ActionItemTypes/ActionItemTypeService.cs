@@ -18,7 +18,7 @@ public sealed class ActionItemTypeService(IActionItemTypeRepository repository, 
         return mapper.Map<IReadOnlyList<ActionItemTypeViewDto>>(list);
     }
 
-    public async Task<IReadOnlyList<ListItem>> GetListItemsAsync(CancellationToken token = default)
+    public async Task<IReadOnlyList<ListItem>> GetActiveListItemsAsync(CancellationToken token = default)
     {
         var list = cache.Get<IReadOnlyList<ListItem>>(ActionItemTypeListCacheKey);
         if (list is not null) return list;

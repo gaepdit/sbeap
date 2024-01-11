@@ -9,66 +9,66 @@ namespace Sbeap.AppServices.Cases;
 
 public sealed class ActionItemService(
     IMapper mapper,
-    IUserService users,
-    ICaseworkRepository cases,
-    ICaseworkManager manager,
-    IActionItemRepository actionItems,
-    IActionItemTypeRepository actionItemTypes)
+    IUserService userService,
+    ICaseworkRepository caseworkRepository,
+    ICaseworkManager caseworkManager,
+    IActionItemRepository actionItemRepository,
+    IActionItemTypeRepository actionItemTypeRepository)
     : IActionItemService
 {
     public async Task<Guid> CreateAsync(ActionItemCreateDto resource, CancellationToken token = default)
     {
-        var casework = await cases.GetAsync(resource.CaseworkId, token);
-        var actionItemType = await actionItemTypes.GetAsync(resource.ActionItemTypeId!.Value, token);
+        var casework = await caseworkRepository.GetAsync(resource.CaseworkId, token);
+        var actionItemType = await actionItemTypeRepository.GetAsync(resource.ActionItemTypeId!.Value, token);
 
-        var currentUser = await users.GetCurrentUserAsync();
-        var item = manager.CreateActionItem(casework, actionItemType, currentUser?.Id);
+        var currentUser = await userService.GetCurrentUserAsync();
+        var item = caseworkManager.CreateActionItem(casework, actionItemType, currentUser?.Id);
 
         item.ActionDate = resource.ActionDate;
         item.Notes = resource.Notes;
         item.EnteredOn = DateTimeOffset.Now;
         item.EnteredBy = currentUser;
 
-        await actionItems.InsertAsync(item, token: token);
+        await actionItemRepository.InsertAsync(item, token: token);
         return item.Id;
     }
 
     public async Task<ActionItemViewDto?> FindAsync(Guid id, CancellationToken token = default) =>
-        mapper.Map<ActionItemViewDto>(await actionItems.FindAsync(e => e.Id == id && !e.IsDeleted, token));
+        mapper.Map<ActionItemViewDto>(await actionItemRepository.FindAsync(e => e.Id == id && !e.IsDeleted, token));
 
     public async Task<ActionItemUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default) =>
-        mapper.Map<ActionItemUpdateDto>(await actionItems.FindAsync(e => e.Id == id && !e.IsDeleted, token));
+        mapper.Map<ActionItemUpdateDto>(await actionItemRepository.FindAsync(e => e.Id == id && !e.IsDeleted, token));
 
     public async Task UpdateAsync(Guid id, ActionItemUpdateDto resource, CancellationToken token = default)
     {
-        var item = await actionItems.GetAsync(id, token);
-        item.SetUpdater((await users.GetCurrentUserAsync())?.Id);
+        var item = await actionItemRepository.GetAsync(id, token);
+        item.SetUpdater((await userService.GetCurrentUserAsync())?.Id);
 
-        item.ActionItemType = await actionItemTypes.GetAsync(resource.ActionItemTypeId!.Value, token);
+        item.ActionItemType = await actionItemTypeRepository.GetAsync(resource.ActionItemTypeId!.Value, token);
         item.ActionDate = resource.ActionDate;
         item.Notes = resource.Notes;
 
-        await actionItems.UpdateAsync(item, token: token);
+        await actionItemRepository.UpdateAsync(item, token: token);
     }
 
     public async Task DeleteAsync(Guid actionItemId, CancellationToken token = default)
     {
-        var item = await actionItems.GetAsync(actionItemId, token);
-        item.SetDeleted((await users.GetCurrentUserAsync())?.Id);
-        await actionItems.UpdateAsync(item, token: token);
+        var item = await actionItemRepository.GetAsync(actionItemId, token);
+        item.SetDeleted((await userService.GetCurrentUserAsync())?.Id);
+        await actionItemRepository.UpdateAsync(item, token: token);
     }
 
     public void Dispose()
     {
-        cases.Dispose();
-        actionItems.Dispose();
-        actionItemTypes.Dispose();
+        caseworkRepository.Dispose();
+        actionItemRepository.Dispose();
+        actionItemTypeRepository.Dispose();
     }
 
     public async ValueTask DisposeAsync()
     {
-        await cases.DisposeAsync();
-        await actionItems.DisposeAsync();
-        await actionItemTypes.DisposeAsync();
+        await caseworkRepository.DisposeAsync();
+        await actionItemRepository.DisposeAsync();
+        await actionItemTypeRepository.DisposeAsync();
     }
 }
