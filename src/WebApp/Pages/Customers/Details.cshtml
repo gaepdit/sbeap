@@ -168,8 +168,8 @@ else
         @foreach (var item in Model.Item.Contacts)
         {
             <div class="col">
-                <div id="@item.Id.ToString()" class="card">
-                    <div class="card-header @(item.Id == Model.HighlightId ? "list-group-item-success" : "")">
+                <div id="@item.Id.ToString()" class="card @(item.Id == Model.HighlightId ? "border-success" : "")">
+                    <div class="card-header">
                         <div class="container-full">
                             <div class="row justify-content-between align-items-start g-0 my-1">
                                 <div class="col">
@@ -217,13 +217,11 @@ else
                             Entered
                             @if (item.EnteredBy is not null)
                             {
-                                @:by
-                                @item.EnteredBy.Name
+                                <text>by @item.EnteredBy.Name</text>
                             }
                             @if (item.EnteredOn is not null)
                             {
-                                @:on
-                                @Html.DisplayFor(m => item.EnteredOn.Value, DisplayTemplate.ShortDate)
+                                <text> on @Html.DisplayFor(m => item.EnteredOn.Value, DisplayTemplate.ShortDate)</text>
                             }
                         </small>
                     }

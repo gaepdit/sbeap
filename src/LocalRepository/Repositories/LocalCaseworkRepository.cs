@@ -13,7 +13,7 @@ public sealed class LocalCaseworkRepository(IActionItemRepository actionItemRepo
         if (result is null) return result;
 
         result.ActionItems = (await actionItemRepository
-                .GetListAsync(e => e.Casework.Id == id && !e.IsDeleted, token))
+                .GetListAsync(e => e.Casework.Id == result.Id && !e.IsDeleted, token))
             .OrderByDescending(i => i.ActionDate)
             .ThenByDescending(i => i.EnteredOn)
             .ToList();

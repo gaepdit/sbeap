@@ -89,7 +89,7 @@ public class EditActionModel(
     }
 
     private async Task PopulateSelectListsAsync() =>
-        ActionItemTypeSelectList = (await actionItemTypes.GetListItemsAsync()).ToSelectList();
+        ActionItemTypeSelectList = (await actionItemTypes.GetActiveListItemsAsync()).ToSelectList();
 
     private async Task SetPermissionsAsync(ActionItemUpdateDto item)
     {
