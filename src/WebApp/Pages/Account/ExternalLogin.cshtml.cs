@@ -93,6 +93,13 @@ public class ExternalLoginModel(
         if (preferredUserName is null)
             return RedirectToLoginPageWithError("Error loading detailed work account information.");
 
+        // If the user's email domain is not valid, don't sign in.
+        if (!preferredUserNameIsValidEmailDomain())
+        {
+            _logger.LogWarning("User {UserName} with invalid email domain attempted signin", preferredUserName);
+            return RedirectToPage("./Unavailable");
+        }
+        
         // Determine if a user account already exists.
         var user = await userManager.FindByNameAsync(preferredUserName);
 
