@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Identity.Web;
 using Sbeap.AppServices.Staff;
 using Sbeap.AppServices.Staff.Dto;
+using Sbeap.Domain.Entities.Users;
 using Sbeap.Domain.Identity;
 using Sbeap.WebApp.Models;
 using Sbeap.WebApp.Platform.PageModelHelpers;
@@ -94,9 +95,9 @@ public class ExternalLoginModel(
             return RedirectToLoginPageWithError("Error loading detailed work account information.");
 
         // If the user's email domain is not valid, don't sign in.
-        if (!preferredUserNameIsValidEmailDomain())
+        if (!preferredUserName.IsValidEmailDomain())
         {
-            _logger.LogWarning("User {UserName} with invalid email domain attempted signin", preferredUserName);
+            logger.LogWarning("User {UserName} with invalid email domain attempted signin", preferredUserName);
             return RedirectToPage("./Unavailable");
         }
         
