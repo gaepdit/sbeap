@@ -1,8 +1,8 @@
-namespace Sbeap.Domain.Entities.Users
+namespace Sbeap.Domain.Entities
 {
     public static class UserDomainValidation
     {
         public static bool IsValidEmailDomain(this string email) =>
-            email.EndsWith("@dnr.ga.gov", System.StringComparison.CurrentCultureIgnoreCase);
+            email.EndsWith("@dnr.ga.gov", StringComparison.CurrentCultureIgnoreCase);
     }
 }
