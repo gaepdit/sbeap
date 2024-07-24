@@ -1,7 +1,7 @@
 using NUnit.Framework;
 using Sbeap.Domain.Identity;
 
-namespace Sbeap.Domain.Tests.Identity
+namespace Sbeap.WebAppTests.Pages.Account
 {
     public class UserDomainValidationTests
     {
