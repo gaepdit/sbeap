@@ -29,7 +29,7 @@ public class AddContactModel(
     public CustomerSearchResultDto Customer { get; private set; } = default!;
 
     // Select lists
-    public SelectList StatesSelectList => new(StateData.States);
+    public static SelectList StatesSelectList => new(StateData.States);
 
     // Methods
     public async Task<IActionResult> OnGetAsync(Guid? id)

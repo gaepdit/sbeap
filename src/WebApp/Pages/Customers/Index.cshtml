@@ -43,7 +43,8 @@
             </div>
             <div class="col-md mb-3">
                 <div class="form-floating">
-                    <select asp-for="Spec.County" name="@nameof(Model.Spec.County)" asp-items="Model.CountiesSelectList" class="form-select">
+                    <select asp-for="Spec.County" name="@nameof(Model.Spec.County)"
+                            asp-items="IndexModel.CountiesSelectList" class="form-select">
                         <option value="">@TextConstants.SelectTextAny</option>
                     </select>
                     <label asp-for="Spec.County" class="form-label"></label>

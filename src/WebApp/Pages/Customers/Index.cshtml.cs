@@ -28,7 +28,7 @@ public class IndexModel(ICustomerService service, ISicService sicService, IAutho
     public PaginationNavModel PaginationNav => new(SearchResults, Spec.AsRouteValues());
 
     // Select lists
-    public SelectList CountiesSelectList => new(CountyData.Counties);
+    public static SelectList CountiesSelectList => new(CountyData.Counties);
     public SelectList SicSelectList { get; private set; } = default!;
 
     // Methods

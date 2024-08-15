@@ -24,7 +24,7 @@
                     @Html.EditorFor(e => e.Item.Name, EditorTemplate.Input)
                 </div>
                 <div class="col-md-6 col-lg-4 mb-3">
-                    @Html.EditorFor(e => e.Item.County, EditorTemplate.SelectOptional, new { Items = Model.CountiesSelectList })
+                    @Html.EditorFor(e => e.Item.County, EditorTemplate.SelectOptional, new { Items = EditModel.CountiesSelectList })
                 </div>
                 <div class="col-md-12 col-lg-4 mb-3">
                     @Html.EditorFor(e => e.Item.Website, EditorTemplate.Input)
@@ -55,7 +55,7 @@
                     @Html.EditorFor(e => e.Item.Location.City, EditorTemplate.Input)
                 </div>
                 <div class="input-group">
-                    @Html.EditorFor(e => e.Item.Location.State, EditorTemplate.SelectOptional, new { Items = Model.StatesSelectList })
+                    @Html.EditorFor(e => e.Item.Location.State, EditorTemplate.SelectOptional, new { Items = EditModel.StatesSelectList })
                     @Html.EditorFor(e => e.Item.Location.PostalCode, EditorTemplate.Input)
                 </div>
             </div>
@@ -80,7 +80,7 @@
                     @Html.EditorFor(e => e.Item.MailingAddress.City, EditorTemplate.Input)
                 </div>
                 <div class="input-group">
-                    @Html.EditorFor(e => e.Item.MailingAddress.State, EditorTemplate.SelectOptional, new { Items = Model.StatesSelectList })
+                    @Html.EditorFor(e => e.Item.MailingAddress.State, EditorTemplate.SelectOptional, new { Items = EditModel.StatesSelectList })
                     @Html.EditorFor(e => e.Item.MailingAddress.PostalCode, EditorTemplate.Input)
                 </div>
             </div>
