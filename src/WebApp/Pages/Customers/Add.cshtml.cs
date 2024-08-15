@@ -23,8 +23,8 @@ public class AddModel(ICustomerService service, ISicService sicService, IValidat
     public CustomerCreateDto Item { get; set; } = default!;
 
     // Select lists
-    public SelectList StatesSelectList => new(StateData.States);
-    public SelectList CountiesSelectList => new(CountyData.Counties);
+    public static SelectList StatesSelectList => new(StateData.States);
+    public static SelectList CountiesSelectList => new(CountyData.Counties);
     public SelectList SicSelectList { get; private set; } = default!;
 
     // Methods

@@ -71,7 +71,7 @@
                     @Html.EditorFor(e => e.NewContact.Address.City, EditorTemplate.Input)
                 </div>
                 <div class="input-group">
-                    @Html.EditorFor(e => e.NewContact.Address.State, EditorTemplate.SelectOptional, new { Items = Model.StatesSelectList })
+                    @Html.EditorFor(e => e.NewContact.Address.State, EditorTemplate.SelectOptional, new { Items = AddContactModel.StatesSelectList })
                     @Html.EditorFor(e => e.NewContact.Address.PostalCode, EditorTemplate.Input)
                 </div>
             </div>

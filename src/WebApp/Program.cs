@@ -96,4 +96,4 @@ app.MapRazorPages();
 app.MapControllers();
 
 // Make it so.
-app.Run();
+await app.RunAsync();
