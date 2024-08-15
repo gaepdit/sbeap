@@ -7,7 +7,6 @@ using Sbeap.WebApp.Platform.Raygun;
 using Sbeap.WebApp.Platform.SecurityHeaders;
 using Sbeap.WebApp.Platform.Services;
 using Sbeap.WebApp.Platform.Settings;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,7 +56,7 @@ if (!string.IsNullOrEmpty(ApplicationSettings.RaygunSettings.ApiKey))
     builder.Services.AddRaygun(opts =>
     {
         opts.ApiKey = ApplicationSettings.RaygunSettings.ApiKey;
-        opts.ApplicationVersion = Assembly.GetEntryAssembly()?.GetName().Version?.ToString(3);
+        opts.ApplicationVersion = ApplicationSettings.RaygunSettings.InformationalVersion;
         opts.ExcludeErrorsFromLocal = ApplicationSettings.RaygunSettings.ExcludeErrorsFromLocal;
         opts.IgnoreFormFieldNames = ["*Password"];
         opts.EnvironmentVariables.Add("ASPNETCORE_*");

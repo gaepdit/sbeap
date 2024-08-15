@@ -1,4 +1,5 @@
 @using Sbeap.WebApp.Platform.PageModelHelpers
+@using Sbeap.WebApp.Platform.Settings
 @{
     var displayMessage = TempData.GetDisplayMessage();
 }
@@ -51,6 +52,11 @@
                     | <a href="https://georgia.gov/accessibility" target="_blank" rel="noopener">Accessibility</a>
                     | <a href="https://gadnr.org/ada" target="_blank" rel="noopener">DNR Accessibility Notice</a>
                     | <a href="https://georgia.gov/privacysecurity" target="_blank" rel="noopener">Privacy/Security</a>
+                    |
+                    @if (!string.IsNullOrEmpty(ApplicationSettings.RaygunSettings.InformationalVersion))
+                    {
+                        @:Current&nbsp;version:&nbsp;<em>@ApplicationSettings.RaygunSettings.InformationalVersion</em>
+                    }
                 </span>
             </small>
         </div>

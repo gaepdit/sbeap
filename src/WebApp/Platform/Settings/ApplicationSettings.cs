@@ -67,5 +67,6 @@ internal static class ApplicationSettings
     {
         public string? ApiKey { get; [UsedImplicitly] init; }
         public bool ExcludeErrorsFromLocal { get; [UsedImplicitly] init; }
+        public string? InformationalVersion { get; set; }
     }
 }
