@@ -1,17 +1,16 @@
-﻿using Microsoft.Extensions.Options;
-using Mindscape.Raygun4Net.AspNetCore;
+﻿using Mindscape.Raygun4Net.AspNetCore;
+using Sbeap.WebApp.Platform.Settings;
 
 namespace Sbeap.WebApp.Platform.Raygun;
 
-public class ErrorLogger(
-    IRaygunAspNetCoreClientProvider clientProvider,
-    IOptions<RaygunSettings> settings,
-    IHttpContextAccessor httpContextAccessor)
+public class ErrorLogger(IServiceProvider serviceProvider)
     : IErrorLogger
 {
-    public Task LogErrorAsync(Exception exception, Dictionary<string, object>? customData = null) =>
-        clientProvider.GetClient(settings.Value, httpContextAccessor.HttpContext)
-            .SendInBackground(exception, tags: null, customData);
+    public async Task LogErrorAsync(Exception exception, Dictionary<string, object>? customData = null)
+    {
+        if (!string.IsNullOrEmpty(ApplicationSettings.RaygunSettings.ApiKey))
+            await serviceProvider.GetService<RaygunClient>()!.SendInBackground(exception, null, customData);
+    }
 }
 
 public interface IErrorLogger

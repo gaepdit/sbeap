@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.DataProtection;
+using Mindscape.Raygun4Net;
 using Mindscape.Raygun4Net.AspNetCore;
 using Sbeap.AppServices.RegisterServices;
 using Sbeap.WebApp.Platform.Raygun;
 using Sbeap.WebApp.Platform.SecurityHeaders;
 using Sbeap.WebApp.Platform.Services;
 using Sbeap.WebApp.Platform.Settings;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,12 +43,26 @@ if (!builder.Environment.IsDevelopment())
     builder.Services.AddHsts(opts => opts.MaxAge = TimeSpan.FromMinutes(300));
 
 // Configure application monitoring.
+builder.Services.AddTransient<IErrorLogger, ErrorLogger>();
 if (!string.IsNullOrEmpty(ApplicationSettings.RaygunSettings.ApiKey))
 {
-    builder.Services.AddTransient<IErrorLogger, ErrorLogger>();
-    builder.Services.AddRaygun(builder.Configuration,
-        new RaygunMiddlewareSettings { ClientProvider = new RaygunClientProvider() });
-    builder.Services.AddHttpContextAccessor(); // needed by RaygunScriptPartial
+    builder.Services.AddSingleton(provider =>
+    {
+        var client = new RaygunClient(provider.GetService<RaygunSettings>()!,
+            provider.GetService<IRaygunUserProvider>()!);
+        client.SendingMessage += (_, eventArgs) =>
+            eventArgs.Message.Details.Tags.Add(builder.Environment.EnvironmentName);
+        return client;
+    });
+    builder.Services.AddRaygun(opts =>
+    {
+        opts.ApiKey = ApplicationSettings.RaygunSettings.ApiKey;
+        opts.ApplicationVersion = Assembly.GetEntryAssembly()?.GetName().Version?.ToString(3);
+        opts.ExcludeErrorsFromLocal = ApplicationSettings.RaygunSettings.ExcludeErrorsFromLocal;
+        opts.IgnoreFormFieldNames = ["*Password"];
+        opts.EnvironmentVariables.Add("ASPNETCORE_*");
+    });
+    builder.Services.AddRaygunUserProvider();
 }
 
 // Add app services.
@@ -70,8 +86,9 @@ builder.Services.AddMemoryCache();
 var app = builder.Build();
 
 // Configure error handling.
-if (app.Environment.IsDevelopment()) app.UseDeveloperExceptionPage(); // Development
-else app.UseExceptionHandler("/Error"); // Production or Staging
+// if (app.Environment.IsDevelopment()) app.UseDeveloperExceptionPage(); // Development
+// else 
+app.UseExceptionHandler("/Error"); // Production or Staging
 
 // Configure security HTTP headers
 if (!app.Environment.IsDevelopment() || ApplicationSettings.DevSettings.UseSecurityHeadersInDev)

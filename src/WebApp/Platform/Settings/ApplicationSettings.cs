@@ -66,5 +66,6 @@ internal static class ApplicationSettings
     public class RaygunClientSettings
     {
         public string? ApiKey { get; [UsedImplicitly] init; }
+        public bool ExcludeErrorsFromLocal { get; [UsedImplicitly] init; }
     }
 }
