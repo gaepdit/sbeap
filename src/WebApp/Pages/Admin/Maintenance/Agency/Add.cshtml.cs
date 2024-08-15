@@ -20,7 +20,7 @@ public class AddModel(IAgencyService service, IValidator<AgencyCreateDto> valida
     [TempData]
     public Guid HighlightId { get; set; }
 
-    public static MaintenanceOption ThisOption => MaintenanceOption.ActionItemType;
+    public static MaintenanceOption ThisOption => MaintenanceOption.Agency;
 
     // Methods
     public void OnGet()
