@@ -27,7 +27,7 @@ public class EditModel(IAgencyService service, IValidator<AgencyUpdateDto> valid
     [TempData]
     public Guid HighlightId { get; set; }
 
-    public static MaintenanceOption ThisOption => MaintenanceOption.Office;
+    public static MaintenanceOption ThisOption => MaintenanceOption.Agency;
 
     // Methods
     public async Task<IActionResult> OnGetAsync(Guid? id)

@@ -63,7 +63,7 @@ else
                 <td>
                     @Html.DisplayFor(m => item.Active, DisplayTemplate.BoolActive)
                 </td>
-                <td>
+                <td class="text-end">
                     @if (Model.IsSiteMaintainer)
                     {
                         <a asp-page="Edit" asp-route-id="@item.Id.ToString()" class="btn btn-outline-primary btn-sm">Edit</a>

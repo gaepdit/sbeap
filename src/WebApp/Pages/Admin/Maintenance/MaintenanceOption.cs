@@ -2,17 +2,23 @@ namespace Sbeap.WebApp.Pages.Admin.Maintenance;
 
 public class MaintenanceOption
 {
-    public string SingularName { get; private init; } = string.Empty;
-    public string PluralName { get; private init; } = string.Empty;
+    public string SingularName { get; private init; }
+    public string PluralName { get; private init; }
+    public bool StartsWithVowelSound { get; private init; }
 
-    private MaintenanceOption() { }
+    private MaintenanceOption(string singularName, string pluralName, bool startsWithVowelSound = false)
+    {
+        SingularName = singularName;
+        PluralName = pluralName;
+        StartsWithVowelSound = startsWithVowelSound;
+    }
 
     public static MaintenanceOption Office =>
-        new() { SingularName = "Office", PluralName = "Offices" };
+        new(singularName: "Office", pluralName: "Offices", startsWithVowelSound: true);
 
     public static MaintenanceOption ActionItemType =>
-        new() { SingularName = "Action Item Type", PluralName = "Action Item Types" };
+        new(singularName: "Action Item Type", pluralName: "Action Item Types", startsWithVowelSound: true);
 
     public static MaintenanceOption Agency =>
-        new() { SingularName = "Agency", PluralName = "Agencies" };
+        new(singularName: "Agency", pluralName: "Agencies", startsWithVowelSound: true);
 }
