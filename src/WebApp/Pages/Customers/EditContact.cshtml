@@ -28,7 +28,11 @@
     <div class="p-3 border rounded-3 bg-light-subtle mb-3">
         @if (Model.Handler == EditContactModel.Handlers.EditContact)
         {
-            <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
+            <div asp-validation-summary="All" class="alert alert-danger d-flex align-items-center" role="alert">
+                <svg class="bi me-2" role="img" aria-label="Danger:">
+                    <use href="@Url.Content("~/images/app-icons.svg")#app-icon-exclamation-triangle-fill"></use>
+                </svg>
+            </div>
         }
 
         <div class="row mt-2">
@@ -110,7 +114,11 @@
 
         @if (Model.Handler == EditContactModel.Handlers.PhoneNumber)
         {
-            <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
+            <div asp-validation-summary="All" class="alert alert-danger d-flex align-items-center" role="alert">
+                <svg class="bi me-2" role="img" aria-label="Danger:">
+                    <use href="@Url.Content("~/images/app-icons.svg")#app-icon-exclamation-triangle-fill"></use>
+                </svg>
+            </div>
         }
         <div class="mt-3 mb-1">
             <h4 class="h6">Add a Phone Number</h4>

@@ -132,7 +132,11 @@
         <h3 id="new-action" class="h5">Add a new Action Item</h3>
 
         <form method="post" asp-fragment="new-action">
-            <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
+            <div asp-validation-summary="All" class="alert alert-danger d-flex align-items-center" role="alert">
+                <svg class="bi me-2" role="img" aria-label="Danger:">
+                    <use href="@Url.Content("~/images/app-icons.svg")#app-icon-exclamation-triangle-fill"></use>
+                </svg>
+            </div>
             <div class="row">
                 <div class="col-md-6 col-lg-8 mb-3">
                     @Html.EditorFor(e => e.NewActionItem.ActionItemTypeId, EditorTemplate.Select, new { Items = Model.ActionItemTypeSelectList })

@@ -1,9 +1,44 @@
-﻿@model Sbeap.WebApp.Models.DisplayMessage?
+﻿@using Sbeap.WebApp.Models
+@model Sbeap.WebApp.Models.DisplayMessage?
+@{
+    var iconsFile = Url.Content("~/images/app-icons.svg");
+}
 
 @if (Model != null)
 {
-    <div class="alert @Model.AlertClass alert-dismissible fade show" role="alert">
-        @Model.Message
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="alert @Model.AlertClass alert-dismissible fade show d-flex align-items-center" role="alert">
+        @{
+            switch (Model.Context)
+            {
+                case DisplayMessage.AlertContext.Success:
+                    <svg class="bi me-3" role="img" aria-label="Success:">
+                        <use href="@iconsFile#app-icon-check-circle-fill"></use>
+                    </svg>
+                    break;
+
+                case DisplayMessage.AlertContext.Info:
+                    <svg class="bi me-3" role="img" aria-label="Info:">
+                        <use href="@iconsFile#app-icon-info-circle-fill"></use>
+                    </svg>
+                    break;
+
+                case DisplayMessage.AlertContext.Danger:
+                case DisplayMessage.AlertContext.Warning:
+                    <svg class="bi me-3" role="img" aria-label="Warning:">
+                        <use href="@iconsFile#app-icon-exclamation-triangle-fill"></use>
+                    </svg>
+                    break;
+
+                case DisplayMessage.AlertContext.Primary:
+                case DisplayMessage.AlertContext.Secondary:
+                default:
+                    break;
+            }
+        }
+
+        <div>
+            @Model.Message
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     </div>
 }
