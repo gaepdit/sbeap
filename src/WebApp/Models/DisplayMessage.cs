@@ -1,18 +1,14 @@
 ﻿namespace Sbeap.WebApp.Models;
 
-public class DisplayMessage(DisplayMessage.AlertContext context, string message)
+public record DisplayMessage(DisplayMessage.AlertContext Context, string Message)
 {
-    // Context must be public so it works with deserialization in TempDataExtensions class
-    public AlertContext Context => context;
-
-    public string Message => message;
-
     public string AlertClass => Context switch
     {
         AlertContext.Primary => "alert-primary",
         AlertContext.Secondary => "alert-secondary",
         AlertContext.Success => "alert-success",
         AlertContext.Danger => "alert-danger",
+        AlertContext.Warning => "alert-warning",
         AlertContext.Info => "alert-info",
         _ => string.Empty,
     };
@@ -23,6 +19,7 @@ public class DisplayMessage(DisplayMessage.AlertContext context, string message)
         Secondary,
         Success,
         Danger,
+        Warning,
         Info,
     }
 }

@@ -25,10 +25,11 @@
 <div class="p-3 border rounded-3 bg-light-subtle mb-3">
     <p>View a detailed description of <a asp-page="Roles" target="_blank">user roles and capabilities</a>.</p>
     <form method="post">
-        <div asp-validation-summary="All" class="alert alert-danger" role="alert">
-            Roles update failed:
+        <div asp-validation-summary="All" class="alert alert-danger d-flex align-items-center" role="alert">
+            <svg class="bi me-2" role="img" aria-label="Danger:">
+                <use href="@Url.Content("~/images/app-icons.svg")#app-icon-exclamation-triangle-fill"></use>
+            </svg>
         </div>
-
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
             @for (var i = 0; i < Model.RoleSettings.Count; i++)
             {

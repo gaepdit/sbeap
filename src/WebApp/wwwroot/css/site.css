@@ -183,6 +183,9 @@ html:not([data-bs-theme="dark"]) .bg-dark-subtle .text-danger-emphasis {
 
 .btn-img img {
     height: 25px;
+    background: white;
+    box-shadow: 0 0 1px white;
+    margin-right: 2px;
 }
 
 /* Additional font style utilities
@@ -198,7 +201,8 @@ html:not([data-bs-theme="dark"]) .bg-dark-subtle .text-danger-emphasis {
 /* External links
 -------------------------------------------------- */
 a[target]::after {
-    content: ' \1f5d7';
+    content: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='hsl(216, 100%, 50%)' viewBox='0 0 16 16'><path fill-rule='evenodd' d='M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5'/><path fill-rule='evenodd' d='M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z'/></svg>");
+    margin-left: .2em;
 }
 
 /* Suppress external link icon */
@@ -254,6 +258,8 @@ details.card:not([open]) summary.card-header {
     width: 1em;
     height: 1em;
     fill: currentColor;
+    vertical-align: -.125em;
+    overflow: visible !important;
 }
 
 /* Fix for Bootstrap textarea with "floating" label
@@ -265,7 +271,7 @@ details.card:not([open]) summary.card-header {
 /* Validation summary
 -------------------------------------------------- */
 .validation-summary-valid {
-    display: none;
+    display: none !important;
 }
 
 .validation-summary-errors ul {

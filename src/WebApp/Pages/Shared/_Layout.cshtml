@@ -10,7 +10,7 @@
     <title>@ViewData["Title"] - SBEAP</title>
     <partial name="_FaviconPartial" />
     <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css"
-          integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg=="/>
+          integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==" />
     <link rel="stylesheet" href="~/css/site.css" />
     <partial name="_RaygunScriptsPartial" />
     <script src="~/js/color-modes.js"></script>
@@ -35,7 +35,12 @@
 <footer class="footer pt-3">
     <div class="bg-body-tertiary py-2 border-bottom d-print-none">
         <div class="container">
-            <a href="#top" class="text-decoration-none">↑ Return to top</a>
+            <a href="#top" class="btn">
+                <svg class="bi">
+                    <use href="@Url.Content("~/images/app-icons.svg")#app-icon-arrow-bar-up"></use>
+                </svg>
+                Return to top
+            </a>
         </div>
     </div>
     <div class="bg-body-secondary pt-2 pb-3">
