@@ -93,6 +93,7 @@ public sealed class StaffService(
         user.Phone = resource.Phone;
         user.Office = resource.OfficeId is null ? null : await officeRepository.GetAsync(resource.OfficeId.Value);
         user.Active = resource.Active;
+        user.ProfileUpdatedAt = DateTimeOffset.UtcNow;
 
         return await userManager.UpdateAsync(user);
     }

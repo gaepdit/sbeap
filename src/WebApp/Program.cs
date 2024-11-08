@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Mindscape.Raygun4Net;
 using Mindscape.Raygun4Net.AspNetCore;
 using Sbeap.AppServices.RegisterServices;
-using Sbeap.WebApp.Platform.Raygun;
+using Sbeap.WebApp.Platform.Logging;
 using Sbeap.WebApp.Platform.SecurityHeaders;
 using Sbeap.WebApp.Platform.Services;
 using Sbeap.WebApp.Platform.Settings;
