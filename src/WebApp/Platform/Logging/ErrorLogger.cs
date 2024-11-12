@@ -1,16 +1,14 @@
 ﻿using Mindscape.Raygun4Net.AspNetCore;
 using Sbeap.WebApp.Platform.Settings;
 
-namespace Sbeap.WebApp.Platform.Raygun;
+namespace Sbeap.WebApp.Platform.Logging;
 
-public class ErrorLogger(IServiceProvider serviceProvider)
-    : IErrorLogger
+public class ErrorLogger(IServiceProvider serviceProvider) : IErrorLogger
 {
-    public async Task LogErrorAsync(Exception exception, Dictionary<string, object>? customData = null)
-    {
-        if (!string.IsNullOrEmpty(ApplicationSettings.RaygunSettings.ApiKey))
-            await serviceProvider.GetService<RaygunClient>()!.SendInBackground(exception, null, customData);
-    }
+    public Task LogErrorAsync(Exception exception, Dictionary<string, object>? customData = null) =>
+        !string.IsNullOrEmpty(ApplicationSettings.RaygunSettings.ApiKey)
+            ? serviceProvider.GetService<RaygunClient>()!.SendInBackground(exception, null, customData)
+            : Task.CompletedTask;
 }
 
 public interface IErrorLogger
