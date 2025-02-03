@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
     <PropertyGroup>
-        <InformationalVersion>2024.8.15</InformationalVersion>
+        <InformationalVersion>2025.2.3</InformationalVersion>
         <RootNamespace>Sbeap.WebApp</RootNamespace>
     </PropertyGroup>
 
