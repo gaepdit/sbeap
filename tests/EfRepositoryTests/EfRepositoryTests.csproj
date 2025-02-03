@@ -1,38 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-
-        <IsPackable>false</IsPackable>
-
         <RootNamespace>EfRepositoryTests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="EfCore.TestSupport" />
-        <PackageReference Include="FluentAssertions" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" />
-        <PackageReference Include="NUnit" />
-        <PackageReference Include="NUnit3TestAdapter" />
-        <PackageReference Include="NUnit.Analyzers">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="coverlet.collector">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="SonarAnalyzer.CSharp">
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-            <PrivateAssets>all</PrivateAssets>
-        </PackageReference>
+        <PackageReference Include="EfCore.TestSupport"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\EfRepository\EfRepository.csproj" />
-        <ProjectReference Include="..\..\src\TestData\TestData.csproj" />
+        <ProjectReference Include="..\..\src\EfRepository\EfRepository.csproj"/>
+        <ProjectReference Include="..\..\src\TestData\TestData.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -42,7 +19,6 @@
     </ItemGroup>
 
     <Target Name="CopyTestSettings" AfterTargets="AfterBuild">
-        <Copy SourceFiles="appsettings.json" DestinationFolder="$(BaseProjectArtifactPath)" />
+        <Copy SourceFiles="appsettings.json" DestinationFolder="$(BaseProjectArtifactPath)"/>
     </Target>
-
 </Project>
