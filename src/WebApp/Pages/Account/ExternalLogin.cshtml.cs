@@ -10,7 +10,6 @@ using Sbeap.AppServices.Staff;
 using Sbeap.AppServices.Staff.Dto;
 using Sbeap.Domain.Identity;
 using Sbeap.WebApp.Models;
-using Sbeap.WebApp.Platform.Logging;
 using Sbeap.WebApp.Platform.PageModelHelpers;
 using Sbeap.WebApp.Platform.Settings;
 using System.Security.Claims;
@@ -101,12 +100,12 @@ public class ExternalLoginModel(
 
         if (!userEmail.IsValidEmailDomain())
         {
-            logger.LogWarning("User {Email} with invalid email domain attempted signin", userEmail.MaskEmail());
+            logger.LogWarning("User with invalid email domain attempted signin");
             return RedirectToPage("./Unavailable");
         }
 
-        logger.LogInformation("User {UserName} in tenant {TenantID} successfully authenticated", userEmail.MaskEmail(),
-            userTenant);
+        logger.LogInformation("User with object ID {ObjectId} in tenant {TenantID} successfully authenticated",
+            externalLoginInfo.Principal.GetObjectId(), userTenant);
 
         // Determine if a user account already exists with the Object ID.
         // If not, then determine if a user account already exists with the given username.
@@ -123,7 +122,7 @@ public class ExternalLoginModel(
         // If user has been marked as inactive, don't sign in.
         if (!user.Active)
         {
-            logger.LogWarning("Inactive user {Email} attempted signin", userEmail.MaskEmail());
+            logger.LogWarning("Inactive user with object ID {ObjectId} attempted signin", user.AzureAdObjectId);
             return RedirectToPage("./Unavailable");
         }
 
@@ -171,18 +170,17 @@ public class ExternalLoginModel(
         var createUserResult = await userManager.CreateAsync(user);
         if (!createUserResult.Succeeded)
         {
-            logger.LogWarning("Failed to create new user {UserName}", user.Email.MaskEmail());
+            logger.LogWarning("Failed to create new user with object ID {ObjectId}", user.AzureAdObjectId);
             return await FailedLogin(createUserResult, user);
         }
 
-        logger.LogInformation("Created new user {Email} with object ID {ObjectId}",
-            user.Email.MaskEmail(), user.AzureAdObjectId);
+        logger.LogInformation("Created new user with object ID {ObjectId}", user.AzureAdObjectId);
 
         // Add new user to application Roles if seeded in app settings or local admin user setting is enabled.
         var seedAdminUsers = configuration.GetSection("SeedAdminUsers").Get<string[]>();
         if (ApplicationSettings.DevSettings.LocalUserIsStaff)
         {
-            logger.LogInformation("Seeding staff role for new user {Email}", user.Email.MaskEmail());
+            logger.LogInformation("Seeding roles for new user with object ID {ObjectId}", user.AzureAdObjectId);
             await userManager.AddToRoleAsync(user, RoleName.Staff);
         }
 
@@ -202,8 +200,8 @@ public class ExternalLoginModel(
     // Update local store with from external provider. 
     private async Task<IActionResult> RefreshUserInfoAndSignInAsync(ApplicationUser user, ExternalLoginInfo info)
     {
-        logger.LogInformation("Existing user {Email} logged in with {LoginProvider} provider",
-            user.Email.MaskEmail(), info.LoginProvider);
+        logger.LogInformation("Existing user with object ID {ObjectId} logged in with {LoginProvider} provider",
+            user.AzureAdObjectId, info.LoginProvider);
 
         var previousValues = new ApplicationUser
         {
@@ -238,8 +236,8 @@ public class ExternalLoginModel(
 
         if (!addLoginResult.Succeeded)
         {
-            logger.LogWarning("Failed to add login provider {LoginProvider} for user {Email}",
-                info.LoginProvider, user.Email.MaskEmail());
+            logger.LogWarning("Failed to add login provider {LoginProvider} for user with object ID {ObjectId}",
+                info.LoginProvider, user.AzureAdObjectId);
             return await FailedLogin(addLoginResult, user);
         }
 
@@ -247,8 +245,8 @@ public class ExternalLoginModel(
         user.MostRecentLogin = DateTimeOffset.Now;
         await userManager.UpdateAsync(user);
 
-        logger.LogInformation("Login provider {LoginProvider} added for user {Email} with object ID {ObjectId}",
-            info.LoginProvider, user.Email.MaskEmail(), user.AzureAdObjectId);
+        logger.LogInformation("Login provider {LoginProvider} added for user with object ID {ObjectId}",
+            info.LoginProvider, user.AzureAdObjectId);
 
         // Include the access token in the properties.
         var props = new AuthenticationProperties();
