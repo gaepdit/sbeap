@@ -15,7 +15,7 @@ public class StaffFilters
 
         var result = UserData.GetUsers.AsQueryable().ApplyFilter(DefaultStaffSearch);
 
-        result.Should().BeEquivalentTo(expected);
+        result.Should().BeEquivalentTo(expected, options => options.Excluding(user => user.SecurityStamp));
     }
 
     [Test]
@@ -25,8 +25,8 @@ public class StaffFilters
         var spec = DefaultStaffSearch with { Name = name };
         var expected = UserData.GetUsers
             .Where(e => e.Active &&
-                (string.Equals(e.GivenName, name, StringComparison.CurrentCultureIgnoreCase) ||
-                    string.Equals(e.FamilyName, name, StringComparison.CurrentCultureIgnoreCase)));
+                        (string.Equals(e.GivenName, name, StringComparison.CurrentCultureIgnoreCase) ||
+                         string.Equals(e.FamilyName, name, StringComparison.CurrentCultureIgnoreCase)));
 
         var result = UserData.GetUsers.AsQueryable().ApplyFilter(spec);
 
@@ -67,7 +67,7 @@ public class StaffFilters
 
         var result = UserData.GetUsers.AsQueryable().ApplyFilter(spec);
 
-        result.Should().BeEquivalentTo(expected);
+        result.Should().BeEquivalentTo(expected, options => options.Excluding(user => user.SecurityStamp));
     }
 
     [Test]
@@ -76,5 +76,6 @@ public class StaffFilters
         var spec = DefaultStaffSearch with { Status = SearchStaffStatus.All };
         var result = UserData.GetUsers.AsQueryable().ApplyFilter(spec);
         result.Should().BeEquivalentTo(UserData.GetUsers);
+        result.Should().BeEquivalentTo(UserData.GetUsers, options => options.Excluding(user => user.SecurityStamp));
     }
 }

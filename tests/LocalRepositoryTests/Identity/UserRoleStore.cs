@@ -75,7 +75,7 @@ public class UserRoleStore
         using (new AssertionScope())
         {
             result.Should().NotBeNull();
-            result.Should().HaveCount(0);
+            result.Should().BeEmpty();
         }
     }
 
@@ -107,7 +107,7 @@ public class UserRoleStore
 
         using (new AssertionScope())
         {
-            result.Should().HaveCount(1);
+            result.Should().ContainSingle();
             result[0].Should().BeEquivalentTo(store.UserStore.First());
         }
     }
@@ -116,6 +116,6 @@ public class UserRoleStore
     public async Task GetUsersInRole_IfNone_ReturnsEmptyList()
     {
         var result = await _store.GetUsersInRoleAsync("None", CancellationToken.None);
-        result.Should().HaveCount(0);
+        result.Should().BeEmpty();
     }
 }
