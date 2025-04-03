@@ -19,7 +19,8 @@
     <PackageVersion Include="Microsoft.Identity.Web" Version="3.7.1" />
     <PackageVersion Include="Microsoft.Web.LibraryManager.Build" Version="2.1.175" />
     <PackageVersion Include="Mindscape.Raygun4Net.AspNetCore" Version="11.2.2" />
-    <PackageVersion Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.24.0" />
+    <PackageVersion Include="NetEscapades.AspNetCore.SecurityHeaders" Version="1.0.0" />
+    <PackageVersion Include="NetEscapades.AspNetCore.SecurityHeaders.TagHelpers" Version="1.0.0" />
     <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.17" />
     <PackageVersion Include="SonarAnalyzer.CSharp" Version="10.6.0.109712" />
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
