@@ -29,5 +29,6 @@
     <PackageVersion Include="NUnit.Analyzers" Version="4.6.0" />
     <PackageVersion Include="NUnit" Version="4.3.2" />
     <PackageVersion Include="NUnit3TestAdapter" Version="5.0.0" />
+    <PackageVersion Include="NunitXml.TestLogger" Version="6.1.0" />
   </ItemGroup>
 </Project>
