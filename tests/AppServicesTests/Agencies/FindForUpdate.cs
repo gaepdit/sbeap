@@ -14,7 +14,8 @@ public class FindForUpdate
     {
         var agency = new Agency(Guid.Empty, TextData.ValidName);
         var repoMock = Substitute.For<IAgencyRepository>();
-        repoMock.FindAsync(agency.Id, Arg.Any<CancellationToken>()).Returns(agency);
+        repoMock.FindAsync(agency.Id, Arg.Any<string[]?>(), Arg.Any<CancellationToken>())
+            .Returns(agency);
         var appService = new AgencyService(repoMock, Substitute.For<IAgencyManager>(), AppServicesTestsSetup.Mapper!,
             Substitute.For<IUserService>(), new MemoryCache(new MemoryCacheOptions()));
 
@@ -28,7 +29,8 @@ public class FindForUpdate
     {
         var id = Guid.Empty;
         var repoMock = Substitute.For<IAgencyRepository>();
-        repoMock.FindAsync(id, Arg.Any<CancellationToken>()).Returns((Agency?)null);
+        repoMock.FindAsync(id, Arg.Any<string[]?>(), Arg.Any<CancellationToken>())
+            .Returns((Agency?)null);
         var appService = new AgencyService(repoMock, Substitute.For<IAgencyManager>(), Substitute.For<IMapper>(),
             Substitute.For<IUserService>(), new MemoryCache(new MemoryCacheOptions()));
 
