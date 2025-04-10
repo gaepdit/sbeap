@@ -14,7 +14,8 @@ public class GetList
         var agency = new Agency(Guid.Empty, TextData.ValidName);
         var itemList = new List<Agency> { agency };
         var repoMock = Substitute.For<IAgencyRepository>();
-        repoMock.GetListAsync(Arg.Any<CancellationToken>()).Returns(itemList);
+        repoMock.GetListAsync(Arg.Any<string?>(), Arg.Any<string[]?>(), Arg.Any<CancellationToken>())
+            .Returns(itemList);
         var appService = new AgencyService(repoMock, Substitute.For<IAgencyManager>(), AppServicesTestsSetup.Mapper!,
             Substitute.For<IUserService>(), new MemoryCache(new MemoryCacheOptions()));
 
@@ -27,7 +28,8 @@ public class GetList
     public async Task WhenNoItemsExist_ReturnsEmptyList()
     {
         var repoMock = Substitute.For<IAgencyRepository>();
-        repoMock.GetListAsync(Arg.Any<CancellationToken>()).Returns(new List<Agency>());
+        repoMock.GetListAsync(Arg.Any<string?>(), Arg.Any<string[]?>(), Arg.Any<CancellationToken>())
+            .Returns(new List<Agency>());
         var appService = new AgencyService(repoMock, Substitute.For<IAgencyManager>(), AppServicesTestsSetup.Mapper!,
             Substitute.For<IUserService>(), new MemoryCache(new MemoryCacheOptions()));
 

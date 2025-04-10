@@ -30,7 +30,8 @@ public sealed class CustomerService(
         var count = await customers.CountAsync(predicate, token);
 
         var list = count > 0
-            ? mapper.Map<List<CustomerSearchResultDto>>(await customers.GetPagedListAsync(predicate, paging, token))
+            ? mapper.Map<List<CustomerSearchResultDto>>(
+                await customers.GetPagedListAsync(predicate, paging, token: token))
             : new List<CustomerSearchResultDto>();
 
         return new PaginatedResult<CustomerSearchResultDto>(list, count, paging);
@@ -49,7 +50,7 @@ public sealed class CustomerService(
     }
 
     public async Task<CustomerSearchResultDto?> FindBasicInfoAsync(Guid id, CancellationToken token = default) =>
-        mapper.Map<CustomerSearchResultDto>(await customers.FindAsync(id, token));
+        mapper.Map<CustomerSearchResultDto>(await customers.FindAsync(id, token: token));
 
     // Customer write
 
@@ -73,11 +74,11 @@ public sealed class CustomerService(
     }
 
     public async Task<CustomerUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default) =>
-        mapper.Map<CustomerUpdateDto>(await customers.FindAsync(id, token));
+        mapper.Map<CustomerUpdateDto>(await customers.FindAsync(id, token: token));
 
     public async Task UpdateAsync(Guid id, CustomerUpdateDto resource, CancellationToken token = default)
     {
-        var item = await customers.GetAsync(id, token);
+        var item = await customers.GetAsync(id, token: token);
         item.SetUpdater((await users.GetCurrentUserAsync())?.Id);
 
         item.Name = resource.Name;
@@ -92,7 +93,7 @@ public sealed class CustomerService(
 
     public async Task DeleteAsync(Guid id, string? deleteComments, CancellationToken token = default)
     {
-        var item = await customers.GetAsync(id, token);
+        var item = await customers.GetAsync(id, token: token);
         item.SetDeleted((await users.GetCurrentUserAsync())?.Id);
         item.DeleteComments = deleteComments;
         await customers.UpdateAsync(item, token: token);
@@ -100,7 +101,7 @@ public sealed class CustomerService(
 
     public async Task RestoreAsync(Guid id, CancellationToken token = default)
     {
-        var item = await customers.GetAsync(id, token);
+        var item = await customers.GetAsync(id, token: token);
         item.SetNotDeleted();
         await customers.UpdateAsync(item, token: token);
     }
@@ -109,7 +110,7 @@ public sealed class CustomerService(
 
     public async Task<Guid> AddContactAsync(ContactCreateDto resource, CancellationToken token = default)
     {
-        var customer = await customers.GetAsync(resource.CustomerId, token);
+        var customer = await customers.GetAsync(resource.CustomerId, token: token);
         var id = await CreateContactAsync(customer, resource, await users.GetCurrentUserAsync(), token);
         await contacts.SaveChangesAsync(token);
         return id;
@@ -142,14 +143,14 @@ public sealed class CustomerService(
     }
 
     public async Task<ContactViewDto?> FindContactAsync(Guid contactId, CancellationToken token = default) =>
-        mapper.Map<ContactViewDto>(await contacts.FindAsync(e => e.Id == contactId && !e.IsDeleted, token));
+        mapper.Map<ContactViewDto>(await contacts.FindAsync(e => e.Id == contactId && !e.IsDeleted, token: token));
 
     public async Task<ContactUpdateDto?> FindContactForUpdateAsync(Guid contactId, CancellationToken token = default) =>
-        mapper.Map<ContactUpdateDto>(await contacts.FindAsync(e => e.Id == contactId && !e.IsDeleted, token));
+        mapper.Map<ContactUpdateDto>(await contacts.FindAsync(e => e.Id == contactId && !e.IsDeleted, token: token));
 
     public async Task UpdateContactAsync(Guid contactId, ContactUpdateDto resource, CancellationToken token = default)
     {
-        var item = await contacts.GetAsync(contactId, token);
+        var item = await contacts.GetAsync(contactId, token: token);
         item.SetUpdater((await users.GetCurrentUserAsync())?.Id);
 
         item.Honorific = resource.Honorific;
@@ -165,7 +166,7 @@ public sealed class CustomerService(
 
     public async Task DeleteContactAsync(Guid contactId, CancellationToken token = default)
     {
-        var item = await contacts.GetAsync(contactId, token);
+        var item = await contacts.GetAsync(contactId, token: token);
         item.SetDeleted((await users.GetCurrentUserAsync())?.Id);
         await contacts.UpdateAsync(item, token: token);
     }
@@ -173,7 +174,7 @@ public sealed class CustomerService(
     public async Task<PhoneNumber> AddPhoneNumberAsync(Guid contactId, PhoneNumberCreate resource,
         CancellationToken token = default)
     {
-        var contact = await contacts.GetAsync(contactId, token);
+        var contact = await contacts.GetAsync(contactId, token: token);
         var phoneNumber = manager.CreatePhoneNumber(resource.Number!, resource.Type!.Value);
         contact.PhoneNumbers.Add(phoneNumber);
         await contacts.UpdateAsync(contact, token: token);
@@ -182,7 +183,7 @@ public sealed class CustomerService(
 
     public async Task DeletePhoneNumberAsync(Guid contactId, int phoneNumberId, CancellationToken token = default)
     {
-        var contact = await contacts.GetAsync(contactId, token);
+        var contact = await contacts.GetAsync(contactId, token: token);
         contact.PhoneNumbers.RemoveAll(p => p.Id == phoneNumberId);
         await contacts.UpdateAsync(contact, token: token);
     }
