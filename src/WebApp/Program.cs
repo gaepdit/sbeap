@@ -35,11 +35,9 @@ builder.Services.AddAuthorizationPolicies();
 // Configure UI services.
 builder.Services.AddRazorPages();
 
-// Starting value for HSTS max age is five minutes to allow for debugging.
-// For more info on updating HSTS max age value for production, see:
-// https://gaepdit.github.io/web-apps/use-https.html#how-to-enable-hsts
+// Configure HSTS.
 if (!builder.Environment.IsDevelopment())
-    builder.Services.AddHsts(opts => opts.MaxAge = TimeSpan.FromMinutes(300));
+    builder.Services.AddHsts(opts => opts.MaxAge = TimeSpan.FromDays(360));
 
 // Configure application monitoring.
 builder.Services.AddTransient<IErrorLogger, ErrorLogger>();
@@ -92,8 +90,7 @@ app.UseExceptionHandler("/Error"); // Production or Staging
 // Configure security HTTP headers
 if (!app.Environment.IsDevelopment() || ApplicationSettings.DevSettings.UseSecurityHeadersInDev)
 {
-    app.UseHsts();
-    app.UseSecurityHeaders(policyCollection => policyCollection.AddSecurityHeaderPolicies());
+    app.UseHsts().UseSecurityHeaders(policyCollection => policyCollection.AddSecurityHeaderPolicies());
 }
 
 if (!string.IsNullOrEmpty(ApplicationSettings.RaygunSettings.ApiKey)) app.UseRaygun();
