@@ -38,7 +38,8 @@ public static class DataStores
             if (string.IsNullOrEmpty(connectionString))
                 services.AddDbContext<AppDbContext>(builder => builder.UseInMemoryDatabase("TEMP_DB"));
             else
-                services.AddDbContext<AppDbContext>(builder => builder.UseSqlServer(connectionString));
+                services.AddDbContext<AppDbContext>(builder => builder.UseSqlServer(connectionString,
+                    options => options.EnableRetryOnFailure()));
 
             services.AddScoped<IActionItemRepository, ActionItemRepository>();
             services.AddScoped<IActionItemTypeRepository, ActionItemTypeRepository>();
