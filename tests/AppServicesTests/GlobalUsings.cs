@@ -1,4 +1,6 @@
-global using FluentAssertions;
+global using AwesomeAssertions;
+global using AwesomeAssertions.Execution;
+global using AwesomeAssertions.Extensions;
 global using NSubstitute;
 global using NUnit.Framework;
 

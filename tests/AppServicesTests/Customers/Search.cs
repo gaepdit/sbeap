@@ -1,5 +1,4 @@
-﻿using FluentAssertions.Execution;
-using GaEpd.AppLibrary.Pagination;
+﻿using GaEpd.AppLibrary.Pagination;
 using Sbeap.AppServices.Customers;
 using Sbeap.AppServices.Customers.Dto;
 using Sbeap.AppServices.UserServices;

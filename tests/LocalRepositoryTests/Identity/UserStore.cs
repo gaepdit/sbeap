@@ -1,4 +1,3 @@
-using FluentAssertions.Execution;
 using GaEpd.AppLibrary.Domain.Repositories;
 using Sbeap.Domain.Entities.Offices;
 using Sbeap.Domain.Identity;

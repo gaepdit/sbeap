@@ -1,4 +1,3 @@
-using FluentAssertions.Execution;
 using Sbeap.AppServices.Cases.Dto;
 using Sbeap.Domain.Entities.Cases;
 using Sbeap.Domain.Entities.Customers;
