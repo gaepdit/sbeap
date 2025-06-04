@@ -25,9 +25,8 @@ public class Search
         var paging = new PaginatedRequest(1, 100);
 
         var customerRepoMock = Substitute.For<ICustomerRepository>();
-        customerRepoMock.GetPagedListAsync(Arg.Any<Expression<Func<Customer, bool>>>(), Arg.Any<PaginatedRequest>(),
-                Arg.Any<string[]?>(), Arg.Any<CancellationToken>())
-            .Returns(itemList);
+        customerRepoMock.GetPagedListAsync(Arg.Any<Expression<Func<Customer, bool>>>(),
+            Arg.Any<PaginatedRequest>(), Arg.Any<CancellationToken>()).Returns(itemList);
         customerRepoMock.CountAsync(Arg.Any<Expression<Func<Customer, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(count);
 
@@ -55,9 +54,8 @@ public class Search
         var paging = new PaginatedRequest(1, 100);
 
         var customerRepoMock = Substitute.For<ICustomerRepository>();
-        customerRepoMock.GetPagedListAsync(Arg.Any<Expression<Func<Customer, bool>>>(), Arg.Any<PaginatedRequest>(),
-                Arg.Any<string[]?>(), Arg.Any<CancellationToken>())
-            .Returns(itemList);
+        customerRepoMock.GetPagedListAsync(Arg.Any<Expression<Func<Customer, bool>>>(),
+            Arg.Any<PaginatedRequest>(), Arg.Any<CancellationToken>()).Returns(itemList);
         customerRepoMock.CountAsync(Arg.Any<Expression<Func<Customer, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(count);
 

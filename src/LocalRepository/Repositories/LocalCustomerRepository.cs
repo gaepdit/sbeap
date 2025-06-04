@@ -13,16 +13,16 @@ public sealed class LocalCustomerRepository(
     public async Task<Customer?> FindIncludeAllAsync(
         Guid id, bool includeDeletedCases, CancellationToken token = default)
     {
-        var result = await FindAsync(id, token: token);
+        var result = await FindAsync(id, token);
         if (result is null) return result;
 
         result.Contacts = (await contactRepository
-                .GetListAsync(e => e.Customer.Id == id && !e.IsDeleted, token: token))
+                .GetListAsync(e => e.Customer.Id == id && !e.IsDeleted, token))
             .OrderByDescending(i => i.EnteredOn)
             .ToList();
 
         result.Cases = (await caseworkRepository
-                .GetListAsync(e => e.Customer.Id == id && (includeDeletedCases || !e.IsDeleted), token: token))
+                .GetListAsync(e => e.Customer.Id == id && (includeDeletedCases || !e.IsDeleted), token))
             .OrderByDescending(i => i.CaseOpenedDate)
             .ToList();
 

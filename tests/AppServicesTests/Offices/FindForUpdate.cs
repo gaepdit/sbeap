@@ -14,7 +14,7 @@ public class FindForUpdate
     {
         var office = new Office(Guid.Empty, TextData.ValidName);
         var repoMock = Substitute.For<IOfficeRepository>();
-        repoMock.FindAsync(office.Id, Arg.Any<string[]?>(), Arg.Any<CancellationToken>()).Returns(office);
+        repoMock.FindAsync(office.Id, Arg.Any<CancellationToken>()).Returns(office);
         var appService = new OfficeService(repoMock, Substitute.For<IOfficeManager>(), AppServicesTestsSetup.Mapper!,
             Substitute.For<IUserService>(), new MemoryCache(new MemoryCacheOptions()));
 
@@ -28,7 +28,7 @@ public class FindForUpdate
     {
         var id = Guid.Empty;
         var repoMock = Substitute.For<IOfficeRepository>();
-        repoMock.FindAsync(id, Arg.Any<string[]?>(), Arg.Any<CancellationToken>()).Returns((Office?)null);
+        repoMock.FindAsync(id, Arg.Any<CancellationToken>()).Returns((Office?)null);
         var appService = new OfficeService(repoMock, Substitute.For<IOfficeManager>(), Substitute.For<IMapper>(),
             Substitute.For<IUserService>(), new MemoryCache(new MemoryCacheOptions()));
 

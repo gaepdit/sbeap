@@ -6,19 +6,15 @@ using Sbeap.Domain.Entities.Agencies;
 
 namespace Sbeap.AppServices.Agencies;
 
-public sealed class AgencyService(
-    IAgencyRepository repository,
-    IAgencyManager manager,
-    IMapper mapper,
-    IUserService users,
-    IMemoryCache cache) : IAgencyService
+public sealed class AgencyService(IAgencyRepository repository, IAgencyManager manager, IMapper mapper,
+        IUserService users, IMemoryCache cache) : IAgencyService
 {
     private static readonly TimeSpan AgencyListExpiration = TimeSpan.FromDays(7);
     private const string AgencyListCacheKey = nameof(AgencyListCacheKey);
 
     public async Task<IReadOnlyList<AgencyViewDto>> GetListAsync(CancellationToken token = default)
     {
-        var list = (await repository.GetListAsync(token: token)).OrderBy(e => e.Name).ToList();
+        var list = (await repository.GetListAsync(token)).OrderBy(e => e.Name).ToList();
         return mapper.Map<IReadOnlyList<AgencyViewDto>>(list);
     }
 
@@ -29,7 +25,7 @@ public sealed class AgencyService(
         var list = cache.Get<IReadOnlyList<ListItem>>(key);
         if (list is not null) return list;
 
-        list = (await repository.GetListAsync(e => includeInactive || e.Active, token: token))
+        list = (await repository.GetListAsync(e => includeInactive || e.Active, token))
             .OrderBy(e => e.Name)
             .Select(e => new ListItem(e.Id, e.NameWithActivity)).ToList();
 
@@ -49,7 +45,7 @@ public sealed class AgencyService(
 
     public async Task<AgencyUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default)
     {
-        var item = await repository.FindAsync(id, token: token);
+        var item = await repository.FindAsync(id, token);
         return mapper.Map<AgencyUpdateDto>(item);
     }
 
@@ -58,7 +54,7 @@ public sealed class AgencyService(
         cache.Remove($"{AgencyListCacheKey}_false");
         cache.Remove($"{AgencyListCacheKey}_true");
 
-        var item = await repository.GetAsync(id, token: token);
+        var item = await repository.GetAsync(id, token);
         item.SetUpdater((await users.GetCurrentUserAsync())?.Id);
 
         if (item.Name != resource.Name.Trim())

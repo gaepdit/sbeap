@@ -28,8 +28,8 @@ public sealed class CaseworkService(
         var count = await cases.CountAsync(predicate, token);
 
         var list = count > 0
-            ? mapper.Map<List<CaseworkSearchResultDto>>(await cases.GetPagedListAsync(predicate, paging, token: token))
-            : [];
+            ? mapper.Map<List<CaseworkSearchResultDto>>(await cases.GetPagedListAsync(predicate, paging, token))
+            : new List<CaseworkSearchResultDto>();
 
         return new PaginatedResult<CaseworkSearchResultDto>(list, count, paging);
     }
@@ -46,13 +46,13 @@ public sealed class CaseworkService(
     }
 
     public async Task<CaseworkSearchResultDto?> FindBasicInfoAsync(Guid id, CancellationToken token = default) =>
-        mapper.Map<CaseworkSearchResultDto>(await cases.FindAsync(id, token: token));
+        mapper.Map<CaseworkSearchResultDto>(await cases.FindAsync(id, token));
 
     // Casework write
 
     public async Task<Guid> CreateAsync(CaseworkCreateDto resource, CancellationToken token = default)
     {
-        var customer = await customers.GetAsync(resource.CustomerId, token: token);
+        var customer = await customers.GetAsync(resource.CustomerId, token);
         var item = manager.Create(customer, resource.CaseOpenedDate, (await users.GetCurrentUserAsync())?.Id);
 
         item.Description = resource.Description ?? string.Empty;
@@ -62,11 +62,11 @@ public sealed class CaseworkService(
     }
 
     public async Task<CaseworkUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default) =>
-        mapper.Map<CaseworkUpdateDto>(await cases.FindAsync(id, token: token));
+        mapper.Map<CaseworkUpdateDto>(await cases.FindAsync(id, token));
 
     public async Task UpdateAsync(Guid id, CaseworkUpdateDto resource, CancellationToken token = default)
     {
-        var item = await cases.GetAsync(id, token: token);
+        var item = await cases.GetAsync(id, token);
         item.SetUpdater((await users.GetCurrentUserAsync())?.Id);
 
         item.CaseOpenedDate = resource.CaseOpenedDate;
@@ -76,14 +76,14 @@ public sealed class CaseworkService(
         item.ReferralDate = resource.ReferralDate;
         item.ReferralNotes = resource.ReferralNotes;
         if (resource.ReferralAgencyId is not null)
-            item.ReferralAgency = await agencies.GetAsync(resource.ReferralAgencyId.Value, token: token);
+            item.ReferralAgency = await agencies.GetAsync(resource.ReferralAgencyId.Value, token);
 
         await cases.UpdateAsync(item, token: token);
     }
 
     public async Task DeleteAsync(Guid id, string? deleteComments, CancellationToken token = default)
     {
-        var item = await cases.GetAsync(id, token: token);
+        var item = await cases.GetAsync(id, token);
         item.SetDeleted((await users.GetCurrentUserAsync())?.Id);
         item.DeleteComments = deleteComments;
         await cases.UpdateAsync(item, token: token);
@@ -91,7 +91,7 @@ public sealed class CaseworkService(
 
     public async Task RestoreAsync(Guid id, CancellationToken token = default)
     {
-        var item = await cases.GetAsync(id, token: token);
+        var item = await cases.GetAsync(id, token);
         item.SetNotDeleted();
         await cases.UpdateAsync(item, token: token);
     }

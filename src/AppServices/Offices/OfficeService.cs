@@ -18,12 +18,12 @@ public sealed class OfficeService(
 
     public async Task<IReadOnlyList<OfficeViewDto>> GetListAsync(CancellationToken token = default)
     {
-        var list = (await repository.GetListAsync(token: token)).OrderBy(e => e.Name).ToList();
+        var list = (await repository.GetListAsync(token)).OrderBy(e => e.Name).ToList();
         return mapper.Map<IReadOnlyList<OfficeViewDto>>(list);
     }
 
     public async Task<IReadOnlyList<ListItem>> GetActiveListItemsAsync(CancellationToken token = default) =>
-        (await repository.GetListAsync(e => e.Active, token: token)).OrderBy(e => e.Name)
+        (await repository.GetListAsync(e => e.Active, token)).OrderBy(e => e.Name)
         .Select(e => new ListItem(e.Id, e.Name)).ToList();
 
     public async Task<Guid> CreateAsync(OfficeCreateDto resource, CancellationToken token = default)
@@ -39,14 +39,14 @@ public sealed class OfficeService(
         var office = cache.Get<Office>(id);
         if (office is not null) return mapper.Map<OfficeUpdateDto>(office);
 
-        office = await repository.FindAsync(id, token: token);
+        office = await repository.FindAsync(id, token);
         if (office is not null) cache.Set(office.Id, office, OfficeListExpiration);
         return mapper.Map<OfficeUpdateDto>(office);
     }
 
     public async Task UpdateAsync(Guid id, OfficeUpdateDto resource, CancellationToken token = default)
     {
-        var item = await repository.GetAsync(id, token: token);
+        var item = await repository.GetAsync(id, token);
         item.SetUpdater((await users.GetCurrentUserAsync())?.Id);
 
         if (item.Name != resource.Name.Trim())

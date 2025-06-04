@@ -18,8 +18,8 @@ public sealed class ActionItemService(
 {
     public async Task<Guid> CreateAsync(ActionItemCreateDto resource, CancellationToken token = default)
     {
-        var casework = await caseworkRepository.GetAsync(resource.CaseworkId, token: token);
-        var actionItemType = await actionItemTypeRepository.GetAsync(resource.ActionItemTypeId!.Value, token: token);
+        var casework = await caseworkRepository.GetAsync(resource.CaseworkId, token);
+        var actionItemType = await actionItemTypeRepository.GetAsync(resource.ActionItemTypeId!.Value, token);
 
         var currentUser = await userService.GetCurrentUserAsync();
         var item = caseworkManager.CreateActionItem(casework, actionItemType, currentUser?.Id);
@@ -34,19 +34,17 @@ public sealed class ActionItemService(
     }
 
     public async Task<ActionItemViewDto?> FindAsync(Guid id, CancellationToken token = default) =>
-        mapper.Map<ActionItemViewDto>(
-            await actionItemRepository.FindAsync(e => e.Id == id && !e.IsDeleted, token: token));
+        mapper.Map<ActionItemViewDto>(await actionItemRepository.FindAsync(e => e.Id == id && !e.IsDeleted, token));
 
     public async Task<ActionItemUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default) =>
-        mapper.Map<ActionItemUpdateDto>(
-            await actionItemRepository.FindAsync(e => e.Id == id && !e.IsDeleted, token: token));
+        mapper.Map<ActionItemUpdateDto>(await actionItemRepository.FindAsync(e => e.Id == id && !e.IsDeleted, token));
 
     public async Task UpdateAsync(Guid id, ActionItemUpdateDto resource, CancellationToken token = default)
     {
-        var item = await actionItemRepository.GetAsync(id, token: token);
+        var item = await actionItemRepository.GetAsync(id, token);
         item.SetUpdater((await userService.GetCurrentUserAsync())?.Id);
 
-        item.ActionItemType = await actionItemTypeRepository.GetAsync(resource.ActionItemTypeId!.Value, token: token);
+        item.ActionItemType = await actionItemTypeRepository.GetAsync(resource.ActionItemTypeId!.Value, token);
         item.ActionDate = resource.ActionDate;
         item.Notes = resource.Notes;
 
@@ -55,7 +53,7 @@ public sealed class ActionItemService(
 
     public async Task DeleteAsync(Guid actionItemId, CancellationToken token = default)
     {
-        var item = await actionItemRepository.GetAsync(actionItemId, token: token);
+        var item = await actionItemRepository.GetAsync(actionItemId, token);
         item.SetDeleted((await userService.GetCurrentUserAsync())?.Id);
         await actionItemRepository.UpdateAsync(item, token: token);
     }
