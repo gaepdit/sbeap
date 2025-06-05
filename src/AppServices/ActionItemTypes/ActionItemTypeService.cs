@@ -6,19 +6,15 @@ using Sbeap.Domain.Entities.ActionItemTypes;
 
 namespace Sbeap.AppServices.ActionItemTypes;
 
-public sealed class ActionItemTypeService(
-    IActionItemTypeRepository repository,
-    IActionItemTypeManager manager,
-    IMapper mapper,
-    IUserService users,
-    IMemoryCache cache) : IActionItemTypeService
+public sealed class ActionItemTypeService(IActionItemTypeRepository repository, IActionItemTypeManager manager,
+        IMapper mapper, IUserService users, IMemoryCache cache) : IActionItemTypeService
 {
     private static readonly TimeSpan ActionItemTypeListExpiration = TimeSpan.FromDays(7);
     private const string ActionItemTypeListCacheKey = nameof(ActionItemTypeListCacheKey);
 
     public async Task<IReadOnlyList<ActionItemTypeViewDto>> GetListAsync(CancellationToken token = default)
     {
-        var list = (await repository.GetListAsync(token: token)).OrderBy(e => e.Name).ToList();
+        var list = (await repository.GetListAsync(token)).OrderBy(e => e.Name).ToList();
         return mapper.Map<IReadOnlyList<ActionItemTypeViewDto>>(list);
     }
 
@@ -27,7 +23,7 @@ public sealed class ActionItemTypeService(
         var list = cache.Get<IReadOnlyList<ListItem>>(ActionItemTypeListCacheKey);
         if (list is not null) return list;
 
-        list = (await repository.GetListAsync(actionItemType => actionItemType.Active, token: token))
+        list = (await repository.GetListAsync(actionItemType => actionItemType.Active, token))
             .OrderBy(actionItemType => actionItemType.Name)
             .Select(actionItemType => new ListItem(actionItemType.Id, actionItemType.Name))
             .ToList();
@@ -47,7 +43,7 @@ public sealed class ActionItemTypeService(
 
     public async Task<ActionItemTypeUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default)
     {
-        var item = await repository.FindAsync(id, token: token);
+        var item = await repository.FindAsync(id, token);
         return mapper.Map<ActionItemTypeUpdateDto>(item);
     }
 
@@ -55,7 +51,7 @@ public sealed class ActionItemTypeService(
     {
         cache.Remove(ActionItemTypeListCacheKey);
 
-        var item = await repository.GetAsync(id, token: token);
+        var item = await repository.GetAsync(id, token);
         item.SetUpdater((await users.GetCurrentUserAsync())?.Id);
 
         if (item.Name != resource.Name.Trim())

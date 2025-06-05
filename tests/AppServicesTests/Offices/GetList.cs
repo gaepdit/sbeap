@@ -14,8 +14,7 @@ public class GetList
         var office = new Office(Guid.Empty, TextData.ValidName);
         var itemList = new List<Office> { office };
         var repoMock = Substitute.For<IOfficeRepository>();
-        repoMock.GetListAsync(Arg.Any<string?>(), Arg.Any<string[]?>(), Arg.Any<CancellationToken>())
-            .Returns(itemList);
+        repoMock.GetListAsync(Arg.Any<CancellationToken>()).Returns(itemList);
         var appService = new OfficeService(repoMock, Substitute.For<IOfficeManager>(), AppServicesTestsSetup.Mapper!,
             Substitute.For<IUserService>(), new MemoryCache(new MemoryCacheOptions()));
 
@@ -28,8 +27,7 @@ public class GetList
     public async Task WhenNoItemsExist_ReturnsEmptyList()
     {
         var repoMock = Substitute.For<IOfficeRepository>();
-        repoMock.GetListAsync(Arg.Any<string?>(), Arg.Any<string[]?>(), Arg.Any<CancellationToken>())
-            .Returns(new List<Office>());
+        repoMock.GetListAsync(Arg.Any<CancellationToken>()).Returns(new List<Office>());
         var appService = new OfficeService(repoMock, Substitute.For<IOfficeManager>(), AppServicesTestsSetup.Mapper!,
             Substitute.For<IUserService>(), new MemoryCache(new MemoryCacheOptions()));
 

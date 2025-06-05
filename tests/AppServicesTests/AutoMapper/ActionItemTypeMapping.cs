@@ -1,5 +1,4 @@
-﻿using FluentAssertions.Execution;
-using Sbeap.AppServices.ActionItemTypes;
+﻿using Sbeap.AppServices.ActionItemTypes;
 using Sbeap.Domain.Entities.ActionItemTypes;
 using Sbeap.TestData.Constants;
 

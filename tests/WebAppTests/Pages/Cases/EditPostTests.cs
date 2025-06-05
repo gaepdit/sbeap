@@ -94,30 +94,20 @@ public class EditPostTests
     [Test]
     public async Task OnPost_GivenInvalidModel_ShouldReturnPageWithModelErrors()
     {
-        // Arrange
-        var agencyService = Substitute.For<IAgencyService>();
-        agencyService.GetListItemsAsync().Returns(new List<ListItem>());
-
         var caseworkService = Substitute.For<ICaseworkService>();
         caseworkService.FindForUpdateAsync(Arg.Any<Guid>()).Returns(_dto);
-
         var validationFailures = new List<ValidationFailure> { new("property", "message") };
-        var validator = Substitute.For<IValidator<CaseworkUpdateDto>>();
-        validator.ValidateAsync(Arg.Any<CaseworkUpdateDto>(), Arg.Any<CancellationToken>())
+        _validator.ValidateAsync(Arg.Any<CaseworkUpdateDto>(), Arg.Any<CancellationToken>())
             .Returns(new ValidationResult(validationFailures));
-
         var authorizationService = Substitute.For<IAuthorizationService>();
         authorizationService.AuthorizeAsync(Arg.Any<ClaimsPrincipal>(), _dto,
                 Arg.Any<IAuthorizationRequirement[]>())
             .Returns(AuthorizationResult.Success());
-
-        var page = new EditModel(caseworkService, agencyService, validator, authorizationService)
+        var page = new EditModel(caseworkService, _agencyService, _validator, authorizationService)
             { TempData = WebAppTestsSetup.PageTempData() };
 
-        // Act
         var result = await page.OnPostAsync();
 
-        // Assert
         using var scope = new AssertionScope();
         result.Should().BeOfType<PageResult>();
         page.ModelState.IsValid.Should().BeFalse();

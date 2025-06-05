@@ -1,5 +1,4 @@
-﻿using FluentAssertions.Execution;
-using GaEpd.AppLibrary.Pagination;
+﻿using GaEpd.AppLibrary.Pagination;
 using Sbeap.AppServices.Cases;
 using Sbeap.AppServices.Cases.Dto;
 using Sbeap.AppServices.UserServices;
@@ -25,9 +24,8 @@ public class Search
         var paging = new PaginatedRequest(1, 100);
 
         var caseworkRepoMock = Substitute.For<ICaseworkRepository>();
-        caseworkRepoMock.GetPagedListAsync(Arg.Any<Expression<Func<Casework, bool>>>(), Arg.Any<PaginatedRequest>(),
-                Arg.Any<string[]?>(), Arg.Any<CancellationToken>())
-            .Returns(itemList);
+        caseworkRepoMock.GetPagedListAsync(Arg.Any<Expression<Func<Casework, bool>>>(),
+            Arg.Any<PaginatedRequest>(), Arg.Any<CancellationToken>()).Returns(itemList);
         caseworkRepoMock.CountAsync(Arg.Any<Expression<Func<Casework, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(count);
 
@@ -55,9 +53,8 @@ public class Search
         var paging = new PaginatedRequest(1, 100);
 
         var caseworkRepoMock = Substitute.For<ICaseworkRepository>();
-        caseworkRepoMock.GetPagedListAsync(Arg.Any<Expression<Func<Casework, bool>>>(), Arg.Any<PaginatedRequest>(),
-                Arg.Any<string[]?>(), Arg.Any<CancellationToken>())
-            .Returns(itemList);
+        caseworkRepoMock.GetPagedListAsync(Arg.Any<Expression<Func<Casework, bool>>>(),
+            Arg.Any<PaginatedRequest>(), Arg.Any<CancellationToken>()).Returns(itemList);
         caseworkRepoMock.CountAsync(Arg.Any<Expression<Func<Casework, bool>>>(), Arg.Any<CancellationToken>())
             .Returns(count);
 

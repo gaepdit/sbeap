@@ -16,8 +16,7 @@ public class GetList
         var itemList = new List<ActionItemType> { actionItemType };
 
         var repoMock = Substitute.For<IActionItemTypeRepository>();
-        repoMock.GetListAsync(Arg.Any<string?>(), Arg.Any<string[]?>(), Arg.Any<CancellationToken>())
-            .Returns(itemList);
+        repoMock.GetListAsync(Arg.Any<CancellationToken>()).Returns(itemList);
         var managerMock = Substitute.For<IActionItemTypeManager>();
         var userServiceMock = Substitute.For<IUserService>();
 
@@ -36,11 +35,10 @@ public class GetList
     {
         // Arrange
         var repoMock = Substitute.For<IActionItemTypeRepository>();
-        repoMock.GetListAsync(Arg.Any<string?>(), Arg.Any<string[]?>(), Arg.Any<CancellationToken>())
-            .Returns(new List<ActionItemType>());
+        repoMock.GetListAsync(Arg.Any<CancellationToken>()).Returns(new List<ActionItemType>());
         var managerMock = Substitute.For<IActionItemTypeManager>();
         var userServiceMock = Substitute.For<IUserService>();
-
+        
         var appService = new ActionItemTypeService(repoMock, managerMock, AppServicesTestsSetup.Mapper!,
             userServiceMock, Substitute.For<IMemoryCache>());
 

@@ -1,4 +1,3 @@
-using FluentAssertions.Execution;
 using Sbeap.Domain.Identity;
 using Sbeap.LocalRepository.Identity;
 using System.Diagnostics;

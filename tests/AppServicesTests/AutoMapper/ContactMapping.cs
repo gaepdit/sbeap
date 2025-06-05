@@ -1,4 +1,3 @@
-using FluentAssertions.Execution;
 using Sbeap.AppServices.Customers.Dto;
 using Sbeap.Domain.Entities.Contacts;
 using Sbeap.Domain.Entities.Customers;

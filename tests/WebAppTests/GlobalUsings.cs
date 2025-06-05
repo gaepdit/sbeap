@@ -1,5 +1,5 @@
-global using FluentAssertions.Execution;
-global using FluentAssertions;
+global using AwesomeAssertions;
+global using AwesomeAssertions.Execution;
 global using FluentValidation.Results;
 global using FluentValidation;
 global using GaEpd.AppLibrary.ListItems;
