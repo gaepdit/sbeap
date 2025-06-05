@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.DataProtection;
 using Mindscape.Raygun4Net;
 using Mindscape.Raygun4Net.AspNetCore;
 using Sbeap.AppServices.RegisterServices;
-using Sbeap.WebApp.Platform.Logging;
 using Sbeap.WebApp.Platform.SecurityHeaders;
 using Sbeap.WebApp.Platform.Services;
 using Sbeap.WebApp.Platform.Settings;
@@ -40,7 +39,6 @@ if (!builder.Environment.IsDevelopment())
     builder.Services.AddHsts(opts => opts.MaxAge = TimeSpan.FromDays(360));
 
 // Configure application monitoring.
-builder.Services.AddTransient<IErrorLogger, ErrorLogger>();
 if (!string.IsNullOrEmpty(ApplicationSettings.RaygunSettings.ApiKey))
 {
     builder.Services.AddSingleton(provider =>

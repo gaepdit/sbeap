@@ -52,10 +52,9 @@
                     | <a href="https://georgia.gov/accessibility" target="_blank" rel="noopener">Accessibility</a>
                     | <a href="https://gadnr.org/ada" target="_blank" rel="noopener">DNR Accessibility Notice</a>
                     | <a href="https://georgia.gov/privacysecurity" target="_blank" rel="noopener">Privacy/Security</a>
-                    |
                     @if (!string.IsNullOrEmpty(ApplicationSettings.RaygunSettings.InformationalVersion))
                     {
-                        @:Current&nbsp;version:&nbsp;<em>@ApplicationSettings.RaygunSettings.InformationalVersion</em>
+                        @:| Current&nbsp;version:&nbsp;<em>@ApplicationSettings.RaygunSettings.InformationalVersion</em>
                     }
                 </span>
             </small>
@@ -63,8 +62,6 @@
     </div>
 </footer>
 
-<script src="~/lib/jquery/jquery.min.js"
-        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="></script>
 <script src="~/lib/jquery/jquery.min.js"
         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="></script>
 <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"
