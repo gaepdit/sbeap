@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.DataProtection;
 using Mindscape.Raygun4Net;
 using Mindscape.Raygun4Net.AspNetCore;
 using Sbeap.AppServices.RegisterServices;
@@ -17,16 +16,15 @@ AppDomain.CurrentDomain.SetData("REGEX_DEFAULT_MATCH_TIMEOUT", TimeSpan.FromMill
 // Bind application settings.
 AppConfiguration.BindSettings(builder);
 
+// Persist data protection keys.
+builder.Services.AddDataProtection();
+
 // Configure Identity.
 builder.Services.AddIdentityStores();
 
 // Configure Authentication.
 builder.Services.AddAuthenticationServices(builder.Configuration);
 builder.Services.AddTransient<IClaimsTransformation, ClaimsTransformation>();
-
-// Persist data protection keys.
-var keysFolder = Path.Combine(builder.Configuration["PersistedFilesBasePath"] ?? "", "DataProtectionKeys");
-builder.Services.AddDataProtection().PersistKeysToFileSystem(Directory.CreateDirectory(keysFolder));
 
 // Configure authorization policies.
 builder.Services.AddAuthorizationPolicies();
