@@ -13,7 +13,7 @@ public class MigratorHostedService(IServiceProvider serviceProvider, IConfigurat
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         // If using in-memory data, no further action required.
-        if (ApplicationSettings.DevSettings.UseInMemoryData) return;
+        if (AppSettings.DevSettings.UseInMemoryData) return;
 
         // Inject the IServiceProvider so we can create the DbContext scoped service.
         using var scope = serviceProvider.CreateScope();
@@ -25,7 +25,7 @@ public class MigratorHostedService(IServiceProvider serviceProvider, IConfigurat
 
         await using var migrationContext = new AppDbContext(migrationOptions);
 
-        if (ApplicationSettings.DevSettings.UseEfMigrations)
+        if (AppSettings.DevSettings.UseEfMigrations)
         {
             // Run any EF database migrations if used.
             await migrationContext.Database.MigrateAsync(cancellationToken);

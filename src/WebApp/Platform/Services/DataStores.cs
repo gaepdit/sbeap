@@ -19,7 +19,7 @@ public static class DataStores
     public static void AddDataStores(this IServiceCollection services, ConfigurationManager configuration)
     {
         // When configured, use in-memory data; otherwise use a SQL Server database.
-        if (ApplicationSettings.DevSettings.UseInMemoryData)
+        if (AppSettings.DevSettings.UseInMemoryData)
         {
             // Uses local static data if no database is built.
             services.AddSingleton<IActionItemRepository, LocalActionItemRepository>();

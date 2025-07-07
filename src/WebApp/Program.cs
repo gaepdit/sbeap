@@ -8,13 +8,12 @@ using Sbeap.WebApp.Platform.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Set default timeout for regular expressions.
-// https://learn.microsoft.com/en-us/dotnet/standard/base-types/best-practices#use-time-out-values
-// ReSharper disable once HeapView.BoxingAllocation
+// Set the default timeout for regular expressions.
+// https://learn.microsoft.com/en-us/dotnet/standard/base-types/best-practices-regex#use-time-out-values
 AppDomain.CurrentDomain.SetData("REGEX_DEFAULT_MATCH_TIMEOUT", TimeSpan.FromMilliseconds(100));
 
 // Bind application settings.
-AppConfiguration.BindSettings(builder);
+builder.BindAppSettings();
 
 // Persist data protection keys.
 builder.Services.AddDataProtection();
@@ -37,7 +36,7 @@ if (!builder.Environment.IsDevelopment())
     builder.Services.AddHsts(opts => opts.MaxAge = TimeSpan.FromDays(360));
 
 // Configure application monitoring.
-if (!string.IsNullOrEmpty(ApplicationSettings.RaygunSettings.ApiKey))
+if (!string.IsNullOrEmpty(AppSettings.RaygunSettings.ApiKey))
 {
     builder.Services.AddSingleton(provider =>
     {
@@ -49,9 +48,8 @@ if (!string.IsNullOrEmpty(ApplicationSettings.RaygunSettings.ApiKey))
     });
     builder.Services.AddRaygun(opts =>
     {
-        opts.ApiKey = ApplicationSettings.RaygunSettings.ApiKey;
-        opts.ApplicationVersion = ApplicationSettings.RaygunSettings.InformationalVersion;
-        opts.ExcludeErrorsFromLocal = ApplicationSettings.RaygunSettings.ExcludeErrorsFromLocal;
+        opts.ApiKey = AppSettings.RaygunSettings.ApiKey;
+        opts.ApplicationVersion = AppSettings.Version;
         opts.IgnoreFormFieldNames = ["*Password"];
         opts.EnvironmentVariables.Add("ASPNETCORE_*");
     });
@@ -84,12 +82,12 @@ var app = builder.Build();
 app.UseExceptionHandler("/Error"); // Production or Staging
 
 // Configure security HTTP headers
-if (!app.Environment.IsDevelopment() || ApplicationSettings.DevSettings.UseSecurityHeadersInDev)
+if (!app.Environment.IsDevelopment() || AppSettings.DevSettings.UseSecurityHeadersInDev)
 {
     app.UseHsts().UseSecurityHeaders(policyCollection => policyCollection.AddSecurityHeaderPolicies());
 }
 
-if (!string.IsNullOrEmpty(ApplicationSettings.RaygunSettings.ApiKey)) app.UseRaygun();
+if (!string.IsNullOrEmpty(AppSettings.RaygunSettings.ApiKey)) app.UseRaygun();
 
 // Configure the application pipeline.
 app.UseStatusCodePagesWithReExecute("/Error/{0}");

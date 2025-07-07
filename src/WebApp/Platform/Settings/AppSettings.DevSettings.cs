@@ -2,12 +2,14 @@ using JetBrains.Annotations;
 
 namespace Sbeap.WebApp.Platform.Settings;
 
-internal static class ApplicationSettings
+internal static partial class AppSettings
 {
     public static DevSettingsSection DevSettings { get; set; } = new();
 
-    public static readonly DevSettingsSection ProductionDefault = new()
+    // PROD configuration settings
+    private static readonly DevSettingsSection ProductionDefault = new()
     {
+        UseDevSettings = false,
         UseInMemoryData = false,
         UseEfMigrations = true,
         UseAzureAd = true,
@@ -17,8 +19,14 @@ internal static class ApplicationSettings
         UseSecurityHeadersInDev = false,
     };
 
+    // DEV configuration settings
     public class DevSettingsSection
     {
+        /// <summary>
+        /// Enable (`true`) or disable (`false`) the development settings.
+        /// </summary>
+        public bool UseDevSettings { get; [UsedImplicitly] init; }
+
         /// <summary>
         /// Uses in-memory data when `true`. Connects to a SQL Server database when `false`.
         /// </summary>
@@ -58,15 +66,5 @@ internal static class ApplicationSettings
         /// Sets whether to include HTTP security headers when running locally in the Development environment.
         /// </summary>
         public bool UseSecurityHeadersInDev { get; [UsedImplicitly] init; }
-    }
-
-    // Raygun client settings
-    public static RaygunClientSettings RaygunSettings { get; } = new();
-
-    public class RaygunClientSettings
-    {
-        public string? ApiKey { get; [UsedImplicitly] init; }
-        public bool ExcludeErrorsFromLocal { get; [UsedImplicitly] init; }
-        public string? InformationalVersion { get; set; }
     }
 }
