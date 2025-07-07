@@ -13,7 +13,7 @@ internal static partial class AppSettings
         public string? ApiKey { get; [UsedImplicitly] init; }
     }
 
-    public static void BindAppSettings(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder BindAppSettings(this WebApplicationBuilder builder)
     {
         Version = GetVersion();
 
@@ -26,6 +26,8 @@ internal static partial class AppSettings
 
         if (useDevConfig) devConfig.Bind(DevSettings);
         else DevSettings = ProductionDefault;
+
+        return builder;
     }
 
     private static string GetVersion()
