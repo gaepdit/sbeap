@@ -34,11 +34,8 @@ builder.Services.AddAutoMapperProfiles();
 builder.Services.AddAppServices();
 builder.Services.AddValidators();
 
-// Add data stores.
-builder.Services.AddDataStores(builder.Configuration);
-
-// Initialize database.
-builder.Services.AddHostedService<MigratorHostedService>();
+// Add data stores and initialize the database.
+await builder.ConfigureDataPersistence();
 
 // Configure bundling and minification.
 builder.Services.AddWebOptimizer();
