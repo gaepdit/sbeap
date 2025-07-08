@@ -52,9 +52,10 @@
                     | <a href="https://georgia.gov/accessibility" target="_blank" rel="noopener">Accessibility</a>
                     | <a href="https://gadnr.org/ada" target="_blank" rel="noopener">DNR Accessibility Notice</a>
                     | <a href="https://georgia.gov/privacysecurity" target="_blank" rel="noopener">Privacy/Security</a>
-                    @if (!string.IsNullOrEmpty(ApplicationSettings.RaygunSettings.InformationalVersion))
+                    @if (!string.IsNullOrEmpty(AppSettings.Version))
                     {
-                        @:| Current&nbsp;version:&nbsp;<em>@ApplicationSettings.RaygunSettings.InformationalVersion</em>
+                        @:|
+                        <span class="text-body-secondary">Current&nbsp;version:&nbsp;<em>@AppSettings.Version</em></span>
                     }
                 </span>
             </small>

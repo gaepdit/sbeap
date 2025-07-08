@@ -1,11 +1,43 @@
 ﻿using Sbeap.WebApp.Platform.Settings;
 
-namespace Sbeap.WebApp.Platform.SecurityHeaders;
+namespace Sbeap.WebApp.Platform.AppConfiguration;
 
 internal static class SecurityHeaders
 {
+    public static WebApplicationBuilder AddSecurityHeaders(this WebApplicationBuilder builder)
+    {
+        if (builder.Environment.IsDevelopment())
+        {
+            builder.Services.AddHttpsRedirection(options =>
+                options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect);
+        }
+        else
+        {
+            // Starting value for HSTS max age is five minutes to allow for debugging.
+            // For more info on updating HSTS max age value for production, see:
+            // https://gaepdit.github.io/web-apps/use-https.html#how-to-enable-hsts
+            builder.Services
+                .AddHsts(options => options.MaxAge = TimeSpan.FromMinutes(300))
+                .AddHttpsRedirection(options =>
+                {
+                    options.HttpsPort = 443;
+                    options.RedirectStatusCode = StatusCodes.Status308PermanentRedirect;
+                });
+        }
+
+        return builder;
+    }
+
+    public static WebApplication UseSecurityHeaders(this WebApplication app)
+    {
+        if (!app.Environment.IsDevelopment() || AppSettings.DevSettings.UseSecurityHeadersInDev)
+            app.UseHsts().UseSecurityHeaders(policyCollection => policyCollection.AddSecurityHeaderPolicies());
+
+        return app;
+    }
+
     private static readonly string ReportUri =
-        $"https://report-to-api.raygun.com/reports?apikey={ApplicationSettings.RaygunSettings.ApiKey}";
+        $"https://report-to-api.raygun.com/reports?apikey={AppSettings.RaygunSettings.ApiKey}";
 
     internal static void AddSecurityHeaderPolicies(this HeaderPolicyCollection policies)
     {
@@ -18,7 +50,7 @@ internal static class SecurityHeaders
         policies.AddCrossOriginEmbedderPolicy(builder => builder.Credentialless());
         policies.AddCrossOriginResourcePolicy(builder => builder.SameSite());
 
-        if (string.IsNullOrEmpty(ApplicationSettings.RaygunSettings.ApiKey)) return;
+        if (string.IsNullOrEmpty(AppSettings.RaygunSettings.ApiKey)) return;
         policies.AddReportingEndpoints(builder => builder.AddEndpoint("csp-endpoint", ReportUri));
     }
 
@@ -47,7 +79,7 @@ internal static class SecurityHeaders
         builder.AddManifestSrc().Self();
         builder.AddFrameAncestors().None();
 
-        if (string.IsNullOrEmpty(ApplicationSettings.RaygunSettings.ApiKey)) return;
+        if (string.IsNullOrEmpty(AppSettings.RaygunSettings.ApiKey)) return;
         builder.AddReportUri().To(ReportUri);
         builder.AddReportTo("csp-endpoint");
     }

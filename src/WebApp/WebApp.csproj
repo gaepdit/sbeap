@@ -21,6 +21,10 @@
     </ItemGroup>
 
     <ItemGroup>
+        <None Include="../../README.md" />
+    </ItemGroup>
+
+    <ItemGroup>
         <Content Update="appsettings.Development.json">
             <DependentUpon>appsettings.json</DependentUpon>
             <CopyToPublishDirectory>Never</CopyToPublishDirectory>
@@ -47,4 +51,5 @@
             <AbsolutePath>web.config</AbsolutePath>
         </MsDeploySkipRules>
     </ItemGroup>
+
 </Project>

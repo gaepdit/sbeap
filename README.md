@@ -40,8 +40,7 @@ development and testing.
 ### Development settings
 
 The following settings configure the data stores and authentication for development purposes. To change these settings,
-add an "appsettings.Development.json" file in the root of the "WebApp" folder with a `DevSettings` section and a
-top-level setting named `UseDevSettings`.
+add an "appsettings.Development.json" file in the root of the "WebApp" folder with a `DevSettings` section.
 
 - *UseDevSettings* — Indicates whether the Dev settings should be applied.
 - *UseInMemoryData*
@@ -82,16 +81,12 @@ Here's a visualization of how the settings configure data storage at runtime.
 
 ```mermaid
 flowchart LR
-    subgraph SPL["'UseInMemoryData' = true"]
+    subgraph SPL["'BuildDatabase' = false"]
         direction LR
         D[Domain]
         T["Test Data (in memory)"]
         R[Local Repositories]
-        A[App Services]
-        W([Web App])
-
-        W --> A
-        A --> D
+        A([App Services])
         A --> R
         R --> T
         T --> D
@@ -100,17 +95,13 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    subgraph SPB["'UseInMemoryData' = false"]
+    subgraph SPB["'BuildDatabase' = true"]
         direction LR
         D[Domain]
         T[Test Data]
         R[EF Repositories]
-        A[App Services]
-        W([Web App])
+        A([App Services])
         B[(Database)]
-
-        W --> A
-        A --> D
         R --> B
         A --> R
         T -->|Seed| B
@@ -124,26 +115,10 @@ flowchart LR
         direction LR
         D[Domain]
         R[EF Repositories]
-        A[App Services]
-        W([Web App])
+        A([App Services])
         B[(Database)]
-
-        W --> A
-        A --> D
         A --> R
         R --> B
         B --> D
     end
 ```
-
-### Entity Framework database migrations
-
-Instructions for adding a new Entity Framework database migration:
-
-1. Build the solution.
-
-2. Open a command prompt to the "./src/EfRepository/" folder.
-
-3. Run the following command with an appropriate migration name:
-
-   `dotnet ef migrations add NAME_OF_MIGRATION --msbuildprojectextensionspath ..\..\.artifacts\EfRepository\obj\`

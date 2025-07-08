@@ -16,5 +16,6 @@ public sealed class CustomerRepository(AppDbContext context)
                 .Where(i => includeDeletedCases || !i.IsDeleted)
                 .OrderByDescending(item => item.CaseOpenedDate))
             .ThenInclude(e => e.ReferralAgency)
+            .AsSplitQuery()
             .SingleOrDefaultAsync(e => e.Id.Equals(id), token);
 }

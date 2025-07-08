@@ -13,7 +13,8 @@ public sealed class CaseworkRepository(AppDbContext context)
                 .OrderByDescending(i => i.ActionDate)
                 .ThenByDescending(i => i.EnteredOn)
             )
-            .Include(e => e.ActionItems).ThenInclude(e => e.EnteredBy)
+            .Include(e => e.ActionItems)
+            .ThenInclude(e => e.EnteredBy)
             .Include(e => e.ReferralAgency)
             .SingleOrDefaultAsync(e => e.Id.Equals(id), token);
 }
