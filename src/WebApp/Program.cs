@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Sbeap.AppServices.RegisterServices;
 using Sbeap.WebApp.Platform.AppConfiguration;
+using Sbeap.WebApp.Platform.OrgNotifications;
 using Sbeap.WebApp.Platform.Services;
 using Sbeap.WebApp.Platform.Settings;
 
@@ -42,6 +43,9 @@ builder.Services.AddWebOptimizer();
 
 //Add simple cache.
 builder.Services.AddMemoryCache();
+
+// Add organizational notifications.
+builder.Services.AddOrgNotifications();
 
 // Build the application.
 var app = builder.Build();
