@@ -21,7 +21,7 @@ public class IndexModel(
 {
     // Properties
     public bool ShowDashboard { get; private set; }
-    public IPaginatedResult<CaseworkSearchResultDto> OpenCases { get; private set; } = default!;
+    public IPaginatedResult<CaseworkSearchResultDto> OpenCases { get; private set; } = null!;
 
     // Methods
     public async Task<IActionResult> OnGetAsync()
