@@ -21,7 +21,7 @@ public class Search
         // Arrange
         var itemList = new ReadOnlyCollection<Customer>(CustomerData.GetCustomers.ToList());
         var count = CustomerData.GetCustomers.Count();
-        var paging = new PaginatedRequest(1, 100);
+        var paging = new PaginatedRequest(1, 100, "Id");
 
         var customerRepoMock = Substitute.For<ICustomerRepository>();
         customerRepoMock.GetPagedListAsync(Arg.Any<Expression<Func<Customer, bool>>>(),
@@ -50,7 +50,7 @@ public class Search
         // Arrange
         var itemList = new ReadOnlyCollection<Customer>(new List<Customer>());
         const int count = 0;
-        var paging = new PaginatedRequest(1, 100);
+        var paging = new PaginatedRequest(1, 100, "Id");
 
         var customerRepoMock = Substitute.For<ICustomerRepository>();
         customerRepoMock.GetPagedListAsync(Arg.Any<Expression<Func<Customer, bool>>>(),
