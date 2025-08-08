@@ -8,6 +8,8 @@ namespace AppServicesTests.Customers;
 public class ContactCreateValidatorTests
 {
     private static ContactCreateDto EmptyContactCreateDto => new(Guid.Empty);
+    private static readonly PhoneNumberCreateValidator PhoneNumberValidator = new();
+    private static readonly ContactCreateValidator ContactValidator = new(PhoneNumberValidator);
 
     [Test]
     public async Task ValidDto_ReturnsAsValid()
@@ -17,9 +19,8 @@ public class ContactCreateValidatorTests
             GivenName = TextData.ValidName,
             Email = TextData.ValidEmail,
         };
-        var validator = new ContactCreateValidator();
 
-        var result = await validator.TestValidateAsync(model);
+        var result = await ContactValidator.TestValidateAsync(model);
 
         result.ShouldNotHaveAnyValidationErrors();
     }
@@ -27,9 +28,7 @@ public class ContactCreateValidatorTests
     [Test]
     public async Task EmptyContact_ReturnsAsInvalid()
     {
-        var validator = new ContactCreateValidator();
-
-        var result = await validator.TestValidateAsync(EmptyContactCreateDto);
+        var result = await ContactValidator.TestValidateAsync(EmptyContactCreateDto);
 
         result.ShouldHaveValidationErrorFor(e => e.Title);
     }
@@ -42,9 +41,8 @@ public class ContactCreateValidatorTests
             Title = TextData.Phrase,
             Email = TextData.NonExistentName, // invalid as email
         };
-        var validator = new ContactCreateValidator();
 
-        var result = await validator.TestValidateAsync(model);
+        var result = await ContactValidator.TestValidateAsync(model);
 
         result.ShouldHaveValidationErrorFor(e => e.Email);
     }
@@ -56,9 +54,8 @@ public class ContactCreateValidatorTests
         {
             Email = TextData.ValidEmail,
         };
-        var validator = new ContactCreateValidator();
 
-        var result = await validator.TestValidateAsync(model);
+        var result = await ContactValidator.TestValidateAsync(model);
 
         result.ShouldHaveValidationErrorFor(e => e.Title);
     }

@@ -5,7 +5,7 @@ namespace Sbeap.AppServices.Customers.Validators;
 
 public class ContactCreateValidator : AbstractValidator<ContactCreateDto>
 {
-    public ContactCreateValidator()
+    public ContactCreateValidator(IValidator<PhoneNumberCreate> phoneNumberCreateValidator)
     {
         RuleFor(e => e.Email).EmailAddress();
 
@@ -18,7 +18,7 @@ public class ContactCreateValidator : AbstractValidator<ContactCreateDto>
 
         // Embedded phone number
         RuleFor(e => e.PhoneNumber)
-            .SetValidator(new PhoneNumberCreateValidator())
+            .SetValidator(phoneNumberCreateValidator)
             .When(e => !e.PhoneNumber.IsIncomplete);
     }
 }
