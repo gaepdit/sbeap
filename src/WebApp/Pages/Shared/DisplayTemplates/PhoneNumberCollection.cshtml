@@ -7,17 +7,14 @@
 }
 else
 {
-    @foreach (var item in Model)
+    @foreach (var item in Model.Where(p => !string.IsNullOrWhiteSpace(p.Number)))
     {
-        @if (!string.IsNullOrWhiteSpace(item.Number))
-        {
-            <div>
-                @item.Number
-                @if (item.Type != null && item.Type != PhoneType.Unknown)
-                {
-                    <em>(@item.Type.Value.GetDisplayName())</em>
-                }
-            </div>
-        }
+        <div>
+            @item.Number
+            @if (item.Type != null && item.Type != PhoneType.Unknown)
+            {
+                <em>(@item.Type.Value.GetDisplayName())</em>
+            }
+        </div>
     }
 }

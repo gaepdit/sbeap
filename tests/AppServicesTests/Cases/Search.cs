@@ -21,7 +21,7 @@ public class Search
         // Arrange
         var itemList = new ReadOnlyCollection<Casework>(CaseworkData.GetCases.ToList());
         var count = CaseworkData.GetCases.Count();
-        var paging = new PaginatedRequest(1, 100);
+        var paging = new PaginatedRequest(1, 100, "Id");
 
         var caseworkRepoMock = Substitute.For<ICaseworkRepository>();
         caseworkRepoMock.GetPagedListAsync(Arg.Any<Expression<Func<Casework, bool>>>(),
@@ -50,7 +50,7 @@ public class Search
         // Arrange
         var itemList = new ReadOnlyCollection<Casework>(new List<Casework>());
         const int count = 0;
-        var paging = new PaginatedRequest(1, 100);
+        var paging = new PaginatedRequest(1, 100, "Id");
 
         var caseworkRepoMock = Substitute.For<ICaseworkRepository>();
         caseworkRepoMock.GetPagedListAsync(Arg.Any<Expression<Func<Casework, bool>>>(),
