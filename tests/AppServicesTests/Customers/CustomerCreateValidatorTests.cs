@@ -9,8 +9,12 @@ namespace AppServicesTests.Customers;
 public class CustomerCreateValidatorTests
 {
     private static ContactCreateDto EmptyContactCreate => new(Guid.Empty);
-
     private static CustomerCreateDto EmptyCustomerCreate => new();
+    private static readonly PhoneNumberCreateValidator PhoneNumberValidator = new();
+    private static readonly ContactCreateValidator ContactValidator = new(PhoneNumberValidator);
+
+    private static readonly CustomerCreateValidator CustomerValidator =
+        new(Substitute.For<ISicRepository>(), ContactValidator);
 
     [Test]
     public async Task ValidDtoWithEmptyContact_ReturnsAsValid()
@@ -20,9 +24,8 @@ public class CustomerCreateValidatorTests
             Name = TextData.ValidName,
             Contact = EmptyContactCreate,
         };
-        var validator = new CustomerCreateValidator(Substitute.For<ISicRepository>());
 
-        var result = await validator.TestValidateAsync(model);
+        var result = await CustomerValidator.TestValidateAsync(model);
 
         result.ShouldNotHaveAnyValidationErrors();
     }
@@ -35,9 +38,8 @@ public class CustomerCreateValidatorTests
             Name = TextData.ValidName,
             Contact = EmptyContactCreate with { Title = TextData.Phrase },
         };
-        var validator = new CustomerCreateValidator(Substitute.For<ISicRepository>());
 
-        var result = await validator.TestValidateAsync(model);
+        var result = await CustomerValidator.TestValidateAsync(model);
 
         result.ShouldNotHaveAnyValidationErrors();
     }
@@ -50,9 +52,8 @@ public class CustomerCreateValidatorTests
             Name = TextData.ShortName,
             Contact = EmptyContactCreate,
         };
-        var validator = new CustomerCreateValidator(Substitute.For<ISicRepository>());
 
-        var result = await validator.TestValidateAsync(model);
+        var result = await CustomerValidator.TestValidateAsync(model);
 
         result.ShouldHaveValidationErrorFor(e => e.Name);
     }
@@ -66,9 +67,8 @@ public class CustomerCreateValidatorTests
             Website = TextData.NonExistentName, // invalid as website
             Contact = EmptyContactCreate,
         };
-        var validator = new CustomerCreateValidator(Substitute.For<ISicRepository>());
 
-        var result = await validator.TestValidateAsync(model);
+        var result = await CustomerValidator.TestValidateAsync(model);
 
         result.ShouldHaveValidationErrorFor(e => e.Website);
     }
@@ -85,9 +85,8 @@ public class CustomerCreateValidatorTests
                 Email = TextData.NonExistentName, // invalid as email
             },
         };
-        var validator = new CustomerCreateValidator(Substitute.For<ISicRepository>());
 
-        var result = await validator.TestValidateAsync(model);
+        var result = await CustomerValidator.TestValidateAsync(model);
 
         result.ShouldHaveValidationErrorFor(e => e.Contact.Email);
     }
@@ -100,9 +99,8 @@ public class CustomerCreateValidatorTests
             Name = TextData.ValidName,
             Contact = EmptyContactCreate with { Email = TextData.ValidEmail },
         };
-        var validator = new CustomerCreateValidator(Substitute.For<ISicRepository>());
 
-        var result = await validator.TestValidateAsync(model);
+        var result = await CustomerValidator.TestValidateAsync(model);
 
         result.ShouldHaveValidationErrorFor(e => e.Contact.Title);
     }
@@ -110,35 +108,46 @@ public class CustomerCreateValidatorTests
     [Test]
     public async Task CustomerWithValidSic_ReturnsAsValid()
     {
+        // Arrange
         var model = EmptyCustomerCreate with
         {
             Name = TextData.ValidName,
             Contact = EmptyContactCreate,
             SicCodeId = "0000",
         };
+
         var sic = Substitute.For<ISicRepository>();
         sic.ExistsAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns(true);
-        var validator = new CustomerCreateValidator(sic);
 
+        var validator = new CustomerCreateValidator(sic, ContactValidator);
+
+        // Act
         var result = await validator.TestValidateAsync(model);
 
+        // Assert
         result.ShouldNotHaveAnyValidationErrors();
     }
+
     [Test]
     public async Task CustomerWithInvalidSic_ReturnsAsInvalid()
     {
+        // Arrange
         var model = EmptyCustomerCreate with
         {
             Name = TextData.ValidName,
             Contact = EmptyContactCreate,
             SicCodeId = "0000",
         };
+
         var sic = Substitute.For<ISicRepository>();
         sic.ExistsAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns(false);
-        var validator = new CustomerCreateValidator(sic);
 
+        var validator = new CustomerCreateValidator(sic, ContactValidator);
+
+        // Act
         var result = await validator.TestValidateAsync(model);
 
+        // Assert
         result.ShouldHaveValidationErrorFor(e => e.SicCodeId);
     }
 }

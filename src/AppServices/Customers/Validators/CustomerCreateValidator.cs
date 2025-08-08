@@ -7,7 +7,7 @@ namespace Sbeap.AppServices.Customers.Validators;
 
 public class CustomerCreateValidator : AbstractValidator<CustomerCreateDto>
 {
-    public CustomerCreateValidator(ISicRepository sic)
+    public CustomerCreateValidator(ISicRepository sic, IValidator<ContactCreateDto> contactValidator)
     {
         RuleFor(e => e.Name)
             .Cascade(CascadeMode.Stop)
@@ -25,7 +25,7 @@ public class CustomerCreateValidator : AbstractValidator<CustomerCreateDto>
 
         // Embedded Contact
         RuleFor(e => e.Contact)
-            .SetValidator(new ContactCreateValidator())
+            .SetValidator(contactValidator)
             .When(e => !e.Contact.IsEmpty);
     }
 }

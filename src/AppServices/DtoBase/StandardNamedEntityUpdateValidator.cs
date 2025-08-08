@@ -26,10 +26,10 @@ public abstract class StandardNamedEntityUpdateValidator<TEntity, TDto, TReposit
             .WithMessage("The name entered already exists.");
     }
 
-    private async Task<bool> NotDuplicateName(string name, IValidationContext context,
+    private async Task<bool> NotDuplicateName(string name, ValidationContext<TDto> context,
         CancellationToken token = default)
     {
         var existing = await _repository.FindByNameAsync(name, token);
-        return existing is null || existing.Id == (Guid)context.RootContextData["Id"];
+        return existing is null || existing.Id == (Guid)context.RootContextData[nameof(existing.Id)];
     }
 }
