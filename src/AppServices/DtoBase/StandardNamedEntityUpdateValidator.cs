@@ -22,14 +22,15 @@ public abstract class StandardNamedEntityUpdateValidator<TEntity, TDto, TReposit
             .Cascade(CascadeMode.Stop)
             .NotEmpty()
             .Length(AppConstants.MinimumNameLength, AppConstants.MaximumNameLength)
-            .MustAsync(async (_, name, context, token) => await NotDuplicateName(name, context, token))
+            .MustAsync(async (_, name, context, token) =>
+                await NotDuplicateName(name, context, token).ConfigureAwait(false))
             .WithMessage("The name entered already exists.");
     }
 
     private async Task<bool> NotDuplicateName(string name, ValidationContext<TDto> context,
         CancellationToken token = default)
     {
-        var existing = await _repository.FindByNameAsync(name, token);
+        var existing = await _repository.FindByNameAsync(name, token).ConfigureAwait(false);
         return existing is null || existing.Id == (Guid)context.RootContextData[nameof(existing.Id)];
     }
 }

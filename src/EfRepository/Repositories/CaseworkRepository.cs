@@ -16,5 +16,5 @@ public sealed class CaseworkRepository(AppDbContext context)
             .Include(e => e.ActionItems)
             .ThenInclude(e => e.EnteredBy)
             .Include(e => e.ReferralAgency)
-            .SingleOrDefaultAsync(e => e.Id.Equals(id), token);
+            .SingleOrDefaultAsync(e => e.Id.Equals(id), token).ConfigureAwait(false);
 }

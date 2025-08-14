@@ -15,7 +15,7 @@ public class CustomerUpdateValidator : AbstractValidator<CustomerUpdateDto>
             .MinimumLength(Customer.MinNameLength);
 
         RuleFor(e => e.SicCodeId)
-            .MustAsync(async (id, token) => id is null || await sic.ExistsAsync(id, token))
+            .MustAsync(async (id, token) => id is null || await sic.ExistsAsync(id, token).ConfigureAwait(false))
             .WithMessage(_ => "The SIC Code entered does not exist.");
     }
 }

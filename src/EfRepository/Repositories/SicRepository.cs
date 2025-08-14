@@ -9,12 +9,13 @@ public sealed class SicRepository(AppDbContext context) : ISicRepository
         context.Set<SicCode>().AnyAsync(e => e.Id == id, token);
 
     public async Task<SicCode> GetAsync(string id, CancellationToken token = default) =>
-        await context.Set<SicCode>().SingleOrDefaultAsync(sic => sic.Id.Equals(id), token)
+        await context.Set<SicCode>().SingleOrDefaultAsync(sic => sic.Id.Equals(id), token).ConfigureAwait(false)
         ?? throw new EntityNotFoundException<SicCode>(id);
 
     public async Task<IReadOnlyCollection<SicCode>> GetListAsync(CancellationToken token = default) =>
-        await context.Set<SicCode>().AsNoTracking().Where(sic => sic.Active).OrderBy(sic => sic.Id).ToListAsync(token);
+        await context.Set<SicCode>().AsNoTracking().Where(sic => sic.Active).OrderBy(sic => sic.Id).ToListAsync(token)
+            .ConfigureAwait(false);
 
     public void Dispose() => context.Dispose();
-    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+    public async ValueTask DisposeAsync() => await context.DisposeAsync().ConfigureAwait(false);
 }
