@@ -15,6 +15,7 @@ public class ContactUpdateValidator : AbstractValidator<ContactUpdateDto>
                 !string.IsNullOrWhiteSpace(c.GivenName) ||
                 !string.IsNullOrWhiteSpace(c.FamilyName) ||
                 !string.IsNullOrWhiteSpace(c.Title))
+            .OverridePropertyName(c => c.Title)
             .WithMessage("At least a name or title must be entered to create a contact.");
     }
 }

@@ -7,10 +7,12 @@ public class PhoneNumberCreateValidator : AbstractValidator<PhoneNumberCreate>
 {
     public PhoneNumberCreateValidator()
     {
-        RuleFor(e => e)
-            .Must(c => !string.IsNullOrWhiteSpace(c.Number))
-            .WithMessage("Phone number must be entered.")
-            .Must(c => c.Type != null)
+        RuleFor(e => e.Number)
+            .NotEmpty()
+            .WithMessage("Phone number must be entered.");
+
+        RuleFor(e => e.Type)
+            .NotNull()
             .WithMessage("Phone number type must be selected.");
     }
 }

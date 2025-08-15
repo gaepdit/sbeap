@@ -127,11 +127,6 @@ else
         <h3 id="new-case" class="h5">Start a New Case</h3>
 
         <form method="post" asp-fragment="new-case">
-            <div asp-validation-summary="All" class="alert alert-danger d-flex align-items-center" role="alert">
-                <svg class="bi me-2" role="img" aria-label="Danger:">
-                    <use href="@Url.Content("~/images/app-icons.svg")#app-icon-exclamation-triangle-fill"></use>
-                </svg>
-            </div>
             <div class="row">
                 <div class="col-md-6 col-lg-4 mb-3">
                     @Html.EditorFor(e => e.NewCase.CaseOpenedDate, EditorTemplate.InputDateOnly)
