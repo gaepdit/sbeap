@@ -18,10 +18,11 @@ public sealed class ActionItemService(
 {
     public async Task<Guid> CreateAsync(ActionItemCreateDto resource, CancellationToken token = default)
     {
-        var casework = await caseworkRepository.GetAsync(resource.CaseworkId, token);
-        var actionItemType = await actionItemTypeRepository.GetAsync(resource.ActionItemTypeId!.Value, token);
+        var casework = await caseworkRepository.GetAsync(resource.CaseworkId, token).ConfigureAwait(false);
+        var actionItemType = await actionItemTypeRepository.GetAsync(resource.ActionItemTypeId!.Value, token)
+            .ConfigureAwait(false);
 
-        var currentUser = await userService.GetCurrentUserAsync();
+        var currentUser = await userService.GetCurrentUserAsync().ConfigureAwait(false);
         var item = caseworkManager.CreateActionItem(casework, actionItemType, currentUser?.Id);
 
         item.ActionDate = resource.ActionDate;
@@ -29,33 +30,36 @@ public sealed class ActionItemService(
         item.EnteredOn = DateTimeOffset.Now;
         item.EnteredBy = currentUser;
 
-        await actionItemRepository.InsertAsync(item, token: token);
+        await actionItemRepository.InsertAsync(item, token: token).ConfigureAwait(false);
         return item.Id;
     }
 
     public async Task<ActionItemViewDto?> FindAsync(Guid id, CancellationToken token = default) =>
-        mapper.Map<ActionItemViewDto>(await actionItemRepository.FindAsync(e => e.Id == id && !e.IsDeleted, token));
+        mapper.Map<ActionItemViewDto>(await actionItemRepository.FindAsync(e => e.Id == id && !e.IsDeleted, token)
+            .ConfigureAwait(false));
 
     public async Task<ActionItemUpdateDto?> FindForUpdateAsync(Guid id, CancellationToken token = default) =>
-        mapper.Map<ActionItemUpdateDto>(await actionItemRepository.FindAsync(e => e.Id == id && !e.IsDeleted, token));
+        mapper.Map<ActionItemUpdateDto>(await actionItemRepository.FindAsync(e => e.Id == id && !e.IsDeleted, token)
+            .ConfigureAwait(false));
 
     public async Task UpdateAsync(Guid id, ActionItemUpdateDto resource, CancellationToken token = default)
     {
-        var item = await actionItemRepository.GetAsync(id, token);
-        item.SetUpdater((await userService.GetCurrentUserAsync())?.Id);
+        var item = await actionItemRepository.GetAsync(id, token).ConfigureAwait(false);
+        item.SetUpdater((await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Id);
 
-        item.ActionItemType = await actionItemTypeRepository.GetAsync(resource.ActionItemTypeId!.Value, token);
+        item.ActionItemType = await actionItemTypeRepository.GetAsync(resource.ActionItemTypeId!.Value, token)
+            .ConfigureAwait(false);
         item.ActionDate = resource.ActionDate;
         item.Notes = resource.Notes;
 
-        await actionItemRepository.UpdateAsync(item, token: token);
+        await actionItemRepository.UpdateAsync(item, token: token).ConfigureAwait(false);
     }
 
     public async Task DeleteAsync(Guid actionItemId, CancellationToken token = default)
     {
-        var item = await actionItemRepository.GetAsync(actionItemId, token);
-        item.SetDeleted((await userService.GetCurrentUserAsync())?.Id);
-        await actionItemRepository.UpdateAsync(item, token: token);
+        var item = await actionItemRepository.GetAsync(actionItemId, token).ConfigureAwait(false);
+        item.SetDeleted((await userService.GetCurrentUserAsync().ConfigureAwait(false))?.Id);
+        await actionItemRepository.UpdateAsync(item, token: token).ConfigureAwait(false);
     }
 
     public void Dispose()
@@ -67,8 +71,8 @@ public sealed class ActionItemService(
 
     public async ValueTask DisposeAsync()
     {
-        await caseworkRepository.DisposeAsync();
-        await actionItemRepository.DisposeAsync();
-        await actionItemTypeRepository.DisposeAsync();
+        await caseworkRepository.DisposeAsync().ConfigureAwait(false);
+        await actionItemRepository.DisposeAsync().ConfigureAwait(false);
+        await actionItemTypeRepository.DisposeAsync().ConfigureAwait(false);
     }
 }

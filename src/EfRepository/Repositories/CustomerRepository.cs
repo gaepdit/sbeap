@@ -17,5 +17,5 @@ public sealed class CustomerRepository(AppDbContext context)
                 .OrderByDescending(item => item.CaseOpenedDate))
             .ThenInclude(e => e.ReferralAgency)
             .AsSplitQuery()
-            .SingleOrDefaultAsync(e => e.Id.Equals(id), token);
+            .SingleOrDefaultAsync(e => e.Id.Equals(id), token).ConfigureAwait(false);
 }

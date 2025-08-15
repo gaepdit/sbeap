@@ -8,7 +8,7 @@ public sealed class LocalOfficeRepository() : NamedEntityRepository<Office>(Offi
 {
     public async Task<List<ApplicationUser>> GetActiveStaffMembersListAsync(
         Guid id, CancellationToken token = default) =>
-        (await GetAsync(id, token)).StaffMembers
+        (await GetAsync(id, token).ConfigureAwait(false)).StaffMembers
         .Where(e => e.Active)
         .OrderBy(e => e.FamilyName).ThenBy(e => e.GivenName).ToList();
 }

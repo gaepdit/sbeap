@@ -10,7 +10,7 @@ public class UserService(UserManager<ApplicationUser> userManager, IHttpContextA
     public async Task<ApplicationUser?> GetCurrentUserAsync()
     {
         var principal = httpContextAccessor.HttpContext?.User;
-        return principal is null ? null : await userManager.GetUserAsync(principal);
+        return principal is null ? null : await userManager.GetUserAsync(principal).ConfigureAwait(false);
     }
 
     public Task<ApplicationUser?> FindUserAsync(string id) =>

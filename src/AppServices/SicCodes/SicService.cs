@@ -6,7 +6,8 @@ namespace Sbeap.AppServices.SicCodes;
 public sealed class SicService(ISicRepository repository) : ISicService
 {
     public async Task<IReadOnlyList<ListItem<string>>> GetActiveListItemsAsync(CancellationToken token = default) =>
-        (await repository.GetListAsync(token)).Select(sic => new ListItem<string>(sic.Id, Name: sic.Display)).ToList();
+        (await repository.GetListAsync(token).ConfigureAwait(false))
+        .Select(sic => new ListItem<string>(sic.Id, Name: sic.Display)).ToList();
 
     void IDisposable.Dispose() => repository.Dispose();
 }

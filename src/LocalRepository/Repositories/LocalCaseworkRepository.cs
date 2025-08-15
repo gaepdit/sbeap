@@ -9,11 +9,11 @@ public sealed class LocalCaseworkRepository(IActionItemRepository actionItemRepo
 {
     public async Task<Casework?> FindIncludeAllAsync(Guid id, CancellationToken token = default)
     {
-        var result = await FindAsync(id, token);
+        var result = await FindAsync(id, token).ConfigureAwait(false);
         if (result is null) return result;
 
         result.ActionItems = (await actionItemRepository
-                .GetListAsync(e => e.Casework.Id == result.Id && !e.IsDeleted, token))
+                .GetListAsync(e => e.Casework.Id == result.Id && !e.IsDeleted, token).ConfigureAwait(false))
             .OrderByDescending(i => i.ActionDate)
             .ThenByDescending(i => i.EnteredOn)
             .ToList();
