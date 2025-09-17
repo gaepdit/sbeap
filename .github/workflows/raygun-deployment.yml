@@ -18,8 +18,8 @@ jobs:
         run: echo "VERSION=${GITHUB_REF##*/}" >> $GITHUB_OUTPUT
 
       - name: Send to the Raygun Deployments API
-        id: send_deployment
-        uses: fjogeleit/http-request-action@v1
+        id: raygun_deployment
+        uses: fjogeleit/http-request-action@1297c6fc63a79b147d1676540a3fd9d2e37817c5
         with:
           url: https://api.raygun.com/v3/applications/api-key/${{ secrets.RAYGUN_APIKEY }}/deployments
           method: POST
