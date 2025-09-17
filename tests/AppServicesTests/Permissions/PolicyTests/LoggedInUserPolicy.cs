@@ -1,6 +1,6 @@
-﻿using Sbeap.AppServices.Permissions;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
+using Sbeap.AppServices.Permissions;
 using System.Security.Claims;
 
 namespace AppServicesTests.Permissions.PolicyTests;
@@ -11,8 +11,7 @@ public class LoggedInUserPolicy
 
     [SetUp]
     public void SetUp() => _authorizationService = AuthorizationServiceBuilder.BuildAuthorizationService(collection =>
-        collection.AddAuthorization(options =>
-            options.AddPolicy(nameof(Policies.LoggedInUser), Policies.LoggedInUser)));
+        collection.AddAuthorizationBuilder().AddPolicy(nameof(Policies.LoggedInUser), Policies.LoggedInUser));
 
     [Test]
     public async Task WhenAuthenticated_Succeeds()

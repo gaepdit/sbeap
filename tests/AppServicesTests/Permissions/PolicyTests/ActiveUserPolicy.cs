@@ -1,6 +1,6 @@
-﻿using Sbeap.AppServices.Permissions;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
+using Sbeap.AppServices.Permissions;
 using System.Security.Claims;
 
 namespace AppServicesTests.Permissions.PolicyTests;
@@ -11,14 +11,13 @@ public class ActiveUserPolicy
 
     [SetUp]
     public void SetUp() => _authorizationService = AuthorizationServiceBuilder.BuildAuthorizationService(collection =>
-        collection.AddAuthorization(options =>
-            options.AddPolicy(nameof(Policies.ActiveUser), Policies.ActiveUser)));
+        collection.AddAuthorizationBuilder().AddPolicy(nameof(Policies.ActiveUser), Policies.ActiveUser));
 
     [Test]
     public async Task WhenActiveAndAuthenticated_Succeeds()
     {
         var user = new ClaimsPrincipal(new ClaimsIdentity(
-            new Claim[] { new(nameof(Policies.ActiveUser), true.ToString()), },
+            [new Claim(nameof(Policies.ActiveUser), true.ToString())],
             "Basic"));
         var result = (await _authorizationService.AuthorizeAsync(user, Policies.ActiveUser)).Succeeded;
         result.Should().BeTrue();
@@ -36,7 +35,7 @@ public class ActiveUserPolicy
     public async Task WhenNotAuthenticated_DoesNotSucceed()
     {
         var user = new ClaimsPrincipal(new ClaimsIdentity(
-            new Claim[] { new(nameof(Policies.ActiveUser), true.ToString()), }));
+            [new Claim(nameof(Policies.ActiveUser), true.ToString())]));
         var result = (await _authorizationService.AuthorizeAsync(user, Policies.ActiveUser)).Succeeded;
         result.Should().BeFalse();
     }
