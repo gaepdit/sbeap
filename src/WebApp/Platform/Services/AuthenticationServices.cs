@@ -11,7 +11,7 @@ public static class AuthenticationServices
             .ConfigureApplicationCookie(options =>
             {
                 options.Cookie.Name = ".Sbeap.Identity";
-                options.Cookie.Path = "/sbeap";
+                options.Cookie.Path = configuration.GetValue<string>("CookiePath");
                 options.Cookie.HttpOnly = true;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             })
