@@ -1,31 +1,36 @@
 ﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Sbeap.AppServices.AuthenticationServices;
+using Sbeap.AppServices.AuthenticationServices.Claims;
 using Sbeap.Domain.Identity;
-using Sbeap.WebApp.Platform.Settings;
 
 namespace Sbeap.WebApp.Pages.Account;
 
 [AllowAnonymous]
 public class LogoutModel(SignInManager<ApplicationUser> signInManager) : PageModel
 {
-    public Task<IActionResult> OnGetAsync() => LogOutAndRedirectToIndex();
+    public Task<SignOutResult> OnGetAsync() => SignOut();
+    public Task<SignOutResult> OnPostAsync(string? returnUrl = null) => SignOut(returnUrl);
 
-    public Task<IActionResult> OnPostAsync() => LogOutAndRedirectToIndex();
-
-    private async Task<IActionResult> LogOutAndRedirectToIndex()
+    private async Task<SignOutResult> SignOut(string? returnUrl = null)
     {
-        // If Azure AD is enabled, sign out all authentication schemes.
-        if (AppSettings.DevSettings.UseAzureAd)
-            return SignOut(new AuthenticationProperties { RedirectUri = "/Index" },
-                IdentityConstants.ApplicationScheme,
-                OpenIdConnectDefaults.AuthenticationScheme);
+        var authenticationProperties = new AuthenticationProperties { RedirectUri = returnUrl ?? "../" };
+        var userAuthenticationScheme = User.GetAuthenticationMethod();
 
-        // If a local user is enabled instead, sign out locally and redirect to home page.
-        await signInManager.SignOutAsync();
-        return RedirectToPage("/Index");
+        if (userAuthenticationScheme is null or LoginProviders.TestUserScheme)
+        {
+            await signInManager.SignOutAsync();
+            return SignOut(authenticationProperties);
+        }
+
+        List<string> authenticationSchemes = [CookieAuthenticationDefaults.AuthenticationScheme];
+
+        authenticationSchemes.AddRange([IdentityConstants.ApplicationScheme, userAuthenticationScheme]);
+
+        return SignOut(authenticationProperties, authenticationSchemes.ToArray());
     }
 }

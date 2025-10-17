@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Sbeap.AppServices.Permissions;
+using Sbeap.AppServices.AuthorizationPolicies;
 using Sbeap.AppServices.Staff;
 using Sbeap.AppServices.Staff.Dto;
 using Sbeap.Domain.Identity;
 
 namespace Sbeap.WebApp.Pages.Account;
 
-[Authorize(Policy = nameof(Policies.LoggedInUser))]
+[Authorize(Policy = nameof(Policies.ActiveUser))]
 public class IndexModel : PageModel
 {
     public StaffViewDto DisplayStaff { get; private set; } = default!;

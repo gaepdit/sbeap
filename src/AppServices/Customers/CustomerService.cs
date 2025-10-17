@@ -1,8 +1,8 @@
 using AutoMapper;
 using GaEpd.AppLibrary.Pagination;
+using Sbeap.AppServices.AuthenticationServices;
 using Sbeap.AppServices.Customers.Dto;
 using Sbeap.AppServices.Staff.Dto;
-using Sbeap.AppServices.UserServices;
 using Sbeap.Domain.Entities.Contacts;
 using Sbeap.Domain.Entities.Customers;
 using Sbeap.Domain.Entities.SicCodes;

@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
-using Sbeap.AppServices.Permissions;
+using Sbeap.AppServices.AuthorizationPolicies;
 using System.Security.Claims;
 
-namespace AppServicesTests.Permissions.PolicyTests;
+namespace AppServicesTests.Permissions;
 
 public class ActiveUserPolicy
 {

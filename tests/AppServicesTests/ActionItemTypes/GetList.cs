@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using Sbeap.AppServices.ActionItemTypes;
-using Sbeap.AppServices.UserServices;
+using Sbeap.AppServices.AuthenticationServices;
 using Sbeap.Domain.Entities.ActionItemTypes;
 using Sbeap.TestData.Constants;
 
@@ -38,7 +38,7 @@ public class GetList
         repoMock.GetListAsync(Arg.Any<CancellationToken>()).Returns(new List<ActionItemType>());
         var managerMock = Substitute.For<IActionItemTypeManager>();
         var userServiceMock = Substitute.For<IUserService>();
-        
+
         var appService = new ActionItemTypeService(repoMock, managerMock, AppServicesTestsSetup.Mapper!,
             userServiceMock, Substitute.For<IMemoryCache>());
 

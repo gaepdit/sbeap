@@ -1,7 +1,7 @@
 using AutoMapper;
 using GaEpd.AppLibrary.ListItems;
 using Microsoft.Extensions.Caching.Memory;
-using Sbeap.AppServices.UserServices;
+using Sbeap.AppServices.AuthenticationServices;
 using Sbeap.Domain.Entities.Offices;
 
 namespace Sbeap.AppServices.Offices;

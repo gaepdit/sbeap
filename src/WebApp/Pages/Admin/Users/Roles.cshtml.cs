@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Sbeap.AppServices.Permissions;
+using Sbeap.AppServices.AuthorizationPolicies;
 
 namespace Sbeap.WebApp.Pages.Admin.Users;
 

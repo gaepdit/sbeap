@@ -27,6 +27,7 @@ public class AppRole
         Name = name;
         DisplayName = displayName;
         Description = description;
+        AllRoles ??= new Dictionary<string, AppRole>();
         AllRoles.Add(name, this);
     }
 
@@ -35,7 +36,7 @@ public class AppRole
     /// the <see cref="Microsoft.AspNetCore.Identity.IdentityRole.Name"/> of the role.
     /// (This declaration must appear before the list of static instance types.)
     /// </summary>
-    public static Dictionary<string, AppRole> AllRoles { get; } = new();
+    public static Dictionary<string, AppRole>? AllRoles { get; private set; }
 
     /// <summary>
     /// Converts a list of role strings to a list of <see cref="AppRole"/> objects.
@@ -47,7 +48,7 @@ public class AppRole
         var appRoles = new List<AppRole>();
 
         foreach (var role in roles)
-            if (AllRoles.TryGetValue(role, out var appRole))
+            if (AllRoles!.TryGetValue(role, out var appRole))
                 appRoles.Add(appRole);
 
         return appRoles;

@@ -1,26 +1,16 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Sbeap.Domain.Entities.ActionItems;
-using Sbeap.Domain.Entities.ActionItemTypes;
-using Sbeap.Domain.Entities.Agencies;
-using Sbeap.Domain.Entities.Cases;
-using Sbeap.Domain.Entities.Contacts;
-using Sbeap.Domain.Entities.Customers;
-using Sbeap.Domain.Entities.Offices;
-using Sbeap.Domain.Entities.SicCodes;
 using Sbeap.Domain.Identity;
 using Sbeap.EfRepository.Contexts;
 using Sbeap.EfRepository.Contexts.SeedDevData;
-using Sbeap.EfRepository.Repositories;
-using Sbeap.LocalRepository.Repositories;
 using Sbeap.WebApp.Platform.Settings;
 
 namespace Sbeap.WebApp.Platform.AppConfiguration;
 
-public static class DataPersistence
+internal static partial class DataPersistence
 {
-    public static async Task ConfigureDataPersistence(this IHostApplicationBuilder builder)
+    public static async Task ConfigureDataPersistenceAsync(this IHostApplicationBuilder builder)
     {
         if (AppSettings.DevSettings.UseDevSettings)
         {
@@ -43,19 +33,17 @@ public static class DataPersistence
 
         // Entity Framework context
         builder.Services.AddDbContext<AppDbContext>(db => db
-            .UseSqlServer(connectionString, sqlServerOpts => sqlServerOpts.EnableRetryOnFailure())
-            .ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.MultipleCollectionIncludeWarning)));
+            .UseSqlServer(connectionString, opts =>
+            {
+                opts.EnableRetryOnFailure();
+                opts.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+            })
+            .ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.MultipleCollectionIncludeWarning))
+            .EnableDetailedErrors(builder.Environment.IsDevelopment())
+        );
 
         // Repositories
-        builder.Services
-            .AddScoped<IActionItemRepository, ActionItemRepository>()
-            .AddScoped<IActionItemTypeRepository, ActionItemTypeRepository>()
-            .AddScoped<IAgencyRepository, AgencyRepository>()
-            .AddScoped<ICaseworkRepository, CaseworkRepository>()
-            .AddScoped<IContactRepository, ContactRepository>()
-            .AddScoped<ICustomerRepository, CustomerRepository>()
-            .AddScoped<IOfficeRepository, OfficeRepository>()
-            .AddScoped<ISicRepository, SicRepository>();
+        builder.Services.AddEntityFrameworkRepositories();
     }
 
     private static DbContextOptionsBuilder<AppDbContext> GetMigrationDbOpts(IConfiguration configuration)
@@ -79,20 +67,8 @@ public static class DataPersistence
 
     private static async Task ConfigureDevDataPersistence(this IHostApplicationBuilder builder)
     {
-        // When configured, use in-memory data; otherwise use a SQL Server database.
-        if (AppSettings.DevSettings.UseInMemoryData)
-        {
-            builder.Services
-                .AddSingleton<IActionItemRepository, LocalActionItemRepository>()
-                .AddSingleton<IActionItemTypeRepository, LocalActionItemTypeRepository>()
-                .AddSingleton<IAgencyRepository, LocalAgencyRepository>()
-                .AddSingleton<ICaseworkRepository, LocalCaseworkRepository>()
-                .AddSingleton<IContactRepository, LocalContactRepository>()
-                .AddSingleton<ICustomerRepository, LocalCustomerRepository>()
-                .AddSingleton<IOfficeRepository, LocalOfficeRepository>()
-                .AddSingleton<ISicRepository, LocalSicRepository>();
-        }
-        else
+        // When configured, build a SQL Server database; otherwise, use in-memory data.
+        if (AppSettings.DevSettings.BuildDatabase)
         {
             builder.ConfigureDatabaseServices();
 
@@ -105,6 +81,10 @@ public static class DataPersistence
                 await migrationContext.Database.EnsureCreatedAsync();
 
             DbSeedDataHelpers.SeedAllData(migrationContext);
+        }
+        else
+        {
+            builder.Services.AddInMemoryRepositories();
         }
     }
 }

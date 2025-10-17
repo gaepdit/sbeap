@@ -4,67 +4,68 @@ namespace Sbeap.WebApp.Platform.Settings;
 
 internal static partial class AppSettings
 {
-    public static DevSettingsSection DevSettings { get; set; } = new();
-
-    // PROD configuration settings
-    private static readonly DevSettingsSection ProductionDefault = new()
-    {
-        UseDevSettings = false,
-        UseInMemoryData = false,
-        UseEfMigrations = true,
-        UseAzureAd = true,
-        LocalUserIsAuthenticated = false,
-        LocalUserIsStaff = false,
-        LocalUserIsAdmin = false,
-        UseSecurityHeadersInDev = false,
-    };
-
     // DEV configuration settings
-    public class DevSettingsSection
+    public static DevSettingsSection DevSettings { get; private set; } = new();
+
+    private static void DisableDevSettings() => DevSettings = new DevSettingsSection { UseDevSettings = false };
+
+    [UsedImplicitly(ImplicitUseTargetFlags.Members)]
+    public record DevSettingsSection
     {
         /// <summary>
         /// Enable (`true`) or disable (`false`) the development settings.
         /// </summary>
-        public bool UseDevSettings { get;  init; }
+        public bool UseDevSettings { get; init; }
 
         /// <summary>
-        /// Uses in-memory data when `true`. Connects to a SQL Server database when `false`.
+        /// Build a SQL Server database (`true`) or use an in-memory data store (`false`).
         /// </summary>
-        public bool UseInMemoryData { get;  init; }
+        public bool BuildDatabase { get; init; }
 
         /// <summary>
-        /// Uses Entity Framework migrations when `true`. When set to `false`, the database is deleted and
-        /// recreated on each run. (Only applies if <see cref="UseInMemoryData"/> is `false`.)
+        /// Create a database using Entity Framework migrations (`true`) or solely based on the `DbContext` (`false`).
+        /// (Only applies if <see cref="BuildDatabase"/> is `true`.)
         /// </summary>
-        public bool UseEfMigrations { get;  init; }
+        public bool UseEfMigrations { get; init; }
 
         /// <summary>
-        /// If `true`, the app must be registered in the Azure portal, and configuration settings added in the
-        /// "AzureAd" settings section. If `false`, authentication is simulated using test user data.
+        /// Enable a test user for development (`true`) or disable (`false`).
         /// </summary>
-        public bool UseAzureAd { get;  init; }
+        public bool EnableTestUser { get; init; }
 
         /// <summary>
-        /// Simulates a successful login with a test account when `true`. Simulates a failed login when `false`.
-        /// (Only applies if <see cref="UseAzureAd"/> is `false`.)
+        /// Simulate a successful login with a test account (`true`) or simulate a failed login (`false`).
+        /// (Only applies if <see cref="EnableTestUser"/> is `false`.)
         /// </summary>
-        public bool LocalUserIsAuthenticated { get;  init; }
+        public bool TestUserIsAuthenticated { get; init; }
 
         /// <summary>
-        /// Adds the Staff and Site Maintenance roles when `true` or no roles when `false`.
-        /// (Only applies if <see cref="LocalUserIsAuthenticated"/> is `true`.)
+        /// Add listed Roles to the test user account.
+        /// (Only applies if <see cref="EnableTestUser"/> is `false` and <see cref="TestUserIsAuthenticated"/> is `true`.)
         /// </summary>
-        public bool LocalUserIsStaff { get;  init; }
+        public string[] TestUserRoles { get; init; } = [];
 
         /// <summary>
-        /// Adds all App Roles to the logged in account when `true` or no roles when `false`. (Applies whether
-        /// <see cref="UseAzureAd"/> is `true` or `false`.)
+        /// Include HTTP security headers when running in a Development environment (`true`).
         /// </summary>
-        public bool LocalUserIsAdmin { get;  init; }
+        public bool EnableSecurityHeaders { get; init; }
 
         /// <summary>
-        /// Sets whether to include HTTP security headers when running locally in the Development environment.
+        /// Use WebOptimizer to bundle and minify CSS and JS files (`true`).
         /// </summary>
-        public bool UseSecurityHeadersInDev { get;  init; }
+        public bool EnableWebOptimizer { get; init; }
+    }
+
+    private static IHostApplicationBuilder BindDevAppSettings(this IHostApplicationBuilder builder)
+    {
+        // Dev settings should only be used in the development or staging environment and when explicitly enabled.
+        var devConfig = builder.Configuration.GetSection(nameof(DevSettings));
+        var useDevConfig = !builder.Environment.IsProduction() && devConfig.Exists() &&
+                           Convert.ToBoolean(devConfig[nameof(DevSettings.UseDevSettings)]);
+
+        if (useDevConfig) devConfig.Bind(DevSettings);
+        else DisableDevSettings();
+
+        return builder;
     }
 }

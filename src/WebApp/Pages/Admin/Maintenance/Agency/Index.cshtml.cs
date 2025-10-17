@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Sbeap.AppServices.Agencies;
-using Sbeap.AppServices.Permissions;
+using Sbeap.AppServices.AuthorizationPolicies;
 
 namespace Sbeap.WebApp.Pages.Admin.Maintenance.Agency;
 

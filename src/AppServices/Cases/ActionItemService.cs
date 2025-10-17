@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using Sbeap.AppServices.AuthenticationServices;
 using Sbeap.AppServices.Cases.Dto;
-using Sbeap.AppServices.UserServices;
 using Sbeap.Domain.Entities.ActionItems;
 using Sbeap.Domain.Entities.ActionItemTypes;
 using Sbeap.Domain.Entities.Cases;
