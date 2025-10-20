@@ -20,15 +20,15 @@ public class IndexModel(IOfficeService officeService, IStaffService staffService
     : PageModel
 {
     // Properties
-    public StaffSearchDto Spec { get; set; } = default!;
+    public StaffSearchDto Spec { get; set; } = null!;
     public bool ShowResults { get; private set; }
-    public IPaginatedResult<StaffSearchResultDto> SearchResults { get; private set; } = default!;
+    public IPaginatedResult<StaffSearchResultDto> SearchResults { get; private set; } = null!;
     public string SortByName => Spec.Sort.ToString();
     public PaginationNavModel PaginationNav => new(SearchResults, Spec.AsRouteValues());
 
     // Select lists
-    public SelectList RoleItems { get; private set; } = default!;
-    public SelectList OfficeItems { get; private set; } = default!;
+    public SelectList RoleItems { get; private set; } = null!;
+    public SelectList OfficeItems { get; private set; } = null!;
 
     // Methods
     public Task OnGetAsync() => PopulateSelectListsAsync();

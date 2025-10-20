@@ -18,9 +18,9 @@ public class EditRolesModel(IStaffService staffService) : PageModel
     public string UserId { get; set; } = string.Empty;
 
     [BindProperty]
-    public List<RoleSetting> RoleSettings { get; set; } = new();
+    public List<RoleSetting> RoleSettings { get; set; } = [];
 
-    public StaffViewDto DisplayStaff { get; private set; } = default!;
+    public StaffViewDto DisplayStaff { get; private set; } = null!;
     public string? OfficeName => DisplayStaff.Office?.Name;
 
     // Methods
@@ -74,9 +74,9 @@ public class EditRolesModel(IStaffService staffService) : PageModel
 
     public class RoleSetting
     {
-        public string Name { get; init; } = default!;
-        public string DisplayName { get; init; } = default!;
-        public string Description { get; init; } = default!;
+        public required string Name { get; init; }
+        public required string DisplayName { get; init; }
+        public required string Description { get; init; }
         public bool IsSelected { get; init; }
     }
 }

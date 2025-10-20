@@ -78,7 +78,7 @@ public sealed class AuthenticationManager(
         var user = await userManager.FindByIdAsync("00000000-0000-0000-0000-000000000001").ConfigureAwait(false);
         logger.LogInformation("Local user with ID {StaffId} signed in", user!.Id);
 
-        foreach (var pair in AppRole.AllRoles ?? [])
+        foreach (var pair in AppRole.AllRoles)
             await userManager.RemoveFromRoleAsync(user, pair.Value.Name).ConfigureAwait(false);
         foreach (var role in testUserRoles)
             await userManager.AddToRoleAsync(user, role).ConfigureAwait(false);
