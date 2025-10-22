@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Caching.Memory;
 using Sbeap.AppServices.ActionItemTypes;
-using Sbeap.AppServices.UserServices;
+using Sbeap.AppServices.AuthenticationServices;
 using Sbeap.Domain.Entities.ActionItemTypes;
 using Sbeap.TestData.Constants;
 

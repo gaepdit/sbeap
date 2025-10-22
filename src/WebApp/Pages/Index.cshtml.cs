@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Sbeap.AppServices.AuthorizationPolicies;
 using Sbeap.AppServices.Cases;
 using Sbeap.AppServices.Cases.Dto;
-using Sbeap.AppServices.Permissions;
 using Sbeap.Domain.Identity;
 using Sbeap.WebApp.Platform.Constants;
 

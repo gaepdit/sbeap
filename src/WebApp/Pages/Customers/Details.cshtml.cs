@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Sbeap.AppServices.AuthorizationPolicies;
 using Sbeap.AppServices.Cases;
 using Sbeap.AppServices.Cases.Dto;
 using Sbeap.AppServices.Customers;
 using Sbeap.AppServices.Customers.Dto;
 using Sbeap.AppServices.Customers.Permissions;
-using Sbeap.AppServices.Permissions;
 using Sbeap.WebApp.Models;
 using Sbeap.WebApp.Platform.PageModelHelpers;
 

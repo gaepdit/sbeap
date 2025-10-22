@@ -4,22 +4,14 @@ namespace Sbeap.WebApp.Platform.Settings;
 
 internal static partial class AppSettings
 {
-    public static WebApplicationBuilder BindAppSettings(this WebApplicationBuilder builder)
+    public static IHostApplicationBuilder BindAppSettings(this IHostApplicationBuilder builder)
     {
         Version = GetVersion();
 
         builder.Configuration.GetSection(nameof(RaygunSettings)).Bind(RaygunSettings);
         OrgNotificationsApiUrl = builder.Configuration.GetValue<string>(nameof(OrgNotificationsApiUrl));
 
-        // Dev settings should only be used in the development environment and when explicitly enabled.
-        var devConfig = builder.Configuration.GetSection(nameof(DevSettings));
-        var useDevConfig = builder.Environment.IsDevelopment() && devConfig.Exists() &&
-                           Convert.ToBoolean(devConfig[nameof(DevSettings.UseDevSettings)]);
-
-        if (useDevConfig) devConfig.Bind(DevSettings);
-        else DevSettings = ProductionDefault;
-
-        return builder;
+        return builder.BindDevAppSettings();
     }
 
     private static string GetVersion()

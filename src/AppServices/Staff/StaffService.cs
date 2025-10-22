@@ -2,8 +2,8 @@
 using GaEpd.AppLibrary.Domain.Repositories;
 using GaEpd.AppLibrary.Pagination;
 using Microsoft.AspNetCore.Identity;
+using Sbeap.AppServices.AuthenticationServices;
 using Sbeap.AppServices.Staff.Dto;
-using Sbeap.AppServices.UserServices;
 using Sbeap.Domain.Entities.Offices;
 using Sbeap.Domain.Identity;
 
@@ -27,15 +27,6 @@ public sealed class StaffService(
     {
         var user = await userManager.FindByIdAsync(id).ConfigureAwait(false);
         return mapper.Map<StaffViewDto?>(user);
-    }
-
-    public async Task<List<StaffViewDto>> GetListAsync(StaffSearchDto spec)
-    {
-        var users = string.IsNullOrEmpty(spec.Role)
-            ? userManager.Users.ApplyFilter(spec)
-            : (await userManager.GetUsersInRoleAsync(spec.Role).ConfigureAwait(false)).AsQueryable().ApplyFilter(spec);
-
-        return mapper.Map<List<StaffViewDto>>(users);
     }
 
     public async Task<IPaginatedResult<StaffSearchResultDto>> SearchAsync(StaffSearchDto spec, PaginatedRequest paging)

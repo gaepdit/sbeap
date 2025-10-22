@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Sbeap.AppServices.ActionItemTypes;
+using Sbeap.AppServices.AuthorizationPolicies;
 using Sbeap.AppServices.Cases;
 using Sbeap.AppServices.Cases.Dto;
 using Sbeap.AppServices.Cases.Permissions;
-using Sbeap.AppServices.Permissions;
 using Sbeap.WebApp.Models;
 using Sbeap.WebApp.Platform.PageModelHelpers;
 

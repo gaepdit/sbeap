@@ -4,7 +4,7 @@ namespace Sbeap.WebApp.Platform.AppConfiguration;
 
 internal static class SecurityHeaders
 {
-    public static WebApplicationBuilder AddSecurityHeaders(this WebApplicationBuilder builder)
+    public static IHostApplicationBuilder AddSecurityHeaders(this IHostApplicationBuilder builder)
     {
         if (builder.Environment.IsDevelopment())
         {
@@ -30,8 +30,11 @@ internal static class SecurityHeaders
 
     public static WebApplication UseSecurityHeaders(this WebApplication app)
     {
-        if (!app.Environment.IsDevelopment() || AppSettings.DevSettings.UseSecurityHeadersInDev)
-            app.UseHsts().UseSecurityHeaders(policyCollection => policyCollection.AddSecurityHeaderPolicies());
+        if (!app.Environment.IsDevelopment())
+            app.UseHsts();
+
+        if (AppSettings.UseSecurityHeaders)
+            app.UseSecurityHeaders(policyCollection => policyCollection.AddSecurityHeaderPolicies());
 
         return app;
     }
@@ -39,7 +42,7 @@ internal static class SecurityHeaders
     private static readonly string ReportUri =
         $"https://report-to-api.raygun.com/reports?apikey={AppSettings.RaygunSettings.ApiKey}";
 
-    internal static void AddSecurityHeaderPolicies(this HeaderPolicyCollection policies)
+    private static void AddSecurityHeaderPolicies(this HeaderPolicyCollection policies)
     {
         policies.AddFrameOptionsDeny();
         policies.AddContentTypeOptionsNoSniff();

@@ -14,6 +14,7 @@
         <PackageReference Include="Mindscape.Raygun4Net.AspNetCore"/>
         <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders"/>
         <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders.TagHelpers" />
+        <PackageReference Include="Okta.AspNetCore" />
     </ItemGroup>
 
     <ItemGroup>
@@ -51,6 +52,18 @@
             <ObjectName>filePath</ObjectName>
             <AbsolutePath>web.config</AbsolutePath>
         </MsDeploySkipRules>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Update="Platform\AppConfiguration\DataPersistence.Repositories.cs">
+            <DependentUpon>DataPersistence.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Platform\Settings\AppSettings.DevSettings.cs">
+            <DependentUpon>AppSettings.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Platform\Settings\AppSettings.Extensions.cs">
+            <DependentUpon>AppSettings.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
 
 </Project>

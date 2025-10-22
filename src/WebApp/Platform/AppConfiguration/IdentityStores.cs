@@ -1,21 +1,19 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Sbeap.AppServices.Staff;
-using Sbeap.AppServices.UserServices;
 using Sbeap.Domain.Identity;
 using Sbeap.EfRepository.Contexts;
 using Sbeap.LocalRepository.Identity;
 using Sbeap.WebApp.Platform.Settings;
 
-namespace Sbeap.WebApp.Platform.Services;
+namespace Sbeap.WebApp.Platform.AppConfiguration;
 
 public static class IdentityStores
 {
-    public static void AddIdentityStores(this IServiceCollection services)
+    public static IServiceCollection AddIdentityStores(this IServiceCollection services)
     {
         var identityBuilder = services.AddIdentity<ApplicationUser, IdentityRole>();
+        services.Configure<IdentityOptions>(options => options.User.RequireUniqueEmail = true);
 
-        // When running locally, you have the option to use in-memory data or a database.
-        if (AppSettings.DevSettings.UseInMemoryData)
+        if (AppSettings.DevSettings.UseDevSettings && !AppSettings.DevSettings.BuildDatabase)
         {
             // Add local UserStore and RoleStore.
             services.AddSingleton<IUserStore<ApplicationUser>, LocalUserStore>();
@@ -27,8 +25,6 @@ public static class IdentityStores
             identityBuilder.AddRoles<IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
         }
 
-        // Add staff and user services.
-        services.AddTransient<IStaffService, StaffService>();
-        services.AddScoped<IUserService, UserService>();
+        return services;
     }
 }

@@ -8,7 +8,8 @@ namespace Sbeap.LocalRepository.Identity;
 public sealed class LocalUserStore :
     IUserRoleStore<ApplicationUser>, // inherits IUserStore<ApplicationUser>
     IUserLoginStore<ApplicationUser>,
-    IQueryableUserStore<ApplicationUser>
+    IQueryableUserStore<ApplicationUser>,
+    IUserEmailStore<ApplicationUser>
 {
     public IQueryable<ApplicationUser> Users => UserStore.AsQueryable();
 
@@ -207,5 +208,42 @@ public sealed class LocalUserStore :
         public string ProviderKey { get; init; } = string.Empty;
         public string? ProviderDisplayName { get; init; }
         public string UserId { get; init; } = string.Empty;
+    }
+
+    public Task SetEmailAsync(ApplicationUser user, string? email, CancellationToken cancellationToken)
+    {
+        // Not used
+        throw new NotImplementedException();
+    }
+
+    public Task<string?> GetEmailAsync(ApplicationUser user, CancellationToken cancellationToken) =>
+        Task.FromResult(user.Email);
+
+    public Task<bool> GetEmailConfirmedAsync(ApplicationUser user, CancellationToken cancellationToken)
+    {
+        // Not used
+        throw new NotImplementedException();
+    }
+
+    public Task SetEmailConfirmedAsync(ApplicationUser user, bool confirmed, CancellationToken cancellationToken)
+    {
+        // Not used
+        throw new NotImplementedException();
+    }
+
+    public Task<ApplicationUser?> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken) =>
+        Task.FromResult(Users.SingleOrDefault(user => user.NormalizedEmail == normalizedEmail));
+
+    public Task<string?> GetNormalizedEmailAsync(ApplicationUser user, CancellationToken cancellationToken)
+    {
+        // Not used
+        throw new NotImplementedException();
+    }
+
+    public Task SetNormalizedEmailAsync(ApplicationUser user, string? normalizedEmail,
+        CancellationToken cancellationToken)
+    {
+        user.NormalizedEmail = normalizedEmail;
+        return Task.CompletedTask;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
 using Sbeap.AppServices.ActionItemTypes;
 using Sbeap.AppServices.Agencies;
 using Sbeap.AppServices.Cases.Dto;
@@ -15,6 +16,12 @@ using Sbeap.Domain.Entities.Offices;
 using Sbeap.Domain.Identity;
 
 namespace Sbeap.AppServices.AutoMapper;
+
+public static class AutoMapperProfileRegistration
+{
+    public static IServiceCollection AddAutoMapperProfiles(this IServiceCollection services) =>
+        services.AddAutoMapper(expression => expression.AddProfile<AutoMapperProfile>());
+}
 
 public class AutoMapperProfile : Profile
 {

@@ -1,7 +1,7 @@
 ﻿@page "{statusCode:int?}"
 @inject IAuthorizationService AuthorizationService
 @using Microsoft.AspNetCore.Authorization
-@using Sbeap.AppServices.Permissions
+@using Sbeap.AppServices.AuthorizationPolicies
 @model ErrorModel
 @switch (Model.Status)
 {
