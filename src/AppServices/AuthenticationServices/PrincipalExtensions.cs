@@ -5,9 +5,12 @@ namespace Sbeap.AppServices.AuthenticationServices;
 
 public static class PrincipalExtensions
 {
-    internal static bool IsAdmin(this IPrincipal user) => user.IsInRole(RoleName.Admin);
-    internal static bool IsStaff(this IPrincipal user) => user.IsInRole(RoleName.Staff) || user.IsAdmin();
-    internal static bool IsSiteMaintainer(this IPrincipal user) => user.IsInRole(RoleName.SiteMaintenance);
-    internal static bool IsUserAdmin(this IPrincipal user) => user.IsInRole(RoleName.UserAdmin);
-    internal static bool IsStaffOrMaintainer(this IPrincipal user) => user.IsStaff() || user.IsSiteMaintainer();
+    extension(IPrincipal user)
+    {
+        internal bool IsAdmin() => user.IsInRole(RoleName.Admin);
+        internal bool IsStaff() => user.IsInRole(RoleName.Staff) || user.IsAdmin();
+        internal bool IsSiteMaintainer() => user.IsInRole(RoleName.SiteMaintenance);
+        internal bool IsUserAdmin() => user.IsInRole(RoleName.UserAdmin);
+        internal bool IsStaffOrMaintainer() => user.IsStaff() || user.IsSiteMaintainer();
+    }
 }
