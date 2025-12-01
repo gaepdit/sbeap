@@ -2,6 +2,7 @@
 using JetBrains.Annotations;
 using Microsoft.Extensions.Caching.Memory;
 using Sbeap.WebApp.Platform.Settings;
+using ZLogger;
 
 namespace Sbeap.WebApp.Platform.OrgNotifications;
 
@@ -11,7 +12,7 @@ namespace Sbeap.WebApp.Platform.OrgNotifications;
 
 public static class OrgNotificationsServiceExtensions
 {
-    public static void AddOrgNotifications(this IServiceCollection services) => 
+    public static void AddOrgNotifications(this IServiceCollection services) =>
         services.AddHttpClient().AddScoped<IOrgNotifications, OrgNotifications>();
 }
 
@@ -49,7 +50,7 @@ public class OrgNotifications(
         catch (Exception ex)
         {
             // If the API is unresponsive or other error occurs, no notifications will be displayed.
-            logger.LogError(OrgNotificationsFetchFailure, ex, "Failed to fetch organizational notifications.");
+            logger.ZLogError(OrgNotificationsFetchFailure, ex, $"Failed to fetch organizational notifications.");
             notifications = [];
         }
 

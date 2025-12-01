@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using ZLogger;
 
 namespace Sbeap.WebApp.Pages;
 
@@ -17,15 +18,15 @@ public class ErrorModel(ILogger<ErrorModel> logger) : PageModel
     {
         if (statusCode is null)
         {
-            logger.LogError("Error page shown from Get method");
+            logger.ZLogError($"Error page shown from Get method");
         }
         else
         {
-            logger.LogError("Error page shown from Get method with status code {StatusCode}", statusCode);
+            logger.ZLogError($"Error page shown from Get method with status code {statusCode}");
         }
 
         Status = statusCode;
     }
 
-    public void OnPost() => logger.LogError("Error page shown from Post method");
+    public void OnPost() => logger.ZLogError($"Error page shown from Post method");
 }
