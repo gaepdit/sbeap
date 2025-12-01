@@ -3,9 +3,18 @@ using Sbeap.AppServices.ServiceRegistration;
 using Sbeap.WebApp.Platform.AppConfiguration;
 using Sbeap.WebApp.Platform.OrgNotifications;
 using Sbeap.WebApp.Platform.Settings;
+using ZLogger;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configure logging
+builder.Logging.ClearProviders().AddZLoggerConsole(options =>
+{
+    if (builder.Environment.IsDevelopment())
+        options.UsePlainTextFormatter();
+    else
+        options.UseJsonFormatter();
+});
 // Set the default timeout for regular expressions.
 // https://learn.microsoft.com/en-us/dotnet/standard/base-types/best-practices-regex#use-time-out-values
 AppDomain.CurrentDomain.SetData("REGEX_DEFAULT_MATCH_TIMEOUT", TimeSpan.FromMilliseconds(100));
