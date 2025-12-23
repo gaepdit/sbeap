@@ -26,13 +26,13 @@
                 @if (isStaff)
                 {
                     <li class="nav-item">
-                        <a class="nav-link" asp-page="/Customers/Index">Customer Search</a>
+                        <a class="nav-link" asp-page="/Customers/Index">Customer<span class="d-none d-sm-inline d-md-none">s</span> <span class="d-inline d-sm-none d-md-inline">Search</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-page="/Customers/Add">New Customer</a>
+                        <a class="nav-link" asp-page="/Customers/Add">New <span class="d-inline d-sm-none d-md-inline">Customer</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-page="/Cases/Index">Case Search</a>
+                        <a class="nav-link" asp-page="/Cases/Index">Case<span class="d-none d-sm-inline d-md-none">s</span> <span class="d-inline d-sm-none d-md-inline">Search</span></a>
                     </li>
                 }
             </ul>
