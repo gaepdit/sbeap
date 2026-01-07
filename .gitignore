@@ -553,11 +553,9 @@ appsettings.*.json
 
 ## Build artifacts
 # MSBuild
-.artifacts/
+_artifacts/
 # Library Manager
 **/wwwroot/lib/
-# Webpack
-**/wwwroot/dist/
 
 # SonarLint Rider plugin
 .idea/**/sonarlint-state.xml
