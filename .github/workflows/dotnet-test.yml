@@ -30,7 +30,7 @@ jobs:
         run: dotnet build --no-restore
 
       - name: Test
-        run: dotnet test --no-build --verbosity normal --logger:nunit
+        run: dotnet test --no-build --verbosity normal --report-spekt-nunit
 
       - name: Upload test result artifacts
         if: ${{ !cancelled() }}
