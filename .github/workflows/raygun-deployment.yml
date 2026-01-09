@@ -6,12 +6,12 @@ on:
   push:
     tags: [prod/*]
 
-permissions:
-  contents: read
-
 jobs:
   raygun-deployment:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
     steps:
       - name: Get the version number
         id: get_version
