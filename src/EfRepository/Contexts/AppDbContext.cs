@@ -1,4 +1,5 @@
 using GaEpd.AppLibrary.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Sbeap.Domain;
@@ -17,14 +18,14 @@ namespace Sbeap.EfRepository.Contexts;
 public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<ApplicationUser>(options)
 {
     // Add domain entities here.
-    public DbSet<ActionItem> ActionItems => Set<ActionItem>();
-    public DbSet<ActionItemType> ActionItemTypes => Set<ActionItemType>();
-    public DbSet<Agency> Agencies => Set<Agency>();
-    public DbSet<Casework> Cases => Set<Casework>();
-    public DbSet<Contact> Contacts => Set<Contact>();
-    public DbSet<Customer> Customers => Set<Customer>();
-    public DbSet<Office> Offices => Set<Office>();
-    public DbSet<SicCode> SicCodes => Set<SicCode>();
+    public DbSet<ActionItem> ActionItems { get; set; } = null!;
+    public DbSet<ActionItemType> ActionItemTypes { get; set; } = null!;
+    public DbSet<Agency> Agencies { get; set; } = null!;
+    public DbSet<Casework> Cases { get; set; } = null!;
+    public DbSet<Contact> Contacts { get; set; } = null!;
+    public DbSet<Customer> Customers { get; set; } = null!;
+    public DbSet<Office> Offices { get; set; } = null!;
+    public DbSet<SicCode> SicCodes { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -56,6 +57,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
 
         // ## The following configurations are Sqlite only. ##
         if (Database.ProviderName != "Microsoft.EntityFrameworkCore.Sqlite") return;
+
+        builder.Entity<IdentityPasskeyData>(e => e.HasNoKey());
 
         // Sqlite and EF Core are in conflict on how to handle collections of owned types.
         // See: https://stackoverflow.com/a/69826156/212978

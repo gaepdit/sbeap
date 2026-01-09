@@ -75,7 +75,7 @@ public sealed class AuthenticationManager(
 
     public async Task<IdentityResult> LogInAsTestUserAsync(string[] testUserRoles)
     {
-        var user = await userManager.FindByIdAsync("00000000-0000-0000-0000-000000000001").ConfigureAwait(false)!;
+        var user = (await userManager.FindByIdAsync("00000000-0000-0000-0000-000000000001").ConfigureAwait(false))!;
         logger.ZLogInformation($"Local user with ID {user.Id:@StaffId} signed in");
 
         foreach (var pair in AppRole.AllRoles)

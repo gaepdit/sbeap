@@ -11,7 +11,6 @@ using Sbeap.EfRepository.Contexts.SeedDevData;
 using Sbeap.EfRepository.Repositories;
 using Sbeap.TestData;
 using Sbeap.TestData.Identity;
-using System.Runtime.CompilerServices;
 using TestSupport.EfHelpers;
 
 namespace EfRepositoryTests;
@@ -23,13 +22,10 @@ namespace EfRepositoryTests;
 /// <para>
 /// Use the <see cref="CreateRepositoryHelper"/> method to set up a Sqlite database.
 /// </para>
-/// <para>
-/// If SQL Server-specific features need to be tested, then use <see cref="CreateSqlServerRepositoryHelper"/>.
-/// </para>
 /// </summary>
 public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
 {
-    private AppDbContext Context { get; set; } = default!;
+    private AppDbContext Context { get; set; } = null!;
 
     private readonly DbContextOptions<AppDbContext> _options;
     private readonly AppDbContext _context;
@@ -42,19 +38,6 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
         _options = SqliteInMemory.CreateOptions<AppDbContext>();
         _context = new AppDbContext(_options);
         _context.Database.EnsureCreated();
-    }
-
-    /// <summary>
-    /// Constructor used by <see cref="CreateSqlServerRepositoryHelper"/>.
-    /// </summary>
-    /// <param name="callingClass">The class of the unit test method requesting the Repository Helper.</param>
-    /// <param name="callingMember">The unit test method requesting the Repository Helper.</param>
-    private RepositoryHelper(object callingClass, string callingMember)
-    {
-        _options = callingClass.CreateUniqueMethodOptions<AppDbContext>(callingMember: callingMember,
-            builder: opts => opts.UseSqlServer());
-        _context = new AppDbContext(_options);
-        _context.Database.EnsureClean();
     }
 
     /// <summary>
@@ -71,36 +54,6 @@ public sealed class RepositoryHelper : IDisposable, IAsyncDisposable
     /// </example>
     /// <returns>A <see cref="RepositoryHelper"/> with an empty Sqlite database.</returns>
     public static RepositoryHelper CreateRepositoryHelper() => new();
-
-    /// <summary>
-    /// <para>
-    /// Creates a SQL Server database and returns a RepositoryHelper. Use of this method requires that
-    /// an "appsettings.json" exists in the project root with a connection string named "UnitTestConnection".
-    /// </para>
-    /// <para>
-    /// (The "<c>callingClass</c>" and "<c>callingMember</c>" parameters are used to generate a unique
-    /// database for each unit test method.)
-    /// </para>
-    /// </summary>
-    /// <example>
-    /// <para>
-    /// Create an instance of a <c>RepositoryHelper</c> and a <c>Repository</c> like this:
-    /// </para>
-    /// <code>
-    /// await using var repositoryHelper = RepositoryHelper.CreateSqlServerRepositoryHelper(this);
-    /// await using var repository = repositoryHelper.GetOfficeRepository();
-    /// </code>
-    /// </example>
-    /// <param name="callingClass">
-    /// Enter "<c>this</c>". The class of the unit test method requesting the Repository Helper.
-    /// </param>
-    /// <param name="callingMember">
-    /// Do not enter. The unit test method requesting the Repository Helper. This is filled in by the compiler.
-    /// </param>
-    /// <returns>A <see cref="RepositoryHelper"/> with a clean SQL Server database.</returns>
-    public static RepositoryHelper CreateSqlServerRepositoryHelper(
-        object callingClass, [CallerMemberName] string callingMember = "") =>
-        new(callingClass, callingMember);
 
     /// <summary>
     /// Stops tracking all currently tracked entities.
