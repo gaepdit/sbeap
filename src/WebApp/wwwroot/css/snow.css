@@ -1,0 +1,42 @@
+.winterContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 10;
+    --snow: hsl(265 30% 79% / 1);
+    --swirl: 10vw;
+    --rot: 360deg;
+}
+
+[data-bs-theme="dark"] .winterContainer {
+    --snow: hsl(265 25% 45% / 1);
+}
+
+@keyframes snowfall {
+    0% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+        opacity: 0.9;
+    }
+    15% {
+        opacity: 0.4;
+    }
+    100% {
+        transform: translateY(100vh) translateX(var(--swirl)) rotate(var(--rot));
+        opacity: 0.2;
+    }
+}
+
+.winterSnowflake {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 1rem;
+    color: var(--snow);
+    opacity: 0;
+    animation: snowfall linear infinite;
+    will-change: transform;
+}
