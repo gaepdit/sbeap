@@ -1,6 +1,6 @@
 ﻿<div id="winterContainer" class="winterContainer" aria-hidden="true"></div>
 <link rel="stylesheet" href="~/css/snow.css" />
-<script>
+<script asp-add-content-to-csp>
     window.onload = function () {
         const container = document.getElementById('winterContainer');
         const snowflakeCount = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0) / 30;
