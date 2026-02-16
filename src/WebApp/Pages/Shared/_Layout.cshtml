@@ -64,7 +64,10 @@
         </div>
     </div>
 </footer>
-@if (DateTime.Today.Month % 12 < 3)
+
+@* Limit snowfall to first two weeks and last two weeks of the year 
+(four total weeks surrounding the New Year) *@
+@if (DateTime.Today.DayOfYear % 351 < 15)
 {
     <partial name="_SnowPartial" />
 }
