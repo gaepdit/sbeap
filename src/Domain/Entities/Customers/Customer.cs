@@ -24,7 +24,13 @@ public class Customer : AuditableSoftDeleteEntity
     public string Name { get; set; } = string.Empty;
 
     public string? Description { get; set; }
+
+    [Column("SicCode")]
+    [StringLength(4)]
+    public virtual string? SicCodeId { get; set; }
+
     public SicCode? SicCode { get; set; }
+
     public string? County { get; set; }
 
     [MaxLength(2000)] // https://stackoverflow.com/q/417142/212978
