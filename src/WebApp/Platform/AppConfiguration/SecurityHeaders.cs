@@ -39,8 +39,11 @@ internal static class SecurityHeaders
         return app;
     }
 
-    private static readonly string ReportUri =
-        $"https://report-to-api.raygun.com/reports?apikey={AppSettings.RaygunSettings.ApiKey}";
+    private static readonly string DatadogReportUri =
+        $"https://browser-intake-us3-datadoghq.com/api/v2/logs?" +
+        $"dd-api-key={AppSettings.DataDogSettings.ClientToken}" +
+        $"&dd-evp-origin=content-security-policy&ddsource=csp-report" +
+        $"&ddtags=service%3Asbeap%2Cenv%3A{AppSettings.ShortEnv}%2Cversion%3A{AppSettings.SimpleVersion}";
 
     private static void AddSecurityHeaderPolicies(this HeaderPolicyCollection policies)
     {
@@ -53,8 +56,8 @@ internal static class SecurityHeaders
         policies.AddCrossOriginEmbedderPolicy(builder => builder.Credentialless());
         policies.AddCrossOriginResourcePolicy(builder => builder.SameSite());
 
-        if (string.IsNullOrEmpty(AppSettings.RaygunSettings.ApiKey)) return;
-        policies.AddReportingEndpoints(builder => builder.AddEndpoint("csp-endpoint", ReportUri));
+        if (string.IsNullOrEmpty(AppSettings.DataDogSettings.ClientToken)) return;
+        policies.AddReportingEndpoints(builder => builder.AddEndpoint("csp-endpoint", DatadogReportUri));
     }
 
 
@@ -65,6 +68,7 @@ internal static class SecurityHeaders
         builder.AddBaseUri().None();
         builder.AddObjectSrc().None();
         builder.AddScriptSrc().Self()
+            .From("https://www.datadoghq-browser-agent.com/us3/v6/")
             .From("https://cdn.raygun.io/raygun4js/raygun.min.js")
             .WithHashTagHelper()
             .WithNonce()
@@ -74,6 +78,7 @@ internal static class SecurityHeaders
             .ReportSample();
         builder.AddImgSrc().Self().Data();
         builder.AddConnectSrc()
+            .From("https://browser-intake-us3-datadoghq.com")
             .From("https://api.raygun.com")
             .From("https://api.raygun.io");
         builder.AddFontSrc().Self().Data();
@@ -81,9 +86,8 @@ internal static class SecurityHeaders
             .From("https://login.microsoftonline.com");
         builder.AddManifestSrc().Self();
         builder.AddFrameAncestors().None();
-
-        if (string.IsNullOrEmpty(AppSettings.RaygunSettings.ApiKey)) return;
-        builder.AddReportUri().To(ReportUri);
+        builder.AddWorkerSrc()
+            .From("https://www.datadoghq-browser-agent.com/us3/v6/");
         builder.AddReportTo("csp-endpoint");
     }
 #pragma warning restore S1075
