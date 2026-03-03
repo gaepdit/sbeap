@@ -93,6 +93,7 @@ public sealed class CustomerService(
             ? null
             : await sic.GetAsync(resource.SicCodeId, token).ConfigureAwait(false);
         item.County = resource.County;
+        item.Website = resource.Website;
         item.Location = resource.Location;
         item.MailingAddress = resource.MailingAddress;
 
