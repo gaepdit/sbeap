@@ -21,8 +21,8 @@ internal static partial class AppSettings
 
     public record DataDog
     {
-        public string ClientToken { get; [UsedImplicitly] init; }
-        public string ApplicationId { get; [UsedImplicitly] init; }
+        public string? ClientToken { get; [UsedImplicitly] init; }
+        public string? ApplicationId { get; [UsedImplicitly] init; }
     }
 
     // Dev-related settings
