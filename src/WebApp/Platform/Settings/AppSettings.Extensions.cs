@@ -9,6 +9,7 @@ internal static partial class AppSettings
         Version = GetVersion();
 
         builder.Configuration.GetSection(nameof(RaygunSettings)).Bind(RaygunSettings);
+        builder.Configuration.GetSection(nameof(DataDogSettings)).Bind(DataDogSettings);
         OrgNotificationsApiUrl = builder.Configuration.GetValue<string>(nameof(OrgNotificationsApiUrl));
 
         return builder.BindDevAppSettings();
