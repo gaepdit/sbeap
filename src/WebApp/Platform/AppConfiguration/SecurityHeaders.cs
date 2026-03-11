@@ -69,7 +69,6 @@ internal static class SecurityHeaders
         builder.AddObjectSrc().None();
         builder.AddScriptSrc().Self()
             .From("https://www.datadoghq-browser-agent.com/us3/v6/")
-            .From("https://cdn.raygun.io/raygun4js/raygun.min.js")
             .WithHashTagHelper()
             .WithNonce()
             .ReportSample();
@@ -78,9 +77,7 @@ internal static class SecurityHeaders
             .ReportSample();
         builder.AddImgSrc().Self().Data();
         builder.AddConnectSrc()
-            .From("https://browser-intake-us3-datadoghq.com")
-            .From("https://api.raygun.com")
-            .From("https://api.raygun.io");
+            .From("https://browser-intake-us3-datadoghq.com");
         builder.AddFontSrc().Self().Data();
         builder.AddFormAction().Self()
             .From("https://login.microsoftonline.com");
